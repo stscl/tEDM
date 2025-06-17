@@ -11,3 +11,21 @@ License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+URL: https://stscl.github.io/tEDM/, https://github.com/stscl/tEDM
+BugReports: https://github.com/stscl/tEDM/issues
+Depends: 
+    R (>= 4.1.0)
+LinkingTo: 
+    Rcpp,
+    RcppThread,
+    RcppArmadillo
+Imports: 
+    dplyr,
+    ggplot2,
+    methods
+Suggests: 
+    Rcpp,
+    RcppThread,
+    RcppArmadillo,
+    readr,
+    plot3D

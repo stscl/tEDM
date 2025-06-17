@@ -1,10 +1,12 @@
 Package: tEDM
-Title: What the Package Does (One Line, Title Case)
+Title: Temporal Empirical Dynamic Modeling
 Version: 0.0.0.9000
 Authors@R: 
-    person("Wenbo", "Lv", , "lyu.geosocial@gmail.com", role = c("aut", "cre"),
+    person(given = "Wenbo", family = "Lv",
+           email = "lyu.geosocial@gmail.com", 
+           role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0002-6003-3800"))
-Description: What the package does (one paragraph).
+Description: Inferring causation from time series data through empirical dynamic modeling (EDM), with methods such as convergent cross mapping from Sugihara et al. (2012) <doi:10.1126/science.1227079>, partial cross mapping as outlined in Leng et al. (2020) <doi:10.1038/s41467-020-16238-0>, and cross mapping cardinality as described in Tao et al. (2023) <doi:10.1016/j.fmre.2023.01.007>.
 License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

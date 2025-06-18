@@ -1,5 +1,5 @@
-.ccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 1, k = E+2, theta = 1, algorithm = "simplex", lib = NULL,
-                   pred = NULL, threads = 1, parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+.ccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
+                   pred = NULL, threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)

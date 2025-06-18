@@ -6,6 +6,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
+#include "CCM.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -133,4 +134,81 @@ Rcpp::NumericVector RcppSMapForecast(
 
   // Convert the result back to Rcpp::NumericVector
   return Rcpp::wrap(pred_res);
+}
+
+// Wrapper function to perform convergent cross mapping for time serise data
+// predict y based on x ====> x xmap y ====> y causes x
+// [[Rcpp::export]]
+Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
+                            const Rcpp::NumericVector& y,
+                            const Rcpp::IntegerVector& libsizes,
+                            const Rcpp::IntegerVector& lib,
+                            const Rcpp::IntegerVector& pred,
+                            int E,
+                            int tau,
+                            int b,
+                            bool simplex,
+                            double theta,
+                            int threads,
+                            int parallel_level,
+                            bool progressbar) {
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
+  std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
+
+  // Convert Rcpp::IntegerVector to std::vector<int>
+  std::vector<int> libsizes_std = Rcpp::as<std::vector<int>>(libsizes);
+  std::vector<int> lib_std;
+  std::vector<int> pred_std;
+
+  // Check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index
+  int n = y_std.size();
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 1 || lib[i] > n) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(y_std[lib[i] - 1]) && (lib[i] < n - E * tau)) {
+      lib_std.push_back(lib[i] - 1);
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 1 || pred[i] > n) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(y_std[pred[i] - 1])&& (pred[i] < n - E * tau)) {
+      pred_std.push_back(pred[i] - 1);
+    }
+  }
+
+  // Perform GCCM Lattice
+  std::vector<std::vector<double>> result = CCM(
+    x_std,
+    y_std,
+    libsizes_std,
+    lib_std,
+    pred_std,
+    E,
+    tau,
+    b,
+    simplex,
+    theta,
+    threads,
+    parallel_level,
+    progressbar);
+
+  // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix
+  Rcpp::NumericMatrix resultMatrix(result.size(), 5);
+  for (size_t i = 0; i < result.size(); ++i) {
+    resultMatrix(i, 0) = result[i][0];
+    resultMatrix(i, 1) = result[i][1];
+    resultMatrix(i, 2) = result[i][2];
+    resultMatrix(i, 3) = result[i][3];
+    resultMatrix(i, 4) = result[i][4];
+  }
+
+  // Set column names for the result matrix
+  Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create("libsizes",
+                 "x_xmap_y_mean","x_xmap_y_sig",
+                 "x_xmap_y_upper","x_xmap_y_lower");
+  return resultMatrix;
 }

@@ -1,5 +1,5 @@
-.ccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 1, k = E+2, theta = 1, algorithm = "simplex", lib = NULL,
-                   pred = NULL, threads = 1, parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+.ccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
+                   pred = NULL, threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
@@ -51,7 +51,7 @@
 #' Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500.
 #'
 #' @examples
-#' sim = as.data.frame(logistic_map(x = 0.2, y = 0.4, step = 45, beta_xy = 0.5, beta_yx = 0))
-#' ccm(sim,"x","y",libsizes = seq(5,45,5))
+#' sim = as.data.frame(logistic_map(x = 0.2,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0))
+#' ccm(sim,"x","y",libsizes = seq(5,45,5),E = 3,k = 7,threads = 1)
 #'
 methods::setMethod("ccm", "data.frame", .ccm_ts_method)

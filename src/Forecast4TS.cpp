@@ -20,7 +20,7 @@
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - E: A vector of embedding dimensions to evaluate.
  *   - b: A vector of nearest neighbor values to evaluate.
- *   - tau: The spatial lag step for constructing lagged state-space vectors.
+ *   - tau: The time lag step for constructing lagged state-space vectors.
  *   - threads: Number of threads used from the global pool.
  *
  * Returns:
@@ -82,7 +82,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - theta: A vector of weighting parameters for distance calculation in SMap.
  *   - E: The embedding dimension to evaluate.
- *   - tau: The spatial lag step for constructing lagged state-space vectors.
+ *   - tau: The time lag step for constructing lagged state-space vectors.
  *   - b: Number of nearest neighbors to use for prediction.
  *   - threads: Number of threads used from the global pool.
  *

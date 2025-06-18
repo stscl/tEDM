@@ -16,12 +16,7 @@
 #' @aliases embedded,ts-method
 #'
 #' @examples
-#' columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
-#' v = embedded(columbus,"crime")
-#' v[1:5,]
+#' embedded(data.frame(t = 1:5),"t",3)
 #'
-#' cu = terra::rast(system.file("case/cu.tif", package="spEDM"))
-#' r = embedded(cu,"cu")
-#' r[1:5,]
-#'
-methods::setMethod("embedded", "data.frame", .embedded_ts_method)
+
+# methods::setMethod("embedded", "data.frame", .embedded_ts_method)

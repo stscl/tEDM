@@ -47,7 +47,7 @@
 #' @name ccm
 #' @aliases ccm,ts-method
 #' @references
-#' Gao, B., Yang, J., Chen, Z. et al. Causal inference from cross-sectional earth system data with geographical convergent cross mapping. Nat Commun 14, 5875 (2023).
+#' Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500.
 #'
 #' @examples
 #' columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
@@ -56,4 +56,5 @@
 #' g
 #' plot(g, ylimits = c(0,0.85))
 #' }
-methods::setMethod("ccm", "data.frame", .ccm_ts_method)
+
+# methods::setMethod("ccm", "data.frame", .ccm_ts_method)

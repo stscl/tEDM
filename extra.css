@@ -12,17 +12,17 @@ code{
     color: #e6a922;
 }
 
-h2,h3 {
+h1,h2,h3 {
   font-weight: bold;
   color: #e9492d;
 }
 
 a, code a {
-  color: #730e61;
+  color: #e6a922;
 }
 
 a:hover, code a:hover {
-  color: #e6a922;
+  color: #730e61;
 }
 
 a:not([href]) {

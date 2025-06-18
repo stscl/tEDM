@@ -39,7 +39,6 @@ Rcpp::List RcppLogisticMap(
   );
 
   // Create NumericMatrix with rows = number of spatial units, cols = number of steps+1
-  int n_rows = static_cast<int>(result[0].size());
   int n_cols = step + 1;
   Rcpp::NumericVector out_x(n_cols);
   Rcpp::NumericVector out_y(n_cols);

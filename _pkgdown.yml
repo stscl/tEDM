@@ -39,10 +39,10 @@ reference:
   contents:
   - embedded
 
-# - subtitle: Nonlinear forecasting
-#   contents:
-#   - simplex
-#   - smap
+- subtitle: Nonlinear forecasting
+  contents:
+  - simplex
+  - smap
 
 - subtitle: Mutual Cross Mapping
   contents:

@@ -17,6 +17,22 @@ RcppCCM <- function(x, y, libsizes, lib, pred, E, tau, b, simplex, theta, thread
     .Call(`_tEDM_RcppCCM`, x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar)
 }
 
+DetectMaxNumThreads <- function() {
+    .Call(`_tEDM_DetectMaxNumThreads`)
+}
+
+OptEmbedDim <- function(Emat) {
+    .Call(`_tEDM_OptEmbedDim`, Emat)
+}
+
+OptThetaParm <- function(Thetamat) {
+    .Call(`_tEDM_OptThetaParm`, Thetamat)
+}
+
+MatNotNAIndice <- function(mat, byrow = TRUE) {
+    .Call(`_tEDM_MatNotNAIndice`, mat, byrow)
+}
+
 RcppFactorial <- function(n) {
     .Call(`_tEDM_RcppFactorial`, n)
 }

@@ -83,6 +83,50 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// DetectMaxNumThreads
+unsigned int DetectMaxNumThreads();
+RcppExport SEXP _tEDM_DetectMaxNumThreads() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(DetectMaxNumThreads());
+    return rcpp_result_gen;
+END_RCPP
+}
+// OptEmbedDim
+Rcpp::IntegerVector OptEmbedDim(Rcpp::NumericMatrix Emat);
+RcppExport SEXP _tEDM_OptEmbedDim(SEXP EmatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Emat(EmatSEXP);
+    rcpp_result_gen = Rcpp::wrap(OptEmbedDim(Emat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// OptThetaParm
+double OptThetaParm(Rcpp::NumericMatrix Thetamat);
+RcppExport SEXP _tEDM_OptThetaParm(SEXP ThetamatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Thetamat(ThetamatSEXP);
+    rcpp_result_gen = Rcpp::wrap(OptThetaParm(Thetamat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MatNotNAIndice
+Rcpp::NumericMatrix MatNotNAIndice(Rcpp::NumericMatrix mat, bool byrow);
+RcppExport SEXP _tEDM_MatNotNAIndice(SEXP matSEXP, SEXP byrowSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< bool >::type byrow(byrowSEXP);
+    rcpp_result_gen = Rcpp::wrap(MatNotNAIndice(mat, byrow));
+    return rcpp_result_gen;
+END_RCPP
+}
 // RcppFactorial
 int RcppFactorial(int n);
 RcppExport SEXP _tEDM_RcppFactorial(SEXP nSEXP) {
@@ -540,6 +584,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppSimplexForecast", (DL_FUNC) &_tEDM_RcppSimplexForecast, 7},
     {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 8},
     {"_tEDM_RcppCCM", (DL_FUNC) &_tEDM_RcppCCM, 13},
+    {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
+    {"_tEDM_OptEmbedDim", (DL_FUNC) &_tEDM_OptEmbedDim, 1},
+    {"_tEDM_OptThetaParm", (DL_FUNC) &_tEDM_OptThetaParm, 1},
+    {"_tEDM_MatNotNAIndice", (DL_FUNC) &_tEDM_MatNotNAIndice, 2},
     {"_tEDM_RcppFactorial", (DL_FUNC) &_tEDM_RcppFactorial, 1},
     {"_tEDM_RcppCombine", (DL_FUNC) &_tEDM_RcppCombine, 2},
     {"_tEDM_RcppDigamma", (DL_FUNC) &_tEDM_RcppDigamma, 1},

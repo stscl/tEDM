@@ -40,7 +40,7 @@
 .uni_ts = \(data,target){
   if (is.null(target)) return(rep(0,nrow(data)))
   target = .check_character(target)
-  res = data[,"target",drop = TRUE]
+  res = data[,target,drop = TRUE]
   return(res)
 }
 

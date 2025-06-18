@@ -56,4 +56,5 @@
 #' g
 #' plot(g, ylimits = c(0,0.85))
 #' }
-methods::setMethod("ccm", "data.frame", .ccm_ts_method)
+
+# methods::setMethod("ccm", "data.frame", .ccm_ts_method)

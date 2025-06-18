@@ -3,6 +3,7 @@
 #include <string>
 #include <algorithm>
 #include "CppStats.h"
+#include "LogisticMap.h"
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
@@ -11,6 +12,55 @@
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
 // [[Rcpp::depends(RcppArmadillo)]]
+
+// Wrapper function to perform trivariate logistic map
+// [[Rcpp::export]]
+Rcpp::List RcppLogisticMap(
+    double x = 3.6,
+    double y = 3.72,
+    double z = 3.68,
+    int step = 20,
+    double alpha_x = 0.625,
+    double alpha_y = 0.77,
+    double alpha_z = 0.55,
+    double beta_xy = 0.05,
+    double beta_xz = 0.05,
+    double beta_yx = 0.4,
+    double beta_yz = 0.4,
+    double beta_zx = 0.65,
+    double beta_zy = 0.65,
+    double escape_threshold = 1e10
+) {
+  // Call the core function
+  std::vector<std::vector<double>> result = LogisticMapTri(
+    x, y, z, step, alpha_x, alpha_y, alpha_z,
+    beta_xy, beta_xz, beta_yx, beta_yz, beta_zx, beta_zy,
+    escape_threshold
+  );
+
+  // Create NumericMatrix with rows = number of spatial units, cols = number of steps+1
+  int n_rows = static_cast<int>(result[0].size());
+  int n_cols = step + 1;
+  Rcpp::NumericVector out_x(n_cols);
+  Rcpp::NumericVector out_y(n_cols);
+  Rcpp::NumericVector out_z(n_cols);
+
+  // Copy data into NumericVector
+  for (int j = 0; j < n_cols; ++j) {
+    out_x(j) = result[0][j];
+    out_y(j) = result[1][j];
+    out_z(j) = result[2][j];
+  }
+
+  // Wrap results into an Rcpp::List
+  Rcpp::List out = Rcpp::List::create(
+    Rcpp::Named("x") = out_x,
+    Rcpp::Named("y") = out_y,
+    Rcpp::Named("z") = out_z
+  );
+
+  return out;
+}
 
 // Wrapper function to generate time-delay embeddings for a univariate time series
 // [[Rcpp::export]]

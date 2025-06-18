@@ -46,11 +46,12 @@ std::vector<std::vector<double>> Embed(
 
   for (size_t t = 0; t < N; ++t) {
     for (int j = 0; j < E; ++j) {
-      int idx = static_cast<int>(t) - j * (tau == 0 ? 1 : tau);
+      int lag = (tau == 0) ? j : (j + 1) * tau;
+      int idx = static_cast<int>(t) - lag;
       if (idx >= 0 && idx < static_cast<int>(N)) {
         mat[t][j] = vec[idx];
+        // else leave NaN
       }
-      // else leave NaN
     }
   }
 

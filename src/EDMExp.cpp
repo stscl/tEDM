@@ -85,7 +85,7 @@ Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
   return result;
 }
 
-// Wrapper function to generate simplex projection forecasting
+// Wrapper function to perform simplex projection forecasting
 // [[Rcpp::export]]
 Rcpp::NumericVector RcppSimplexForecast(
     const Rcpp::NumericVector& source,
@@ -134,7 +134,7 @@ Rcpp::NumericVector RcppSimplexForecast(
   return Rcpp::wrap(pred_res);
 }
 
-// Wrapper function to generate s-mapping forecasting
+// Wrapper function to perform s-mapping forecasting
 // [[Rcpp::export]]
 Rcpp::NumericVector RcppSMapForecast(
     const Rcpp::NumericVector& source,

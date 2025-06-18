@@ -13,7 +13,7 @@
 #' @return A matrix
 #' @export
 #' @name embedded
-#' @aliases embedded,ts-method
+#' @aliases embedded,data.frame-method
 #'
 #' @examples
 #' embedded(data.frame(t = 1:5),"t",3)

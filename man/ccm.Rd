@@ -2,7 +2,7 @@
 % Please edit documentation in R/ccm.R
 \name{ccm}
 \alias{ccm}
-\alias{ccm,ts-method}
+\alias{ccm,data.frame-method}
 \title{convergent cross mapping}
 \usage{
 \S4method{ccm}{data.frame}(
@@ -66,7 +66,7 @@ A list
 convergent cross mapping
 }
 \examples{
-sim = as.data.frame(logistic_map(x = 0.4, y = 0.2, step = 45, beta_xy = 0.5, beta_yx = 0))
+sim = as.data.frame(logistic_map(x = 0.2, y = 0.4, step = 45, beta_xy = 0.5, beta_yx = 0))
 ccm(sim,"x","y",libsizes = seq(5,45,5))
 
 }

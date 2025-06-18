@@ -102,7 +102,8 @@ std::vector<double> SMapPrediction(
       neighbor_indices.begin() + actual_neighbors,
       neighbor_indices.end(),
       [&](size_t a, size_t b) {
-        return distances[a] < distances[b];
+        return (distances[a] < distances[b]) ||
+          (distances[a] == distances[b] && a < b);
       }
     );
 

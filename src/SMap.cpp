@@ -1,23 +1,27 @@
 #include <vector>
 #include <cmath>
-#include <algorithm> // Include for std::partial_sort
+#include <algorithm>
 #include <numeric>
-#include <utility>
 #include <limits>
 #include "CppStats.h"
 
-/*
- * Computes the S-Map prediction using a reconstructed state-space representation.
+/**
+ * @brief Perform S-Map prediction using locally weighted linear regression.
  *
- * Parameters:
- *   - vectors: A 2D vector where each row is a reconstructed state vector.
- *   - target: A vector of taregt values corresponding to each state.
- *   - lib_indices: A vector of indices indicating which states to use as the library (neighbors).
- *   - pred_indices: A vector of indices indicating which states to make predictions for.
- *   - num_neighbors: Number of nearest neighbors to use in the S-Map algorithm.
- *   - theta: Distance weighting parameter for neighbor contributions.
+ * This function performs prediction based on a reconstructed state-space (time-delay embedding).
+ * For each prediction index, it:
+ *   - Finds the nearest neighbors from the library indices.
+ *   - Computes distance-based weights using the S-map weighting parameter (theta).
+ *   - Constructs a local weighted linear regression model using the nearest neighbors.
+ *   - Predicts the target value using the derived local model.
  *
- * Returns: A vector<double> containing predicted target values at the positions in pred_indices.
+ * @param vectors        A 2D matrix where each row is a reconstructed state vector (embedding).
+ * @param target         A vector of scalar values to predict (e.g., time series observations).
+ * @param lib_indices    Indices of the vectors used as the library (neighbor candidates).
+ * @param pred_indices   Indices of the vectors used for prediction.
+ * @param num_neighbors  Number of nearest neighbors to use in local regression.
+ * @param theta          Weighting parameter controlling exponential decay of distances.
+ * @return std::vector<double> Predicted values corresponding to pred_indices. Other indices contain NaN.
  */
 std::vector<double> SMapPrediction(
     const std::vector<std::vector<double>>& vectors,
@@ -34,9 +38,8 @@ std::vector<double> SMapPrediction(
     return pred;
   }
 
-  size_t num_neighbors_sizet = static_cast<size_t>(num_neighbors);
-
   for (int pred_i : pred_indices) {
+    // Filter out the current prediction index from the library
     std::vector<size_t> libs;
     for (int lib_i : lib_indices) {
       if (lib_i != pred_i) {
@@ -45,70 +48,86 @@ std::vector<double> SMapPrediction(
     }
 
     if (libs.empty()) {
-      pred[pred_i] = std::numeric_limits<double>::quiet_NaN();
       continue;
     }
 
-    if (num_neighbors_sizet > libs.size()) {
-      num_neighbors_sizet = libs.size();
-    }
+    size_t actual_neighbors = std::min(static_cast<size_t>(num_neighbors), libs.size());
 
-    // Compute distances
+    // Compute Euclidean distances (ignoring NaNs)
     std::vector<double> distances;
     for (size_t i : libs) {
       double sum_sq = 0.0;
-      double sum_na = 0.0;
+      double valid_dim = 0.0;
       for (size_t j = 0; j < vectors[pred_i].size(); ++j) {
-        if (!std::isnan(vectors[i][j]) && !std::isnan(vectors[pred_i][j])) {
-          sum_sq += std::pow(vectors[i][j] - vectors[pred_i][j], 2);
-          sum_na += 1.0;
+        double vi = vectors[i][j];
+        double vj = vectors[pred_i][j];
+        if (!std::isnan(vi) && !std::isnan(vj)) {
+          sum_sq += (vi - vj) * (vi - vj);
+          valid_dim += 1.0;
         }
       }
-      distances.push_back((sum_na > 0) ? std::sqrt(sum_sq / sum_na) : std::numeric_limits<double>::quiet_NaN());
+      distances.push_back((valid_dim > 0) ? std::sqrt(sum_sq / valid_dim)
+                            : std::numeric_limits<double>::quiet_NaN());
     }
 
-    // Compute mean distance
-    double mean_distance = 0.0;
-    for (double dist : distances) {
-      mean_distance += dist;
-    }
-    mean_distance /= distances.size();
-
-    // Compute weights
-    std::vector<double> weights(distances.size());
-    for (size_t i = 0; i < distances.size(); ++i) {
-      weights[i] = std::exp(-theta * distances[i] / mean_distance);
-    }
-
-    // Find nearest neighbors
-    std::vector<size_t> neighbors(distances.size());
-    std::iota(neighbors.begin(), neighbors.end(), 0);
-    std::partial_sort(
-      neighbors.begin(), neighbors.begin() + num_neighbors_sizet, neighbors.end(),
-      [&](size_t a, size_t b) {
-        return (distances[a] < distances[b]) ||
-          (distances[a] == distances[b] && a < b);
-      });
-
-    // Prepare A matrix and b vector for weighted linear system
-    std::vector<std::vector<double>> A(num_neighbors_sizet, std::vector<double>(vectors[pred_i].size() + 1, 0.0));
-    std::vector<double> b(num_neighbors_sizet, 0.0);
-    for (size_t i = 0; i < num_neighbors_sizet; ++i) {
-      size_t idx = libs[neighbors[i]];
-      for (size_t j = 0; j < vectors[pred_i].size(); ++j) {
-        A[i][j] = vectors[idx][j] * weights[neighbors[i]];
+    // Compute mean distance (ignoring NaNs)
+    double sum_dist = 0.0;
+    int count_dist = 0;
+    for (double d : distances) {
+      if (!std::isnan(d)) {
+        sum_dist += d;
+        ++count_dist;
       }
-      A[i][vectors[pred_i].size()] = weights[neighbors[i]]; // bias term
-      b[i] = target[idx] * weights[neighbors[i]];
     }
 
-    // Perform SVD
+    if (count_dist == 0) {
+      continue; // no valid distances
+    }
+
+    double mean_distance = sum_dist / count_dist;
+
+    // Compute weights using exponential kernel
+    std::vector<double> weights(distances.size(), 0.0);
+    for (size_t i = 0; i < distances.size(); ++i) {
+      if (!std::isnan(distances[i])) {
+        weights[i] = std::exp(-theta * distances[i] / mean_distance);
+      }
+    }
+
+    // Select top-k neighbors using partial sort
+    std::vector<size_t> neighbor_indices(distances.size());
+    std::iota(neighbor_indices.begin(), neighbor_indices.end(), 0);
+    std::partial_sort(
+      neighbor_indices.begin(),
+      neighbor_indices.begin() + actual_neighbors,
+      neighbor_indices.end(),
+      [&](size_t a, size_t b) {
+        return distances[a] < distances[b];
+      }
+    );
+
+    // Construct weighted linear system Ax = b
+    size_t dim = vectors[pred_i].size();
+    std::vector<std::vector<double>> A(actual_neighbors, std::vector<double>(dim + 1, 0.0));
+    std::vector<double> b(actual_neighbors, 0.0);
+
+    for (size_t i = 0; i < actual_neighbors; ++i) {
+      size_t idx = libs[neighbor_indices[i]];
+      double w = weights[neighbor_indices[i]];
+      for (size_t j = 0; j < dim; ++j) {
+        A[i][j] = vectors[idx][j] * w;
+      }
+      A[i][dim] = w; // bias term
+      b[i] = target[idx] * w;
+    }
+
+    // Solve via SVD
     std::vector<std::vector<std::vector<double>>> svd_result = CppSVD(A);
     std::vector<std::vector<double>> U = svd_result[0];
     std::vector<double> S = svd_result[1][0];
     std::vector<std::vector<double>> V = svd_result[2];
 
-    // Invert singular values with threshold
+    // Compute pseudo-inverse of singular values with tolerance
     double max_s = *std::max_element(S.begin(), S.end());
     std::vector<double> S_inv(S.size(), 0.0);
     for (size_t i = 0; i < S.size(); ++i) {
@@ -117,25 +136,25 @@ std::vector<double> SMapPrediction(
       }
     }
 
-    // Compute map coefficients
-    std::vector<double> map_coeffs(vectors[pred_i].size() + 1, 0.0);
-    for (size_t i = 0; i < V.size(); ++i) {
+    // Compute coefficients: V * S_inv * U^T * b
+    std::vector<double> coeff(dim + 1, 0.0);
+    for (size_t k = 0; k < V.size(); ++k) {
+      double temp = 0.0;
       for (size_t j = 0; j < S_inv.size(); ++j) {
-        map_coeffs[i] += V[i][j] * S_inv[j] * U[j][i];
+        for (size_t i = 0; i < U.size(); ++i) {
+          temp += V[k][j] * S_inv[j] * U[i][j] * b[i];
+        }
       }
+      coeff[k] = temp;
     }
 
-    // Multiply map coefficients by b
-    for (size_t i = 0; i < map_coeffs.size(); ++i) {
-      map_coeffs[i] *= b[i];
-    }
-
-    // Generate prediction
+    // Compute final prediction: dot(coeff, input) + bias
     double prediction = 0.0;
-    for (size_t i = 0; i < vectors[pred_i].size(); ++i) {
-      prediction += map_coeffs[i] * vectors[pred_i][i];
+    for (size_t i = 0; i < dim; ++i) {
+      prediction += coeff[i] * vectors[pred_i][i];
     }
-    prediction += map_coeffs[vectors[pred_i].size()]; // bias term
+    prediction += coeff[dim]; // bias
+
     pred[pred_i] = prediction;
   }
 

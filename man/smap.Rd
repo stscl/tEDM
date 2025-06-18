@@ -51,8 +51,8 @@ A list
 smap forecast
 }
 \examples{
-sim = as.data.frame(logistic_map(x = 0.2, y = 0.4, step = 45, beta_xy = 0.5, beta_yx = 0))
-simplex(sim,"x","y",threads = 1)
+sim = as.data.frame(logistic_map(x = 0.2,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0))
+smap(sim,"x","y",E = 3,k = 7,threads = 1)
 
 }
 \references{

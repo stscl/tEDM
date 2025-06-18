@@ -29,7 +29,7 @@
 #' Sugihara G. and May R. 1990. Nonlinear forecasting as a way of distinguishing chaos from measurement error in time series. Nature, 344:734-741.
 #'
 #' @examples
-#' sim = as.data.frame(logistic_map(x = 0.2, y = 0.4, step = 45, beta_xy = 0.5, beta_yx = 0))
+#' sim = as.data.frame(logistic_map(x = 0.2,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0))
 #' simplex(sim,"x","y",threads = 1)
 #'
 methods::setMethod("simplex", "data.frame", .simplex_ts_method)

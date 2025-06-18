@@ -106,7 +106,7 @@ double RcppRMSE(const Rcpp::NumericVector& vec1,
   return CppRMSE(x1_vec, x2_vec, NA_rm);
 }
 
-// [[Rcpp::export(rng=false)]]]]
+// [[Rcpp::export(rng=false)]]
 Rcpp::NumericVector RcppCumSum(const Rcpp::NumericVector& vec) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> vec_std = Rcpp::as<std::vector<double>>(vec);

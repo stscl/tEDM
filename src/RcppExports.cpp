@@ -286,6 +286,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppCumSum
+Rcpp::NumericVector RcppCumSum(const Rcpp::NumericVector& vec);
+RcppExport SEXP _tEDM_RcppCumSum(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppCumSum(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // RcppAbsDiff
 Rcpp::NumericVector RcppAbsDiff(const Rcpp::NumericVector& vec1, const Rcpp::NumericVector& vec2);
 RcppExport SEXP _tEDM_RcppAbsDiff(SEXP vec1SEXP, SEXP vec2SEXP) {
@@ -572,6 +582,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppCovariance", (DL_FUNC) &_tEDM_RcppCovariance, 3},
     {"_tEDM_RcppMAE", (DL_FUNC) &_tEDM_RcppMAE, 3},
     {"_tEDM_RcppRMSE", (DL_FUNC) &_tEDM_RcppRMSE, 3},
+    {"_tEDM_RcppCumSum", (DL_FUNC) &_tEDM_RcppCumSum, 1},
     {"_tEDM_RcppAbsDiff", (DL_FUNC) &_tEDM_RcppAbsDiff, 2},
     {"_tEDM_RcppSumNormalize", (DL_FUNC) &_tEDM_RcppSumNormalize, 2},
     {"_tEDM_RcppArithmeticSeq", (DL_FUNC) &_tEDM_RcppArithmeticSeq, 3},

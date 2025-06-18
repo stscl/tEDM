@@ -17,6 +17,14 @@ RcppSMapForecast <- function(source, target, E, tau, lib, pred, num_neighbors, t
     .Call(`_tEDM_RcppSMapForecast`, source, target, E, tau, lib, pred, num_neighbors, theta)
 }
 
+RcppSimplex4TS <- function(source, target, lib, pred, E, b, tau, threads) {
+    .Call(`_tEDM_RcppSimplex4TS`, source, target, lib, pred, E, b, tau, threads)
+}
+
+RcppSMap4TS <- function(source, target, lib, pred, theta, E, tau, b, threads) {
+    .Call(`_tEDM_RcppSMap4TS`, source, target, lib, pred, theta, E, tau, b, threads)
+}
+
 RcppCCM <- function(x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar) {
     .Call(`_tEDM_RcppCCM`, x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar)
 }

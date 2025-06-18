@@ -50,13 +50,13 @@
 <span>  <span class="va">effect</span>,</span>
 <span>  <span class="va">libsizes</span>,</span>
 <span>  E <span class="op">=</span> <span class="fl">3</span>,</span>
-<span>  tau <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  k <span class="op">=</span> <span class="va">E</span> <span class="op">+</span> <span class="fl">2</span>,</span>
+<span>  tau <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  k <span class="op">=</span> <span class="va">E</span> <span class="op">+</span> <span class="fl">1</span>,</span>
 <span>  theta <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  algorithm <span class="op">=</span> <span class="st">"simplex"</span>,</span>
 <span>  lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pred <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  threads <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  threads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">libsizes</span><span class="op">)</span>,</span>
 <span>  parallel.level <span class="op">=</span> <span class="st">"low"</span>,</span>
 <span>  bidirectional <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  progressbar <span class="op">=</span> <span class="cn">TRUE</span></span>
@@ -147,20 +147,20 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="logistic_map.html">logistic_map</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.2</span>, y <span class="op">=</span> <span class="fl">0.4</span>, step <span class="op">=</span> <span class="fl">45</span>, beta_xy <span class="op">=</span> <span class="fl">0.5</span>, beta_yx <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">ccm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">45</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="logistic_map.html">logistic_map</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.2</span>,y <span class="op">=</span> <span class="fl">0.4</span>,step <span class="op">=</span> <span class="fl">45</span>,beta_xy <span class="op">=</span> <span class="fl">0.5</span>,beta_yx <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ccm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">45</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">3</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes      x-&gt;y      y-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.5861637 0.3513285</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.7041649 0.4382407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.7335035 0.4607384</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.7555446 0.4797632</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.7744304 0.4786449</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       30 0.7858319 0.4749588</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       35 0.7896149 0.4806453</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8       40 0.7892897 0.4831477</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9       42 0.8323113 0.6050404</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.5133995 0.3582590</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.6243529 0.4448119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.6651725 0.4713569</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.6863637 0.4924754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.7034072 0.4951816</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       30 0.7100641 0.4927819</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       35 0.7140836 0.4970150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8       40 0.7140719 0.5002237</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9       43 0.8132816 0.6201792</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

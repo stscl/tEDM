@@ -1,5 +1,6 @@
 .ccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 1, k = E+2, theta = 1, algorithm = "simplex", lib = NULL,
                    pred = NULL, threads = 1, parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+  varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
   k = .check_inputelementnum(k,2)
@@ -50,11 +51,7 @@
 #' Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500.
 #'
 #' @examples
-#' columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
-#' \donttest{
-#' g = gccm(columbus,"hoval","crime",libsizes = seq(5,45,5),E = 6)
-#' g
-#' plot(g, ylimits = c(0,0.85))
-#' }
+#' sim = as.data.frame(logistic_map(x = 0.4, y = 0.2, step = 45, beta_xy = 0.5, beta_yx = 0))
+#' ccm(sim,"x","y",libsizes = seq(5,45,5))
 
 # methods::setMethod("ccm", "data.frame", .ccm_ts_method)

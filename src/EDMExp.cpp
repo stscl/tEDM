@@ -14,7 +14,7 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // Wrapper function to perform trivariate logistic map
-// [[Rcpp::export]]
+// [[Rcpp::export(rng=false)]]
 Rcpp::List RcppLogisticMap(
     double x = 3.6,
     double y = 3.72,
@@ -62,7 +62,7 @@ Rcpp::List RcppLogisticMap(
 }
 
 // Wrapper function to generate time-delay embeddings for a univariate time series
-// [[Rcpp::export]]
+// [[Rcpp::export(rng=false)]]
 Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
                               int E,
                               int tau = 0) {
@@ -85,8 +85,8 @@ Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
   return result;
 }
 
-// Wrapper function to generate simplex projection forecasting
-// [[Rcpp::export]]
+// Wrapper function to perform simplex projection forecasting
+// [[Rcpp::export(rng=false)]]
 Rcpp::NumericVector RcppSimplexForecast(
     const Rcpp::NumericVector& source,
     const Rcpp::NumericVector& target,
@@ -134,8 +134,8 @@ Rcpp::NumericVector RcppSimplexForecast(
   return Rcpp::wrap(pred_res);
 }
 
-// Wrapper function to generate s-mapping forecasting
-// [[Rcpp::export]]
+// Wrapper function to perform s-mapping forecasting
+// [[Rcpp::export(rng=false)]]
 Rcpp::NumericVector RcppSMapForecast(
     const Rcpp::NumericVector& source,
     const Rcpp::NumericVector& target,
@@ -187,7 +187,7 @@ Rcpp::NumericVector RcppSMapForecast(
 
 // Wrapper function to perform convergent cross mapping for time serise data
 // predict y based on x ====> x xmap y ====> y causes x
-// [[Rcpp::export]]
+// [[Rcpp::export(rng=false)]]
 Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
                             const Rcpp::NumericVector& y,
                             const Rcpp::IntegerVector& libsizes,

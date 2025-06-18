@@ -46,12 +46,12 @@
 #' }
 #' @export
 #' @name ccm
-#' @aliases ccm,ts-method
+#' @aliases ccm,data.frame-method
 #' @references
 #' Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500.
 #'
 #' @examples
-#' sim = as.data.frame(logistic_map(x = 0.4, y = 0.2, step = 45, beta_xy = 0.5, beta_yx = 0))
+#' sim = as.data.frame(logistic_map(x = 0.2, y = 0.4, step = 45, beta_xy = 0.5, beta_yx = 0))
 #' ccm(sim,"x","y",libsizes = seq(5,45,5))
 #'
 methods::setMethod("ccm", "data.frame", .ccm_ts_method)

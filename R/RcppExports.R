@@ -89,10 +89,6 @@ RcppRMSE <- function(vec1, vec2, NA_rm = FALSE) {
     .Call(`_tEDM_RcppRMSE`, vec1, vec2, NA_rm)
 }
 
-RcppCumSum <- function(vec) {
-    .Call(`_tEDM_RcppCumSum`, vec)
-}
-
 RcppAbsDiff <- function(vec1, vec2) {
     .Call(`_tEDM_RcppAbsDiff`, vec1, vec2)
 }

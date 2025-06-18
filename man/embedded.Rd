@@ -2,7 +2,7 @@
 % Please edit documentation in R/embedded.R
 \name{embedded}
 \alias{embedded}
-\alias{embedded,ts-method}
+\alias{embedded,data.frame-method}
 \title{embedding time series data}
 \usage{
 \S4method{embedded}{data.frame}(data, target, E = 3, tau = 0)

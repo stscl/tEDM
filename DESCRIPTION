@@ -22,10 +22,11 @@ LinkingTo:
 Imports: 
     dplyr,
     ggplot2,
-    methods
+    methods,
+    Rcpp
 Suggests: 
-    Rcpp,
     RcppThread,
     RcppArmadillo,
     readr,
-    plot3D
+    plot3D,
+    spEDM

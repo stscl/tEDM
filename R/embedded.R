@@ -18,5 +18,4 @@
 #' @examples
 #' embedded(data.frame(t = 1:5),"t",3)
 #'
-
-# methods::setMethod("embedded", "data.frame", .embedded_ts_method)
+methods::setMethod("embedded", "data.frame", .embedded_ts_method)

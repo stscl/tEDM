@@ -2,4 +2,5 @@
 
 export(logistic_map)
 exportMethods(ccm)
+exportMethods(embedded)
 useDynLib(tEDM, .registration = TRUE)

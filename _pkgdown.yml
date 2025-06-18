@@ -1,0 +1,55 @@
+url: https://stscl.github.io/tEDM/
+template:
+  bootstrap: 5
+  math-rendering: mathjax
+  light-switch: true
+
+navbar:
+  structure:
+    right:  [search, github]
+    left: [reference, articles, news]
+  bg: custom
+  # components:
+  #   articles:
+  #     text: Vignettes
+  #     menu:
+  #     - text: Introduction to the tEDM package (PkgIntro)
+  #       href: articles/PkgIntro.html
+  #     - text: State Space Reconstruction & Logistic Map (Embed)
+  #       href: articles/Embed.html
+  #     - text: Convergent Cross Mapping (CCM)
+  #       href: articles/CCM.html
+  #     - text: Partial Cross Mapping (PCM)
+  #       href: articles/PCM.html
+  #     - text: Cross Mapping Cardinality (CMC)
+  #       href: articles/CMC.html
+
+home:
+  title: |
+    tEDM | Temporal Empirical Dynamic Modeling
+authors:
+  Wenbo Lv:
+    href: https://spatlyu.github.io/
+
+reference:
+
+- title: Temporal Empirical Dynamic Modeling
+
+- subtitle: State Space Reconstructions
+  contents:
+  - embedded
+
+# - subtitle: Nonlinear forecasting
+#   contents:
+#   - simplex
+#   - smap
+
+- subtitle: Mutual Cross Mapping
+  contents:
+  - ccm
+
+- subtitle: Temporal Chaos
+  contents:
+  - logistic_map
+
+

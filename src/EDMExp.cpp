@@ -16,7 +16,7 @@
 // [[Rcpp::export]]
 Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
                               int E,
-                              int tau) {
+                              int tau = 0) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> vec_std = Rcpp::as<std::vector<double>>(vec);
 

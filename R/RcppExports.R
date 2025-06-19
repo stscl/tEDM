@@ -29,6 +29,10 @@ RcppCCM <- function(x, y, libsizes, lib, pred, E, tau, b, simplex, theta, thread
     .Call(`_tEDM_RcppCCM`, x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar)
 }
 
+RcppPCM <- function(x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, cumulate, progressbar) {
+    .Call(`_tEDM_RcppPCM`, x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, cumulate, progressbar)
+}
+
 DetectMaxNumThreads <- function() {
     .Call(`_tEDM_DetectMaxNumThreads`)
 }

@@ -115,6 +115,23 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppMultiSimplex4TS
+Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source, const Rcpp::NumericMatrix& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, int tau, int threads);
+RcppExport SEXP _tEDM_RcppMultiSimplex4TS(SEXP sourceSEXP, SEXP targetSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP bSEXP, SEXP tauSEXP, SEXP threadsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type source(sourceSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type target(targetSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type lib(libSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type E(ESEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type b(bSEXP);
+    Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppMultiSimplex4TS(source, target, lib, pred, E, b, tau, threads));
+    return rcpp_result_gen;
+END_RCPP
+}
 // RcppCCM
 Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x, const Rcpp::NumericVector& y, const Rcpp::IntegerVector& libsizes, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, int E, int tau, int b, bool simplex, double theta, int threads, int parallel_level, bool progressbar);
 RcppExport SEXP _tEDM_RcppCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP simplexSEXP, SEXP thetaSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP progressbarSEXP) {
@@ -645,6 +662,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 8},
     {"_tEDM_RcppSimplex4TS", (DL_FUNC) &_tEDM_RcppSimplex4TS, 8},
     {"_tEDM_RcppSMap4TS", (DL_FUNC) &_tEDM_RcppSMap4TS, 9},
+    {"_tEDM_RcppMultiSimplex4TS", (DL_FUNC) &_tEDM_RcppMultiSimplex4TS, 8},
     {"_tEDM_RcppCCM", (DL_FUNC) &_tEDM_RcppCCM, 13},
     {"_tEDM_RcppPCM", (DL_FUNC) &_tEDM_RcppPCM, 15},
     {"_tEDM_RcppMultispatialCCM", (DL_FUNC) &_tEDM_RcppMultispatialCCM, 11},

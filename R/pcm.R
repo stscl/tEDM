@@ -38,6 +38,8 @@
 #' @export
 #' @name pcm
 #' @aliases pcm,data.frame-method
+#' @references
+#' Leng, S., Ma, H., Kurths, J. et al. Partial cross mapping eliminates indirect causal influences. Nat Commun 11, 2632 (2020).
 #'
 #' @examples
 #' sim = as.data.frame(logistic_map(x = 0.4,y = 0.4,z = 0.4,step = 45,

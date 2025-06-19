@@ -80,3 +80,6 @@ sim = as.data.frame(logistic_map(x = 0.4,y = 0.4,z = 0.4,step = 45,
 pcm(sim,"x","z","y",libsizes = seq(5,35,5),E = 10,k = 7,threads = 1)
 
 }
+\references{
+Leng, S., Ma, H., Kurths, J. et al. Partial cross mapping eliminates indirect causal influences. Nat Commun 11, 2632 (2020).
+}

@@ -63,4 +63,33 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
                                          int b,
                                          int threads);
 
+/**
+ * Perform multivariate Simplex projection prediction across multiple time series datasets
+ * for a range of embedding dimensions (E) and neighbor numbers (b), using a parallelized
+ * implementation. The function embeds all source time series, combines all observations,
+ * and evaluates the forecasting skill on the target time series using given training (lib)
+ * and testing (pred) indices.
+ *
+ * @param source         A vector of time series vectors used for embedding.
+ * @param target         A vector of time series vectors representing prediction targets.
+ * @param lib_indices    Indices of time series used as training libraries (1-based).
+ * @param pred_indices   Indices of time series used as prediction sets (1-based).
+ * @param E              Vector of embedding dimensions to evaluate.
+ * @param b              Vector of number of nearest neighbors to evaluate.
+ * @param tau            Time delay between embedding dimensions.
+ * @param threads        Number of threads for parallel computation.
+ *
+ * @return A vector of vectors where each sub-vector contains:
+ *         [E, b, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
+ *         for one (E, b) combination.
+ */
+std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<double>>& source,
+                                                 const std::vector<std::vector<double>>& target,
+                                                 const std::vector<int>& lib_indices,
+                                                 const std::vector<int>& pred_indices,
+                                                 const std::vector<int>& E,
+                                                 const std::vector<int>& b,
+                                                 int tau,
+                                                 int threads);
+
 #endif // Forecast4TS_H

@@ -330,6 +330,102 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
   return result;
 }
 
+//  Wrapper function to help determining embedding dimension `E` and numbers of neighbors `k` parameters
+// [[Rcpp::export(rng=false)]]
+Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
+                                        const Rcpp::NumericMatrix& target,
+                                        const Rcpp::IntegerVector& lib,
+                                        const Rcpp::IntegerVector& pred,
+                                        const Rcpp::IntegerVector& E,
+                                        const Rcpp::IntegerVector& b,
+                                        int tau,
+                                        int threads) {
+  // Convert Rcpp NumericMatrix to std::vector of std::vectors
+  std::vector<std::vector<double>> source_std(source.ncol());
+  std::vector<std::vector<double>> target_std(target.ncol());
+  for (int i = 0; i < source.ncol(); ++i) {
+    Rcpp::NumericVector covvar = source.column(i);
+    source_std[i] = Rcpp::as<std::vector<double>>(covvar);
+  }
+  for (int i = 0; i < target.ncol(); ++i) {
+    Rcpp::NumericVector covvar = target.column(i);
+    target_std[i] = Rcpp::as<std::vector<double>>(covvar);
+  }
+
+  // Convert Rcpp::IntegerVector to std::vector<int>
+  std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
+  std::vector<int> b_std = Rcpp::as<std::vector<int>>(b);
+
+  // Initialize lib_indices and pred_indices
+  std::vector<int> lib_indices;
+  std::vector<int> pred_indices;
+
+  int target_len = target.nrow();
+  // Convert lib and pred (1-based in R) to 0-based indices and set corresponding positions to true
+  size_t n_libsize = lib.size();   // convert R R_xlen_t to C++ size_t
+  for (size_t i = 0; i < n_libsize; ++i) {
+    if (lib[i] < 1 || lib[i] > target_len) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+
+    bool allnotnan = true;
+    for (size_t j = 0; j < target_std.size(); ++j){
+      if (std::isnan(target_std[j][lib[i] - 1])){
+        allnotnan = false;
+      }
+    }
+
+    if (allnotnan) {
+      lib_indices.push_back(lib[i] - 1); // Convert to 0-based index
+    }
+
+  }
+  size_t n_predsize = pred.size();   // convert R R_xlen_t to C++ size_t
+  for (size_t i = 0; i < n_predsize; ++i) {
+    if (pred[i] < 1 || pred[i] > target_len) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+
+    bool allnotnan = true;
+    for (size_t j = 0; j < target_std.size(); ++j){
+      if (std::isnan(target_std[j][pred[i] - 1])){
+        allnotnan = false;
+      }
+    }
+
+    if (allnotnan) {
+      pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
+    }
+  }
+
+  std::vector<std::vector<double>> res_std = MultiSimplex4TS(
+    source_std,
+    target_std,
+    lib_indices,
+    pred_indices,
+    E_std,
+    b_std,
+    tau,
+    threads);
+
+  size_t n_rows = res_std.size();
+  size_t n_cols = res_std[0].size();
+
+  // Create an Rcpp::NumericMatrix with the same dimensions
+  Rcpp::NumericMatrix result(n_rows, n_cols);
+
+  // Fill the Rcpp::NumericMatrix with data from res_std
+  for (size_t i = 0; i < n_rows; ++i) {
+    for (size_t j = 0; j < n_cols; ++j) {
+      result(i, j) = res_std[i][j];
+    }
+  }
+
+  // Set column names for the result matrix
+  Rcpp::colnames(result) = Rcpp::CharacterVector::create("E", "k", "rho", "mae", "rmse");
+  return result;
+}
+
 // Wrapper function to perform convergent cross mapping for time series data
 // predict y based on x ====> x xmap y ====> y causes x
 // [[Rcpp::export(rng=false)]]

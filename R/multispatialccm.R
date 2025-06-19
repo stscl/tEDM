@@ -1,4 +1,4 @@
-.multispatial_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42,
+.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42,
                             threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
@@ -41,7 +41,7 @@
 #' }
 #' @export
 #' @name multispatialccm
-#' @aliases multispatial,list-method
+#' @aliases multispatialccm,list-method
 #' @references
 #' Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara, G., 2015. Spatial convergent cross mapping to detect causal relationships from short time series. Ecology 96, 1174–1181.
 #'
@@ -57,4 +57,4 @@
 #'            y = do.call(rbind, lapply(sim, function(df) df$y)))
 #' multispatialccm(lst,"x","y",libsizes = seq(5,15,1),E = c(2,4),k = 5,threads = 1)
 #'
-methods::setMethod("multispatialccm", "list", .multispatial_ts_method)
+methods::setMethod("multispatialccm", "list", .multispatialccm_ts_method)

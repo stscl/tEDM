@@ -122,4 +122,54 @@ std::vector<PartialCorRes> PCMSingle(
     bool cumulate                                       // Whether to cumulate the partial correlations
 );
 
+/**
+ * Performs partial cross mapping on a time series dataset.
+ *
+ * Parameters:
+ * - x: Time series used as the predictor variable (**cross mapping from**).
+ * - y: Time series series used as the target variable (**cross mapping to**).
+ * - controls: Time series data of control variables (**stored by row**).
+ * - lib_sizes: A vector specifying different library sizes for SCPCM analysis.
+ * - lib: A vector of representing the indices of spatial units to be the library.
+ * - pred: A vector of representing the indices of spatial units to be predicted.
+ * - Es: A vector specifying the embedding dimensions for attractor reconstruction using x and control variables.
+ * - taus: A vector specifying the time lag steps for constructing lagged state-space vectors using x and control variables.
+ * - b: A vector specifying the numbers of nearest neighbors used for prediction.
+ * - simplex: Boolean flag indicating whether to use simplex projection (true) or S-mapping (false) for prediction.
+ * - theta: Distance weighting parameter used for weighting neighbors in the S-mapping prediction.
+ * - threads: Number of threads to use for parallel computation.
+ * - cumulate: Boolean flag indicating whether to cumulate partial correlations.
+ * - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
+ * - progressbar: Boolean flag indicating whether to display a progress bar during computation.
+ *
+ * Returns:
+ *    A 2D vector of results, where each row contains:
+ *      - The library size.
+ *      - The mean pearson cross-mapping correlation.
+ *      - The statistical significance of the pearson correlation.
+ *      - The upper bound of the pearson correlation confidence interval.
+ *      - The lower bound of the pearson correlation confidence interval.
+ *      - The mean partial cross-mapping partial correlation.
+ *      - The statistical significance of the partial correlation.
+ *      - The upper bound of the partial correlation confidence interval.
+ *      - The lower bound of the partial correlation confidence interval.
+ */
+std::vector<std::vector<double>> PCM(
+    const std::vector<double>& x,                       // Time series to cross map from
+    const std::vector<double>& y,                       // Time series to cross map to
+    const std::vector<std::vector<double>>& controls,   // Time series data of control variables (**stored by row**)
+    const std::vector<int>& lib_sizes,                  // Vector of library sizes to use
+    const std::vector<int>& lib,                        // Vector specifying the library indices
+    const std::vector<int>& pred,                       // Vector specifying the prediction indices
+    const std::vector<int>& Es,                         // Number of dimensions for the attractor reconstruction with the x and control variables
+    const std::vector<int>& taus,                       // Time lag step for constructing lagged state-space vectors with the x and control variables
+    const std::vector<int>& b,                          // Numbers of nearest neighbors to use for prediction
+    bool simplex,                                       // Algorithm used for prediction; Use simplex projection if true, and s-mapping if false
+    double theta,                                       // Distance weighting parameter for the local neighbours in the manifold
+    int threads,                                        // Number of threads used from the global pool
+    int parallel_level,                                 // Level of parallel computing: 0 for `lower`, 1 for `higher`
+    bool cumulate,                                      // Whether to cumulate the partial correlations
+    bool progressbar                                    // Whether to print the progress bar
+);
+
 #endif // PCM_H

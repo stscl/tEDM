@@ -161,6 +161,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppMultispatialCCM
+Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x, const Rcpp::NumericMatrix& y, const Rcpp::IntegerVector& libsizes, int E, int tau, int b, int boot, int seed, int threads, int parallel_level, bool progressbar);
+RcppExport SEXP _tEDM_RcppMultispatialCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP bootSEXP, SEXP seedSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP progressbarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type libsizes(libsizesSEXP);
+    Rcpp::traits::input_parameter< int >::type E(ESEXP);
+    Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< int >::type b(bSEXP);
+    Rcpp::traits::input_parameter< int >::type boot(bootSEXP);
+    Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    Rcpp::traits::input_parameter< int >::type parallel_level(parallel_levelSEXP);
+    Rcpp::traits::input_parameter< bool >::type progressbar(progressbarSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppMultispatialCCM(x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, progressbar));
+    return rcpp_result_gen;
+END_RCPP
+}
 // DetectMaxNumThreads
 unsigned int DetectMaxNumThreads();
 RcppExport SEXP _tEDM_DetectMaxNumThreads() {
@@ -627,6 +647,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppSMap4TS", (DL_FUNC) &_tEDM_RcppSMap4TS, 9},
     {"_tEDM_RcppCCM", (DL_FUNC) &_tEDM_RcppCCM, 13},
     {"_tEDM_RcppPCM", (DL_FUNC) &_tEDM_RcppPCM, 15},
+    {"_tEDM_RcppMultispatialCCM", (DL_FUNC) &_tEDM_RcppMultispatialCCM, 11},
     {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
     {"_tEDM_OptEmbedDim", (DL_FUNC) &_tEDM_OptEmbedDim, 1},
     {"_tEDM_OptThetaParm", (DL_FUNC) &_tEDM_OptThetaParm, 1},

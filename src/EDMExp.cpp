@@ -17,7 +17,7 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // Wrapper function to perform trivariate logistic map
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::List RcppLogisticMap(
     double x = 3.6,
     double y = 3.72,
@@ -65,7 +65,7 @@ Rcpp::List RcppLogisticMap(
 }
 
 // Wrapper function to generate time-delay embeddings for a univariate time series
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
                               int E,
                               int tau = 0) {
@@ -89,7 +89,7 @@ Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
 }
 
 // Wrapper function to perform simplex projection forecasting
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericVector RcppSimplexForecast(
     const Rcpp::NumericVector& source,
     const Rcpp::NumericVector& target,
@@ -138,7 +138,7 @@ Rcpp::NumericVector RcppSimplexForecast(
 }
 
 // Wrapper function to perform s-mapping forecasting
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericVector RcppSMapForecast(
     const Rcpp::NumericVector& source,
     const Rcpp::NumericVector& target,
@@ -189,7 +189,7 @@ Rcpp::NumericVector RcppSMapForecast(
 }
 
 //  Wrapper function to help determining embedding dimension `E` and numbers of neighbors `k` parameters
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
                                    const Rcpp::NumericVector& target,
                                    const Rcpp::IntegerVector& lib,
@@ -260,7 +260,7 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
 }
 
 //  Wrapper function to help determining theta parameters
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
                                 const Rcpp::NumericVector& target,
                                 const Rcpp::IntegerVector& lib,
@@ -331,7 +331,7 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
 }
 
 //  Wrapper function to help determining embedding dimension `E` and numbers of neighbors `k` parameters
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
                                         const Rcpp::NumericMatrix& target,
                                         const Rcpp::IntegerVector& lib,
@@ -428,7 +428,7 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
 
 // Wrapper function to perform convergent cross mapping for time series data
 // predict y based on x ====> x xmap y ====> y causes x
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
                             const Rcpp::NumericVector& y,
                             const Rcpp::IntegerVector& libsizes,
@@ -506,7 +506,7 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
 
 // Wrapper function to perform partial cross mapping for time series data
 // predict y based on x ====> x xmap y ====> y causes x (account for controls)
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
                             const Rcpp::NumericVector& y,
                             const Rcpp::NumericMatrix& z,
@@ -605,7 +605,7 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
 
 // Wrapper function to perform multispatial convergent cross mapping for time series data
 // predict y based on x ====> x xmap y ====> y causes x
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
                                         const Rcpp::NumericMatrix& y,
                                         const Rcpp::IntegerVector& libsizes,

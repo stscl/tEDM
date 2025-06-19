@@ -47,6 +47,7 @@ reference:
 - subtitle: Mutual Cross Mapping
   contents:
   - ccm
+  - pcm
 
 - subtitle: Temporal Chaos
   contents:

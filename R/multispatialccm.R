@@ -46,7 +46,15 @@
 #' Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara, G., 2015. Spatial convergent cross mapping to detect causal relationships from short time series. Ecology 96, 1174–1181.
 #'
 #' @examples
-#' sim = as.data.frame(logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0))
-#' ccm(sim,"x","y",libsizes = seq(5,35,5),E = 7,k = 7,threads = 1)
+#' set.seed(42)
+#' obs = runif(15,0,0.1)
+#' sim = vector("list",15)
+#' for (i in seq_along(obs)){
+#'   sim[[i]] = as.data.frame(logistic_map(x = obs[i],y = obs[i],step = 15,beta_xy = 0.5,beta_yx = 0))
+#' }
+#'
+#' lst = list(x = do.call(rbind, lapply(sim, function(df) df$x)),
+#'            y = do.call(rbind, lapply(sim, function(df) df$y)))
+#' multispatialccm(lst,"x","y",libsizes = seq(5,15,3),threads = 1)
 #'
 methods::setMethod("multispatialccm", "list", .multispatial_ts_method)

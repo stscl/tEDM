@@ -29,11 +29,12 @@
  *   parallel_level - If 0, run in parallel using RcppThread. Otherwise, run sequentially.
  *
  * Returns:
- *   A vector of length 4:
- *     [0] = mean of Pearson correlation (mean rho)
- *     [1] = one-sided p-value (proportion of rho ≤ 0)
- *     [2] = 2.5% percentile (lower bound of 95% CI)
+ *   A vector of length 5:
+ *     [0] = library size (libsize)
+ *     [1] = mean of Pearson correlation (mean rho)
+ *     [2] = one-sided p-value (proportion of rho ≤ 0)
  *     [3] = 97.5% percentile (upper bound of 95% CI)
+ *     [4] = 2.5% percentile (lower bound of 95% CI)
  */
 std::vector<double> SimplexPredictionBoot(
     const std::vector<std::vector<double>>& source,
@@ -75,10 +76,11 @@ std::vector<double> SimplexPredictionBoot(
  *
  * Returns:
  *   A vector of vectors, where each inner vector corresponds to a library size and contains:
- *     [0] = mean of Pearson correlation (mean rho)
- *     [1] = one-sided p-value (proportion of rho ≤ 0 across bootstraps)
- *     [2] = 2.5% percentile of rho distribution (lower CI bound)
+ *     [0] = library size (libsize)
+ *     [1] = mean of Pearson correlation (mean rho)
+ *     [2] = one-sided p-value (proportion of rho ≤ 0 across bootstraps)
  *     [3] = 97.5% percentile of rho distribution (upper CI bound)
+ *     [4] = 2.5% percentile of rho distribution (lower CI bound)
  */
 std::vector<std::vector<double>> MultispatialCCM(
     const std::vector<std::vector<double>>& x,

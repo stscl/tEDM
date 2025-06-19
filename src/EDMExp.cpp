@@ -10,6 +10,7 @@
 #include "Forecast4TS.h"
 #include "CCM.h"
 #include "PCM.h"
+#include "MultispatialCCM.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -503,5 +504,66 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
     "libsizes","T_mean","D_mean",
     "T_sig","T_upper","T_lower",
     "D_sig","D_upper","D_lower");
+  return resultMatrix;
+}
+
+// Wrapper function to perform multispatial convergent cross mapping for time series data
+// predict y based on x ====> x xmap y ====> y causes x
+// [[Rcpp::export(rng=false)]]
+Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
+                                        const Rcpp::NumericMatrix& y,
+                                        const Rcpp::IntegerVector& libsizes,
+                                        int E,
+                                        int tau,
+                                        int b,
+                                        int boot,
+                                        int seed,
+                                        int threads,
+                                        int parallel_level,
+                                        bool progressbar) {
+  // Convert Rcpp NumericMatrix to std::vector of std::vectors
+  std::vector<std::vector<double>> x_std(x.ncol());
+  std::vector<std::vector<double>> y_std(y.ncol());
+  for (int i = 0; i < x.ncol(); ++i) {
+    Rcpp::NumericVector covvar = x.column(i);
+    x_std[i] = Rcpp::as<std::vector<double>>(covvar);
+  }
+  for (int i = 0; i < y.ncol(); ++i) {
+    Rcpp::NumericVector covvar = y.column(i);
+    y_std[i] = Rcpp::as<std::vector<double>>(covvar);
+  }
+
+  // Convert Rcpp::IntegerVector to std::vector<int>
+  std::vector<int> libsizes_std = Rcpp::as<std::vector<int>>(libsizes);
+
+
+  // Perform GCCM Lattice
+  std::vector<std::vector<double>> result = MultispatialCCM(
+    x_std,
+    y_std,
+    libsizes_std,
+    E,
+    tau,
+    b,
+    boot,
+    threads,
+    std::abs(seed),
+    parallel_level,
+    progressbar);
+
+  // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix
+  Rcpp::NumericMatrix resultMatrix(result.size(), 5);
+  for (size_t i = 0; i < result.size(); ++i) {
+    resultMatrix(i, 0) = result[i][0];
+    resultMatrix(i, 1) = result[i][1];
+    resultMatrix(i, 2) = result[i][2];
+    resultMatrix(i, 3) = result[i][3];
+    resultMatrix(i, 4) = result[i][4];
+  }
+
+  // Set column names for the result matrix
+  Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create("libsizes",
+                 "x_xmap_y_mean","x_xmap_y_sig",
+                 "x_xmap_y_upper","x_xmap_y_lower");
   return resultMatrix;
 }

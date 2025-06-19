@@ -200,7 +200,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
     std::vector<int> com_pred;
 
     int ts_len = source[0].size();
-    int max_lag = (tau == 0) ? (Ei - 1) : (Ei * tau);
+    size_t max_lag = static_cast<size_t>((tau == 0) ? (Ei - 1) : (Ei * tau));
     for (size_t i = 0; i < lib.size(); ++i) {
       for (size_t j = 0; j < source[0].size(); ++j) {
         if (j > max_lag){

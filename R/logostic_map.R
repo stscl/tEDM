@@ -16,7 +16,7 @@
 #' @param threshold (optional) set to `NaN` if the absolute value exceeds this threshold.
 #' @param transient (optional) transients to be excluded from the results.
 #'
-#' @return A list
+#' @return A data.frame
 #' @export
 #'
 #' @examples
@@ -33,5 +33,5 @@ logistic_map = \(x, y = NULL, z = NULL, step = 15, alpha_x = 3.6, alpha_y = 3.72
                \(.x) .x[-transient])
   if (is.null(y)) res$y = NULL
   if (is.null(z)) res$z = NULL
-  return(res)
+  return(as.data.frame(res))
 }

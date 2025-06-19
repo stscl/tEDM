@@ -54,7 +54,7 @@ logistic_map(
 \item{transient}{(optional) transients to be excluded from the results.}
 }
 \value{
-A list
+A data.frame
 }
 \description{
 logistic map

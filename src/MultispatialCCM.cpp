@@ -84,7 +84,7 @@ std::vector<double> SimplexPredictionBoot(
 
     int N = library_vectors.size();
     if (N < num_neighbors) {
-      return std::numeric_limits<double>::quiet_NaN();
+      return;
     }
 
     std::vector<int> all_indices(N);

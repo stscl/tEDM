@@ -64,7 +64,7 @@ set.seed(42)
 obs = runif(15,0,0.1)
 sim = vector("list",15)
 for (i in seq_along(obs)){
-  sim[[i]] = as.data.frame(logistic_map(x = obs[i],y = obs[i],step = 15,beta_xy = 0.5,beta_yx = 0))
+  sim[[i]] = logistic_map(x = obs[i],y = obs[i],step = 15,beta_xy = 0.5,beta_yx = 0)
 }
 
 lst = list(x = do.call(rbind, lapply(sim, function(df) df$x)),

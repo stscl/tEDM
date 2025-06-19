@@ -9,6 +9,7 @@
 #include "SMap.h"
 #include "Forecast4TS.h"
 #include "CCM.h"
+#include "PCM.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -328,7 +329,6 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
   return result;
 }
 
-
 // Wrapper function to perform convergent cross mapping for time series data
 // predict y based on x ====> x xmap y ====> y causes x
 // [[Rcpp::export(rng=false)]]
@@ -369,7 +369,7 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
     if (pred[i] < 1 || pred[i] > n) {
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
-    if (!std::isnan(y_std[pred[i] - 1])&& (pred[i] > max_lag)) {
+    if (!std::isnan(y_std[pred[i] - 1]) && (pred[i] > max_lag)) {
       pred_std.push_back(pred[i] - 1);
     }
   }
@@ -404,5 +404,104 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
   Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create("libsizes",
                  "x_xmap_y_mean","x_xmap_y_sig",
                  "x_xmap_y_upper","x_xmap_y_lower");
+  return resultMatrix;
+}
+
+// Wrapper function to perform partial cross mapping for time series data
+// predict y based on x ====> x xmap y ====> y causes x (account for controls)
+// [[Rcpp::export(rng=false)]]
+Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
+                            const Rcpp::NumericVector& y,
+                            const Rcpp::NumericMatrix& z,
+                            const Rcpp::IntegerVector& libsizes,
+                            const Rcpp::IntegerVector& lib,
+                            const Rcpp::IntegerVector& pred,
+                            const Rcpp::IntegerVector& E,
+                            const Rcpp::IntegerVector& tau,
+                            const Rcpp::IntegerVector& b,
+                            bool simplex,
+                            double theta,
+                            int threads,
+                            int parallel_level,
+                            bool cumulate,
+                            bool progressbar) {
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
+  std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
+
+  // Convert Rcpp NumericMatrix to std::vector of std::vectors
+  std::vector<std::vector<double>> z_std(z.ncol());
+  for (int i = 0; i < z.ncol(); ++i) {
+    Rcpp::NumericVector covvar = z.column(i);
+    z_std[i] = Rcpp::as<std::vector<double>>(covvar);
+  }
+
+  // Convert Rcpp::IntegerVector to std::vector<int>
+  std::vector<int> libsizes_std = Rcpp::as<std::vector<int>>(libsizes);
+  std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
+  std::vector<int> tau_std = Rcpp::as<std::vector<int>>(tau);
+  std::vector<int> b_std = Rcpp::as<std::vector<int>>(b);
+
+  // Convert and check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index
+  std::vector<int> lib_std;
+  std::vector<int> pred_std;
+  int max_E = *std::max_element(E_std.begin(), E_std.end());
+  int max_tau = *std::max_element(tau_std.begin(), tau_std.end());
+  int max_lag = (max_tau == 0) ? (max_E - 1) : (max_E * max_tau);
+  int n = y_std.size();
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 1 || lib[i] > n) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(y_std[lib[i] - 1]) && (lib[i] > max_lag)) {
+      lib_std.push_back(lib[i] - 1);
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 1 || pred[i] > n) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(y_std[pred[i] - 1]) && (pred[i] > max_lag)) {
+      pred_std.push_back(pred[i] - 1);
+    }
+  }
+
+  // Perform partial cross mapping
+  std::vector<std::vector<double>> result = PCM(
+    x_std,
+    y_std,
+    z_std,
+    libsizes_std,
+    lib_std,
+    pred_std,
+    E_std,
+    tau_std,
+    b_std,
+    simplex,
+    theta,
+    threads,
+    parallel_level,
+    cumulate,
+    progressbar);
+
+  // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix
+  Rcpp::NumericMatrix resultMatrix(result.size(), 9);
+  for (size_t i = 0; i < result.size(); ++i) {
+    resultMatrix(i, 0) = result[i][0];
+    resultMatrix(i, 1) = result[i][1];
+    resultMatrix(i, 2) = result[i][2];
+    resultMatrix(i, 3) = result[i][3];
+    resultMatrix(i, 4) = result[i][4];
+    resultMatrix(i, 5) = result[i][5];
+    resultMatrix(i, 6) = result[i][6];
+    resultMatrix(i, 7) = result[i][7];
+    resultMatrix(i, 8) = result[i][8];
+  }
+
+  // Set column names for the result matrix
+  Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create(
+    "libsizes","T_mean","D_mean",
+    "T_sig","T_upper","T_lower",
+    "D_sig","D_upper","D_lower");
   return resultMatrix;
 }

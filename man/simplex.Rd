@@ -3,9 +3,22 @@
 \name{simplex}
 \alias{simplex}
 \alias{simplex,data.frame-method}
+\alias{simplex,list-method}
 \title{simplex forecast}
 \usage{
 \S4method{simplex}{data.frame}(
+  data,
+  column,
+  target,
+  lib = NULL,
+  pred = NULL,
+  E = 1:10,
+  tau = 0,
+  k = E + 1,
+  threads = length(E)
+)
+
+\S4method{simplex}{list}(
   data,
   column,
   target,

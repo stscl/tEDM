@@ -2,7 +2,7 @@
 % Please edit documentation in R/multispatialccm.R
 \name{multispatialccm}
 \alias{multispatialccm}
-\alias{multispatial,list-method}
+\alias{multispatialccm,list-method}
 \title{multispatial convergent cross mapping}
 \usage{
 \S4method{multispatialccm}{list}(

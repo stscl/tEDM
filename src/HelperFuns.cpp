@@ -5,7 +5,7 @@
 // [[Rcpp::depends(RcppThread)]]
 // [[Rcpp::depends(RcppArmadillo)]]
 
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 unsigned int DetectMaxNumThreads(){
   unsigned int max_threads = std::thread::hardware_concurrency();
   return max_threads;
@@ -21,7 +21,7 @@ unsigned int DetectMaxNumThreads(){
  * @param Emat A NumericMatrix with five columns: "E", k", "rho", "mae", and "rmse".
  * @return The optimal embedding dimension (E) and number of nearest neighbors (k) as an integer vector.
  */
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::IntegerVector OptEmbedDim(Rcpp::NumericMatrix Emat) {
   // Check if the input matrix has exactly 5 columns
   if (Emat.ncol() != 5) {
@@ -83,7 +83,7 @@ Rcpp::IntegerVector OptEmbedDim(Rcpp::NumericMatrix Emat) {
  * @param Thetamat A NumericMatrix with four columns: "theta", "rho", "mae", and "rmse".
  * @return The optimal theta parameter as a double.
  */
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 double OptThetaParm(Rcpp::NumericMatrix Thetamat) {
   // Check if the input matrix has exactly 4 columns
   if (Thetamat.ncol() != 4) {
@@ -150,7 +150,7 @@ double OptThetaParm(Rcpp::NumericMatrix Thetamat) {
  *     - The first column contains the row indices,
  *     - The second column contains the column indices of non-NA elements.
  */
-// [[Rcpp::export(rng=false)]]
+// [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix MatNotNAIndice(Rcpp::NumericMatrix mat, bool byrow = true) {
   // Initialize vectors to store the row and column indices of non-NA elements
   std::vector<double> row_indices;

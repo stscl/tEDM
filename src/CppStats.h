@@ -160,6 +160,11 @@ std::vector<size_t> CppDistKNNIndice(
     size_t k,
     const std::vector<int>& lib);
 
+std::vector<std::vector<size_t>> CppDistSortedIndice(
+    const std::vector<std::vector<double>>& dist_mat,
+    const std::vector<size_t>& lib,
+    bool include_self = false);
+
 std::vector<std::vector<std::vector<double>>> CppSVD(const std::vector<std::vector<double>>& X);
 
 std::vector<double> LinearTrendRM(const std::vector<double>& vec,

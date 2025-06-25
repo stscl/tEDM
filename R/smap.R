@@ -7,7 +7,7 @@
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))
   if (is.null(pred)) pred = lib
   res = RcppSMap4TS(vx,vy,lib,pred,theta,E,tau,k,threads)
-  return(.bind_xmapself(res,target))
+  return(.bind_xmapself(res,target,"smap"))
 }
 
 #' smap forecast
@@ -17,8 +17,9 @@
 #'
 #' @return A list
 #' \describe{
-#' \item{\code{xmap}}{self mapping prediction results}
+#' \item{\code{xmap}}{forecast performance}
 #' \item{\code{varname}}{name of target variable}
+#' \item{\code{method}}{method of cross mapping}
 #' }
 #' @export
 #' @name smap

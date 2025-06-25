@@ -5,7 +5,7 @@
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))
   if (is.null(pred)) pred = lib
   res = RcppSimplex4TS(vx,vy,lib,pred,E,k,tau,threads)
-  return(.bind_xmapself(res,target))
+  return(.bind_xmapself(res,target,"simplex",tau))
 }
 
 .simplex_tss_method = \(data, column, target, lib = NULL, pred = NULL,
@@ -15,7 +15,7 @@
   if (is.null(lib)) lib = seq_len(ncol(vy))
   if (is.null(pred)) pred = lib
   res = RcppMultiSimplex4TS(vx,vy,lib,pred,E,k,tau,threads)
-  return(.bind_xmapself(res,target))
+  return(.bind_xmapself(res,target,"simplex",tau))
 }
 
 #' simplex forecast
@@ -29,8 +29,10 @@
 #'
 #' @return A list
 #' \describe{
-#' \item{\code{xmap}}{self mapping prediction results}
+#' \item{\code{xmap}}{forecast performance}
 #' \item{\code{varname}}{name of target variable}
+#' \item{\code{method}}{method of cross mapping}
+#' \item{\code{tau}}{step of time lag}
 #' }
 #' @export
 #' @name simplex

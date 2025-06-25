@@ -227,6 +227,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// OptICparm
+Rcpp::IntegerVector OptICparm(Rcpp::NumericMatrix Emat);
+RcppExport SEXP _tEDM_OptICparm(SEXP EmatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Emat(EmatSEXP);
+    rcpp_result_gen = Rcpp::wrap(OptICparm(Emat));
+    return rcpp_result_gen;
+END_RCPP
+}
 // MatNotNAIndice
 Rcpp::NumericMatrix MatNotNAIndice(Rcpp::NumericMatrix mat, bool byrow);
 RcppExport SEXP _tEDM_MatNotNAIndice(SEXP matSEXP, SEXP byrowSEXP) {
@@ -681,6 +691,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
     {"_tEDM_OptEmbedDim", (DL_FUNC) &_tEDM_OptEmbedDim, 1},
     {"_tEDM_OptThetaParm", (DL_FUNC) &_tEDM_OptThetaParm, 1},
+    {"_tEDM_OptICparm", (DL_FUNC) &_tEDM_OptICparm, 1},
     {"_tEDM_MatNotNAIndice", (DL_FUNC) &_tEDM_MatNotNAIndice, 2},
     {"_tEDM_RcppFactorial", (DL_FUNC) &_tEDM_RcppFactorial, 1},
     {"_tEDM_RcppCombine", (DL_FUNC) &_tEDM_RcppCombine, 2},

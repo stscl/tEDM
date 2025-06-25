@@ -1,21 +1,21 @@
 .internal_xmapdf_print = \(x,keyname = "libsizes",significant = FALSE){
   resdf = x[[1]]
-  bidirectional = x[[3]]
+  bidirectional = x$bidirectional
   if (bidirectional){
     if (significant) {
       resdf = resdf[resdf$x_xmap_y_sig < 0.05 & resdf$y_xmap_x_sig < 0.05,
-                    c(keyname, "y_xmap_x_mean", "x_xmap_y_mean")]
+                    c(keyname, "y_xmap_x_mean", "x_xmap_y_mean"),drop = FALSE]
     } else {
-      resdf = resdf[,c(keyname, "y_xmap_x_mean", "x_xmap_y_mean")]
+      resdf = resdf[,c(keyname, "y_xmap_x_mean", "x_xmap_y_mean"),drop = FALSE]
     }
     names(resdf) = c(keyname,
                      paste0(x$varname[1], "->", x$varname[2]),
                      paste0(x$varname[2], "->", x$varname[1]))
   } else {
     if (significant) {
-      resdf = resdf[resdf$y_xmap_x_sig < 0.05,c(keyname, "y_xmap_x_mean")]
+      resdf = resdf[resdf$y_xmap_x_sig < 0.05,c(keyname, "y_xmap_x_mean"),drop = FALSE]
     } else {
-      resdf = resdf[,c(keyname, "y_xmap_x_mean")]
+      resdf = resdf[,c(keyname, "y_xmap_x_mean"),drop = FALSE]
     }
     names(resdf) = c(keyname,
                      paste0(x$varname[1], "->", x$varname[2]))
@@ -26,61 +26,64 @@
 #' print ccm result
 #' @noRd
 #' @export
-print.ccm_res = \(x,...){
-  print(.internal_xmapdf_print(x))
+print.ccm_res = \(x,significant = FALSE,...){
+  print(.internal_xmapdf_print(x,significant = significant))
 }
 
 #' print cmc result
 #' @noRd
 #' @export
-print.cmc_res = \(x,...){
-  print(.internal_xmapdf_print(x,"neighbors",TRUE))
+print.cmc_res = \(x,significant = FALSE,...){
+  print(.internal_xmapdf_print(x,"neighbors",significant = significant))
 }
 
 #' print pcm result
 #' @noRd
 #' @export
-print.pcm_res = \(x,...){
+print.pcm_res = \(x,significant = FALSE,...){
   pxmap = x[-2]
   xmap = x[-1]
 
   cat('-------------------------------------- \n')
   cat("***partial cross mapping prediction*** \n")
   cat('-------------------------------------- \n')
-  print(.internal_xmapdf_print(pxmap))
+  print(.internal_xmapdf_print(pxmap,significant = significant))
   cat("\n------------------------------ \n")
   cat("***cross mapping prediction*** \n")
   cat('------------------------------ \n')
-  print(.internal_xmapdf_print(xmap))
+  print(.internal_xmapdf_print(xmap,significant = significant))
 }
 
 #' print xmap_self result
 #' @noRd
 #' @export
 print.xmap_self = \(x,...){
-  res = x$xmap
-  if (ncol(res) == 5){
-    outres = OptEmbedDim(res)
-    cat(paste0("The suggested E and k for variable ",x$varname," is ",outres[1]," and ",outres[2]), "\n")
-  } else if (ncol(res) == 4){
-    cat(paste0("The suggested theta for variable ",x$varname," is ",OptThetaParm(res)), "\n")
+  res = as.matrix(x$xmap)
+  if (x$method == "smap"){
+    cat(paste0("The suggested theta for variable ", x$varname, " is ", OptThetaParm(res)), "\n")
   } else {
-    print(x)
+    if (x$method == "simplex"){
+      res = OptEmbedDim(res)
+    } else {
+      res = OptICparm(res)
+    }
+    cat(paste0("The suggested E and k for variable ", x$varname, " is ", res[1], " and ", res[2]), "\n")
+    if (res[1] == 1 && x$tau == 0) warning("When tau = 0, E should not be 1")
   }
 }
 
 #' plot ccm result
 #' @noRd
 #' @export
-plot.ccm_res = \(x, family = "serif",
-                 legend_texts = NULL,
+plot.ccm_res = \(x, family = "serif", legend_texts = NULL,
                  legend_cols = c("#ed795b","#608dbe"),
                  draw_ci = FALSE, ci_alpha = 0.25,
                  xbreaks = NULL, xlimits = NULL,
                  ybreaks = seq(0, 1, by = 0.1),
-                 ylimits = c(-0.05, 1), ...){
+                 ylimits = c(-0.05, 1),
+                 ylabel = expression(rho), ...){
   resdf = x[[1]]
-  bidirectional = x[[3]]
+  bidirectional = x$bidirectional
 
   if(is.null(xbreaks)) xbreaks = resdf$libsizes
   if(is.null(xlimits)) xlimits = c(min(xbreaks)-1,max(xbreaks)+1)
@@ -122,7 +125,7 @@ plot.ccm_res = \(x, family = "serif",
     ggplot2::scale_x_continuous(breaks = xbreaks, limits = xlimits,
                                 expand = c(0, 0), name = "Library size") +
     ggplot2::scale_y_continuous(breaks = ybreaks, limits = ylimits,
-                                expand = c(0, 0), name = expression(rho)) +
+                                expand = c(0, 0), name = ylabel) +
     ggplot2::scale_color_manual(values = legend_cols,
                                 labels = legend_texts,
                                 name = "") +

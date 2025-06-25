@@ -43,16 +43,17 @@
 \value{
 A list
 \describe{
-\item{\code{xmap}}{self mapping prediction results}
+\item{\code{xmap}}{forecast performance}
 \item{\code{varname}}{name of target variable}
+\item{\code{method}}{method of cross mapping}
 }
 }
 \description{
 smap forecast
 }
 \examples{
-sim = as.data.frame(logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0))
-smap(sim,"x","y",E = 7,k = 7,threads = 1)
+sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
+smap(sim,"x","y",E = 8,k = 7,threads = 1)
 
 }
 \references{

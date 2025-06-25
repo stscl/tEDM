@@ -7,7 +7,7 @@
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))
   if (is.null(pred)) pred = lib
   res = RcppSMap4TS(vx,vy,lib,pred,theta,E,tau,k,threads)
-  return(.bind_xmapself(res,target))
+  return(.bind_xmapself(res,target,"smap"))
 }
 
 #' smap forecast
@@ -17,8 +17,9 @@
 #'
 #' @return A list
 #' \describe{
-#' \item{\code{xmap}}{self mapping prediction results}
+#' \item{\code{xmap}}{forecast performance}
 #' \item{\code{varname}}{name of target variable}
+#' \item{\code{method}}{method of cross mapping}
 #' }
 #' @export
 #' @name smap
@@ -27,7 +28,7 @@
 #' Sugihara G. 1994. Nonlinear forecasting for the classification of natural time series. Philosophical Transactions: Physical Sciences and Engineering, 348 (1688):477-495.
 #'
 #' @examples
-#' sim = as.data.frame(logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0))
-#' smap(sim,"x","y",E = 7,k = 7,threads = 1)
+#' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
+#' smap(sim,"x","y",E = 8,k = 7,threads = 1)
 #'
 methods::setMethod("smap", "data.frame", .smap_ts_method)

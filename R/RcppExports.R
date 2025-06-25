@@ -53,6 +53,10 @@ OptThetaParm <- function(Thetamat) {
     .Call(`_tEDM_OptThetaParm`, Thetamat)
 }
 
+OptICparm <- function(Emat) {
+    .Call(`_tEDM_OptICparm`, Emat)
+}
+
 MatNotNAIndice <- function(mat, byrow = TRUE) {
     .Call(`_tEDM_MatNotNAIndice`, mat, byrow)
 }

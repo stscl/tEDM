@@ -8,6 +8,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
+#include "IntersectionCardinality.h"
 #include <RcppThread.h>
 
 /*
@@ -91,5 +92,50 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
                                                  const std::vector<int>& b,
                                                  int tau,
                                                  int threads);
+
+/**
+ * Compute Intersection Cardinality AUC over Lattice Embedding Settings.
+ *
+ * This function computes the causal strength between two lattice-structured time series
+ * (`source` and `target`) by evaluating the Intersection Cardinality (IC) curve, and
+ * summarizing it using the Area Under the Curve (AUC) metric.
+ *
+ * For each combination of embedding dimension `E` and neighbor size `b`, the function:
+ *  - Generates state-space embeddings based on lattice neighborhood topology.
+ *  - Filters out prediction points with missing (NaN) values.
+ *  - Computes neighbor structures and evaluates intersection sizes between the mapped
+ *    neighbors of `source` and `target`.
+ *  - Aggregates the IC curve and estimates the AUC (optionally using significance test).
+ *
+ * @param source         Time series values of the potential cause variable (flattened lattice vector).
+ * @param target         Time series values of the potential effect variable (same shape as `source`).
+ * @param lib_indices    Indices used for library (training) data.
+ * @param pred_indices   Indices used for prediction (testing) data.
+ * @param E              Vector of embedding dimensions to try.
+ * @param b              Vector of neighbor sizes to try.
+ * @param tau            Embedding delay (usually 1 for lattice).
+ * @param exclude        Number of nearest neighbors to exclude (e.g., temporal or spatial proximity).
+ * @param threads        Number of threads for parallel computation.
+ * @param parallel_level Flag indicating whether to use multi-threading (0: serial, 1: parallel).
+ *
+ * @return A vector of size `E.size() * b.size()`, each element is a vector:
+ *         [embedding_dimension, neighbor_size, auc_value].
+ *         If inputs are invalid or no prediction point is valid, the AUC value is NaN.
+ *
+ * @note
+ *   - Only AUC and p value are returned in current version. Use other utilities to derive CI.
+ *   - Library and prediction indices should be adjusted for 0-based indexing before calling.
+ *   - Lattice embedding assumes neighborhood-based spatial structure.
+ */
+std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
+                                       const std::vector<double>& target,
+                                       const std::vector<size_t>& lib_indices,
+                                       const std::vector<size_t>& pred_indices,
+                                       const std::vector<int>& E,
+                                       const std::vector<int>& b,
+                                       int tau,
+                                       int exclude,
+                                       int threads,
+                                       int parallel_level);
 
 #endif // Forecast4TS_H

@@ -6,6 +6,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
+#include "IntersectionCardinality.h"
 #include <RcppThread.h>
 
 // [[Rcpp::depends(RcppThread)]]
@@ -234,6 +235,160 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
     result[i][3] = mae; // MAE
     result[i][4] = rmse; // RMSE
   }, threads_sizet);
+
+  return result;
+}
+
+/**
+ * Compute Intersection Cardinality AUC over Lattice Embedding Settings.
+ *
+ * This function computes the causal strength between two lattice-structured time series
+ * (`source` and `target`) by evaluating the Intersection Cardinality (IC) curve, and
+ * summarizing it using the Area Under the Curve (AUC) metric.
+ *
+ * For each combination of embedding dimension `E` and neighbor size `b`, the function:
+ *  - Generates state-space embeddings based on lattice neighborhood topology.
+ *  - Filters out prediction points with missing (NaN) values.
+ *  - Computes neighbor structures and evaluates intersection sizes between the mapped
+ *    neighbors of `source` and `target`.
+ *  - Aggregates the IC curve and estimates the AUC (optionally using significance test).
+ *
+ * @param source         Time series values of the potential cause variable (flattened lattice vector).
+ * @param target         Time series values of the potential effect variable (same shape as `source`).
+ * @param lib_indices    Indices used for library (training) data.
+ * @param pred_indices   Indices used for prediction (testing) data.
+ * @param E              Vector of embedding dimensions to try.
+ * @param b              Vector of neighbor sizes to try.
+ * @param tau            Embedding delay (usually 1 for lattice).
+ * @param exclude        Number of nearest neighbors to exclude (e.g., temporal or spatial proximity).
+ * @param threads        Number of threads for parallel computation.
+ * @param parallel_level Flag indicating whether to use multi-threading (0: serial, 1: parallel).
+ *
+ * @return A vector of size `E.size() * b.size()`, each element is a vector:
+ *         [embedding_dimension, neighbor_size, auc_value].
+ *         If inputs are invalid or no prediction point is valid, the AUC value is NaN.
+ *
+ * @note
+ *   - Only AUC and p value are returned in current version. Use other utilities to derive CI.
+ *   - Library and prediction indices should be adjusted for 0-based indexing before calling.
+ *   - Lattice embedding assumes neighborhood-based spatial structure.
+ */
+std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
+                                       const std::vector<double>& target,
+                                       const std::vector<size_t>& lib_indices,
+                                       const std::vector<size_t>& pred_indices,
+                                       const std::vector<int>& E,
+                                       const std::vector<int>& b,
+                                       int tau,
+                                       int exclude,
+                                       int threads,
+                                       int parallel_level) {
+  // Configure threads
+  size_t threads_sizet = static_cast<size_t>(std::abs(threads));
+  threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
+
+  // Unique sorted embedding dimensions and neighbor values
+  std::vector<int> Es = E;
+  std::sort(Es.begin(), Es.end());
+  Es.erase(std::unique(Es.begin(), Es.end()), Es.end());
+
+  std::vector<int> bs = b;
+  std::sort(bs.begin(), bs.end());
+  bs.erase(std::unique(bs.begin(), bs.end()), bs.end());
+
+  // Generate unique (E, b) combinations
+  std::vector<std::pair<int, int>> unique_Ebcom;
+  for (int e : Es)
+    for (int bb : bs)
+      unique_Ebcom.emplace_back(e, bb);
+
+  std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(4));
+
+  if (parallel_level == 0){
+    for (size_t i = 0; i < Es.size(); ++i) {
+      // Generate embeddings
+      auto embedding_x = Embed(source, Es[i], tau);
+      auto embedding_y = Embed(target, Es[i], tau);
+
+      // Filter valid prediction points (exclude those with all NaN values)
+      std::vector<size_t> valid_pred;
+      for (size_t idx : pred_indices) {
+        if (idx < 0 || idx >= embedding_x.size()) continue;
+
+        bool x_nan = std::all_of(embedding_x[idx].begin(), embedding_x[idx].end(),
+                                 [](double v) { return std::isnan(v); });
+        bool y_nan = std::all_of(embedding_y[idx].begin(), embedding_y[idx].end(),
+                                 [](double v) { return std::isnan(v); });
+        if (!x_nan && !y_nan) valid_pred.push_back(idx);
+      }
+
+      // Precompute neighbors
+      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices);
+      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices);
+
+      // Parameter initialization
+      const size_t n_excluded_sizet = static_cast<size_t>(exclude);
+
+      for (size_t j = 0; j < bs.size(); ++j){
+        const size_t k = static_cast<size_t>(bs[j]);
+
+        // run cross mapping
+        std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
+          nx,ny,lib_indices.size(),lib_indices,valid_pred,k,n_excluded_sizet,threads_sizet,0
+        );
+
+        std::vector<double> cs = {0,1};
+        if (!res.empty())  cs = CppCMCTest(res[0].Intersection,">");
+
+        result[j + bs.size() * i][0] = Es[i];  // E
+        result[j + bs.size() * i][1] = bs[j];  // k
+        result[j + bs.size() * i][2] = cs[0];  // AUC
+        result[j + bs.size() * i][3] = cs[1];  // P value
+      }
+    }
+  } else {
+    for (size_t i = 0; i < Es.size(); ++i) {
+      // Generate embeddings
+      auto embedding_x = Embed(source, Es[i], tau);
+      auto embedding_y = Embed(target, Es[i], tau);
+
+      // Filter valid prediction points (exclude those with all NaN values)
+      std::vector<size_t> valid_pred;
+      for (size_t idx : pred_indices) {
+        if (idx < 0 || idx >= embedding_x.size()) continue;
+
+        bool x_nan = std::all_of(embedding_x[idx].begin(), embedding_x[idx].end(),
+                                 [](double v) { return std::isnan(v); });
+        bool y_nan = std::all_of(embedding_y[idx].begin(), embedding_y[idx].end(),
+                                 [](double v) { return std::isnan(v); });
+        if (!x_nan && !y_nan) valid_pred.push_back(idx);
+      }
+
+      // Precompute neighbors
+      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices);
+      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices);
+
+      // Parameter initialization
+      const size_t n_excluded_sizet = static_cast<size_t>(exclude);
+
+      RcppThread::parallelFor(0, bs.size(), [&](size_t j) {
+        const size_t k = static_cast<size_t>(bs[j]);
+
+        // run cross mapping
+        std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
+          nx,ny,lib_indices.size(),lib_indices,valid_pred,k,n_excluded_sizet,threads_sizet,1
+        );
+
+        std::vector<double> cs = {0,1};
+        if (!res.empty())  cs = CppCMCTest(res[0].Intersection,">");
+
+        result[j + bs.size() * i][0] = Es[i];  // E
+        result[j + bs.size() * i][1] = bs[j];  // k
+        result[j + bs.size() * i][2] = cs[0];  // AUC
+        result[j + bs.size() * i][3] = cs[1];  // P value
+      }, threads_sizet);
+    }
+  }
 
   return result;
 }

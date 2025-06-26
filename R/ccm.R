@@ -1,14 +1,18 @@
-.ccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
+.ccm_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
                    pred = NULL, threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
   k = .check_inputelementnum(k,2)
   pl = .check_parallellevel(parallel.level)
-  if (is.null(lib)) lib = .internal_library(data)
-  if (is.null(pred)) pred = lib
+
   cause = .uni_ts(data,cause)
   effect = .uni_ts(data,effect)
+
+  if (is.null(lib)) lib = .internal_library(data)
+  if (is.null(pred)) pred = lib
+  if (is.null(libsizes)) libsizes = length(lib)
+  if (threads == 0) threads = length(pred)
 
   simplex = ifelse(algorithm == "simplex", TRUE, FALSE)
   x_xmap_y = NULL
@@ -22,21 +26,9 @@
 
 #' convergent cross mapping
 #'
-#' @param data observation data.
-#' @param cause name of causal variable.
-#' @param effect name of effect variable.
-#' @param libsizes number of time points used in prediction.
-#' @param E (optional) embedding dimensions.
-#' @param tau (optional) step of time lags.
-#' @param k (optional) number of nearest neighbors used in prediction.
+#' @inheritParams cmc
 #' @param theta (optional) weighting parameter for distances, useful when `algorithm` is `smap`.
 #' @param algorithm (optional) prediction algorithm.
-#' @param lib (optional) libraries indices.
-#' @param pred (optional) predictions indices.
-#' @param threads (optional) number of threads to use.
-#' @param parallel.level (optional) level of parallelism, `low` or `high`.
-#' @param bidirectional (optional) whether to examine bidirectional causality.
-#' @param progressbar (optional) whether to show the progress bar.
 #'
 #' @return A list
 #' \describe{

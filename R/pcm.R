@@ -1,5 +1,5 @@
-.scpcm_ts_method = \(data, cause, effect, conds, libsizes, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL, pred = NULL,
-                     threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, cumulate = FALSE, progressbar = TRUE){
+.pcm_ts_method = \(data, cause, effect, conds, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
+                   pred = NULL, threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, cumulate = FALSE, progressbar = TRUE){
   varname = .check_character(c(cause, effect, conds))
   E = .check_inputelementnum(E,length(varname),length(conds))
   tau = .check_inputelementnum(tau,length(varname))
@@ -11,6 +11,8 @@
 
   if (is.null(lib)) lib = .internal_library(data)
   if (is.null(pred)) pred = lib
+  if (is.null(libsizes)) libsizes = length(lib)
+  if (threads == 0) threads = length(pred)
 
   simplex = ifelse(algorithm == "simplex", TRUE, FALSE)
   x_xmap_y = NULL
@@ -48,4 +50,4 @@
 #'                    beta_zx = 0, beta_zy = 0)
 #' pcm(sim,"x","z","y",libsizes = seq(5,35,5),E = 10,k = 7,threads = 1)
 #'
-methods::setMethod("pcm", "data.frame", .scpcm_ts_method)
+methods::setMethod("pcm", "data.frame", .pcm_ts_method)

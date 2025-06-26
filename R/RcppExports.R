@@ -33,6 +33,10 @@ RcppMultiSimplex4TS <- function(source, target, lib, pred, E, b, tau, threads) {
     .Call(`_tEDM_RcppMultiSimplex4TS`, source, target, lib, pred, E, b, tau, threads)
 }
 
+RcppIC4TS <- function(source, target, lib, pred, E, b, tau, exclude = 0L, threads = 8L, parallel_level = 0L) {
+    .Call(`_tEDM_RcppIC4TS`, source, target, lib, pred, E, b, tau, exclude, threads, parallel_level)
+}
+
 RcppCCM <- function(x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar) {
     .Call(`_tEDM_RcppCCM`, x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar)
 }

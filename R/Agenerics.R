@@ -1,5 +1,5 @@
 register_generic = \(name, def = NULL) {
-  if (methods::isGeneric(name)){
+  if (!methods::isGeneric(name)){
     if (is.null(def)) {
       def = eval(bquote(function(data, ...) standardGeneric(.(name))))
     }

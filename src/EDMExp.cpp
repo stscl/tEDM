@@ -8,10 +8,11 @@
 #include "SimplexProjection.h"
 #include "SMap.h"
 #include "Forecast4TS.h"
-#include "MultispatialCCM.h"
 #include "IntersectionCardinality.h"
 #include "CCM.h"
 #include "PCM.h"
+#include "CMC.h"
+#include "MultispatialCCM.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -788,6 +789,94 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
     "T_sig","T_upper","T_lower",
     "D_sig","D_upper","D_lower");
   return resultMatrix;
+}
+
+// Wrapper function to perform cross mapping cardinality for time series data
+// [[Rcpp::export(rng = false)]]
+Rcpp::List RcppCMC(
+    const Rcpp::NumericVector& x,
+    const Rcpp::NumericVector& y,
+    const Rcpp::IntegerVector& libsizes,
+    const Rcpp::IntegerVector& lib,
+    const Rcpp::IntegerVector& pred,
+    const Rcpp::IntegerVector& E,
+    const Rcpp::IntegerVector& tau,
+    int b,
+    int r,
+    int threads,
+    int parallel_level,
+    bool progressbar){
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
+  std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
+
+  // Convert Rcpp IntegerVector to std::vector<int>
+  std::vector<size_t> libsizes_std = Rcpp::as<std::vector<size_t>>(libsizes);
+  std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
+  std::vector<int> tau_std = Rcpp::as<std::vector<int>>(tau);
+
+  int validSampleNum = x_std.size();
+  // Convert and check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index
+  std::vector<size_t> lib_std;
+  std::vector<size_t> pred_std;
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 1 || lib[i] > validSampleNum) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(x_std[lib[i] - 1]) && !std::isnan(y_std[lib[i] - 1])) {
+      lib_std.push_back(static_cast<size_t>(lib[i] - 1));
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 1 || pred[i] > validSampleNum) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(x_std[pred[i] - 1]) && !std::isnan(y_std[pred[i] - 1])) {
+      pred_std.push_back(static_cast<size_t>(pred[i] - 1));
+    }
+  }
+
+  // check b that are greater than validSampleNum or less than or equal to 3
+  if (b < 3 || b > validSampleNum) {
+    Rcpp::stop("k cannot be less than or equal to 3 or greater than the number of non-NA values.");
+  } else if (b + 1 > static_cast<int>(lib_std.size())){
+    Rcpp::stop("Please check `libsizes` or `lib`; no valid libraries available for running GCMC.");
+  }
+
+  // Generate embeddings
+  std::vector<std::vector<double>> e1 = Embed(x_std, E[0], tau_std[0]);
+  std::vector<std::vector<double>> e2 = Embed(y_std, E[1], tau_std[1]);
+
+  // Perform CMC for time series data
+  CMCRes res = CMC(e1,e2,libsizes_std,lib_std,pred_std,
+                   static_cast<size_t>(b),static_cast<size_t>(r),
+                   threads,parallel_level,progressbar);
+
+  // Convert mean_aucs to Rcpp::DataFrame
+  std::vector<double> libs, aucs;
+  for (const auto& cm : res.causal_strength) {
+    libs.push_back(cm[0]);
+    aucs.push_back(cm[1]);
+  }
+
+  Rcpp::DataFrame cs_df = Rcpp::DataFrame::create(
+    Rcpp::Named("libsizes") = libs,
+    Rcpp::Named("x_xmap_y_mean") = aucs
+  );
+
+  // Wrap causal_strength with names
+  Rcpp::DataFrame xmap_df = Rcpp::DataFrame::create(
+    Rcpp::Named("neighbors") = res.cross_mapping[0],
+    Rcpp::Named("x_xmap_y_mean") = res.cross_mapping[1],
+    Rcpp::Named("x_xmap_y_sig") = res.cross_mapping[2],
+    Rcpp::Named("x_xmap_y_upper") = res.cross_mapping[3],
+    Rcpp::Named("x_xmap_y_lower")  = res.cross_mapping[4]
+  );
+
+  return Rcpp::List::create(
+    Rcpp::Named("xmap") = xmap_df,
+    Rcpp::Named("cs") = cs_df
+  );
 }
 
 // Wrapper function to perform multispatial convergent cross mapping for time series data

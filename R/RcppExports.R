@@ -45,6 +45,10 @@ RcppPCM <- function(x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, thr
     .Call(`_tEDM_RcppPCM`, x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, cumulate, progressbar)
 }
 
+RcppCMC <- function(x, y, libsizes, lib, pred, E, tau, b, r, threads, parallel_level, progressbar) {
+    .Call(`_tEDM_RcppCMC`, x, y, libsizes, lib, pred, E, tau, b, r, threads, parallel_level, progressbar)
+}
+
 RcppMultispatialCCM <- function(x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, progressbar) {
     .Call(`_tEDM_RcppMultispatialCCM`, x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, progressbar)
 }

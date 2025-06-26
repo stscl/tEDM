@@ -216,6 +216,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppCMC
+Rcpp::List RcppCMC(const Rcpp::NumericVector& x, const Rcpp::NumericVector& y, const Rcpp::IntegerVector& libsizes, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& tau, int b, int r, int threads, int parallel_level, bool progressbar);
+RcppExport SEXP _tEDM_RcppCMC(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP rSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP progressbarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type y(ySEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type libsizes(libsizesSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type lib(libSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type E(ESEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< int >::type b(bSEXP);
+    Rcpp::traits::input_parameter< int >::type r(rSEXP);
+    Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
+    Rcpp::traits::input_parameter< int >::type parallel_level(parallel_levelSEXP);
+    Rcpp::traits::input_parameter< bool >::type progressbar(progressbarSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppCMC(x, y, libsizes, lib, pred, E, tau, b, r, threads, parallel_level, progressbar));
+    return rcpp_result_gen;
+END_RCPP
+}
 // RcppMultispatialCCM
 Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x, const Rcpp::NumericMatrix& y, const Rcpp::IntegerVector& libsizes, int E, int tau, int b, int boot, int seed, int threads, int parallel_level, bool progressbar);
 RcppExport SEXP _tEDM_RcppMultispatialCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP bootSEXP, SEXP seedSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP progressbarSEXP) {
@@ -727,6 +748,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppIC4TS", (DL_FUNC) &_tEDM_RcppIC4TS, 10},
     {"_tEDM_RcppCCM", (DL_FUNC) &_tEDM_RcppCCM, 13},
     {"_tEDM_RcppPCM", (DL_FUNC) &_tEDM_RcppPCM, 15},
+    {"_tEDM_RcppCMC", (DL_FUNC) &_tEDM_RcppCMC, 12},
     {"_tEDM_RcppMultispatialCCM", (DL_FUNC) &_tEDM_RcppMultispatialCCM, 11},
     {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
     {"_tEDM_OptEmbedDim", (DL_FUNC) &_tEDM_OptEmbedDim, 1},

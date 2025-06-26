@@ -16,9 +16,9 @@
 
   x_xmap_y = NULL
   if (bidirectional){
-    x_xmap_y = RcppCMC(cause,effect,libsizes,lib,pred,E,tau,k[0],0,threads,pl,progressbar)
+    x_xmap_y = RcppCMC(cause,effect,libsizes,lib,pred,E,tau,k[1],0,threads,pl,progressbar)
   }
-  y_xmap_x = RcppCMC(effect,cause,libsizes,lib,pred,rev(E),rev(tau),k[1],0,threads,pl,progressbar)
+  y_xmap_x = RcppCMC(effect,cause,libsizes,lib,pred,rev(E),rev(tau),k[2],0,threads,pl,progressbar)
 
   return(.bind_intersectdf(varname,x_xmap_y,y_xmap_x,bidirectional))
 }
@@ -54,6 +54,6 @@
 #'
 #' @examples
 #' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
-#' cmc(sim,"x","y",libsizes = seq(5,35,5),E = 8,k = 7,threads = 1)
+#' cmc(sim,"x","y",E = 8,k = 15,threads = 1)
 #'
 methods::setMethod("cmc", "data.frame", .cmc_ts_method)

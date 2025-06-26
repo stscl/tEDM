@@ -9,7 +9,7 @@
   data,
   cause,
   effect,
-  libsizes,
+  libsizes = NULL,
   E = 3,
   tau = 0,
   k = E + 1,
@@ -30,13 +30,13 @@
 
 \item{effect}{name of effect variable.}
 
-\item{libsizes}{number of time points used in prediction.}
+\item{libsizes}{(optional) number of time points used.}
 
 \item{E}{(optional) embedding dimensions.}
 
 \item{tau}{(optional) step of time lags.}
 
-\item{k}{(optional) number of nearest neighbors used in prediction.}
+\item{k}{(optional) number of nearest neighbors.}
 
 \item{theta}{(optional) weighting parameter for distances, useful when \code{algorithm} is \code{smap}.}
 

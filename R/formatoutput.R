@@ -141,6 +141,17 @@ plot.ccm_res = \(x, family = "serif", legend_texts = NULL,
   return(fig1)
 }
 
+#' plot cmc result
+#' @noRd
+#' @export
+plot.cmc_res = \(x, ...){
+  xmap = x[-1]
+  class(xmap) = "ccm"
+  draw_ci = FALSE
+  fig1 = plot.ccm_res(xmap,draw_ci = draw_ci,ylabel = "Causal Score",...)
+  return(fig1)
+}
+
 #' plot pcm result
 #' @noRd
 #' @export

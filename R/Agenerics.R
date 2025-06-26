@@ -7,7 +7,7 @@ register_generic = \(name, def = NULL) {
   }
 }
 
-for (gen in c("embedded", "simplex", "smap",
-              "ccm", "pcm", "multispatialccm")) {
+for (gen in c("embedded", "simplex", "smap", "ic",
+              "ccm", "pcm", "cmc", "multispatialccm")) {
   register_generic(gen)
 }

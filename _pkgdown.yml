@@ -39,13 +39,15 @@ reference:
   contents:
   - embedded
 
-- subtitle: Nonlinear forecasting
-  contents:
-  - simplex
-  - smap
+# - subtitle: Nonlinear forecasting
+#   contents:
+#   - multiview
 
 - subtitle: Mutual Cross Mapping
   contents:
+  - simplex
+  - smap
+  - ic
   - ccm
   - pcm
   - cmc

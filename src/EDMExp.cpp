@@ -8,8 +8,10 @@
 #include "SimplexProjection.h"
 #include "SMap.h"
 #include "Forecast4TS.h"
+#include "IntersectionCardinality.h"
 #include "CCM.h"
 #include "PCM.h"
+#include "CMC.h"
 #include "MultispatialCCM.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
@@ -204,6 +206,75 @@ Rcpp::NumericVector RcppSMapForecast(
 
   // Convert the result back to Rcpp::NumericVector
   return Rcpp::wrap(pred_res);
+}
+
+// Wrapper function to compute the intersection cardinality curve
+// [[Rcpp::export(rng = false)]]
+Rcpp::NumericVector RcppIntersectionCardinality(
+    const Rcpp::NumericVector& source,
+    const Rcpp::NumericVector& target,
+    int E,
+    int tau,
+    const Rcpp::IntegerVector& lib,
+    const Rcpp::IntegerVector& pred,
+    const int& num_neighbors = 4,
+    const int& n_excluded = 0,
+    const int& threads = 8,
+    const int& parallel_level = 0){
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
+  std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
+
+  // Generate embeddings
+  std::vector<std::vector<double>> embedding_x = Embed(source_std, E, tau);
+  std::vector<std::vector<double>> embedding_y = Embed(target_std, E, tau);
+
+  // Initialize lib_indices and pred_indices
+  std::vector<size_t> lib_indices;
+  std::vector<size_t> pred_indices;
+
+  int target_len = target_std.size();
+  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  // Convert lib and pred (1-based in R) to 0-based indices and check validity
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 0 || lib[i] > target_len) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(source_std[lib[i] - 1]) &&
+        !std::isnan(target_std[lib[i] - 1]) &&
+        (lib[i] > max_lag + 1)){
+        lib_indices.push_back(static_cast<size_t>(lib[i] - 1)); // Convert to 0-based index
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 0 || pred[i] > target_len) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(source_std[pred[i] - 1]) &&
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag + 1)){
+        pred_indices.push_back(static_cast<size_t>(pred[i] - 1)); // Convert to 0-based index
+    }
+  }
+
+  if (lib_indices.size() < static_cast<size_t>(num_neighbors)){
+    Rcpp::stop("Library size must not exceed the number of nearest neighbors used for mapping.");
+  }
+
+  // Call the IntersectionCardinality function
+  std::vector<double> res = IntersectionCardinality(
+    embedding_x,
+    embedding_y,
+    lib_indices,
+    pred_indices,
+    static_cast<size_t>(num_neighbors),
+    static_cast<size_t>(n_excluded),
+    threads,
+    parallel_level
+  );
+
+  // Convert the result back to Rcpp::NumericVector
+  return Rcpp::wrap(res);
 }
 
 //  Wrapper function to help determining embedding dimension `E` and numbers of neighbors `k` parameters
@@ -452,6 +523,89 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
   return result;
 }
 
+// Wrapper function to compute intersection cardinality for time series data
+// [[Rcpp::export(rng = false)]]
+Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
+                              const Rcpp::NumericVector& target,
+                              const Rcpp::IntegerVector& lib,
+                              const Rcpp::IntegerVector& pred,
+                              const Rcpp::IntegerVector& E,
+                              const Rcpp::IntegerVector& b,
+                              int tau,
+                              int exclude = 0,
+                              int threads = 8,
+                              int parallel_level = 0) {
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
+  std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
+
+  // Convert Rcpp::IntegerVector to std::vector<int>
+  std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
+
+  // Initialize lib_indices and pred_indices
+  std::vector<size_t> lib_indices;
+  std::vector<size_t> pred_indices;
+
+  int target_len = target_std.size();
+  // Convert lib and pred (1-based in R) to 0-based indices and set corresponding positions to true
+  size_t n_libsize = lib.size();   // convert R R_xlen_t to C++ size_t
+  for (size_t i = 0; i < n_libsize; ++i) {
+    if (lib[i] < 1 || lib[i] > target_len) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(source_std[lib[i] - 1]) && !std::isnan(target_std[lib[i] - 1])) {
+      lib_indices.push_back(static_cast<size_t>(lib[i] - 1)); // Convert to 0-based index
+    }
+  }
+  size_t n_predsize = pred.size();   // convert R R_xlen_t to C++ size_t
+  for (size_t i = 0; i < n_predsize; ++i) {
+    if (pred[i] < 1 || pred[i] > target_len) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(source_std[pred[i] - 1]) && !std::isnan(target_std[pred[i] - 1])) {
+      pred_indices.push_back(static_cast<size_t>(pred[i] - 1)); // Convert to 0-based index
+    }
+  }
+
+  // Check the validity of the neignbor numbers
+  std::vector<int> b_std;
+  for (int i = 0; i < b.size(); ++i){
+    if (b[i] > static_cast<int>(lib_indices.size())) {
+      Rcpp::stop("Neighbor numbers count out of acceptable range at position %d (value: %d)", i + 1, b[i]);
+    }
+    b_std.push_back(b[i]);
+  }
+
+  std::vector<std::vector<double>> res_std = IC4TS(
+    source_std,
+    target_std,
+    lib_indices,
+    pred_indices,
+    E_std,
+    b_std,
+    tau,
+    exclude,
+    threads,
+    parallel_level);
+
+  size_t n_rows = res_std.size();
+  size_t n_cols = res_std[0].size();
+
+  // Create an Rcpp::NumericMatrix with the same dimensions
+  Rcpp::NumericMatrix result(n_rows, n_cols);
+
+  // Fill the Rcpp::NumericMatrix with data from res_std
+  for (size_t i = 0; i < n_rows; ++i) {
+    for (size_t j = 0; j < n_cols; ++j) {
+      result(i, j) = res_std[i][j];
+    }
+  }
+
+  // Set column names for the result matrix
+  Rcpp::colnames(result) = Rcpp::CharacterVector::create("E", "k", "CausalScore", "Significance");
+  return result;
+}
+
 // Wrapper function to perform convergent cross mapping for time series data
 // predict y based on x ====> x xmap y ====> y causes x
 // [[Rcpp::export(rng = false)]]
@@ -635,6 +789,94 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
     "T_sig","T_upper","T_lower",
     "D_sig","D_upper","D_lower");
   return resultMatrix;
+}
+
+// Wrapper function to perform cross mapping cardinality for time series data
+// [[Rcpp::export(rng = false)]]
+Rcpp::List RcppCMC(
+    const Rcpp::NumericVector& x,
+    const Rcpp::NumericVector& y,
+    const Rcpp::IntegerVector& libsizes,
+    const Rcpp::IntegerVector& lib,
+    const Rcpp::IntegerVector& pred,
+    const Rcpp::IntegerVector& E,
+    const Rcpp::IntegerVector& tau,
+    int b,
+    int r,
+    int threads,
+    int parallel_level,
+    bool progressbar){
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
+  std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
+
+  // Convert Rcpp IntegerVector to std::vector<int>
+  std::vector<size_t> libsizes_std = Rcpp::as<std::vector<size_t>>(libsizes);
+  std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
+  std::vector<int> tau_std = Rcpp::as<std::vector<int>>(tau);
+
+  int validSampleNum = x_std.size();
+  // Convert and check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index
+  std::vector<size_t> lib_std;
+  std::vector<size_t> pred_std;
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 1 || lib[i] > validSampleNum) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(x_std[lib[i] - 1]) && !std::isnan(y_std[lib[i] - 1])) {
+      lib_std.push_back(static_cast<size_t>(lib[i] - 1));
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 1 || pred[i] > validSampleNum) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(x_std[pred[i] - 1]) && !std::isnan(y_std[pred[i] - 1])) {
+      pred_std.push_back(static_cast<size_t>(pred[i] - 1));
+    }
+  }
+
+  // check b that are greater than validSampleNum or less than or equal to 3
+  if (b < 3 || b > validSampleNum) {
+    Rcpp::stop("k cannot be less than or equal to 3 or greater than the number of non-NA values.");
+  } else if (b + 1 > static_cast<int>(lib_std.size())){
+    Rcpp::stop("Please check `libsizes` or `lib`; no valid libraries available for running GCMC.");
+  }
+
+  // Generate embeddings
+  std::vector<std::vector<double>> e1 = Embed(x_std, E[0], tau_std[0]);
+  std::vector<std::vector<double>> e2 = Embed(y_std, E[1], tau_std[1]);
+
+  // Perform CMC for time series data
+  CMCRes res = CMC(e1,e2,libsizes_std,lib_std,pred_std,
+                   static_cast<size_t>(b),static_cast<size_t>(r),
+                   threads,parallel_level,progressbar);
+
+  // Convert mean_aucs to Rcpp::DataFrame
+  std::vector<double> libs, aucs;
+  for (const auto& cm : res.causal_strength) {
+    libs.push_back(cm[0]);
+    aucs.push_back(cm[1]);
+  }
+
+  Rcpp::DataFrame cs_df = Rcpp::DataFrame::create(
+    Rcpp::Named("libsizes") = libs,
+    Rcpp::Named("x_xmap_y_mean") = aucs
+  );
+
+  // Wrap causal_strength with names
+  Rcpp::DataFrame xmap_df = Rcpp::DataFrame::create(
+    Rcpp::Named("neighbors") = res.cross_mapping[0],
+    Rcpp::Named("x_xmap_y_mean") = res.cross_mapping[1],
+    Rcpp::Named("x_xmap_y_sig") = res.cross_mapping[2],
+    Rcpp::Named("x_xmap_y_upper") = res.cross_mapping[3],
+    Rcpp::Named("x_xmap_y_lower")  = res.cross_mapping[4]
+  );
+
+  return Rcpp::List::create(
+    Rcpp::Named("xmap") = xmap_df,
+    Rcpp::Named("cs") = cs_df
+  );
 }
 
 // Wrapper function to perform multispatial convergent cross mapping for time series data

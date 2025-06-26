@@ -9,20 +9,12 @@ navbar:
     right:  [search, github]
     left: [reference, articles, news]
   bg: custom
-  # components:
-  #   articles:
-  #     text: Vignettes
-  #     menu:
-  #     - text: Introduction to the tEDM package (PkgIntro)
-  #       href: articles/PkgIntro.html
-  #     - text: State Space Reconstruction & Logistic Map (Embed)
-  #       href: articles/Embed.html
-  #     - text: Convergent Cross Mapping (CCM)
-  #       href: articles/CCM.html
-  #     - text: Partial Cross Mapping (PCM)
-  #       href: articles/PCM.html
-  #     - text: Cross Mapping Cardinality (CMC)
-  #       href: articles/CMC.html
+  components:
+    articles:
+      text: Vignettes
+      menu:
+      - text: Temporal Empirical Dynamic Modeling
+        href: articles/tEDM.html
 
 home:
   title: |

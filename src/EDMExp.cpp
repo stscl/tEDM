@@ -11,6 +11,7 @@
 #include "CCM.h"
 #include "PCM.h"
 #include "MultispatialCCM.h"
+#include "IntersectionCardinality.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -204,6 +205,75 @@ Rcpp::NumericVector RcppSMapForecast(
 
   // Convert the result back to Rcpp::NumericVector
   return Rcpp::wrap(pred_res);
+}
+
+// Wrapper function to compute the intersection cardinality curve
+// [[Rcpp::export(rng = false)]]
+Rcpp::NumericVector RcppIntersectionCardinality(
+    const Rcpp::NumericVector& source,
+    const Rcpp::NumericVector& target,
+    int E,
+    int tau,
+    const Rcpp::IntegerVector& lib,
+    const Rcpp::IntegerVector& pred,
+    const int& num_neighbors = 4,
+    const int& n_excluded = 0,
+    const int& threads = 8,
+    const int& parallel_level = 0){
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
+  std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
+
+  // Generate embeddings
+  std::vector<std::vector<double>> embedding_x = Embed(source_std, E, tau);
+  std::vector<std::vector<double>> embedding_y = Embed(target_std, E, tau);
+
+  // Initialize lib_indices and pred_indices
+  std::vector<size_t> lib_indices;
+  std::vector<size_t> pred_indices;
+
+  int target_len = target_std.size();
+  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  // Convert lib and pred (1-based in R) to 0-based indices and check validity
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 0 || lib[i] > target_len) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(source_std[lib[i] - 1]) &&
+        !std::isnan(target_std[lib[i] - 1]) &&
+        (lib[i] > max_lag + 1)){
+        lib_indices.push_back(static_cast<size_t>(lib[i] - 1)); // Convert to 0-based index
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 0 || pred[i] > target_len) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(source_std[pred[i] - 1]) &&
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag + 1)){
+        pred_indices.push_back(static_cast<size_t>(pred[i] - 1)); // Convert to 0-based index
+    }
+  }
+
+  if (lib_indices.size() < static_cast<size_t>(num_neighbors)){
+    Rcpp::stop("Library size must not exceed the number of nearest neighbors used for mapping.");
+  }
+
+  // Call the IntersectionCardinality function
+  std::vector<double> res = IntersectionCardinality(
+    embedding_x,
+    embedding_y,
+    lib_indices,
+    pred_indices,
+    static_cast<size_t>(num_neighbors),
+    static_cast<size_t>(n_excluded),
+    threads,
+    parallel_level
+  );
+
+  // Convert the result back to Rcpp::NumericVector
+  return Rcpp::wrap(res);
 }
 
 //  Wrapper function to help determining embedding dimension `E` and numbers of neighbors `k` parameters

@@ -17,6 +17,10 @@ RcppSMapForecast <- function(source, target, E, tau, lib, pred, num_neighbors, t
     .Call(`_tEDM_RcppSMapForecast`, source, target, E, tau, lib, pred, num_neighbors, theta)
 }
 
+RcppIntersectionCardinality <- function(source, target, E, tau, lib, pred, num_neighbors = 4L, n_excluded = 0L, threads = 8L, parallel_level = 0L) {
+    .Call(`_tEDM_RcppIntersectionCardinality`, source, target, E, tau, lib, pred, num_neighbors, n_excluded, threads, parallel_level)
+}
+
 RcppSimplex4TS <- function(source, target, lib, pred, E, b, tau, threads) {
     .Call(`_tEDM_RcppSimplex4TS`, source, target, lib, pred, E, b, tau, threads)
 }

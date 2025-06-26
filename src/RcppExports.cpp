@@ -80,6 +80,25 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppIntersectionCardinality
+Rcpp::NumericVector RcppIntersectionCardinality(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, int E, int tau, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const int& num_neighbors, const int& n_excluded, const int& threads, const int& parallel_level);
+RcppExport SEXP _tEDM_RcppIntersectionCardinality(SEXP sourceSEXP, SEXP targetSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP libSEXP, SEXP predSEXP, SEXP num_neighborsSEXP, SEXP n_excludedSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type source(sourceSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type target(targetSEXP);
+    Rcpp::traits::input_parameter< int >::type E(ESEXP);
+    Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type lib(libSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
+    Rcpp::traits::input_parameter< const int& >::type num_neighbors(num_neighborsSEXP);
+    Rcpp::traits::input_parameter< const int& >::type n_excluded(n_excludedSEXP);
+    Rcpp::traits::input_parameter< const int& >::type threads(threadsSEXP);
+    Rcpp::traits::input_parameter< const int& >::type parallel_level(parallel_levelSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppIntersectionCardinality(source, target, E, tau, lib, pred, num_neighbors, n_excluded, threads, parallel_level));
+    return rcpp_result_gen;
+END_RCPP
+}
 // RcppSimplex4TS
 Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, int tau, int threads);
 RcppExport SEXP _tEDM_RcppSimplex4TS(SEXP sourceSEXP, SEXP targetSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP bSEXP, SEXP tauSEXP, SEXP threadsSEXP) {
@@ -682,6 +701,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppEmbed", (DL_FUNC) &_tEDM_RcppEmbed, 3},
     {"_tEDM_RcppSimplexForecast", (DL_FUNC) &_tEDM_RcppSimplexForecast, 7},
     {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 8},
+    {"_tEDM_RcppIntersectionCardinality", (DL_FUNC) &_tEDM_RcppIntersectionCardinality, 10},
     {"_tEDM_RcppSimplex4TS", (DL_FUNC) &_tEDM_RcppSimplex4TS, 8},
     {"_tEDM_RcppSMap4TS", (DL_FUNC) &_tEDM_RcppSMap4TS, 9},
     {"_tEDM_RcppMultiSimplex4TS", (DL_FUNC) &_tEDM_RcppMultiSimplex4TS, 8},

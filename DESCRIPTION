@@ -29,4 +29,7 @@ Suggests:
     RcppArmadillo,
     readr,
     plot3D,
-    spEDM
+    spEDM,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

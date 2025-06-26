@@ -1,0 +1,16 @@
+---
+title: "Temporal Empirical Dynamic Modeling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{tEDM}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "##",
+  fig.path = "man/figures/edm/"
+)
+```

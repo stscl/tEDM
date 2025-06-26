@@ -12,7 +12,7 @@
   if (is.null(lib)) lib = .internal_library(data)
   if (is.null(pred)) pred = lib
   if (is.null(libsizes)) libsizes = length(lib)
-  if (threads == 0) threads = length(libsizes)
+  if (threads == 0) threads = length(pred)
 
   x_xmap_y = NULL
   if (bidirectional){
@@ -37,7 +37,6 @@
 #' @param threads (optional) number of threads to use.
 #' @param parallel.level (optional) level of parallelism, `low` or `high`.
 #' @param bidirectional (optional) whether to examine bidirectional causality.
-#' @param detrend (optional) whether to remove the linear trend.
 #' @param progressbar (optional) whether to show the progress bar.
 #'
 #' @return A list
@@ -50,6 +49,8 @@
 #' @export
 #' @name cmc
 #' @aliases cmc,data.frame-method
+#' @references
+#' Tao, P., Wang, Q., Shi, J., Hao, X., Liu, X., Min, B., Zhang, Y., Li, C., Cui, H., Chen, L., 2023. Detecting dynamical causality by intersection cardinal concavity. Fundamental Research.
 #'
 #' @examples
 #' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)

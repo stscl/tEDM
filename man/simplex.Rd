@@ -12,7 +12,7 @@
   target,
   lib = NULL,
   pred = NULL,
-  E = 1:10,
+  E = 2:10,
   tau = 0,
   k = E + 1,
   threads = length(E)
@@ -24,7 +24,7 @@
   target,
   lib = NULL,
   pred = NULL,
-  E = 1:10,
+  E = 2:10,
   tau = 0,
   k = E + 1,
   threads = length(E)

@@ -908,8 +908,7 @@ Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
   // Convert Rcpp::IntegerVector to std::vector<int>
   std::vector<int> libsizes_std = Rcpp::as<std::vector<int>>(libsizes);
 
-
-  // Perform GCCM Lattice
+  // Perform multispatial convergent cross mapping
   std::vector<std::vector<double>> result = MultispatialCCM(
     x_std,
     y_std,

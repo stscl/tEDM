@@ -182,9 +182,9 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
 
   std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(5));
 
-  RcppThread::parallelFor(0, unique_Ebcom.size(), [&](size_t i) {
-    const int Ei = unique_Ebcom[i].first;
-    const int bi = unique_Ebcom[i].second;
+  RcppThread::parallelFor(0, unique_Ebcom.size(), [&](size_t idx) {
+    const int Ei = unique_Ebcom[idx].first;
+    const int bi = unique_Ebcom[idx].second;
 
     // Combine all spatial observations and generate embeddings
     std::vector<std::vector<double>> all_vectors;
@@ -232,8 +232,8 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
     result[i][0] = Ei;
     result[i][1] = bi;
     result[i][2] = pearson; // rho
-    result[i][3] = mae; // MAE
-    result[i][4] = rmse; // RMSE
+    result[i][3] = mae;     // MAE
+    result[i][4] = rmse;    // RMSE
   }, threads_sizet);
 
   return result;

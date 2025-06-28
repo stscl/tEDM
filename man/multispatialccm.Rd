@@ -69,7 +69,7 @@ for (i in seq_along(obs)){
 
 lst = list(x = do.call(rbind, lapply(sim, function(df) df$x)),
            y = do.call(rbind, lapply(sim, function(df) df$y)))
-multispatialccm(lst,"x","y",libsizes = seq(5,15,1),E = c(2,4),k = 5,threads = 1)
+multispatialccm(lst,"x","y",libsizes = 5:15,E = c(10,7),k = 8,threads = 1)
 
 }
 \references{

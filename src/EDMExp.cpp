@@ -464,9 +464,9 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
     }
 
     bool allnotnan = true;
-    for (size_t j = 0; j < target_std.size(); ++j){
-      if (std::isnan(source_std[j][lib[i] - 1]) ||
-          std::isnan(target_std[j][lib[i] - 1])){
+    for (size_t j = 0; j < target_std[0].size(); ++j){
+      if (std::isnan(source_std[lib[i] - 1][j]) ||
+          std::isnan(target_std[lib[i] - 1][j])){
         allnotnan = false;
       }
     }
@@ -483,9 +483,9 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
     }
 
     bool allnotnan = true;
-    for (size_t j = 0; j < target_std.size(); ++j){
-      if (std::isnan(source_std[j][pred[i] - 1]) ||
-          std::isnan(target_std[j][pred[i] - 1])){
+    for (size_t j = 0; j < target_std[0].size(); ++j){
+      if (std::isnan(source_std[pred[i] - 1][j]) ||
+          std::isnan(target_std[pred[i] - 1][j])){
         allnotnan = false;
       }
     }

@@ -455,7 +455,7 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
   std::vector<int> lib_indices;
   std::vector<int> pred_indices;
 
-  int target_len = target.nrow();
+  int target_len = target.ncol();
   // Convert lib and pred (1-based in R) to 0-based indices and set corresponding positions to true
   size_t n_libsize = lib.size();   // convert R R_xlen_t to C++ size_t
   for (size_t i = 0; i < n_libsize; ++i) {
@@ -908,8 +908,7 @@ Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
   // Convert Rcpp::IntegerVector to std::vector<int>
   std::vector<int> libsizes_std = Rcpp::as<std::vector<int>>(libsizes);
 
-
-  // Perform GCCM Lattice
+  // Perform multispatial convergent cross mapping
   std::vector<std::vector<double>> result = MultispatialCCM(
     x_std,
     y_std,

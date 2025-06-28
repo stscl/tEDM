@@ -229,11 +229,11 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
       rmse = CppRMSE(target_pred, all_targets, true);
     }
 
-    result[i][0] = Ei;
-    result[i][1] = bi;
-    result[i][2] = pearson; // rho
-    result[i][3] = mae;     // MAE
-    result[i][4] = rmse;    // RMSE
+    result[idx][0] = Ei;
+    result[idx][1] = bi;
+    result[idx][2] = pearson; // rho
+    result[idx][3] = mae;     // MAE
+    result[idx][4] = rmse;    // RMSE
   }, threads_sizet);
 
   return result;

@@ -10,11 +10,11 @@
 
 .simplex_tss_method = \(data, column, target, lib = NULL, pred = NULL,
                         E = 2:10, tau = 0, k = E+1, threads = length(E)){
-  vx = as.matrix(data[[column]])
-  vy = as.matrix(data[[target]])
-  if (is.null(lib)) lib = seq_len(ncol(vy))
+  mx = as.matrix(data[[column]])
+  my = as.matrix(data[[target]])
+  if (is.null(lib)) lib = seq_len(ncol(my))
   if (is.null(pred)) pred = lib
-  res = RcppMultiSimplex4TS(vx,vy,lib,pred,E,k,tau,threads)
+  res = RcppMultiSimplex4TS(mx,my,lib,pred,E,k,tau,threads)
   return(.bind_xmapself(res,target,"simplex",tau))
 }
 

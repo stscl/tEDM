@@ -474,8 +474,8 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
     if (allnotnan) {
       lib_indices.push_back(lib[i] - 1); // Convert to 0-based index
     }
-
   }
+
   size_t n_predsize = pred.size();   // convert R R_xlen_t to C++ size_t
   for (size_t i = 0; i < n_predsize; ++i) {
     if (pred[i] < 1 || pred[i] > target_len) {

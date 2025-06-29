@@ -5,7 +5,7 @@
   eps = .check_inputelementnum(eps,max(E))
   if (is.null(lib)) lib = which(!is.na(vec))
   if (is.null(pred)) pred = lib
-  return(RcppFNN4TS(vec,nb,rt,eps,lib,pred,E,tau,threads))
+  return(RcppFNN4TS(vec,rt,eps,lib,pred,E,tau,threads))
 }
 
 #' false nearest neighbours
@@ -25,8 +25,7 @@
 #' Kennel M. B., Brown R. and Abarbanel H. D. I., Determining embedding dimension for phase-space reconstruction using a geometrical construction, Phys. Rev. A, Volume 45, 3403 (1992).
 #'
 #' @examples
-#' columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
-#' \donttest{
-#' fnn(columbus,"crime")
-#' }
+#' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
+#' fnn(sim,"x")
+#'
 methods::setMethod("fnn", "data.frame", .fnn_ts_method)

@@ -7,6 +7,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
+#include "FNN.h"
 #include "Forecast4TS.h"
 #include "IntersectionCardinality.h"
 #include "CCM.h"
@@ -275,6 +276,65 @@ Rcpp::NumericVector RcppIntersectionCardinality(
 
   // Convert the result back to Rcpp::NumericVector
   return Rcpp::wrap(res);
+}
+
+// Wrapper function to perform FNN for time series data
+// [[Rcpp::export(rng = false)]]
+Rcpp::NumericVector RcppFNN4TS(
+    const Rcpp::NumericVector& vec,
+    const Rcpp::NumericVector& rt,
+    const Rcpp::NumericVector& eps,
+    const Rcpp::IntegerVector& lib,
+    const Rcpp::IntegerVector& pred,
+    const Rcpp::IntegerVector& E,
+    int tau,
+    int threads){
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> vec_std = Rcpp::as<std::vector<double>>(vec);
+
+  // Convert Rcpp *Vector to std::vector<*>
+  std::vector<double> rt_std = Rcpp::as<std::vector<double>>(rt);
+  std::vector<double> eps_std = Rcpp::as<std::vector<double>>(eps);
+  std::vector<int> lib_std;
+  std::vector<int> pred_std;
+
+  // Generate embeddings
+  std::vector<double> E_std = Rcpp::as<std::vector<double>>(E);
+  int max_E = CppMax(E_std, true);
+  std::vector<std::vector<double>> embeddings = Embed(vec_std, max_E, tau);
+
+  int validSampleNum = vec_std.size();
+  int max_lag = (tau == 0) ? (max_E - 1) : (max_E * tau);
+  // Check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 1 || lib[i] > validSampleNum) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(vec_std[lib[i] - 1]) && (lib[i] > max_lag + 1)) {
+      lib_std.push_back(lib[i] - 1);
+    }
+  }
+  for (int i = 0; i < pred.size(); ++i) {
+    if (pred[i] < 1 || pred[i] > validSampleNum) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(vec_std[pred[i] - 1]) && (pred[i] > max_lag + 1)) {
+      pred_std.push_back(pred[i] - 1);
+    }
+  }
+
+  // Perform FNN for time series data
+  std::vector<double> fnn = CppFNN(embeddings,lib_std,pred_std,rt_std,eps_std,true,threads);
+
+  // Convert the result back to Rcpp::NumericVector and set names as "E:1", "E:2", ..., "E:n"
+  Rcpp::NumericVector result = Rcpp::wrap(fnn);
+  Rcpp::CharacterVector resnames(result.size());
+  for (int i = 0; i < result.size(); ++i) {
+    resnames[i] = "E:" + std::to_string(i + 1);
+  }
+  result.names() = resnames;
+
+  return result;
 }
 
 //  Wrapper function to help determining embedding dimension `E` and numbers of neighbors `k` parameters

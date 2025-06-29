@@ -1,0 +1,32 @@
+.fnn_ts_method = \(data, target, lib = NULL, pred = NULL, E = 2:10,
+                   tau = 0, rt = 10, eps = 2, threads = length(E)){
+  vec = .uni_ts(data,target)
+  rt = .check_inputelementnum(rt,max(E))
+  eps = .check_inputelementnum(eps,max(E))
+  if (is.null(lib)) lib = which(!is.na(vec))
+  if (is.null(pred)) pred = lib
+  return(RcppFNN4TS(vec,nb,rt,eps,lib,pred,E,tau,threads))
+}
+
+#' false nearest neighbours
+#'
+#' @inheritParams embedded
+#' @param lib (optional) libraries indices.
+#' @param pred (optional) predictions indices.
+#' @param rt (optional) escape factor.
+#' @param eps (optional) neighborhood diameter.
+#' @param threads (optional) number of threads to use.
+#'
+#' @return A vector
+#' @export
+#' @name fnn
+#' @aliases fnn,data.frame-method
+#' @references
+#' Kennel M. B., Brown R. and Abarbanel H. D. I., Determining embedding dimension for phase-space reconstruction using a geometrical construction, Phys. Rev. A, Volume 45, 3403 (1992).
+#'
+#' @examples
+#' columbus = sf::read_sf(system.file("case/columbus.gpkg", package="spEDM"))
+#' \donttest{
+#' fnn(columbus,"crime")
+#' }
+methods::setMethod("fnn", "data.frame", .fnn_ts_method)

@@ -294,21 +294,45 @@ std::vector<std::vector<double>> CCM(
     grouped_results[result.first].push_back(result.second);
   }
 
+  // // Previous implementation calculated significance and confidence intervals using the mean of rho vector only.
+  // // This approach is now deprecated and kept here for comparison purposes.
+  // std::vector<std::vector<double>> final_results;
+  // for (const auto& group : grouped_results) {
+  //   double mean_value = CppMean(group.second, true);
+  //   final_results.push_back({static_cast<double>(group.first), mean_value});
+  // }
+  //
+  // // Calculate significance and confidence interval for each result
+  // for (size_t i = 0; i < final_results.size(); ++i) {
+  //   double rho = final_results[i][1];
+  //   double significance = CppCorSignificance(rho, n);
+  //   std::vector<double> confidence_interval = CppCorConfidence(rho, n);
+  //
+  //   final_results[i].push_back(significance);
+  //   final_results[i].push_back(confidence_interval[0]);
+  //   final_results[i].push_back(confidence_interval[1]);
+  // }
+
+  // Refactor correlation analysis to compute significance and confidence intervals directly from grouped correlation vectors
   std::vector<std::vector<double>> final_results;
   for (const auto& group : grouped_results) {
+    // Calculate the mean correlation coefficient from the group
     double mean_value = CppMean(group.second, true);
-    final_results.push_back({static_cast<double>(group.first), mean_value});
-  }
 
-  // Calculate significance and confidence interval for each result
-  for (size_t i = 0; i < final_results.size(); ++i) {
-    double rho = final_results[i][1];
-    double significance = CppCorSignificance(rho, n);
-    std::vector<double> confidence_interval = CppCorConfidence(rho, n);
+    // Compute significance (p-value) using the vector of correlations directly
+    double significance = CppMeanCorSignificance(group.second, n);
 
-    final_results[i].push_back(significance);
-    final_results[i].push_back(confidence_interval[0]);
-    final_results[i].push_back(confidence_interval[1]);
+    // Compute confidence interval using the vector of correlations directly
+    std::vector<double> confidence_interval = CppMeanCorConfidence(group.second, n);
+
+    // Store results: group ID, mean correlation, p-value, lower CI, upper CI
+    final_results.push_back({
+      static_cast<double>(group.first),
+      mean_value,
+      significance,
+      confidence_interval[0],
+                         confidence_interval[1]
+    });
   }
 
   return final_results;

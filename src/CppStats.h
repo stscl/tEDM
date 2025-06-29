@@ -96,6 +96,13 @@ double CppCorSignificance(double r, size_t n, size_t k = 0);
 std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
                                      double level = 0.05);
 
+double CppMeanCorSignificance(const std::vector<double>& rho_vec,
+                              size_t n, size_t k = 0);
+
+std::vector<double> CppMeanCorConfidence(const std::vector<double>& rho_vec,
+                                         size_t n, size_t k = 0,
+                                         double level = 0.05);
+
 std::vector<double> CppDeLongAUCConfidence(const std::vector<double>& cases,
                                            const std::vector<double>& controls,
                                            const std::string& direction,

@@ -331,7 +331,7 @@ std::vector<std::vector<double>> CCM(
       mean_value,
       significance,
       confidence_interval[0],
-                         confidence_interval[1]
+      confidence_interval[1]
     });
   }
 

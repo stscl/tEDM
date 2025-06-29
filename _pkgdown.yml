@@ -30,6 +30,7 @@ reference:
 - subtitle: State Space Reconstructions
   contents:
   - embedded
+  - fnn
 
 # - subtitle: Nonlinear forecasting
 #   contents:

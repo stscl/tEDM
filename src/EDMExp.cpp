@@ -7,6 +7,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
+#include "MVE.h"
 #include "FNN.h"
 #include "Forecast4TS.h"
 #include "IntersectionCardinality.h"
@@ -273,6 +274,122 @@ Rcpp::NumericVector RcppIntersectionCardinality(
     threads,
     parallel_level
   );
+
+  // Convert the result back to Rcpp::NumericVector
+  return Rcpp::wrap(res);
+}
+
+// Wrapper function to perform multiview embedding for time series data.
+// [[Rcpp::export(rng = false)]]
+Rcpp::NumericVector RcppMVE4TS(const Rcpp::NumericMatrix& x,
+                               const Rcpp::NumericVector& y,
+                               const Rcpp::IntegerVector& lib,
+                               const Rcpp::IntegerVector& pred,
+                               int E,
+                               int tau,
+                               int b,
+                               int top,
+                               int nvar,
+                               int threads){
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> target = Rcpp::as<std::vector<double>>(y);
+
+  // Initialize lib_indices and pred_indices with all false
+  std::vector<int> lib_indices;
+  std::vector<int> pred_indices;
+
+  int target_len = target.size();
+  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  // Convert lib and pred (1-based in R) to 0-based indices and set corresponding positions to true
+  size_t n_libsize = lib.size();   // convert R R_xlen_t to C++ size_t
+  for (size_t i = 0; i < n_libsize; ++i) {
+    if (lib[i] < 1 || lib[i] > target_len) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    if (!std::isnan(target[lib[i] - 1]) && (lib[i] > max_lag + 1)) {
+      lib_indices.push_back(lib[i] - 1); // Convert to 0-based index
+    }
+  }
+  size_t n_predsize = pred.size();   // convert R R_xlen_t to C++ size_t
+  for (size_t i = 0; i < n_predsize; ++i) {
+    if (pred[i] < 1 || pred[i] > target_len) {
+      Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
+    }
+    if (!std::isnan(target[pred[i] - 1]) && (pred[i] > max_lag + 1)) {
+      pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
+    }
+  }
+
+  int num_row = x.nrow();
+  int num_var = x.ncol();
+
+  //  if top <= 0, we choose to apply the heuristic of k (sqrt(m))
+  int k;
+  if (top <= 0){
+    double m = CppCombine(num_var*E,nvar) - CppCombine(num_var*(E - 1),nvar);
+    k = std::floor(std::sqrt(m));
+  } else {
+    k = top;
+  }
+
+  // Combine all the lags in the embeddings
+  std::vector<std::vector<double>> vec_std(num_row,std::vector<double>(E*num_var,std::numeric_limits<double>::quiet_NaN()));
+  for (int n = 0; n < num_var; ++n) {
+    // Initialize a std::vector to store the column values
+    std::vector<double> univec(num_row);
+
+    // Copy the nth column from the matrix to the vector
+    for (int i = 0; i < num_row; ++i) {
+      univec[i] = x(i, n);  // Access element at (i, n)
+    }
+
+    // Generate the embedding:
+    std::vector<std::vector<double>> vectors = Embed(univec,E,tau);
+
+    for (size_t row = 0; row < vectors.size(); ++row) {  // Loop through each row
+      for (size_t col = 0; col < vectors[0].size(); ++col) {  // Loop through each column
+        vec_std[row][n * E + col] = vectors[row][col];  // Copy elements
+      }
+    }
+  }
+
+  // Calculate validColumns (indices of columns that are not entirely NaN)
+  std::vector<size_t> validColumns; // To store indices of valid columns
+
+  // Iterate over each column to check if it contains any non-NaN values
+  for (size_t col = 0; col < vec_std[0].size(); ++col) {
+    bool isAllNaN = true;
+    for (size_t row = 0; row < vec_std.size(); ++row) {
+      if (!std::isnan(vec_std[row][col])) {
+        isAllNaN = false;
+        break;
+      }
+    }
+    if (!isAllNaN) {
+      validColumns.push_back(col); // Store the index of valid columns
+    }
+  }
+
+  if (validColumns.size() != vec_std[0].size()) {
+    std::vector<std::vector<double>> filteredEmbeddings;
+    for (size_t row = 0; row < vec_std.size(); ++row) {
+      std::vector<double> filteredRow;
+      for (size_t col : validColumns) {
+        filteredRow.push_back(vec_std[row][col]);
+      }
+      filteredEmbeddings.push_back(filteredRow);
+    }
+    vec_std = filteredEmbeddings;
+  }
+
+  std::vector<double> res = MVE(
+    vec_std,
+    target,
+    lib_indices,
+    pred_indices,
+    b,
+    k,
+    threads);
 
   // Convert the result back to Rcpp::NumericVector
   return Rcpp::wrap(res);

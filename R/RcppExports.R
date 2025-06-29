@@ -21,6 +21,10 @@ RcppIntersectionCardinality <- function(source, target, E, tau, lib, pred, num_n
     .Call(`_tEDM_RcppIntersectionCardinality`, source, target, E, tau, lib, pred, num_neighbors, n_excluded, threads, parallel_level)
 }
 
+RcppMVE4TS <- function(x, y, lib, pred, E, tau, b, top, nvar, threads) {
+    .Call(`_tEDM_RcppMVE4TS`, x, y, lib, pred, E, tau, b, top, nvar, threads)
+}
+
 RcppFNN4TS <- function(vec, rt, eps, lib, pred, E, tau, threads) {
     .Call(`_tEDM_RcppFNN4TS`, vec, rt, eps, lib, pred, E, tau, threads)
 }

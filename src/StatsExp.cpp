@@ -248,6 +248,31 @@ Rcpp::NumericVector RcppCorConfidence(double r, int n, int k = 0,
   return Rcpp::wrap(result);
 }
 
+// Wrapper function to calculate the significance of a vector of (partial) correlation coefficients
+// [[Rcpp::export(rng = false)]]
+double RcppMeanCorSignificance(const Rcpp::NumericVector& r, int n, int k = 0){
+  // Convert Rcpp inputs to standard C++ types
+  std::vector<double> r_std = Rcpp::as<std::vector<double>>(r);
+  return CppMeanCorSignificance(r_std, static_cast<size_t>(n), static_cast<size_t>(k));
+}
+
+// Wrapper function to calculate the confidence interval for a vector of (partial) correlation coefficients
+// [[Rcpp::export(rng = false)]]
+Rcpp::NumericVector RcppMeanCorConfidence(const Rcpp::NumericVector& r,
+                                          int n, int k = 0,
+                                          double level = 0.05) {
+  // Convert Rcpp inputs to standard C++ types
+  std::vector<double> r_std = Rcpp::as<std::vector<double>>(r);
+  // Calculate the confidence interval
+  std::vector<double> result = CppMeanCorConfidence(r_std,
+                                                    static_cast<size_t>(n),
+                                                    static_cast<size_t>(k),
+                                                    level);
+
+  // Convert std::vector<double> to Rcpp::NumericVector
+  return Rcpp::wrap(result);
+}
+
 // Wrapper function to performs delong's test for ROC AUC comparison and return a NumericVector
 // [[Rcpp::export(rng = false)]]
 Rcpp::NumericVector RcppDeLongAUCConfidence(const Rcpp::NumericVector& cases,

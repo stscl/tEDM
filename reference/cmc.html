@@ -146,11 +146,11 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">=</span> <span class="fu"><a href="logistic_map.html">logistic_map</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.4</span>,y <span class="op">=</span> <span class="fl">0.4</span>,step <span class="op">=</span> <span class="fl">45</span>,beta_xy <span class="op">=</span> <span class="fl">0.5</span>,beta_yx <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">cmc</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"y"</span>,E <span class="op">=</span> <span class="fl">8</span>,k <span class="op">=</span> <span class="fl">15</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">cmc</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"y"</span>,E <span class="op">=</span> <span class="fl">9</span>,k <span class="op">=</span> <span class="fl">15</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   neighbors      x-&gt;y y-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        15 0.1555556 0.08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   neighbors      x-&gt;y       y-&gt;x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        15 0.1555556 0.07555556</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

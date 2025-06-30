@@ -108,6 +108,45 @@ units.</p></li>
 <h2 id="example-data-in-the-tedm-package">2. Example data in the <code>tEDM</code> package<a class="anchor" aria-label="anchor" href="#example-data-in-the-tedm-package"></a>
 </h2>
 <div class="section level3">
+<h3 id="hong-kong-air-pollution-and-cardiovascular-admissions">Hong Kong Air Pollution and Cardiovascular Admissions<a class="anchor" aria-label="anchor" href="#hong-kong-air-pollution-and-cardiovascular-admissions"></a>
+</h3>
+<p>A daily time series dataset for Hong Kong that includes
+cardiovascular hospital admissions and major air pollutant
+concentrations.</p>
+<p><strong>File</strong>: <code>cvd.csv</code></p>
+<p><strong>Columns</strong>:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>cvd</code></td>
+<td>Daily number of cardiovascular-related hospital admissions.</td>
+</tr>
+<tr class="even">
+<td><code>rsp</code></td>
+<td>Respirable suspended particulates (μg/m³).</td>
+</tr>
+<tr class="odd">
+<td><code>no2</code></td>
+<td>Nitrogen dioxide concentration (μg/m³).</td>
+</tr>
+<tr class="even">
+<td><code>so2</code></td>
+<td>Sulfur dioxide concentration (μg/m³).</td>
+</tr>
+<tr class="odd">
+<td><code>o3</code></td>
+<td>Ozone concentration (μg/m³).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Source</strong>: Data adapted from <a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link">PCM article</a>.</p>
+<hr>
+</div>
+<div class="section level3">
 <h3 id="us-county-level-carbon-emissions-dataset">US County-Level Carbon Emissions Dataset<a class="anchor" aria-label="anchor" href="#us-county-level-carbon-emissions-dataset"></a>
 </h3>
 <p>A panel dataset covering U.S. county-level temperature and carbon
@@ -148,50 +187,11 @@ article</a>.</p>
 <hr>
 </div>
 <div class="section level3">
-<h3 id="hong-kong-air-pollution-and-cardiovascular-admissions">Hong Kong Air Pollution and Cardiovascular Admissions<a class="anchor" aria-label="anchor" href="#hong-kong-air-pollution-and-cardiovascular-admissions"></a>
-</h3>
-<p>A daily time series dataset for Hong Kong that includes
-cardiovascular hospital admissions and major air pollutant
-concentrations.</p>
-<p><strong>File</strong>: <code>cvd.csv</code></p>
-<p><strong>Columns</strong>:</p>
-<table class="table">
-<thead><tr class="header">
-<th>Column</th>
-<th>Description</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>cvd</code></td>
-<td>Daily number of cardiovascular-related hospital admissions.</td>
-</tr>
-<tr class="even">
-<td><code>rsp</code></td>
-<td>Respirable suspended particulates (μg/m³).</td>
-</tr>
-<tr class="odd">
-<td><code>no2</code></td>
-<td>Nitrogen dioxide concentration (μg/m³).</td>
-</tr>
-<tr class="even">
-<td><code>so2</code></td>
-<td>Sulfur dioxide concentration (μg/m³).</td>
-</tr>
-<tr class="odd">
-<td><code>o3</code></td>
-<td>Ozone concentration (μg/m³).</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Source</strong>: Data adapted from <a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link">PCM article</a>.</p>
-<hr>
-</div>
-<div class="section level3">
 <h3 id="covid-19-infection-counts-in-japan">COVID-19 Infection Counts in Japan<a class="anchor" aria-label="anchor" href="#covid-19-infection-counts-in-japan"></a>
 </h3>
 <p>A spatio-temporal dataset capturing the number of confirmed COVID-19
 infections across Japan’s 47 prefectures over time.</p>
-<p><strong>File</strong>: <code>covid19.csv</code></p>
+<p><strong>File</strong>: <code>covid.csv</code></p>
 <p><strong>Structure</strong>:</p>
 <ul>
 <li>Each <strong>column</strong> represents one of the 47 Japanese
@@ -205,6 +205,130 @@ prefectures (e.g., <code>Tokyo</code>, <code>Osaka</code>,
 <div class="section level2">
 <h2 id="case-studies-of-the-tedm-package">3. Case studies of the <code>tEDM</code> package<a class="anchor" aria-label="anchor" href="#case-studies-of-the-tedm-package"></a>
 </h2>
+<p>Install the stable version:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tEDM"</span>, dep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p>or dev version:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tEDM"</span>,</span>
+<span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://stscl.r-universe.dev"</span>,</span>
+<span>                           <span class="st">"https://cloud.r-project.org"</span><span class="op">)</span>,</span>
+<span>                 dep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="air-pollution-and-cardiovascular-health-in-hong-kong">Air Pollution and Cardiovascular Health in Hong Kong<a class="anchor" aria-label="anchor" href="#air-pollution-and-cardiovascular-health-in-hong-kong"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stscl.github.io/tEDM/">tEDM</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cvd</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/cvd.csv"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">1032</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">5</span></span></span>
+<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
+<span><span class="co">## <span style="color: #00BB00;">dbl</span> (5): cvd, rsp, no2, so2, o3</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="va">cvd</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 1,032 × 5</span></span></span>
+<span><span class="co">##      cvd   rsp   no2   so2    o3</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>   214  73.7  74.5 19.1  17.4 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>   203  77.6  80.9 18.8  39.4 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>   202  64.8  67.1 13.8  56.4 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   182  68.8  74.7 30.8   5.6 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   181  49.4  62.3 23.1   3.6 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   129  67.4  63.6 17.4   6.73</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   104  30.3  44.4  8.11  9.6 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>   197 157.   48.6  8.53 24.8 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>   157  47.3  51    9.05  7.79</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>   188  42.3  62.7 14.5  13.3 </span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 1,022 more rows</span></span></span></code></pre></div>
+<p>Determining optimal embedding dimension:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">21</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable cvd is 2 and 7</span></span>
+<span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">21</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable rsp is 2 and 5</span></span>
+<span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">21</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable no2 is 2 and 5</span></span>
+<span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">21</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable so2 is 2 and 5</span></span>
+<span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">21</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable o3 is 2 and 5</span></span></code></pre></div>
+<p>Run PCM:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p1</span> <span class="op">=</span> <span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no2"</span>,<span class="st">"so2"</span>,<span class="st">"o3"</span><span class="op">)</span>,</span>
+<span>         libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">1300</span>,<span class="fl">100</span><span class="op">)</span>, E <span class="op">=</span> <span class="fl">2</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">1300</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">2</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">1300</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">2</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">1300</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">2</span>,tau <span class="op">=</span> <span class="fl">1</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="us-county-carbon-emissions-and-temperature-dynamics">US County Carbon Emissions and Temperature Dynamics<a class="anchor" aria-label="anchor" href="#us-county-carbon-emissions-and-temperature-dynamics"></a>
+</h3>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stscl.github.io/tEDM/">tEDM</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">carbon</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/carbon.csv.gz"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">113627</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">4</span></span></span>
+<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
+<span><span class="co">## <span style="color: #00BB00;">dbl</span> (4): year, fips, tem, carbon</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="va">carbon</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 113,627 × 4</span></span></span>
+<span><span class="co">##     year  fips   tem     carbon</span></span>
+<span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>  <span style="text-decoration: underline;">1</span>981  <span style="text-decoration: underline;">1</span>001  17.4 192<span style="text-decoration: underline;">607</span>687.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>  <span style="text-decoration: underline;">1</span>982  <span style="text-decoration: underline;">1</span>001  18.4 187<span style="text-decoration: underline;">149</span>414.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>  <span style="text-decoration: underline;">1</span>983  <span style="text-decoration: underline;">1</span>001  16.9 191<span style="text-decoration: underline;">584</span>445.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>  <span style="text-decoration: underline;">1</span>984  <span style="text-decoration: underline;">1</span>001  17.8 199<span style="text-decoration: underline;">157</span>579.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>  <span style="text-decoration: underline;">1</span>985  <span style="text-decoration: underline;">1</span>001  17.9 205<span style="text-decoration: underline;">207</span>564.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>  <span style="text-decoration: underline;">1</span>986  <span style="text-decoration: underline;">1</span>001  18.5 218<span style="text-decoration: underline;">446</span>030.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>  <span style="text-decoration: underline;">1</span>987  <span style="text-decoration: underline;">1</span>001  17.9 230<span style="text-decoration: underline;">169</span>263.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  <span style="text-decoration: underline;">1</span>988  <span style="text-decoration: underline;">1</span>001  17.4 240<span style="text-decoration: underline;">542</span>755.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  <span style="text-decoration: underline;">1</span>989  <span style="text-decoration: underline;">1</span>001  17.5 245<span style="text-decoration: underline;">939</span>332.</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  <span style="text-decoration: underline;">1</span>990  <span style="text-decoration: underline;">1</span>001  19.1 247<span style="text-decoration: underline;">209</span>558.</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 113,617 more rows</span></span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="covid-19-spread-across-japanese-prefectures">COVID-19 Spread Across Japanese Prefectures<a class="anchor" aria-label="anchor" href="#covid-19-spread-across-japanese-prefectures"></a>
+</h3>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stscl.github.io/tEDM/">tEDM</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">covid</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/covid.csv"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">334</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">47</span></span></span>
+<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
+<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
+<span><span class="co">## <span style="color: #00BB00;">dbl</span> (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ibara...</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="va">covid</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 334 × 47</span></span></span>
+<span><span class="co">##    Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukushima Ibaraki Tochigi Gunma</span></span>
+<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 324 more rows</span></span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 37 more variables: Saitama &lt;dbl&gt;, Chiba &lt;dbl&gt;, Tokyo &lt;dbl&gt;, Kanagawa &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Niigata &lt;dbl&gt;, Toyama &lt;dbl&gt;, Ishikawa &lt;dbl&gt;, Fukui &lt;dbl&gt;, Yamanashi &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Nagano &lt;dbl&gt;, Gifu &lt;dbl&gt;, Shizuoka &lt;dbl&gt;, Aichi &lt;dbl&gt;, Mie &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Shiga &lt;dbl&gt;, Kyoto &lt;dbl&gt;, Osaka &lt;dbl&gt;, Hyogo &lt;dbl&gt;, Nara &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Wakayama &lt;dbl&gt;, Tottori &lt;dbl&gt;, Shimane &lt;dbl&gt;, Okayama &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   Hiroshima &lt;dbl&gt;, Yamaguchi &lt;dbl&gt;, Tokushima &lt;dbl&gt;, Kagawa &lt;dbl&gt;, …</span></span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
 <h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>

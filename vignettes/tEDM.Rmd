@@ -206,7 +206,7 @@ tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 
 When E equals 4, the FNN ratio begins to drop to zero; therefore, we select $E = 4$ as the embedding dimension for the CMC analysis.
 
-```{r covid_cmc}
+```{r covid_cmc,eval=FALSE}
 res = names(covid) |> 
   utils::combn(2,simiplify = FALSE) |> 
   purrr::map(\(.l) {

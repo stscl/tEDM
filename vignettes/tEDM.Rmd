@@ -155,7 +155,7 @@ length(carbon_list)
 Using the 100th county as an example, we determine the appropriate embedding dimension by applying the FNN method.
 
 ```{r carbon_fnn}
-tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10, tau = 0, eps = stats::sd(carbon_list[[100]]$carbon))
+tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,tau = 0,eps = stats::sd(carbon_list[[100]]$carbon))
 ```
 
 When E equals 6, the FNN ratio begins to drop to zero; therefore, we select $E = 6$ as the embedding dimension for the CMC analysis.
@@ -197,6 +197,20 @@ library(tEDM)
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
 covid
 ```
+
+Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
+
+```{r covid_fnn}
+tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
+```
+
+When E equals 4, the FNN ratio begins to drop to zero; therefore, we select $E = 4$ as the embedding dimension for the CMC analysis.
+
+```{r}
+g = tEDM::cmc(covid,"Tokyo","Iwate",E = 4, k = 50)
+```
+
+
 
 ## Reference
 

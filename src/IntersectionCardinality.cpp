@@ -70,7 +70,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsX[idx].size(); ++iidx){
               if(lib_set.count(neighborsX[idx][iidx]) > 0){
                 neighbors_x.push_back(neighborsX[idx][iidx]);
-                if (neighbors_x.size() > max_r) break;
+                if (neighbors_x.size() >= max_r) break;
               }
             }
             if (neighbors_x.size() > n_excluded) {
@@ -82,7 +82,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsY[idx].size(); ++iidx){
               if(lib_set.count(neighborsY[idx][iidx])){
                 neighbors_y.push_back(neighborsY[idx][iidx]);
-                if (neighbors_y.size() > max_r) break;
+                if (neighbors_y.size() >= max_r) break;
               }
             }
             if (neighbors_y.size() > n_excluded) {
@@ -145,7 +145,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsX[idx].size(); ++iidx){
               if(lib_set.count(neighborsX[idx][iidx]) > 0){
                 neighbors_x.push_back(neighborsX[idx][iidx]);
-                if (neighbors_x.size() > max_r) break;
+                if (neighbors_x.size() >= max_r) break;
               }
             }
             if (neighbors_x.size() > n_excluded) {
@@ -157,7 +157,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsY[idx].size(); ++iidx){
               if(lib_set.count(neighborsY[idx][iidx])){
                 neighbors_y.push_back(neighborsY[idx][iidx]);
-                if (neighbors_y.size() > max_r) break;
+                if (neighbors_y.size() >= max_r) break;
               }
             }
             if (neighbors_y.size() > n_excluded) {

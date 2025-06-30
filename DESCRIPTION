@@ -31,5 +31,7 @@ Suggests:
     plot3D,
     spEDM,
     knitr,
-    rmarkdown
+    rmarkdown,
+    purrr,
+    tidyr
 VignetteBuilder: knitr

@@ -89,7 +89,7 @@ A spatio-temporal dataset capturing the number of confirmed COVID-19 infections 
 
 **Source**: Data adapted from [CMC article][3].
 
-## 3. Examples of the `tEDM` package
+## 3. Case studies of the `tEDM` package
 
 
 

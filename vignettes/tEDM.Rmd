@@ -15,19 +15,17 @@ knitr::opts_chunk$set(
 )
 ```
 
-&nbsp; 
-
 ## 1. Introduction to the `tEDM` package
 
 The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It implements four fundamental EDM-based causal discovery methods:
 
-- **Convergent Cross Mapping (CCM)**[1]
+- [**Convergent Cross Mapping (CCM)**][1]
 
-- **Partial Cross Mapping (PCM)**[2]
+- [**Partial Cross Mapping (PCM)**][2]
 
-- **Cross Mapping Cardinality (CMC)**[3] 
+- [**Cross Mapping Cardinality (CMC)**][3] 
 
-- **Multispatial Convergent Cross Mapping (MultispatialCCM)**[4]
+- [**Multispatial Convergent Cross Mapping (MultispatialCCM)**][4]
 
 These methods enable researchers to:
 
@@ -54,7 +52,7 @@ A panel dataset covering U.S. county-level temperature and carbon emissions acro
 | `tem`    | Mean annual temperature (in Kelvin).                                     |
 | `carbon` | Total carbon emissions per year (in kilograms of CO₂).                   |
 
-**Source**: Data adapted from [5].
+**Source**: Data adapted from [FsATE article][5].
 
 ---
 
@@ -74,7 +72,7 @@ A daily time series dataset for Hong Kong that includes cardiovascular hospital 
 | `so2`  | Sulfur dioxide concentration (μg/m³).                       |
 | `o3`   | Ozone concentration (μg/m³).                                |
 
-**Source**: Data adapted from [2].
+**Source**: Data adapted from [PCM article][2].
 
 ---
 
@@ -89,15 +87,13 @@ A spatio-temporal dataset capturing the number of confirmed COVID-19 infections 
 * Each **column** represents one of the 47 Japanese prefectures (e.g., `Tokyo`, `Osaka`, `Hokkaido`).
 * Each **row** corresponds to a time step (daily).
 
-**Source**: Data adapted from [3].
+**Source**: Data adapted from [CMC article][3].
 
-## 3. Examples of the `tEDM` package
+## 3. Case studies of the `tEDM` package
 
 
 
 ## Reference
-
-
 
 Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500. [https://doi.org/10.1126/science.1227079][1].
 
@@ -109,8 +105,6 @@ Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara
 
 Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discovery from city data, where urban scaling meets information theory. Cities 162, 105980. [https://doi.org/10.1016/j.cities.2025.105980][5].
 
-
-
 &nbsp; 
 
 [1]: https://doi.org/10.1126/science.1227079
@@ -118,6 +112,3 @@ Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discove
 [3]: https://doi.org/10.1016/j.fmre.2023.01.007
 [4]: https://doi.org/10.1890/14-1479.1
 [5]: https://doi.org/10.1016/j.cities.2025.105980
-
-&nbsp; 
-&nbsp; 

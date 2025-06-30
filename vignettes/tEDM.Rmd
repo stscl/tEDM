@@ -115,6 +115,30 @@ cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
 cvd
 ```
 
+```{r}
+tseries::adf.test(cvd$cvd)
+```
+
+Determining optimal embedding dimension:
+
+```{r simplex_cvd}
+simplex(cvd,"cvd","cvd",E = 2:21,tau = 1,k = 5:25)
+simplex(cvd,"rsp","rsp",E = 2:21,tau = 1,k = 5:25)
+simplex(cvd,"no2","no2",E = 2:21,tau = 1,k = 5:25)
+simplex(cvd,"so2","so2",E = 2:21,tau = 1,k = 5:25)
+simplex(cvd,"o3","o3",E = 2:21,tau = 1,k = 5:25)
+```
+
+Run PCM:
+
+```{r pcm_cvd}
+p1 = pcm(cvd,"rsp","cvd",c("no2","so2","o3"),
+         libsizes = seq(10,1300,100), E = 2,tau = 1,k = c(5,7))
+pcm(cvd,"no2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
+pcm(cvd,"so2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
+pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
+```
+
 
 ### US County Carbon Emissions and Temperature Dynamics
 

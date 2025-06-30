@@ -37,25 +37,6 @@ These methods enable researchers to:
 
 ## 2. Example data in the `tEDM` package
 
-### US County-Level Carbon Emissions Dataset
-
-A panel dataset covering U.S. county-level temperature and carbon emissions across time.
-
-**File**: `carbon.csv.gz`
-
-**Columns**:
-
-| Column   | Description                                                              |
-| -------- | ------------------------------------------------------------------------ |
-| `year`   | Observation year (1981–2017).                                            |
-| `fips`   | County FIPS code (5-digit Federal Information Processing Standard code). |
-| `tem`    | Mean annual temperature (in Kelvin).                                     |
-| `carbon` | Total carbon emissions per year (in kilograms of CO₂).                   |
-
-**Source**: Data adapted from [FsATE article][5].
-
----
-
 ### Hong Kong Air Pollution and Cardiovascular Admissions
 
 A daily time series dataset for Hong Kong that includes cardiovascular hospital admissions and major air pollutant concentrations.
@@ -76,11 +57,30 @@ A daily time series dataset for Hong Kong that includes cardiovascular hospital 
 
 ---
 
+### US County-Level Carbon Emissions Dataset
+
+A panel dataset covering U.S. county-level temperature and carbon emissions across time.
+
+**File**: `carbon.csv.gz`
+
+**Columns**:
+
+| Column   | Description                                                              |
+| -------- | ------------------------------------------------------------------------ |
+| `year`   | Observation year (1981–2017).                                            |
+| `fips`   | County FIPS code (5-digit Federal Information Processing Standard code). |
+| `tem`    | Mean annual temperature (in Kelvin).                                     |
+| `carbon` | Total carbon emissions per year (in kilograms of CO₂).                   |
+
+**Source**: Data adapted from [FsATE article][5].
+
+---
+
 ### COVID-19 Infection Counts in Japan
 
 A spatio-temporal dataset capturing the number of confirmed COVID-19 infections across Japan’s 47 prefectures over time.
 
-**File**: `covid19.csv`
+**File**: `covid.csv`
 
 **Structure**:
 
@@ -91,7 +91,48 @@ A spatio-temporal dataset capturing the number of confirmed COVID-19 infections 
 
 ## 3. Case studies of the `tEDM` package
 
+Install the stable version:
 
+```r
+install.packages("tEDM", dep = TRUE)
+```
+
+or dev version:
+
+```r
+install.packages("tEDM",
+                 repos = c("https://stscl.r-universe.dev",
+                           "https://cloud.r-project.org"),
+                 dep = TRUE)
+```
+
+### Air Pollution and Cardiovascular Health in Hong Kong
+
+```{r load_cvd}
+library(tEDM)
+
+cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
+cvd
+```
+
+
+### US County Carbon Emissions and Temperature Dynamics
+
+```{r load_carbon}
+library(tEDM)
+
+carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
+carbon
+```
+
+### COVID-19 Spread Across Japanese Prefectures
+
+```{r load_covid}
+library(tEDM)
+
+covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
+covid
+```
 
 ## Reference
 

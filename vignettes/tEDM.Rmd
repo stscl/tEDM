@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, include=FALSE, eval=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "##",
@@ -112,7 +112,7 @@ install.packages("tEDM",
 library(tEDM)
 
 cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
-cvd
+head(cvd)
 ```
 
 Determining optimal embedding dimension:
@@ -142,7 +142,7 @@ pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 library(tEDM)
 
 carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
-carbon
+head(carbon)
 ```
 
 To examine whether a causal relationship exists between annual mean temperature and total annual CO₂ emissions, we implement the CMC method across counties.
@@ -166,7 +166,7 @@ res = carbon_list |>
     g = tEDM::cmc(.x,"tem","carbon",E = 6,tau = 0,k = 20,progressbar = FALSE)
     return(g$xmap)
   })
-res
+head(res)
 
 res_carbon = res |> 
   dplyr::select(neighbors,
@@ -174,12 +174,12 @@ res_carbon = res |>
                 tem_carbon = y_xmap_x_mean) |> 
   tidyr::pivot_longer(c(carbon_tem, tem_carbon), 
                       names_to = "variable", values_to = "value")
-res_carbon
+head(res_carbon)
 ```
 
-```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual CO_2 emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
+```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual $CO_2$ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
 fig_case2 = ggplot2::ggplot(res_carbon, 
-                ggplot2::aes(x = variable, y = value, fill = variable)) +
+                            ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
   ggplot2::labs(x = "", y = "Causal Strength") +
@@ -195,7 +195,7 @@ fig_case2
 library(tEDM)
 
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
-covid
+head(covid)
 ```
 
 Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
@@ -206,8 +206,24 @@ tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 
 When E equals 4, the FNN ratio begins to drop to zero; therefore, we select $E = 4$ as the embedding dimension for the CMC analysis.
 
-```{r}
-g = tEDM::cmc(covid,"Tokyo","Iwate",E = 4, k = 50)
+```{r covid_cmc,eval=FALSE}
+res = names(covid) |> 
+  utils::combn(2,simiplify = FALSE) |> 
+  purrr::map(\(.l) {
+    g = tEDM::cmc(covid,.l[1],.l[2],E = 4, k = 50)
+    res = dplyr::mutate(g$xmap,x = .l[1],y = .l[2])
+    return(res)
+  })
+head(res)
+
+df1 = res |>
+    dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
+    purrr::set_names(c("cause","effect","cs","sig"))
+df2 = res |>
+    dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |>
+    purrr::set_names(c("cause","effect","cs","sig"))
+res_covid = dplyr::bind_rows(df1,df2)
+head(res_covid)
 ```
 
 

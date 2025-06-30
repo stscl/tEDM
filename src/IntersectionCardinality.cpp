@@ -70,7 +70,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsX[idx].size(); ++iidx){
               if(lib_set.count(neighborsX[idx][iidx]) > 0){
                 neighbors_x.push_back(neighborsX[idx][iidx]);
-                if (neighbors_x.size() > max_r) break;
+                if (neighbors_x.size() >= max_r) break;
               }
             }
             if (neighbors_x.size() > n_excluded) {
@@ -82,7 +82,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsY[idx].size(); ++iidx){
               if(lib_set.count(neighborsY[idx][iidx])){
                 neighbors_y.push_back(neighborsY[idx][iidx]);
-                if (neighbors_y.size() > max_r) break;
+                if (neighbors_y.size() >= max_r) break;
               }
             }
             if (neighbors_y.size() > n_excluded) {
@@ -145,7 +145,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsX[idx].size(); ++iidx){
               if(lib_set.count(neighborsX[idx][iidx]) > 0){
                 neighbors_x.push_back(neighborsX[idx][iidx]);
-                if (neighbors_x.size() > max_r) break;
+                if (neighbors_x.size() >= max_r) break;
               }
             }
             if (neighbors_x.size() > n_excluded) {
@@ -157,7 +157,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
             for (size_t iidx = 0; iidx < neighborsY[idx].size(); ++iidx){
               if(lib_set.count(neighborsY[idx][iidx])){
                 neighbors_y.push_back(neighborsY[idx][iidx]);
-                if (neighbors_y.size() > max_r) break;
+                if (neighbors_y.size() >= max_r) break;
               }
             }
             if (neighbors_y.size() > n_excluded) {
@@ -356,8 +356,8 @@ std::vector<double> IntersectionCardinality(
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
   // Precompute neighbors
-  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib);
-  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib);
+  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib,num_neighbors + n_excluded);
+  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib,num_neighbors + n_excluded);
 
   // run cross mapping
   std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
@@ -426,8 +426,8 @@ std::vector<double> IntersectionCardinalityScores(
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
   // Precompute neighbors
-  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib);
-  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib);
+  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib,num_neighbors + n_excluded);
+  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib,num_neighbors + n_excluded);
 
   // run cross mapping
   std::vector<IntersectionRes> res = IntersectionCardinalitySingle(

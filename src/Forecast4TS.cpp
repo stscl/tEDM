@@ -304,6 +304,11 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
 
   std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(4));
 
+  size_t max_num_neighbors = 0;
+  if (!bs.empty()) {
+    max_num_neighbors = static_cast<size_t>(bs.back() + exclude);
+  }
+
   if (parallel_level == 0){
     for (size_t i = 0; i < Es.size(); ++i) {
       // Generate embeddings
@@ -323,8 +328,8 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
       }
 
       // Precompute neighbors
-      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices);
-      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices);
+      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
+      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
 
       // Parameter initialization
       const size_t n_excluded_sizet = static_cast<size_t>(exclude);
@@ -365,8 +370,8 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
       }
 
       // Precompute neighbors
-      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices);
-      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices);
+      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
+      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
 
       // Parameter initialization
       const size_t n_excluded_sizet = static_cast<size_t>(exclude);

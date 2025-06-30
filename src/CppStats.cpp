@@ -1556,55 +1556,68 @@ std::vector<size_t> CppDistKNNIndice(
 }
 
 /**
- * Computes sorted neighbor indices for selected rows in a precomputed distance matrix,
- * with neighbors restricted to a specified subset of indices (lib).
+ * @brief Computes k-nearest neighbor indices for selected rows in a precomputed distance matrix.
  *
- * Parameters:
- *   dist_mat      - Precomputed n x n distance matrix (may include NaN).
- *   lib           - Indices to compute neighbors for (and restrict neighbors to).
- *   include_self  - Whether to include self (i == j) as a neighbor.
+ * This function returns, for each specified row (in `lib`), the indices of its `k` nearest neighbors
+ * (excluding or including self) among a given subset of indices (also `lib`). Distances must be
+ * precomputed and stored in a full n x n matrix, which may include NaN values for invalid entries.
  *
- * Returns:
- *   A vector of n vectors. For rows in lib, each subvector contains the indices of valid neighbors
- *   (from lib, sorted by increasing distance). Other rows are filled with `invalid_index`.
+ * @param dist_mat     Precomputed n x n distance matrix (may contain NaN for invalid distances).
+ * @param lib          Subset of indices to restrict both the query points and candidate neighbors.
+ * @param k            Number of neighbors to retain (if more than available, return all valid ones).
+ * @param include_self Whether to include the point itself (i == j) as a valid neighbor.
+ *
+ * @return A vector of length n. Each element is a vector of up to k neighbor indices (from `lib`),
+ *         sorted by increasing distance. For rows not in `lib`, a single entry with `invalid_index`.
  */
 std::vector<std::vector<size_t>> CppDistSortedIndice(
     const std::vector<std::vector<double>>& dist_mat,
     const std::vector<size_t>& lib,
-    bool include_self = false)
-{
+    size_t k,
+    bool include_self = false){
   const size_t n = dist_mat.size();
   const size_t invalid_index = std::numeric_limits<size_t>::max();
 
-  // Initialize all rows as invalid by default
+  // Initialize result: fill each row with a single invalid index by default
   std::vector<std::vector<size_t>> sorted_indices(n, std::vector<size_t>{invalid_index});
 
+  // Process each row specified in lib
   for (size_t i : lib) {
     if (i >= n || dist_mat[i].size() != n) continue;
 
     const auto& row = dist_mat[i];
 
+    // Skip if self-distance is invalid (often indicates unusable row)
     if (std::isnan(row[i])) continue;
 
     std::vector<std::pair<double, size_t>> valid_neighbors;
 
+    // Collect valid neighbors from lib
     for (size_t j : lib) {
       if (!include_self && i == j) continue;
-
       double d = row[j];
       if (!std::isnan(d)) {
         valid_neighbors.emplace_back(d, j);
       }
     }
 
-    std::sort(valid_neighbors.begin(), valid_neighbors.end(),
-              [](const std::pair<double, size_t>& a, const std::pair<double, size_t>& b) {
-                return (a.first < b.first) || (a.first == b.first && a.second < b.second);
-              });
+    // Take min(k, available neighbors)
+    size_t num_neighbors = std::min(k, valid_neighbors.size());
 
+    // Efficiently select top-k using partial_sort
+    std::partial_sort(
+      valid_neighbors.begin(),
+      valid_neighbors.begin() + num_neighbors,
+      valid_neighbors.end(),
+      [](const std::pair<double, size_t>& a, const std::pair<double, size_t>& b) {
+        return (a.first < b.first) || (a.first == b.first && a.second < b.second);
+      }
+    );
+
+    // Extract indices of the top-k neighbors
     std::vector<size_t> indices;
-    for (const auto& pair : valid_neighbors) {
-      indices.push_back(pair.second);
+    for (size_t m = 0; m < num_neighbors; ++m) {
+      indices.push_back(valid_neighbors[m].second);
     }
 
     sorted_indices[i] = indices;

@@ -493,7 +493,7 @@ Rcpp::IntegerVector RcppDistKNNIndice(const Rcpp::NumericMatrix& dist_mat,
 // [[Rcpp::export(rng = false)]]
 Rcpp::List RcppDistSortedIndice(const Rcpp::NumericMatrix& dist_mat,
                                 const Rcpp::IntegerVector& lib,
-                                bool include_self = false) {
+                                int k, bool include_self = false) {
   // Get number of rows and columns
   const int n = dist_mat.nrow();
   const int m = dist_mat.ncol();
@@ -512,7 +512,7 @@ Rcpp::List RcppDistSortedIndice(const Rcpp::NumericMatrix& dist_mat,
   }
 
   // Call the existing C++ function to compute sorted neighbor indices
-  std::vector<std::vector<size_t>> result = CppDistSortedIndice(dist_vec, lib_std, include_self);
+  std::vector<std::vector<size_t>> result = CppDistSortedIndice(dist_vec, lib_std, static_cast<size_t>(k), include_self);
 
   // Convert the result to an R list of integer vectors
   Rcpp::List out(n);

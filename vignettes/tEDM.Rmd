@@ -115,10 +115,6 @@ cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
 cvd
 ```
 
-```{r}
-tseries::adf.test(cvd$cvd)
-```
-
 Determining optimal embedding dimension:
 
 ```{r simplex_cvd}

@@ -14,3 +14,112 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/edm/"
 )
 ```
+
+&nbsp; 
+
+## 1. Introduction to the `tEDM` package
+
+The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It is particularly designed to detect, differentiate, and reconstruct causal dynamics in systems where traditional assumptions of linearity and stationarity may not hold.
+
+The package implements four fundamental EDM-based methods:
+
+- **Convergent Cross Mapping (CCM)**[1]
+
+- **Partial Cross Mapping (PCM)**[2]
+
+- **Cross Mapping Cardinality (CMC)**[3] 
+
+- **Multispatial Convergent Cross Mapping (MultispatialCCM)**[4]
+
+These methods enable researchers to:
+
+- **Identify** potential causal interactions without assuming a predefined model structure.
+
+- **Distinguish** between direct causation and indirect (mediated or confounded) influences.
+
+- **Reconstruct** underlying causal dynamics from replicated univariate time series observed across multiple spatial units.
+
+## 2. Example data in the `tEDM` package
+
+### US County-Level Carbon Emissions Dataset
+
+A panel dataset covering U.S. county-level temperature and carbon emissions across time.
+
+**File**: `carbon.csv.gz`
+
+**Columns**:
+
+| Column   | Description                                                              |
+| -------- | ------------------------------------------------------------------------ |
+| `year`   | Observation year (1981–2017).                                            |
+| `fips`   | County FIPS code (5-digit Federal Information Processing Standard code). |
+| `tem`    | Mean annual temperature (in Kelvin).                                     |
+| `carbon` | Total carbon emissions per year (in kilograms of CO₂).                   |
+
+**Source**: Data adapted from [5].
+
+---
+
+### Hong Kong Air Pollution and Cardiovascular Admissions
+
+A daily time series dataset for Hong Kong that includes cardiovascular hospital admissions and major air pollutant concentrations.
+
+**File**: `cvd.csv`
+
+**Columns**:
+
+| Column | Description                                                 |
+| ------ | ----------------------------------------------------------- |
+| `cvd`  | Daily number of cardiovascular-related hospital admissions. |
+| `rsp`  | Respirable suspended particulates (μg/m³).                  |
+| `no2`  | Nitrogen dioxide concentration (μg/m³).                     |
+| `so2`  | Sulfur dioxide concentration (μg/m³).                       |
+| `o3`   | Ozone concentration (μg/m³).                                |
+
+**Source**: Data adapted from [2].
+
+---
+
+### COVID-19 Infection Counts in Japan
+
+A spatio-temporal dataset capturing the number of confirmed COVID-19 infections across Japan’s 47 prefectures over time.
+
+**File**: `covid19.csv`
+
+**Structure**:
+
+* Each **column** represents one of the 47 Japanese prefectures (e.g., `Tokyo`, `Osaka`, `Hokkaido`).
+* Each **row** corresponds to a time step (daily).
+
+**Source**: Data adapted from [3].
+
+## 3. Examples of the `tEDM` package
+
+
+
+## Reference
+
+
+
+Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500. [https://doi.org/10.1126/science.1227079][1].
+
+Leng, S., Ma, H., Kurths, J., Lai, Y.-C., Lin, W., Aihara, K., Chen, L., 2020. Partial cross mapping eliminates indirect causal influences. Nature Communications 11. [https://doi.org/10.1038/s41467-020-16238-0][2].
+
+Tao, P., Wang, Q., Shi, J., Hao, X., Liu, X., Min, B., Zhang, Y., Li, C., Cui, H., Chen, L., 2023. Detecting dynamical causality by intersection cardinal concavity. Fundamental Research. [https://doi.org/10.1016/j.fmre.2023.01.007][3].
+
+Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara, G., 2015. Spatial convergent cross mapping to detect causal relationships from short time series. Ecology 96, 1174–1181. [https://doi.org/10.1890/14-1479.1][4].
+
+Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discovery from city data, where urban scaling meets information theory. Cities 162, 105980. [https://doi.org/10.1016/j.cities.2025.105980][5].
+
+
+
+&nbsp; 
+
+[1]: https://doi.org/10.1126/science.1227079
+[2]: https://doi.org/10.1038/s41467-020-16238-0
+[3]: https://doi.org/10.1016/j.fmre.2023.01.007
+[4]: https://doi.org/10.1890/14-1479.1
+[5]: https://doi.org/10.1016/j.cities.2025.105980
+
+&nbsp; 
+&nbsp; 

@@ -21,13 +21,13 @@ knitr::opts_chunk$set(
 
 The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It implements four fundamental EDM-based causal discovery methods:
 
-- **Convergent Cross Mapping (CCM)**[1]
+- [**Convergent Cross Mapping (CCM)**][1]
 
-- **Partial Cross Mapping (PCM)**[2]
+- [**Partial Cross Mapping (PCM)**][2]
 
-- **Cross Mapping Cardinality (CMC)**[3] 
+- [**Cross Mapping Cardinality (CMC)**][3] 
 
-- **Multispatial Convergent Cross Mapping (MultispatialCCM)**[4]
+- [**Multispatial Convergent Cross Mapping (MultispatialCCM)**][4]
 
 These methods enable researchers to:
 
@@ -54,7 +54,7 @@ A panel dataset covering U.S. county-level temperature and carbon emissions acro
 | `tem`    | Mean annual temperature (in Kelvin).                                     |
 | `carbon` | Total carbon emissions per year (in kilograms of CO₂).                   |
 
-**Source**: Data adapted from [5].
+**Source**: Data adapted from [FsATE article][5].
 
 ---
 
@@ -74,7 +74,7 @@ A daily time series dataset for Hong Kong that includes cardiovascular hospital 
 | `so2`  | Sulfur dioxide concentration (μg/m³).                       |
 | `o3`   | Ozone concentration (μg/m³).                                |
 
-**Source**: Data adapted from [2].
+**Source**: Data adapted from [PCM article][2].
 
 ---
 
@@ -89,7 +89,7 @@ A spatio-temporal dataset capturing the number of confirmed COVID-19 infections 
 * Each **column** represents one of the 47 Japanese prefectures (e.g., `Tokyo`, `Osaka`, `Hokkaido`).
 * Each **row** corresponds to a time step (daily).
 
-**Source**: Data adapted from [3].
+**Source**: Data adapted from [CMC article][3].
 
 ## 3. Examples of the `tEDM` package
 

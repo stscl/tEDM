@@ -84,8 +84,8 @@ CMCRes CMC(
   unique_lib_sizes.erase(std::unique(unique_lib_sizes.begin(), unique_lib_sizes.end()), unique_lib_sizes.end());
 
   // Precompute neighbors
-  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib);
-  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib);
+  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib, num_neighbors + n_excluded);
+  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib, num_neighbors + n_excluded);
 
   // Local results for each library
   std::vector<std::vector<IntersectionRes>> local_results(unique_lib_sizes.size());

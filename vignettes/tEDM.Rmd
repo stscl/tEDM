@@ -15,8 +15,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-&nbsp; 
-
 ## 1. Introduction to the `tEDM` package
 
 The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It implements four fundamental EDM-based causal discovery methods:
@@ -97,8 +95,6 @@ A spatio-temporal dataset capturing the number of confirmed COVID-19 infections 
 
 ## Reference
 
-
-
 Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500. [https://doi.org/10.1126/science.1227079][1].
 
 Leng, S., Ma, H., Kurths, J., Lai, Y.-C., Lin, W., Aihara, K., Chen, L., 2020. Partial cross mapping eliminates indirect causal influences. Nature Communications 11. [https://doi.org/10.1038/s41467-020-16238-0][2].
@@ -109,8 +105,6 @@ Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara
 
 Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discovery from city data, where urban scaling meets information theory. Cities 162, 105980. [https://doi.org/10.1016/j.cities.2025.105980][5].
 
-
-
 &nbsp; 
 
 [1]: https://doi.org/10.1126/science.1227079
@@ -118,6 +112,3 @@ Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discove
 [3]: https://doi.org/10.1016/j.fmre.2023.01.007
 [4]: https://doi.org/10.1890/14-1479.1
 [5]: https://doi.org/10.1016/j.cities.2025.105980
-
-&nbsp; 
-&nbsp; 

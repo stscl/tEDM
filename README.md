@@ -20,8 +20,6 @@ stable](https://img.shields.io/badge/lifecycle-stable-20b2aa.svg)](https://lifec
 
 ***T**emporal **E**mpirical **D**ynamic **M**odeling*
 
- 
-
 ## Overview
 
 The `tEDM` package provides a suite of tools for exploring and
@@ -100,5 +98,3 @@ relationships from short time series. Ecology 96, 1174–1181.
 <https://doi.org/10.1890/14-1479.1>.
 
  
-
-   

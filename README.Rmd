@@ -31,8 +31,6 @@ knitr::opts_chunk$set(
 
 _**T**emporal **E**mpirical **D**ynamic **M**odeling_
 
-&nbsp;
-
 ## Overview
 
 The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It is particularly designed to detect, differentiate, and reconstruct causal dynamics in systems where traditional assumptions of linearity and stationarity may not hold.
@@ -77,8 +75,6 @@ devtools::install_github("stscl/tEDM",
 
 ## Reference
 
-
-
 Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500. [https://doi.org/10.1126/science.1227079][1].
 
 Leng, S., Ma, H., Kurths, J., Lai, Y.-C., Lin, W., Aihara, K., Chen, L., 2020. Partial cross mapping eliminates indirect causal influences. Nature Communications 11. [https://doi.org/10.1038/s41467-020-16238-0][2].
@@ -95,6 +91,3 @@ Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara
 [2]: https://doi.org/10.1038/s41467-020-16238-0
 [3]: https://doi.org/10.1016/j.fmre.2023.01.007
 [4]: https://doi.org/10.1890/14-1479.1
-
-&nbsp; 
-&nbsp;

@@ -32,20 +32,20 @@ linearity and stationarity may not hold.
 
 The package implements four fundamental EDM-based methods:
 
-- **Convergent Cross Mapping
-  (CCM)**[1](https://doi.org/10.1126/science.1227079) – for detecting
+- [**Convergent Cross Mapping
+  (CCM)**](https://doi.org/10.1126/science.1227079) – for detecting
   nonlinear causal relationships in time series.
 
-- **Partial Cross Mapping
-  (PCM)**[2](https://doi.org/10.1038/s41467-020-16238-0) – for
+- [**Partial Cross Mapping
+  (PCM)**](https://doi.org/10.1038/s41467-020-16238-0) – for
   disentangling direct from indirect causal influences.
 
-- **Cross Mapping Cardinality
-  (CMC)**[3](https://doi.org/10.1016/j.fmre.2023.01.007) – for
-  identifying time-varying or state-dependent causal linkages.
+- [**Cross Mapping Cardinality
+  (CMC)**](https://doi.org/10.1016/j.fmre.2023.01.007) – for identifying
+  time-varying or state-dependent causal linkages.
 
-- **Multispatial Convergent Cross Mapping
-  (MultispatialCCM)**[4](https://doi.org/10.1890/14-1479.1) – for
+- [**Multispatial Convergent Cross Mapping
+  (MultispatialCCM)**](https://doi.org/10.1890/14-1479.1) – for
   reconstructing causal dynamics from replicated time series across
   multiple spatial locations.
 

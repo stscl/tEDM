@@ -39,13 +39,13 @@ The `tEDM` package provides a suite of tools for exploring and quantifying causa
 
 The package implements four fundamental EDM-based methods:
 
-- **Convergent Cross Mapping (CCM)**[1] – for detecting nonlinear causal relationships in time series.
+- [**Convergent Cross Mapping (CCM)**][1] – for detecting nonlinear causal relationships in time series.
 
-- **Partial Cross Mapping (PCM)**[2] – for disentangling direct from indirect causal influences.
+- [**Partial Cross Mapping (PCM)**][2] – for disentangling direct from indirect causal influences.
 
-- **Cross Mapping Cardinality (CMC)**[3] – for identifying time-varying or state-dependent causal linkages.
+- [**Cross Mapping Cardinality (CMC)**][3] – for identifying time-varying or state-dependent causal linkages.
 
-- **Multispatial Convergent Cross Mapping (MultispatialCCM)**[4] – for reconstructing causal dynamics from replicated time series across multiple spatial locations.
+- [**Multispatial Convergent Cross Mapping (MultispatialCCM)**][4] – for reconstructing causal dynamics from replicated time series across multiple spatial locations.
 
 ## Installation
 

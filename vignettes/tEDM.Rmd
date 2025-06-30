@@ -19,9 +19,7 @@ knitr::opts_chunk$set(
 
 ## 1. Introduction to the `tEDM` package
 
-The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It is particularly designed to detect, differentiate, and reconstruct causal dynamics in systems where traditional assumptions of linearity and stationarity may not hold.
-
-The package implements four fundamental EDM-based methods:
+The `tEDM` package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It implements four fundamental EDM-based causal discovery methods:
 
 - **Convergent Cross Mapping (CCM)**[1]
 

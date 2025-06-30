@@ -76,8 +76,156 @@
 
     
     
-
-  </main>
+<p> </p>
+<div class="section level2">
+<h2 id="introduction-to-the-tedm-package">1. Introduction to the <code>tEDM</code> package<a class="anchor" aria-label="anchor" href="#introduction-to-the-tedm-package"></a>
+</h2>
+<p>The <code>tEDM</code> package provides a suite of tools for exploring
+and quantifying causality in time series using Empirical Dynamic
+Modeling (EDM). It implements four fundamental EDM-based causal
+discovery methods:</p>
+<ul>
+<li><p><strong>Convergent Cross Mapping (CCM)</strong><a href="https://doi.org/10.1126/science.1227079" class="external-link">1</a></p></li>
+<li><p><strong>Partial Cross Mapping (PCM)</strong><a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link">2</a></p></li>
+<li><p><strong>Cross Mapping Cardinality (CMC)</strong><a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link">3</a></p></li>
+<li><p><strong>Multispatial Convergent Cross Mapping
+(MultispatialCCM)</strong><a href="https://doi.org/10.1890/14-1479.1" class="external-link">4</a></p></li>
+</ul>
+<p>These methods enable researchers to:</p>
+<ul>
+<li><p><strong>Identify</strong> potential causal interactions without
+assuming a predefined model structure.</p></li>
+<li><p><strong>Distinguish</strong> between direct causation and
+indirect (mediated or confounded) influences.</p></li>
+<li><p><strong>Reconstruct</strong> underlying causal dynamics from
+replicated univariate time series observed across multiple spatial
+units.</p></li>
+</ul>
+</div>
+<div class="section level2">
+<h2 id="example-data-in-the-tedm-package">2. Example data in the <code>tEDM</code> package<a class="anchor" aria-label="anchor" href="#example-data-in-the-tedm-package"></a>
+</h2>
+<div class="section level3">
+<h3 id="us-county-level-carbon-emissions-dataset">US County-Level Carbon Emissions Dataset<a class="anchor" aria-label="anchor" href="#us-county-level-carbon-emissions-dataset"></a>
+</h3>
+<p>A panel dataset covering U.S. county-level temperature and carbon
+emissions across time.</p>
+<p><strong>File</strong>: <code>carbon.csv.gz</code></p>
+<p><strong>Columns</strong>:</p>
+<table class="table">
+<colgroup>
+<col width="10%">
+<col width="90%">
+</colgroup>
+<thead><tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>year</code></td>
+<td>Observation year (1981–2017).</td>
+</tr>
+<tr class="even">
+<td><code>fips</code></td>
+<td>County FIPS code (5-digit Federal Information Processing Standard
+code).</td>
+</tr>
+<tr class="odd">
+<td><code>tem</code></td>
+<td>Mean annual temperature (in Kelvin).</td>
+</tr>
+<tr class="even">
+<td><code>carbon</code></td>
+<td>Total carbon emissions per year (in kilograms of CO₂).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Source</strong>: Data adapted from <a href="https://doi.org/10.1016/j.cities.2025.105980" class="external-link">5</a>.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="hong-kong-air-pollution-and-cardiovascular-admissions">Hong Kong Air Pollution and Cardiovascular Admissions<a class="anchor" aria-label="anchor" href="#hong-kong-air-pollution-and-cardiovascular-admissions"></a>
+</h3>
+<p>A daily time series dataset for Hong Kong that includes
+cardiovascular hospital admissions and major air pollutant
+concentrations.</p>
+<p><strong>File</strong>: <code>cvd.csv</code></p>
+<p><strong>Columns</strong>:</p>
+<table class="table">
+<thead><tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>cvd</code></td>
+<td>Daily number of cardiovascular-related hospital admissions.</td>
+</tr>
+<tr class="even">
+<td><code>rsp</code></td>
+<td>Respirable suspended particulates (μg/m³).</td>
+</tr>
+<tr class="odd">
+<td><code>no2</code></td>
+<td>Nitrogen dioxide concentration (μg/m³).</td>
+</tr>
+<tr class="even">
+<td><code>so2</code></td>
+<td>Sulfur dioxide concentration (μg/m³).</td>
+</tr>
+<tr class="odd">
+<td><code>o3</code></td>
+<td>Ozone concentration (μg/m³).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Source</strong>: Data adapted from <a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link">2</a>.</p>
+<hr>
+</div>
+<div class="section level3">
+<h3 id="covid-19-infection-counts-in-japan">COVID-19 Infection Counts in Japan<a class="anchor" aria-label="anchor" href="#covid-19-infection-counts-in-japan"></a>
+</h3>
+<p>A spatio-temporal dataset capturing the number of confirmed COVID-19
+infections across Japan’s 47 prefectures over time.</p>
+<p><strong>File</strong>: <code>covid19.csv</code></p>
+<p><strong>Structure</strong>:</p>
+<ul>
+<li>Each <strong>column</strong> represents one of the 47 Japanese
+prefectures (e.g., <code>Tokyo</code>, <code>Osaka</code>,
+<code>Hokkaido</code>).</li>
+<li>Each <strong>row</strong> corresponds to a time step (daily).</li>
+</ul>
+<p><strong>Source</strong>: Data adapted from <a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link">3</a>.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="examples-of-the-tedm-package">3. Examples of the <code>tEDM</code> package<a class="anchor" aria-label="anchor" href="#examples-of-the-tedm-package"></a>
+</h2>
+</div>
+<div class="section level2">
+<h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
+</h2>
+<p>Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M.,
+Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338,
+496–500. <a href="https://doi.org/10.1126/science.1227079" class="external-link">https://doi.org/10.1126/science.1227079</a>.</p>
+<p>Leng, S., Ma, H., Kurths, J., Lai, Y.-C., Lin, W., Aihara, K., Chen,
+L., 2020. Partial cross mapping eliminates indirect causal influences.
+Nature Communications 11. <a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link">https://doi.org/10.1038/s41467-020-16238-0</a>.</p>
+<p>Tao, P., Wang, Q., Shi, J., Hao, X., Liu, X., Min, B., Zhang, Y., Li,
+C., Cui, H., Chen, L., 2023. Detecting dynamical causality by
+intersection cardinal concavity. Fundamental Research. <a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link">https://doi.org/10.1016/j.fmre.2023.01.007</a>.</p>
+<p>Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman,
+G.D., Sugihara, G., 2015. Spatial convergent cross mapping to detect
+causal relationships from short time series. Ecology 96, 1174–1181. <a href="https://doi.org/10.1890/14-1479.1" class="external-link">https://doi.org/10.1890/14-1479.1</a>.</p>
+<p>Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025.
+Causal discovery from city data, where urban scaling meets information
+theory. Cities 162, 105980. <a href="https://doi.org/10.1016/j.cities.2025.105980" class="external-link">https://doi.org/10.1016/j.cities.2025.105980</a>.</p>
+<p> </p>
+<p>   </p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 

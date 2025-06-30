@@ -108,7 +108,7 @@ install.packages("tEDM",
 
 ### Air Pollution and Cardiovascular Health in Hong Kong
 
-```{r load_cvd}
+```{r load_cvd_data}
 library(tEDM)
 
 cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
@@ -138,16 +138,60 @@ pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 
 ### US County Carbon Emissions and Temperature Dynamics
 
-```{r load_carbon}
+```{r load_carbon_data}
 library(tEDM)
 
 carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
 carbon
 ```
 
+To examine whether a causal relationship exists between annual mean temperature and total annual CO₂ emissions, we implement the CMC method across counties.
+
+```{r carbon_process}
+carbon_list = dplyr::group_split(carbon, by = fips)
+length(carbon_list)
+```
+
+Using the 100th county as an example, we determine the appropriate embedding dimension by applying the FNN method.
+
+```{r carbon_fnn}
+tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10, tau = 0, eps = stats::sd(carbon_list[[100]]$carbon))
+```
+
+When E equals 6, the FNN ratio begins to drop to zero; therefore, we select $E = 6$ as the embedding dimension for the CMC analysis.
+
+```{r carbon_cmc}
+res = carbon_list |> 
+  purrr::map_dfr(\(.x) {
+    g = tEDM::cmc(.x,"tem","carbon",E = 6,tau = 0,k = 20,progressbar = FALSE)
+    return(g$xmap)
+  })
+res
+
+res_carbon = res |> 
+  dplyr::select(neighbors,
+                carbon_tem = x_xmap_y_mean,
+                tem_carbon = y_xmap_x_mean) |> 
+  tidyr::pivot_longer(c(carbon_tem, tem_carbon), 
+                      names_to = "variable", values_to = "value")
+res_carbon
+```
+
+```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual CO_2 emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
+fig_case2 = ggplot2::ggplot(res_carbon, 
+                ggplot2::aes(x = variable, y = value, fill = variable)) +
+  ggplot2::geom_boxplot() +
+  ggplot2::theme_bw() +
+  ggplot2::labs(x = "", y = "Causal Strength") +
+  ggplot2::scale_x_discrete(labels = c("carbon_tem" = "carbon → tem",
+                                       "tem_carbon" = "tem → carbon")) +
+  ggplot2::theme(legend.position = "none")
+fig_case2
+```
+
 ### COVID-19 Spread Across Japanese Prefectures
 
-```{r load_covid}
+```{r load_covid_data}
 library(tEDM)
 
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))

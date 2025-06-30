@@ -82,6 +82,18 @@
 <!-- badges: end -->
 <p><em><strong>T</strong>emporal <strong>E</strong>mpirical <strong>D</strong>ynamic <strong>M</strong>odeling</em></p>
 <div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>The <code>tEDM</code> package provides a suite of tools for exploring and quantifying causality in time series using Empirical Dynamic Modeling (EDM). It is particularly designed to detect, differentiate, and reconstruct causal dynamics in systems where traditional assumptions of linearity and stationarity may not hold.</p>
+<p>The package implements four fundamental EDM-based methods:</p>
+<ul>
+<li><p><a href="https://doi.org/10.1126/science.1227079" class="external-link"><strong>Convergent Cross Mapping (CCM)</strong></a> – for detecting nonlinear causal relationships in time series.</p></li>
+<li><p><a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link"><strong>Partial Cross Mapping (PCM)</strong></a> – for disentangling direct from indirect causal influences.</p></li>
+<li><p><a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link"><strong>Cross Mapping Cardinality (CMC)</strong></a> – for identifying time-varying or state-dependent causal linkages.</p></li>
+<li><p><a href="https://doi.org/10.1890/14-1479.1" class="external-link"><strong>Multispatial Convergent Cross Mapping (MultispatialCCM)</strong></a> – for reconstructing causal dynamics from replicated time series across multiple spatial locations.</p></li>
+</ul>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <ul>
@@ -107,6 +119,15 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"stscl/tEDM"</span>,</span>
 <span>                         <span class="co">#build_vignettes = TRUE,</span></span>
 <span>                         dep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="reference">Reference<a class="anchor" aria-label="anchor" href="#reference"></a>
+</h2>
+<p>Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500. <a href="https://doi.org/10.1126/science.1227079" class="external-link uri">https://doi.org/10.1126/science.1227079</a>.</p>
+<p>Leng, S., Ma, H., Kurths, J., Lai, Y.-C., Lin, W., Aihara, K., Chen, L., 2020. Partial cross mapping eliminates indirect causal influences. Nature Communications 11. <a href="https://doi.org/10.1038/s41467-020-16238-0" class="external-link uri">https://doi.org/10.1038/s41467-020-16238-0</a>.</p>
+<p>Tao, P., Wang, Q., Shi, J., Hao, X., Liu, X., Min, B., Zhang, Y., Li, C., Cui, H., Chen, L., 2023. Detecting dynamical causality by intersection cardinal concavity. Fundamental Research. <a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link uri">https://doi.org/10.1016/j.fmre.2023.01.007</a>.</p>
+<p>Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara, G., 2015. Spatial convergent cross mapping to detect causal relationships from short time series. Ecology 96, 1174–1181. <a href="https://doi.org/10.1890/14-1479.1" class="external-link uri">https://doi.org/10.1890/14-1479.1</a>.</p>
+<p> </p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">

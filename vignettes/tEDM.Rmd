@@ -202,8 +202,8 @@ We further aim to explore the potential causal interactions among different air 
 no2_rsp = tEDM::pcm(cvd,"no2","rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6,6),progressbar = FALSE)
 no2_rsp
 
-figa = plot(no2_rsp,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
-figb = plot(no2_rsp,partial = TRUE,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
+figa = plot(no2_rsp,partial = FALSE,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
+figb = plot(no2_rsp,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
 
 fig3 = cowplot::plot_grid(figa, figb, ncol = 2,
                           label_fontfamily = 'serif',

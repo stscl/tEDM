@@ -75,7 +75,8 @@ print.xmap_self = \(x,...){
 #' plot ccm result
 #' @noRd
 #' @export
-plot.ccm_res = \(x, family = "serif", legend_texts = NULL,
+plot.ccm_res = \(x, family = "serif",
+                 legend_sig = TRUE, legend_texts = NULL,
                  legend_cols = c("#ed795b","#608dbe"),
                  draw_ci = FALSE, ci_alpha = 0.25,
                  xbreaks = NULL, xlimits = NULL,
@@ -88,13 +89,16 @@ plot.ccm_res = \(x, family = "serif", legend_texts = NULL,
   if(is.null(xbreaks)) xbreaks = resdf$libsizes
   if(is.null(xlimits)) xlimits = c(min(xbreaks)-1,max(xbreaks)+1)
   if (is.null(legend_texts)){
-    pval = resdf |>
-      dplyr::slice_tail(n = 1) |>
-      dplyr::select(x_xmap_y_sig,y_xmap_x_sig) |>
-      unlist() |>
-      round(3)
-    legend_texts = c(paste0(x$varname[2], " xmap ", x$varname[1], ", p = ", pval[2]),
-                     paste0(x$varname[1], " xmap ", x$varname[2], ", p = ", pval[1]))
+    legend_texts = c(paste0(x$varname[2], " xmap ", x$varname[1]),
+                     paste0(x$varname[1], " xmap ", x$varname[2]))
+    if (legend_sig){
+      pval = resdf |>
+        dplyr::slice_tail(n = 1) |>
+        dplyr::select(y_xmap_x_sig,x_xmap_y_sig) |>
+        unlist() |>
+        round(3)
+      legend_texts = paste0(legend_texts,", P = ",pval)
+    }
   }
   legend_texts = .check_inputelementnum(legend_texts,2)
   legend_cols = .check_inputelementnum(legend_cols,2)
@@ -154,8 +158,8 @@ plot.ccm_res = \(x, family = "serif", legend_texts = NULL,
 plot.cmc_res = \(x, ...){
   xmap = x[-1]
   class(xmap) = "ccm"
-  draw_ci = FALSE
-  fig1 = plot.ccm_res(xmap,draw_ci = draw_ci,ylabel = "Causal Score",...)
+  fig1 = plot.ccm_res(xmap,legend_sig = FALSE,draw_ci = FALSE,
+                      ylabel = "Causal Score",...)
   return(fig1)
 }
 

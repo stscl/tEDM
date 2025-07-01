@@ -117,15 +117,21 @@ head(cvd)
 
 Determining optimal embedding dimension:
 
-```{r simplex_cvd}
-simplex(cvd,"cvd","cvd",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"rsp","rsp",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"no2","no2",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"so2","so2",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"o3","o3",E = 2:21,tau = 1,k = 5:25)
+```{r simplex_fnn}
+tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ```
 
-Run PCM:
+Starting at $E = 5$, the FNN ratio stabilizes near 0.2; thus, embedding dimension E and neighbor number k are chosen from 5 onward for subsequent self-prediction parameter selection.
+
+```{r simplex_cvd}
+tEDM::simplex(cvd,"cvd","cvd",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"rsp","rsp",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"no2","no2",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"so2","so2",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
+```
+
+Employing CCM to investigate the causal relationships between various air pollutants and cardiovascular and cerebrovascular diseases
 
 ```{r pcm_cvd, eval=FALSE}
 p1 = pcm(cvd,"rsp","cvd",c("no2","so2","o3"),
@@ -134,7 +140,6 @@ pcm(cvd,"no2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 pcm(cvd,"so2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 ```
-
 
 ### US County Carbon Emissions and Temperature Dynamics
 
@@ -220,7 +225,7 @@ Since the FNN ratio begins to approach zero when E equals 11, embedding dimensio
 tEDM::simplex(covid,"Tokyo","Tokyo",E = 11:50,k = 15:60)
 ```
 
-```{r covid_cmc}
+```{r covid_ccm}
 res = names(covid)[-match("Tokyo",names(covid))] |> 
   purrr::map_dfr(\(.l) {
     g = tEDM::ccm(covid,"Tokyo",.l,E = 11,k = 16,tau = 0,progressbar = FALSE)

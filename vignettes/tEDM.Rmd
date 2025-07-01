@@ -39,7 +39,7 @@ These methods enable researchers to:
 
 ### Hong Kong Air Pollution and Cardiovascular Admissions
 
-A daily time series dataset for Hong Kong that includes cardiovascular hospital admissions and major air pollutant concentrations.
+A daily time series dataset(from 1995-3 to 1997-11) for Hong Kong that includes cardiovascular hospital admissions and major air pollutant concentrations.
 
 **File**: `cvd.csv`
 
@@ -117,6 +117,23 @@ cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
 head(cvd)
 ```
 
+```{r fig1,fig.width=6.5,fig.height=3.75,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 1**. Time series of air pollutants and confirmed CVD cases in Hong Kong from March 1995 to November 1997.")}
+cvd_long = cvd |> 
+  tibble::rowid_to_column("id") |> 
+  tidyr::pivot_longer(cols = -id,
+                      names_to = "variable", values_to = "value")
+
+fig1 = ggplot2::ggplot(cvd_long, ggplot2::aes(x = id, y = value, color = variable)) +
+  ggplot2::geom_line(size = 1) +
+  ggplot2::labs(x = "Days (from 1995-3 to 1997-11)", y = "Concentrations or \nNO. of CVD admissions", color = "") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(legend.direction = "horizontal",
+                 legend.position = "inside",
+                 legend.justification = c("center","top"),
+                 legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
+fig1
+```
+
 Determining optimal embedding dimension:
 
 ```{r simplex_fnn}
@@ -133,46 +150,48 @@ tEDM::simplex(cvd,"so2","so2",E = 5:25,k = 6:35)
 tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
 ```
 
-We first use CCM to explore the causal effects of air pollutants on the incidence of cardiovascular diseases.
+We first use CCM to explore the causal influences of air pollutants on the incidence of cardiovascular diseases.
 
 ```{r ccm_cvd}
-rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6)
+rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6,progressbar = FALSE)
 rsp_cvd
-no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6))
+no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6),progressbar = FALSE)
 no2_cvd
-so2_cvd = tEDM::ccm(cvd,"so2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(15,6))
+so2_cvd = tEDM::ccm(cvd,"so2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(15,6),progressbar = FALSE)
 so2_cvd
-o3_cvd = tEDM::ccm(cvd,"o3","cvd",libsizes = seq(32,1032,100),E = 5,k = 6)
+o3_cvd = tEDM::ccm(cvd,"o3","cvd",libsizes = seq(32,1032,100),E = 5,k = 6,progressbar = FALSE)
 o3_cvd
 ```
 
-```{r fig1,fig.width=7.5,fig.height=7.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 1**. Cross-mapping results between different air pollutants and cardiovascular diseases.")}
+```{r fig2,fig.width=7.5,fig.height=7.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 2**. Cross-mapping results between different air pollutants and cardiovascular diseases.")}
 figa = plot(rsp_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
 figb = plot(no2_cvd,ylimits = c(0.03,0.25),ybreaks = seq(0.05,0.25,0.05))
 figc = plot(so2_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
 figd = plot(o3_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
 
-fig1 = cowplot::plot_grid(figa, figb, figc, figd, ncol = 2,
+fig2 = cowplot::plot_grid(figa, figb, figc, figd, ncol = 2,
                          label_fontfamily = 'serif',
                          labels = letters[1:4],
                          label_x = -0.005, label_y = 1)
-fig1
+fig2
 ```
 
-The results shown in Figure 1 indicate the presence of the following causal influences:
+The results shown in Figure2 indicate the presence of the following causal influences:
 
-- $$\text{rsp} \rightarrow \text{cvd}$$  
-- $$\text{no}_2 \rightarrow \text{cvd}$$  
-- $$\text{cvd} \rightarrow \text{no}_2$$  
-- $$\text{o}_3 \rightarrow \text{cvd}$$
+- rsp → cvd  
+- no₂ → cvd  
+- cvd → no₂  
+- o₃ → cvd
 
+Building on the results of CCM, we further test the direct causal influences of other air pollutants on CVDs using PCM.
 
 ```{r pcm_cvd, eval=FALSE, echo=FALSE}
-p1 = pcm(cvd,"rsp","cvd",c("no2","so2","o3"),
-         libsizes = seq(10,1300,100), E = 2,tau = 1,k = c(5,7))
-pcm(cvd,"no2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
-p3 = pcm(cvd,"so2","cvd",c("rsp","no2","o3"),libsizes = seq(10,1300,100),E = 5,k = 6)
-pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
+p1 = tEDM::pcm(cvd,"rsp","cvd",c("no2","o3"),libsizes = seq(32,1032,100),E = 5,k = c(6,6,8,6),progressbar = FALSE)
+p1
+p2 = tEDM::pcm(cvd,"no2","cvd",c("rsp","o3"),libsizes = seq(32,1032,100),E = 5,k = c(8,6,6,6),progressbar = FALSE)
+p2
+p3 = tEDM::pcm(cvd,"o3","cvd",c("rsp","no2"),libsizes = seq(32,1032,100),E = 5,k = c(6,6,6,8),progressbar = FALSE)
+p3
 ```
 
 ### US County Carbon Emissions and Temperature Dynamics
@@ -214,7 +233,7 @@ res_carbon = res |>
 head(res_carbon)
 ```
 
-```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual $\text{CO}_2$ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
+```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
 fig_case2 = ggplot2::ggplot(res_carbon, 
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +

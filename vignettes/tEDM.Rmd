@@ -108,6 +108,8 @@ install.packages("tEDM",
 
 ### Air Pollution and Cardiovascular Health in Hong Kong
 
+Employing CCM and PCM to investigate the causal relationships between various air pollutants and cardiovascular diseases:
+
 ```{r load_cvd_data}
 library(tEDM)
 
@@ -131,28 +133,58 @@ tEDM::simplex(cvd,"so2","so2",E = 5:25,k = 6:35)
 tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
 ```
 
-Employing CCM to investigate the causal relationships between various air pollutants and cardiovascular and cerebrovascular diseases
+We first use CCM to explore the causal effects of air pollutants on the incidence of cardiovascular diseases.
 
-```{r pcm_cvd, eval=FALSE}
+```{r ccm_cvd}
+rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6)
+rsp_cvd
+no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6))
+no2_cvd
+so2_cvd = tEDM::ccm(cvd,"so2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(15,6))
+so2_cvd
+o3_cvd = tEDM::ccm(cvd,"o3","cvd",libsizes = seq(32,1032,100),E = 5,k = 6)
+o3_cvd
+```
+
+```{r fig1,fig.width=7.5,fig.height=7.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 1**. Cross-mapping results between different air pollutants and cardiovascular diseases.")}
+figa = plot(rsp_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
+figb = plot(no2_cvd,ylimits = c(0.03,0.25),ybreaks = seq(0.05,0.25,0.05))
+figc = plot(so2_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
+figd = plot(o3_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
+
+fig1 = cowplot::plot_grid(figa, figb, figc, figd, ncol = 2,
+                         label_fontfamily = 'serif',
+                         labels = letters[1:4],
+                         label_x = -0.005, label_y = 1)
+fig1
+```
+
+The results shown in Figure 1 indicate the presence of the following causal influences:
+
+- $$\text{rsp} \rightarrow \text{cvd}$$  
+- $$\text{no}_2 \rightarrow \text{cvd}$$  
+- $$\text{cvd} \rightarrow \text{no}_2$$  
+- $$\text{o}_3 \rightarrow \text{cvd}$$
+
+
+```{r pcm_cvd, eval=FALSE, echo=FALSE}
 p1 = pcm(cvd,"rsp","cvd",c("no2","so2","o3"),
          libsizes = seq(10,1300,100), E = 2,tau = 1,k = c(5,7))
 pcm(cvd,"no2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
-pcm(cvd,"so2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
+p3 = pcm(cvd,"so2","cvd",c("rsp","no2","o3"),libsizes = seq(10,1300,100),E = 5,k = 6)
 pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 ```
 
 ### US County Carbon Emissions and Temperature Dynamics
+
+To examine whether a causal relationship exists between annual mean temperature and total annual CO₂ emissions, we implement the CMC method across counties.
 
 ```{r load_carbon_data}
 library(tEDM)
 
 carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
 head(carbon)
-```
 
-To examine whether a causal relationship exists between annual mean temperature and total annual CO₂ emissions, we implement the CMC method across counties.
-
-```{r carbon_process}
 carbon_list = dplyr::group_split(carbon, by = fips)
 length(carbon_list)
 ```
@@ -160,7 +192,7 @@ length(carbon_list)
 Using the 100th county as an example, we determine the appropriate embedding dimension by applying the FNN method.
 
 ```{r carbon_fnn}
-tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,tau = 0,eps = stats::sd(carbon_list[[100]]$carbon))
+tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]]$carbon))
 ```
 
 When E equals 6, the FNN ratio begins to drop to zero; therefore, we select $E = 6$ as the embedding dimension for the CMC analysis.
@@ -168,7 +200,7 @@ When E equals 6, the FNN ratio begins to drop to zero; therefore, we select $E =
 ```{r carbon_cmc}
 res = carbon_list |> 
   purrr::map_dfr(\(.x) {
-    g = tEDM::cmc(.x,"tem","carbon",E = 6,tau = 0,k = 20,progressbar = FALSE)
+    g = tEDM::cmc(.x,"tem","carbon",E = 6,k = 20,progressbar = FALSE)
     return(g$xmap)
   })
 head(res)
@@ -182,7 +214,7 @@ res_carbon = res |>
 head(res_carbon)
 ```
 
-```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual $CO_2$ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
+```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual $\text{CO}_2$ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
 fig_case2 = ggplot2::ggplot(res_carbon, 
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +

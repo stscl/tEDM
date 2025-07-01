@@ -87,8 +87,15 @@ plot.ccm_res = \(x, family = "serif", legend_texts = NULL,
 
   if(is.null(xbreaks)) xbreaks = resdf$libsizes
   if(is.null(xlimits)) xlimits = c(min(xbreaks)-1,max(xbreaks)+1)
-  if (is.null(legend_texts)) legend_texts = c(paste0(x$varname[2], " xmap ", x$varname[1]),
-                                              paste0(x$varname[1], " xmap ", x$varname[2]))
+  if (is.null(legend_texts)){
+    pval = resdf |>
+      dplyr::slice_tail(n = 1) |>
+      dplyr::select(x_xmap_y_sig,y_xmap_x_sig) |>
+      unlist() |>
+      round(3)
+    legend_texts = c(paste0(x$varname[2], " xmap ", x$varname[1], ", p = ", pval[2]),
+                     paste0(x$varname[1], " xmap ", x$varname[2], ", p = ", pval[1]))
+  }
   legend_texts = .check_inputelementnum(legend_texts,2)
   legend_cols = .check_inputelementnum(legend_cols,2)
   names(legend_cols) = c("x - y","y - x")

@@ -108,7 +108,7 @@ install.packages("tEDM",
 
 ### Air Pollution and Cardiovascular Health in Hong Kong
 
-Employing CCM and PCM to investigate the causal relationships between various air pollutants and cardiovascular diseases:
+Employing CCM, CMC and PCM to investigate the causal relationships between various air pollutants and cardiovascular diseases:
 
 ```{r load_cvd_data}
 library(tEDM)
@@ -124,7 +124,7 @@ cvd_long = cvd |>
                       names_to = "variable", values_to = "value")
 
 fig1 = ggplot2::ggplot(cvd_long, ggplot2::aes(x = id, y = value, color = variable)) +
-  ggplot2::geom_line(size = 1) +
+  ggplot2::geom_line(linewidth = 1) +
   ggplot2::labs(x = "Days (from 1995-3 to 1997-11)", y = "Concentrations or \nNO. of CVD admissions", color = "") +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.direction = "horizontal",
@@ -153,7 +153,7 @@ tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
 We first use CCM to explore the causal influences of air pollutants on the incidence of cardiovascular diseases.
 
 ```{r ccm_cvd}
-rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6,progressbar = FALSE)
+rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6,tau = 10,progressbar = FALSE)
 rsp_cvd
 no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6),progressbar = FALSE)
 no2_cvd
@@ -181,17 +181,46 @@ The results shown in Figure2 indicate the presence of the following causal influ
 - rsp → cvd  
 - no₂ → cvd  
 - cvd → no₂  
-- o₃ → cvd
+- cvd → o₃
 
-Building on the results of CCM, we further test the direct causal influences of other air pollutants on CVDs using PCM.
+However, based on practical experience, the relationship between CVDs and spatial pollution is likely reflective rather than causal. Therefore, we further employ CCM to examine the causal paths of cvd → no₂ and cvd → o₃.
 
-```{r pcm_cvd, eval=FALSE, echo=FALSE}
-p1 = tEDM::pcm(cvd,"rsp","cvd",c("no2","o3"),libsizes = seq(32,1032,100),E = 5,k = c(6,6,8,6),progressbar = FALSE)
-p1
-p2 = tEDM::pcm(cvd,"no2","cvd",c("rsp","o3"),libsizes = seq(32,1032,100),E = 5,k = c(8,6,6,6),progressbar = FALSE)
-p2
-p3 = tEDM::pcm(cvd,"o3","cvd",c("rsp","no2"),libsizes = seq(32,1032,100),E = 5,k = c(6,6,6,8),progressbar = FALSE)
-p3
+```{r cmc_cvd}
+g1 = tEDM::cmc(cvd,"o3","cvd",E = 5,k = 100,progressbar = FALSE)
+g1
+g1$xmap
+
+g2 = tEDM::cmc(cvd,"no2","cvd",E = 5,k = 100,progressbar = FALSE)
+g2
+g2$xmap
+```
+
+The causal paths **cvd → no₂** and **cvd → o₃** are not statistically significant in the CMC analysis results, allowing us to rule out these two directions. Therefore, we conclude that only **rsp** and **no₂** exhibit causal influences on CVDs.
+
+We further aim to explore the potential causal interactions among different air pollutants. However, due to space constraints in this vignette, we limit our analysis to a single test case — specifically, examining whether **NO₂** exerts a causal influence on **Respirable Suspended Particulates (rsp)**.
+
+```{r fig3,fig.width=6.5,fig.height=3.55,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Cross-mapping results between no₂ and respirable suspended particulates. **a**. CCM results without accounting for other variables. **b**. PCM results controlling for the influence of CVDs.")}
+no2_rsp = tEDM::pcm(cvd,"no2","rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6,6),progressbar = FALSE)
+no2_rsp
+
+figa = plot(no2_rsp,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
+figb = plot(no2_rsp,partial = TRUE,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
+
+fig3 = cowplot::plot_grid(figa, figb, ncol = 2,
+                          label_fontfamily = 'serif',
+                          labels = letters[1:2],
+                          label_x = -0.005, label_y = 1)
+fig3
+```
+
+The CCM and PCM results between **NO₂** and **respirable suspended particulates** show minimal differences and are both statistically significant, indicating the presence of a causal relationship between the two. Therefore, the final set of confirmed causal pathways is as follows (exclude those with no causal influence on CVDs):
+
+```{mermaid}
+graph TD
+  rsp[Respirable suspended particulates (rsp)] --> cvd[Cardiovascular diseases (cvd)]
+  no2[Nitrogen dioxide (no₂)] --> cvd
+  no2 --> rsp
+  rsp --> no2
 ```
 
 ### US County Carbon Emissions and Temperature Dynamics
@@ -233,7 +262,7 @@ res_carbon = res |>
 head(res_carbon)
 ```
 
-```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
+```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 5**. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
 fig_case2 = ggplot2::ggplot(res_carbon, 
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
@@ -299,7 +328,7 @@ head(res_covid,5)
 
 Our CCM analysis reproduced the same results as the [original CMC study][3], with the top five prefectures most affected by Tokyo’s COVID-19 spread matching those previously identified.
 
-```{r fig_case3,echo=FALSE,fig.width=6,fig.height=4.9,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 4**. The five prefectures most affected by Tokyo, Kanagawa, Osaka, Saitama, Chiba, and Aichi, are located on the map. Red, blue and green dashed rings represent Tokyo, Nagoya and Osaka metropolitan areas, respectively. (*Figure adapted from [CMC article][3].*)")}
+```{r fig_case3,echo=FALSE,fig.width=6,fig.height=4.9,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 6**. The five prefectures most affected by Tokyo, Kanagawa, Osaka, Saitama, Chiba, and Aichi, are located on the map. Red, blue and green dashed rings represent Tokyo, Nagoya and Osaka metropolitan areas, respectively. (*Figure adapted from [CMC article][3].*)")}
 knitr::include_graphics("../man/figures/edm/jp-covid19.png")
 ```
 

@@ -1,7 +1,7 @@
-.smap_ts_method = \(data, column, target, lib = NULL, pred = NULL,
-                    E = 3,tau = 0,k = E+1, theta = c(0, 1e-04, 3e-04,
-                    0.001, 0.003, 0.01, 0.03, 0.1, 0.3, 0.5, 0.75, 1,
-                    1.5, 2, 3, 4, 6, 8), threads = length(theta)){
+.smap_ts_method = \(data,column,target,lib = NULL,pred = NULL,E = 3,tau = 0,k = E+1,
+                    theta = c(0, 1e-04, 3e-04, 0.001, 0.003, 0.01, 0.03,
+                              0.1, 0.3, 0.5, 0.75, 1, 1.5, 2, 3, 4, 6, 8),
+                    threads = length(theta)){
   vx = .uni_ts(data,column)
   vy = .uni_ts(data,target)
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))

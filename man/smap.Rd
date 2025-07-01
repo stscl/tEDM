@@ -8,7 +8,7 @@
 \S4method{smap}{data.frame}(
   data,
   column,
-  target = column,
+  target,
   lib = NULL,
   pred = NULL,
   E = 3,

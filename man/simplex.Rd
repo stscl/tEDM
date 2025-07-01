@@ -9,7 +9,7 @@
 \S4method{simplex}{data.frame}(
   data,
   column,
-  target = column,
+  target,
   lib = NULL,
   pred = NULL,
   E = 2:10,
@@ -21,7 +21,7 @@
 \S4method{simplex}{list}(
   data,
   column,
-  target = column,
+  target,
   lib = NULL,
   pred = NULL,
   E = 2:10,

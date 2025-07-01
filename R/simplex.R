@@ -1,4 +1,4 @@
-.simplex_ts_method = \(data, column, target = column, lib = NULL, pred = NULL,
+.simplex_ts_method = \(data, column, target, lib = NULL, pred = NULL,
                        E = 2:10, tau = 0, k = E+1, threads = length(E)){
   vx = .uni_ts(data,column)
   vy = .uni_ts(data,target)
@@ -8,7 +8,7 @@
   return(.bind_xmapself(res,target,"simplex",tau))
 }
 
-.simplex_tss_method = \(data, column, target = column, lib = NULL, pred = NULL,
+.simplex_tss_method = \(data, column, target, lib = NULL, pred = NULL,
                         E = 2:10, tau = 0, k = E+1, threads = length(E)){
   mx = as.matrix(data[[column]])
   my = as.matrix(data[[target]])

@@ -117,15 +117,21 @@ head(cvd)
 
 Determining optimal embedding dimension:
 
-```{r simplex_cvd}
-simplex(cvd,"cvd","cvd",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"rsp","rsp",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"no2","no2",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"so2","so2",E = 2:21,tau = 1,k = 5:25)
-simplex(cvd,"o3","o3",E = 2:21,tau = 1,k = 5:25)
+```{r simplex_fnn}
+tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ```
 
-Run PCM:
+Starting at $E = 5$, the FNN ratio stabilizes near 0.2; thus, embedding dimension E and neighbor number k are chosen from 5 onward for subsequent self-prediction parameter selection.
+
+```{r simplex_cvd}
+tEDM::simplex(cvd,"cvd","cvd",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"rsp","rsp",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"no2","no2",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"so2","so2",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
+```
+
+Employing CCM to investigate the causal relationships between various air pollutants and cardiovascular and cerebrovascular diseases
 
 ```{r pcm_cvd, eval=FALSE}
 p1 = pcm(cvd,"rsp","cvd",c("no2","so2","o3"),
@@ -134,7 +140,6 @@ pcm(cvd,"no2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 pcm(cvd,"so2","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 pcm(cvd,"o3","cvd",libsizes = seq(10,1300,100),E = 2,tau = 1,k = c(5,7))
 ```
-
 
 ### US County Carbon Emissions and Temperature Dynamics
 
@@ -191,11 +196,21 @@ fig_case2
 
 ### COVID-19 Spread Across Japanese Prefectures
 
+We examine the COVID-19 transmission between Tokyo and other prefectures by applying CCM to identify the underlying causal dynamics of the epidemic spread
+
 ```{r load_covid_data}
 library(tEDM)
 
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
 head(covid)
+```
+
+The data are first differenced:
+
+```{r}
+covid = covid |> 
+  dplyr::mutate(dplyr::across(dplyr::everything(),
+                              \(.x) c(NA,diff(.x))))
 ```
 
 Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
@@ -204,14 +219,17 @@ Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
 tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ```
 
-When E equals 4, the FNN ratio begins to drop to zero; therefore, we select $E = 4$ as the embedding dimension for the CMC analysis.
+Since the FNN ratio begins to approach zero when E equals 11, embedding dimensions from 11 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
 
-```{r covid_cmc,eval=FALSE}
-res = names(covid) |> 
-  utils::combn(2,simiplify = FALSE) |> 
-  purrr::map(\(.l) {
-    g = tEDM::cmc(covid,.l[1],.l[2],E = 4, k = 50)
-    res = dplyr::mutate(g$xmap,x = .l[1],y = .l[2])
+```{r covid_simplex}
+tEDM::simplex(covid,"Tokyo","Tokyo",E = 11:50,k = 15:60)
+```
+
+```{r covid_ccm}
+res = names(covid)[-match("Tokyo",names(covid))] |> 
+  purrr::map_dfr(\(.l) {
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 11,k = 16,tau = 0,progressbar = FALSE)
+    res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })
 head(res)
@@ -222,11 +240,17 @@ df1 = res |>
 df2 = res |>
     dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |>
     purrr::set_names(c("cause","effect","cs","sig"))
-res_covid = dplyr::bind_rows(df1,df2)
-head(res_covid)
+res_covid = dplyr::bind_rows(df1,df2)|> 
+  dplyr::filter(cause == "Tokyo") |> 
+  dplyr::arrange(dplyr::desc(cs))
+head(res_covid,5)
 ```
 
+Our CCM analysis reproduced the same results as the [original CMC study][3], with the top five prefectures most affected by Tokyo’s COVID-19 spread matching those previously identified.
 
+```{r fig_case3,echo=FALSE,fig.width=6,fig.height=4.9,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 4**. The five prefectures most affected by Tokyo, Kanagawa, Osaka, Saitama, Chiba, and Aichi, are located on the map. Red, blue and green dashed rings represent Tokyo, Nagoya and Osaka metropolitan areas, respectively. (*Figure adapted from [CMC article][3].*)")}
+knitr::include_graphics("../man/figures/edm/jp-covid19.png")
+```
 
 ## Reference
 

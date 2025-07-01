@@ -135,7 +135,7 @@ tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
 
 We first use CCM to explore the causal effects of air pollutants on the incidence of cardiovascular diseases.
 
-```{r ccm_cvd, eval=FALSE}
+```{r ccm_cvd}
 rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6)
 rsp_cvd
 no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6))

@@ -6,6 +6,7 @@ it is necessary to pre-build the vignette prior to package submission.
   out = paste0("vignettes/",name,".Rmd")
   inp = paste0(out,".orig")
   knitr::knit(inp,out)
-  
+}
+
 .prebuild_vignettes("tEDM")
 }

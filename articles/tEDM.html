@@ -222,26 +222,25 @@ between various air pollutants and cardiovascular diseases:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stscl.github.io/tEDM/">tEDM</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">cvd</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/cvd.csv"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">1032</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">5</span></span></span>
-<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">## <span style="color: #00BB00;">dbl</span> (5): cvd, rsp, no2, so2, o3</span></span>
+<span><span class="va">cvd</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/cvd.csv"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 1032 Columns: 5</span></span>
+<span><span class="co">## ── Column specification ─────────────────────────────────────────────────────────</span></span>
+<span><span class="co">## Delimiter: ","</span></span>
+<span><span class="co">## dbl (5): cvd, rsp, no2, so2, o3</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cvd</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
+<span><span class="co">## ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cvd</span><span class="op">)</span></span>
+<span><span class="co">## # A tibble: 6 × 5</span></span>
 <span><span class="co">##     cvd   rsp   no2   so2    o3</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>   214  73.7  74.5  19.1 17.4 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>   203  77.6  80.9  18.8 39.4 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>   202  64.8  67.1  13.8 56.4 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>   182  68.8  74.7  30.8  5.6 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>   181  49.4  62.3  23.1  3.6 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>   129  67.4  63.6  17.4  6.73</span></span></code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<span><span class="co">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">## 1   214  73.7  74.5  19.1 17.4 </span></span>
+<span><span class="co">## 2   203  77.6  80.9  18.8 39.4 </span></span>
+<span><span class="co">## 3   202  64.8  67.1  13.8 56.4 </span></span>
+<span><span class="co">## 4   182  68.8  74.7  30.8  5.6 </span></span>
+<span><span class="co">## 5   181  49.4  62.3  23.1  3.6 </span></span>
+<span><span class="co">## 6   129  67.4  63.6  17.4  6.73</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cvd_long</span> <span class="op">=</span> <span class="va">cvd</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rowid_to_column</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">id</span>,</span>
@@ -256,16 +255,16 @@ between various air pollutants and cardiovascular diseases:</p>
 <span>                 legend.justification <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>,<span class="st">"top"</span><span class="op">)</span>,</span>
 <span>                 legend.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"transparent"</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">fig1</span></span></code></pre></div>
-<div class="figure">
-<img src="tEDM_files/figure-html/fig1-1.png" alt="**Figure 1**. Time series of air pollutants and confirmed CVD cases in Hong Kong from March 1995 to November 1997." width="650"><p class="caption">
-<strong>Figure 1</strong>. Time series of air pollutants and confirmed
-CVD cases in Hong Kong from March 1995 to November 1997.
-</p>
+<div class="float">
+<img src="../reference/figures/edm/fig1-1.png" alt="Figure 1. Time series of air pollutants and confirmed CVD cases in Hong Kong from March 1995 to November 1997."><div class="figcaption">
+<strong>Figure 1</strong>. Time series of air
+pollutants and confirmed CVD cases in Hong Kong from March 1995 to
+November 1997.</div>
 </div>
 <p>Determining optimal embedding dimension:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">50</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">cvd</span><span class="op">$</span><span class="va">cvd</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 </span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">50</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">cvd</span><span class="op">$</span><span class="va">cvd</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 </span></span>
 <span><span class="co">## 0.4827586 0.5611765 0.3894850 0.3004292 0.2682403 0.2564378 0.2607296 0.2671674 </span></span>
 <span><span class="co">##       E:9      E:10      E:11      E:12      E:13      E:14      E:15      E:16 </span></span>
 <span><span class="co">## 0.2639485 0.2607296 0.2521459 0.2682403 0.2467811 0.2457082 0.2392704 0.2242489 </span></span>
@@ -278,32 +277,28 @@ CVD cases in Hong Kong from March 1995 to November 1997.
 <span><span class="co">##      E:41      E:42      E:43      E:44      E:45      E:46      E:47      E:48 </span></span>
 <span><span class="co">## 0.2478541 0.2414163 0.2435622 0.2478541 0.2489270 0.2585837 0.2671674 0.2553648 </span></span>
 <span><span class="co">##      E:49 </span></span>
-<span><span class="co">## 0.2585837</span></span></code></pre>
+<span><span class="co">## 0.2585837</span></span></code></pre></div>
 <p>Starting at <span class="math inline">\(E = 5\)</span>, the FNN ratio
 stabilizes near 0.2; thus, embedding dimension E and neighbor number k
 are chosen from 5 onward for subsequent self-prediction parameter
 selection.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The suggested E and k for variable cvd is 5 and 6</span></span></code></pre>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The suggested E and k for variable rsp is 5 and 6</span></span></code></pre>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The suggested E and k for variable no2 is 5 and 8</span></span></code></pre>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The suggested E and k for variable so2 is 5 and 15</span></span></code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The suggested E and k for variable o3 is 5 and 6</span></span></code></pre>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable cvd is 5 and 6</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable rsp is 5 and 6</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable no2 is 5 and 8</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable so2 is 5 and 15</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable o3 is 5 and 6</span></span></code></pre></div>
 <p>We first use CCM to explore the causal influences of air pollutants
 on the incidence of cardiovascular diseases.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">rsp_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">6</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">rsp_cvd</span></span></code></pre></div>
-<pre><code><span><span class="co">##    libsizes   rsp-&gt;cvd   cvd-&gt;rsp</span></span>
+<span><span class="va">rsp_cvd</span></span>
+<span><span class="co">##    libsizes   rsp-&gt;cvd   cvd-&gt;rsp</span></span>
 <span><span class="co">## 1        32 0.04319516 0.01319450</span></span>
 <span><span class="co">## 2       132 0.04437840 0.04042972</span></span>
 <span><span class="co">## 3       232 0.05755968 0.04856251</span></span>
@@ -314,11 +309,10 @@ on the incidence of cardiovascular diseases.</p>
 <span><span class="co">## 8       732 0.02813186 0.05075322</span></span>
 <span><span class="co">## 9       832 0.02364578 0.05075094</span></span>
 <span><span class="co">## 10      932 0.02226927 0.05080212</span></span>
-<span><span class="co">## 11     1027 0.07212221 0.05626339</span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">no2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">no2_cvd</span></span></code></pre></div>
-<pre><code><span><span class="co">##    libsizes   no2-&gt;cvd   cvd-&gt;no2</span></span>
+<span><span class="co">## 11     1027 0.07212221 0.05626339</span></span>
+<span><span class="va">no2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">no2_cvd</span></span>
+<span><span class="co">##    libsizes   no2-&gt;cvd   cvd-&gt;no2</span></span>
 <span><span class="co">## 1        32 0.09597753 0.04864942</span></span>
 <span><span class="co">## 2       132 0.12416134 0.09638212</span></span>
 <span><span class="co">## 3       232 0.15621628 0.11924223</span></span>
@@ -329,11 +323,10 @@ on the incidence of cardiovascular diseases.</p>
 <span><span class="co">## 8       732 0.14752161 0.12305037</span></span>
 <span><span class="co">## 9       832 0.14525414 0.12052819</span></span>
 <span><span class="co">## 10      932 0.14519559 0.11924900</span></span>
-<span><span class="co">## 11     1027 0.23186797 0.17037681</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">so2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">so2_cvd</span></span></code></pre></div>
-<pre><code><span><span class="co">##    libsizes    so2-&gt;cvd   cvd-&gt;so2</span></span>
+<span><span class="co">## 11     1027 0.23186797 0.17037681</span></span>
+<span><span class="va">so2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">so2_cvd</span></span>
+<span><span class="co">##    libsizes    so2-&gt;cvd   cvd-&gt;so2</span></span>
 <span><span class="co">## 1        32 0.038665119 0.03405003</span></span>
 <span><span class="co">## 2       132 0.023943075 0.06258078</span></span>
 <span><span class="co">## 3       232 0.020748020 0.07086180</span></span>
@@ -344,11 +337,10 @@ on the incidence of cardiovascular diseases.</p>
 <span><span class="co">## 8       732 0.011701558 0.07877438</span></span>
 <span><span class="co">## 9       832 0.009729901 0.08091936</span></span>
 <span><span class="co">## 10      932 0.009048317 0.08116150</span></span>
-<span><span class="co">## 11     1027 0.011257499 0.07416282</span></span></code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">o3_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">6</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">o3_cvd</span></span></code></pre></div>
-<pre><code><span><span class="co">##    libsizes       o3-&gt;cvd    cvd-&gt;o3</span></span>
+<span><span class="co">## 11     1027 0.011257499 0.07416282</span></span>
+<span><span class="va">o3_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">6</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">o3_cvd</span></span>
+<span><span class="co">##    libsizes       o3-&gt;cvd    cvd-&gt;o3</span></span>
 <span><span class="co">## 1        32 -0.0021382170 0.02675574</span></span>
 <span><span class="co">## 2       132 -0.0028994401 0.03818003</span></span>
 <span><span class="co">## 3       232  0.0015246470 0.04784981</span></span>
@@ -359,8 +351,8 @@ on the incidence of cardiovascular diseases.</p>
 <span><span class="co">## 8       732 -0.0017126973 0.03108036</span></span>
 <span><span class="co">## 9       832 -0.0011312952 0.02697292</span></span>
 <span><span class="co">## 10      932  0.0004006101 0.02451813</span></span>
-<span><span class="co">## 11     1027  0.0480365415 0.06844222</span></span></code></pre>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<span><span class="co">## 11     1027  0.0480365415 0.06844222</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rsp_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.1</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">figb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.03</span>,<span class="fl">0.25</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.25</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">figc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">so2_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.1</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
@@ -370,11 +362,10 @@ on the incidence of cardiovascular diseases.</p>
 <span>                         label_fontfamily <span class="op">=</span> <span class="st">'serif'</span>,</span>
 <span>                         labels <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">fig2</span></span></code></pre></div>
-<div class="figure">
-<img src="tEDM_files/figure-html/fig2-1.png" alt="**Figure 2**. Cross-mapping results between different air pollutants and cardiovascular diseases." width="750"><p class="caption">
-<strong>Figure 2</strong>. Cross-mapping results between different air
-pollutants and cardiovascular diseases.
-</p>
+<div class="float">
+<img src="../reference/figures/edm/fig2-1.png" alt="Figure 2. Cross-mapping results between different air pollutants and cardiovascular diseases."><div class="figcaption">
+<strong>Figure 2</strong>. Cross-mapping results
+between different air pollutants and cardiovascular diseases.</div>
 </div>
 <p>The results shown in Figure2 indicate the presence of the following
 causal influences:</p>
@@ -391,28 +382,26 @@ causal influences:</p>
 and spatial pollution is likely reflective rather than causal.
 Therefore, we further employ CCM to examine the causal paths of cvd →
 no₂ and cvd → o₃.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">g1</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">100</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">g1</span></span></code></pre></div>
-<pre><code><span><span class="co">##   neighbors o3-&gt;cvd cvd-&gt;o3</span></span>
-<span><span class="co">## 1       100  0.2344  0.5589</span></span></code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">g1</span><span class="op">$</span><span class="va">xmap</span></span></code></pre></div>
-<pre><code><span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
+<span><span class="va">g1</span></span>
+<span><span class="co">##   neighbors o3-&gt;cvd cvd-&gt;o3</span></span>
+<span><span class="co">## 1       100  0.2344  0.5589</span></span>
+<span><span class="va">g1</span><span class="op">$</span><span class="va">xmap</span></span>
+<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
 <span><span class="co">## 1       100        0.5589     0.188823      0.6467507      0.4710493</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
-<span><span class="co">## 1        0.2344 2.138197e-12      0.3085003      0.1602997</span></span></code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">g2</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">100</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">g2</span></span></code></pre></div>
-<pre><code><span><span class="co">##   neighbors no2-&gt;cvd cvd-&gt;no2</span></span>
-<span><span class="co">## 1       100   0.4833   0.5363</span></span></code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">g2</span><span class="op">$</span><span class="va">xmap</span></span></code></pre></div>
-<pre><code><span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
+<span><span class="co">## 1        0.2344 2.138197e-12      0.3085003      0.1602997</span></span>
+<span></span>
+<span><span class="va">g2</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">100</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">g2</span></span>
+<span><span class="co">##   neighbors no2-&gt;cvd cvd-&gt;no2</span></span>
+<span><span class="co">## 1       100   0.4833   0.5363</span></span>
+<span><span class="va">g2</span><span class="op">$</span><span class="va">xmap</span></span>
+<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
 <span><span class="co">## 1       100        0.5363    0.4205595      0.6246315      0.4479685</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
-<span><span class="co">## 1        0.4833    0.7186329      0.5741482      0.3924518</span></span></code></pre>
+<span><span class="co">## 1        0.4833    0.7186329      0.5741482      0.3924518</span></span></code></pre></div>
 <p>The causal paths <strong>cvd → no₂</strong> and <strong>cvd →
 o₃</strong> are not statistically significant in the CMC analysis
 results, allowing us to rule out these two directions. Therefore, we
@@ -423,10 +412,10 @@ different air pollutants. However, due to space constraints in this
 vignette, we limit our analysis to a single test case — specifically,
 examining whether <strong>NO₂</strong> exerts a causal influence on
 <strong>Respirable Suspended Particulates (rsp)</strong>.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">no2_rsp</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">6</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">no2_rsp</span></span></code></pre></div>
-<pre><code><span><span class="co">## -------------------------------------- </span></span>
+<span><span class="va">no2_rsp</span></span>
+<span><span class="co">## -------------------------------------- </span></span>
 <span><span class="co">## ***partial cross mapping prediction*** </span></span>
 <span><span class="co">## -------------------------------------- </span></span>
 <span><span class="co">##    libsizes  no2-&gt;rsp  rsp-&gt;no2</span></span>
@@ -456,22 +445,21 @@ examining whether <strong>NO₂</strong> exerts a causal influence on
 <span><span class="co">## 8       732 0.7397101 0.7479086</span></span>
 <span><span class="co">## 9       832 0.7399319 0.7481982</span></span>
 <span><span class="co">## 10      932 0.7399475 0.7481772</span></span>
-<span><span class="co">## 11     1027 0.7623938 0.7574991</span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,partial <span class="op">=</span> <span class="cn">FALSE</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## 11     1027 0.7623938 0.7574991</span></span>
+<span></span>
+<span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,partial <span class="op">=</span> <span class="cn">FALSE</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">figb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fig3</span> <span class="op">=</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">figa</span>, <span class="va">figb</span>, ncol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                          label_fontfamily <span class="op">=</span> <span class="st">'serif'</span>,</span>
 <span>                          labels <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="va">fig3</span></span></code></pre></div>
-<div class="figure">
-<img src="tEDM_files/figure-html/fig3-1.png" alt="**Figure 3**. Cross-mapping results between no₂ and respirable suspended particulates. **a**. CCM results without accounting for other variables. **b**. PCM results controlling for the influence of CVDs." width="650"><p class="caption">
-<strong>Figure 3</strong>. Cross-mapping results between no₂ and
-respirable suspended particulates. <strong>a</strong>. CCM results
-without accounting for other variables. <strong>b</strong>. PCM results
-controlling for the influence of CVDs.
-</p>
+<div class="float">
+<img src="../reference/figures/edm/fig3-1.png" alt="Figure 3. Cross-mapping results between no₂ and respirable suspended particulates. a. CCM results without accounting for other variables. b. PCM results controlling for the influence of CVDs."><div class="figcaption">
+<strong>Figure 3</strong>. Cross-mapping results
+between no₂ and respirable suspended particulates. <strong>a</strong>.
+CCM results without accounting for other variables. <strong>b</strong>.
+PCM results controlling for the influence of CVDs.</div>
 </div>
 <p>The CCM and PCM results between <strong>NO₂</strong> and
 <strong>respirable suspended particulates</strong> show minimal
@@ -491,51 +479,50 @@ between air pollutants and cardiovascular diseases in Hong Kong.</div>
 <p>To examine whether a causal relationship exists between annual mean
 temperature and total annual CO₂ emissions, we implement the CMC method
 across counties.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stscl.github.io/tEDM/">tEDM</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">carbon</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/carbon.csv.gz"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">113627</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">4</span></span></span>
-<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">## <span style="color: #00BB00;">dbl</span> (4): year, fips, tem, carbon</span></span>
+<span><span class="va">carbon</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/carbon.csv.gz"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 113627 Columns: 4</span></span>
+<span><span class="co">## ── Column specification ─────────────────────────────────────────────────────────</span></span>
+<span><span class="co">## Delimiter: ","</span></span>
+<span><span class="co">## dbl (4): year, fips, tem, carbon</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">carbon</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">## ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">carbon</span><span class="op">)</span></span>
+<span><span class="co">## # A tibble: 6 × 4</span></span>
 <span><span class="co">##    year  fips   tem     carbon</span></span>
-<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>  <span style="text-decoration: underline;">1</span>981  <span style="text-decoration: underline;">1</span>001  17.4 192<span style="text-decoration: underline;">607</span>687.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>  <span style="text-decoration: underline;">1</span>982  <span style="text-decoration: underline;">1</span>001  18.4 187<span style="text-decoration: underline;">149</span>414.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>  <span style="text-decoration: underline;">1</span>983  <span style="text-decoration: underline;">1</span>001  16.9 191<span style="text-decoration: underline;">584</span>445.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>  <span style="text-decoration: underline;">1</span>984  <span style="text-decoration: underline;">1</span>001  17.8 199<span style="text-decoration: underline;">157</span>579.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>  <span style="text-decoration: underline;">1</span>985  <span style="text-decoration: underline;">1</span>001  17.9 205<span style="text-decoration: underline;">207</span>564.</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>  <span style="text-decoration: underline;">1</span>986  <span style="text-decoration: underline;">1</span>001  18.5 218<span style="text-decoration: underline;">446</span>030.</span></span></code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">carbon_list</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_split.html" class="external-link">group_split</a></span><span class="op">(</span><span class="va">carbon</span>, by <span class="op">=</span> <span class="va">fips</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] 3071</span></span></code></pre>
+<span><span class="co">##   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span><span class="co">## 1  1981  1001  17.4 192607687.</span></span>
+<span><span class="co">## 2  1982  1001  18.4 187149414.</span></span>
+<span><span class="co">## 3  1983  1001  16.9 191584445.</span></span>
+<span><span class="co">## 4  1984  1001  17.8 199157579.</span></span>
+<span><span class="co">## 5  1985  1001  17.9 205207564.</span></span>
+<span><span class="co">## 6  1986  1001  18.5 218446030.</span></span>
+<span></span>
+<span><span class="va">carbon_list</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_split.html" class="external-link">group_split</a></span><span class="op">(</span><span class="va">carbon</span>, by <span class="op">=</span> <span class="va">fips</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">)</span></span>
+<span><span class="co">## [1] 3071</span></span></code></pre></div>
 <p>Using the 100th county as an example, we determine the appropriate
 embedding dimension by applying the FNN method.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">carbon</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">carbon</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
 <span><span class="co">## 0.58823529 0.23529412 0.23529412 0.17647059 0.05882353 0.00000000 0.00000000 </span></span>
 <span><span class="co">##        E:8        E:9 </span></span>
-<span><span class="co">## 0.00000000 0.00000000</span></span></code></pre>
+<span><span class="co">## 0.00000000 0.00000000</span></span></code></pre></div>
 <p>When E equals 6, the FNN ratio begins to drop to zero; therefore, we
 select <span class="math inline">\(E = 6\)</span> as the embedding
 dimension for the CMC analysis.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="va">carbon_list</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">6</span>,k <span class="op">=</span> <span class="fl">20</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
 <span><span class="co">## 1        20       0.23000 7.559829e-04      0.3871031     0.07289694</span></span>
 <span><span class="co">## 2        20       0.15250 5.155608e-08      0.2775652     0.02743478</span></span>
 <span><span class="co">## 3        20       0.15125 3.546400e-08      0.2752574     0.02724258</span></span>
@@ -548,25 +535,25 @@ dimension for the CMC analysis.</p>
 <span><span class="co">## 3       0.04375 2.129338e-31      0.1204663              0</span></span>
 <span><span class="co">## 4       0.04375 2.129338e-31      0.1204663              0</span></span>
 <span><span class="co">## 5       0.04500 1.570561e-32      0.1200890              0</span></span>
-<span><span class="co">## 6       0.03750 2.118657e-39      0.1065211              0</span></span></code></pre>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res_carbon</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span> </span>
+<span><span class="co">## 6       0.03750 2.118657e-39      0.1065211              0</span></span>
+<span></span>
+<span><span class="va">res_carbon</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">neighbors</span>,</span>
 <span>                carbon_tem <span class="op">=</span> <span class="va">x_xmap_y_mean</span>,</span>
 <span>                tem_carbon <span class="op">=</span> <span class="va">y_xmap_x_mean</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">carbon_tem</span>, <span class="va">tem_carbon</span><span class="op">)</span>, </span>
 <span>                      names_to <span class="op">=</span> <span class="st">"variable"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_carbon</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_carbon</span><span class="op">)</span></span>
+<span><span class="co">## # A tibble: 6 × 3</span></span>
 <span><span class="co">##   neighbors variable    value</span></span>
-<span><span class="co">##       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>        20 carbon_tem 0.23  </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>        20 tem_carbon 0.038<span style="text-decoration: underline;">8</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>        20 carbon_tem 0.152 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>        20 tem_carbon 0.042<span style="text-decoration: underline;">5</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>        20 carbon_tem 0.151 </span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>        20 tem_carbon 0.043<span style="text-decoration: underline;">8</span></span></span></code></pre>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<span><span class="co">##       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
+<span><span class="co">## 1        20 carbon_tem 0.23  </span></span>
+<span><span class="co">## 2        20 tem_carbon 0.0388</span></span>
+<span><span class="co">## 3        20 carbon_tem 0.152 </span></span>
+<span><span class="co">## 4        20 tem_carbon 0.0425</span></span>
+<span><span class="co">## 5        20 carbon_tem 0.151 </span></span>
+<span><span class="co">## 6        20 tem_carbon 0.0438</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">fig_case2</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">res_carbon</span>, </span>
 <span>                            <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">variable</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -576,12 +563,12 @@ dimension for the CMC analysis.</p>
 <span>                                       <span class="st">"tem_carbon"</span> <span class="op">=</span> <span class="st">"tem → carbon"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
 <span><span class="va">fig_case2</span></span></code></pre></div>
-<div class="figure">
-<img src="tEDM_files/figure-html/fig_case2-1.png" alt="**Figure 5**. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20." width="450"><p class="caption">
-<strong>Figure 5</strong>. Causal strength scores between annual mean
-temperature and total annual CO₂ emissions across US counties, with
-embedding dimension E set to 6 and number of neighbors set to 20.
-</p>
+<div class="float">
+<img src="../reference/figures/edm/fig_case2-1.png" alt="Figure 5. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20."><div class="figcaption">
+<strong>Figure 5</strong>. Causal strength
+scores between annual mean temperature and total annual CO₂ emissions
+across US counties, with embedding dimension E set to 6 and number of
+neighbors set to 20.</div>
 </div>
 </div>
 <div class="section level3">
@@ -590,45 +577,44 @@ embedding dimension E set to 6 and number of neighbors set to 20.
 <p>We examine the COVID-19 transmission between Tokyo and other
 prefectures by applying CCM to identify the underlying causal dynamics
 of the epidemic spread</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://stscl.github.io/tEDM/">tEDM</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">covid</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/covid.csv"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="font-weight: bold;">Rows: </span><span style="color: #0000BB;">334</span> <span style="font-weight: bold;">Columns: </span><span style="color: #0000BB;">47</span></span></span>
-<span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Column specification</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## <span style="font-weight: bold;">Delimiter:</span> ","</span></span>
-<span><span class="co">## <span style="color: #00BB00;">dbl</span> (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ibara...</span></span>
+<span><span class="va">covid</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html" class="external-link">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"case/covid.csv"</span>,package <span class="op">=</span> <span class="st">"tEDM"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">## Rows: 334 Columns: 47</span></span>
+<span><span class="co">## ── Column specification ─────────────────────────────────────────────────────────</span></span>
+<span><span class="co">## Delimiter: ","</span></span>
+<span><span class="co">## dbl (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ibarak...</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use `spec()` to retrieve the full column specification for this data.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span></code></pre>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 47</span></span></span>
+<span><span class="co">## ℹ Use `spec()` to retrieve the full column specification for this data.</span></span>
+<span><span class="co">## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span></span>
+<span><span class="co">## # A tibble: 6 × 47</span></span>
 <span><span class="co">##   Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukushima Ibaraki Tochigi Gunma</span></span>
-<span><span class="co">##      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">1</span>        0      0     0      0     0        0         0       0       0     0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">2</span>        0      0     0      0     0        0         0       0       0     0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">3</span>        0      0     0      0     0        0         0       0       0     0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">4</span>        0      0     0      0     0        0         0       0       0     0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">5</span>        0      0     0      0     0        0         0       0       0     0</span></span>
-<span><span class="co">## <span style="color: #BCBCBC;">6</span>        0      0     0      0     0        0         0       0       0     0</span></span>
-<span><span class="co">## <span style="color: #949494;"># ℹ 37 more variables: Saitama &lt;dbl&gt;, Chiba &lt;dbl&gt;, Tokyo &lt;dbl&gt;, Kanagawa &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Niigata &lt;dbl&gt;, Toyama &lt;dbl&gt;, Ishikawa &lt;dbl&gt;, Fukui &lt;dbl&gt;, Yamanashi &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Nagano &lt;dbl&gt;, Gifu &lt;dbl&gt;, Shizuoka &lt;dbl&gt;, Aichi &lt;dbl&gt;, Mie &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Shiga &lt;dbl&gt;, Kyoto &lt;dbl&gt;, Osaka &lt;dbl&gt;, Hyogo &lt;dbl&gt;, Nara &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Wakayama &lt;dbl&gt;, Tottori &lt;dbl&gt;, Shimane &lt;dbl&gt;, Okayama &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Hiroshima &lt;dbl&gt;, Yamaguchi &lt;dbl&gt;, Tokushima &lt;dbl&gt;, Kagawa &lt;dbl&gt;,</span></span></span>
-<span><span class="co">## <span style="color: #949494;">#   Ehime &lt;dbl&gt;, Kochi &lt;dbl&gt;, Fukuoka &lt;dbl&gt;, Saga &lt;dbl&gt;, Nagasaki &lt;dbl&gt;, …</span></span></span></code></pre>
+<span><span class="co">##      &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">## 1        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## 2        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## 3        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## 4        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## 5        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## 6        0      0     0      0     0        0         0       0       0     0</span></span>
+<span><span class="co">## # ℹ 37 more variables: Saitama &lt;dbl&gt;, Chiba &lt;dbl&gt;, Tokyo &lt;dbl&gt;, Kanagawa &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   Niigata &lt;dbl&gt;, Toyama &lt;dbl&gt;, Ishikawa &lt;dbl&gt;, Fukui &lt;dbl&gt;, Yamanashi &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   Nagano &lt;dbl&gt;, Gifu &lt;dbl&gt;, Shizuoka &lt;dbl&gt;, Aichi &lt;dbl&gt;, Mie &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   Shiga &lt;dbl&gt;, Kyoto &lt;dbl&gt;, Osaka &lt;dbl&gt;, Hyogo &lt;dbl&gt;, Nara &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   Wakayama &lt;dbl&gt;, Tottori &lt;dbl&gt;, Shimane &lt;dbl&gt;, Okayama &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   Hiroshima &lt;dbl&gt;, Yamaguchi &lt;dbl&gt;, Tokushima &lt;dbl&gt;, Kagawa &lt;dbl&gt;,</span></span>
+<span><span class="co">## #   Ehime &lt;dbl&gt;, Kochi &lt;dbl&gt;, Fukuoka &lt;dbl&gt;, Saga &lt;dbl&gt;, Nagasaki &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>The data are first differenced:</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">covid</span> <span class="op">=</span> <span class="va">covid</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                              \<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>,<span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Using Tokyo’s COVID-19 infection data to test the optimal embedding
 dimension.</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">covid</span><span class="op">$</span><span class="va">Tokyo</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">covid</span><span class="op">$</span><span class="va">Tokyo</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
 <span><span class="co">## 0.82432432 0.43333333 0.14598540 0.07664234 0.06934307 0.05474453 0.03284672 </span></span>
 <span><span class="co">##        E:8        E:9       E:10       E:11       E:12       E:13       E:14 </span></span>
 <span><span class="co">## 0.01459854 0.01459854 0.00729927 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
@@ -637,23 +623,23 @@ dimension.</p>
 <span><span class="co">##       E:22       E:23       E:24       E:25       E:26       E:27       E:28 </span></span>
 <span><span class="co">## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##       E:29 </span></span>
-<span><span class="co">## 0.00000000</span></span></code></pre>
+<span><span class="co">## 0.00000000</span></span></code></pre></div>
 <p>Since the FNN ratio begins to approach zero when E equals 11,
 embedding dimensions from 11 onward are evaluated, and the pair of E and
 k yielding the highest self-prediction accuracy is selected for the CCM
 procedure.</p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">50</span>,k <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## The suggested E and k for variable Tokyo is 11 and 16</span></span></code></pre>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">50</span>,k <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable Tokyo is 11 and 16</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"Tokyo"</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.l</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="va">.l</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">16</span>,tau <span class="op">=</span> <span class="fl">0</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="va">res</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span>,x <span class="op">=</span> <span class="st">"Tokyo"</span>,y <span class="op">=</span> <span class="va">.l</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
+<span><span class="co">##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
 <span><span class="co">## 1      323     0.7194347 9.527435e-53     0.66230393      0.7682476</span></span>
 <span><span class="co">## 2      323     0.2356305 1.879218e-05     0.12984019      0.3361165</span></span>
 <span><span class="co">## 3      323     0.5676352 6.057533e-29     0.48878419      0.6372872</span></span>
@@ -666,9 +652,9 @@ procedure.</p>
 <span><span class="co">## 3     0.7795907 3.314325e-67      0.7328059      0.8190392 Tokyo    Iwate</span></span>
 <span><span class="co">## 4     0.7972467 2.392638e-72      0.7536909      0.8338302 Tokyo   Miyagi</span></span>
 <span><span class="co">## 5     0.4590275 3.079043e-18      0.3683504      0.5410534 Tokyo    Akita</span></span>
-<span><span class="co">## 6     0.5694476 3.704062e-29      0.4908197      0.6388748 Tokyo Yamagata</span></span></code></pre>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">df1</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
+<span><span class="co">## 6     0.5694476 3.704062e-29      0.4908197      0.6388748 Tokyo Yamagata</span></span>
+<span></span>
+<span><span class="va">df1</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>,<span class="va">y_xmap_x_mean</span>,<span class="va">y_xmap_x_sig</span><span class="op">)</span><span class="op">|&gt;</span></span>
 <span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cause"</span>,<span class="st">"effect"</span>,<span class="st">"cs"</span>,<span class="st">"sig"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">df2</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
@@ -677,13 +663,13 @@ procedure.</p>
 <span><span class="va">res_covid</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">df1</span>,<span class="va">df2</span><span class="op">)</span><span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cause</span> <span class="op">==</span> <span class="st">"Tokyo"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">cs</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_covid</span>,<span class="fl">5</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##   cause   effect        cs           sig</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_covid</span>,<span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">##   cause   effect        cs           sig</span></span>
 <span><span class="co">## 1 Tokyo Kanagawa 0.9337641 2.698678e-145</span></span>
 <span><span class="co">## 2 Tokyo    Osaka 0.9277809 1.762531e-139</span></span>
 <span><span class="co">## 3 Tokyo  Saitama 0.9247632 9.810852e-137</span></span>
 <span><span class="co">## 4 Tokyo    Chiba 0.9174220 1.653727e-130</span></span>
-<span><span class="co">## 5 Tokyo    Aichi 0.9153784 7.065131e-129</span></span></code></pre>
+<span><span class="co">## 5 Tokyo    Aichi 0.9153784 7.065131e-129</span></span></code></pre></div>
 <p>Our CCM analysis reproduced the same results as the <a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link">original CMC
 study</a>, with the top five prefectures most affected by Tokyo’s
 COVID-19 spread matching those previously identified.</p>

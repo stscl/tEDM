@@ -356,9 +356,13 @@ std::vector<double> IntersectionCardinality(
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
-  // Precompute neighbors
-  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib,num_neighbors + n_excluded);
-  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib,num_neighbors + n_excluded);
+  // // Precompute neighbors (The earlier implementation based on a serial version)
+  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib, num_neighbors + n_excluded);
+  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib, num_neighbors + n_excluded);
+
+  // Precompute neighbors (parallel computation)
+  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet);
+  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet);
 
   // run cross mapping
   std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
@@ -426,9 +430,13 @@ std::vector<double> IntersectionCardinalityScores(
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
-  // Precompute neighbors
-  auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib,num_neighbors + n_excluded);
-  auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib,num_neighbors + n_excluded);
+  // // Precompute neighbors (The earlier implementation based on a serial version)
+  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib, num_neighbors + n_excluded);
+  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib, num_neighbors + n_excluded);
+
+  // Precompute neighbors (parallel computation)
+  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet);
+  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet);
 
   // run cross mapping
   std::vector<IntersectionRes> res = IntersectionCardinalitySingle(

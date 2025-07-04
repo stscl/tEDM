@@ -25,8 +25,8 @@ RcppMVE4TS <- function(x, y, lib, pred, E, tau, b, top, nvar, threads) {
     .Call(`_tEDM_RcppMVE4TS`, x, y, lib, pred, E, tau, b, top, nvar, threads)
 }
 
-RcppFNN4TS <- function(vec, rt, eps, lib, pred, E, tau, threads) {
-    .Call(`_tEDM_RcppFNN4TS`, vec, rt, eps, lib, pred, E, tau, threads)
+RcppFNN4TS <- function(vec, rt, eps, lib, pred, E, tau = 0L, threads = 8L, parallel_level = 0L) {
+    .Call(`_tEDM_RcppFNN4TS`, vec, rt, eps, lib, pred, E, tau, threads, parallel_level)
 }
 
 RcppSimplex4TS <- function(source, target, lib, pred, E, b, tau, threads) {
@@ -219,6 +219,10 @@ RcppDistKNNIndice <- function(dist_mat, target_idx, k, lib) {
 
 RcppDistSortedIndice <- function(dist_mat, lib, k, include_self = FALSE) {
     .Call(`_tEDM_RcppDistSortedIndice`, dist_mat, lib, k, include_self)
+}
+
+RcppMatKNNeighbors <- function(embeddings, lib, k, threads = 8L) {
+    .Call(`_tEDM_RcppMatKNNeighbors`, embeddings, lib, k, threads)
 }
 
 RcppLinearTrendRM <- function(vec, xcoord, ycoord, NA_rm = FALSE) {

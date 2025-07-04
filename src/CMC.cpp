@@ -6,6 +6,7 @@
 #include <utility>
 #include <unordered_set>
 #include "CppStats.h"
+#include "CppDistances.h"
 #include "tEDMDataStruct.h"
 #include "IntersectionCardinality.h"
 #include <RcppThread.h>

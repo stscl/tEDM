@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include "CppStats.h"
+#include "CppDistances.h"
 #include "DeLongPlacements.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>

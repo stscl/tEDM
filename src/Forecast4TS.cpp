@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <utility>
 #include "CppStats.h"
+#include "CppDistances.h"
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"

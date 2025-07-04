@@ -10,3 +10,4 @@ it is necessary to pre-build the vignette prior to package submission.
 
 .prebuild_vignettes("tEDM")
 }
+```

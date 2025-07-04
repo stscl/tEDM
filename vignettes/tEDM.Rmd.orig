@@ -23,7 +23,7 @@ The `tEDM` package provides a suite of tools for exploring and quantifying causa
 
 - [**Partial Cross Mapping (PCM)**][2]
 
-- [**Cross Mapping Cardinality (CMC)**][3] 
+- [**Cross Mapping Cardinality (CMC)**][3]
 
 - [**Multispatial Convergent Cross Mapping (MultispatialCCM)**][4]
 
@@ -118,8 +118,8 @@ head(cvd)
 ```
 
 ```{r fig1,fig.width=6.5,fig.height=3.75,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 1**. Time series of air pollutants and confirmed CVD cases in Hong Kong from March 1995 to November 1997.")}
-cvd_long = cvd |> 
-  tibble::rowid_to_column("id") |> 
+cvd_long = cvd |>
+  tibble::rowid_to_column("id") |>
   tidyr::pivot_longer(cols = -id,
                       names_to = "variable", values_to = "value")
 
@@ -140,34 +140,34 @@ Determining optimal embedding dimension:
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ```
 
-Starting at $E = 5$, the FNN ratio stabilizes near 0.2; thus, embedding dimension E and neighbor number k are chosen from 5 onward for subsequent self-prediction parameter selection.
+Starting at $E = 11$, the FNN ratio stabilizes near 0.18; thus, embedding dimension E and neighbor number k are chosen from 11 onward for subsequent self-prediction parameter selection.
 
 ```{r simplex_cvd}
-tEDM::simplex(cvd,"cvd","cvd",E = 5:25,k = 6:35)
-tEDM::simplex(cvd,"rsp","rsp",E = 5:25,k = 6:35)
-tEDM::simplex(cvd,"no2","no2",E = 5:25,k = 6:35)
-tEDM::simplex(cvd,"so2","so2",E = 5:25,k = 6:35)
-tEDM::simplex(cvd,"o3","o3",E = 5:25,k = 6:35)
+tEDM::simplex(cvd,"cvd","cvd",E = 11:35,k = 12:36)
+tEDM::simplex(cvd,"rsp","rsp",E = 11:35,k = 12:36)
+tEDM::simplex(cvd,"no2","no2",E = 11:35,k = 12:36)
+tEDM::simplex(cvd,"so2","so2",E = 11:35,k = 12:36)
+tEDM::simplex(cvd,"o3","o3",E = 11:35,k = 12:36)
 ```
 
 We first use CCM to explore the causal influences of air pollutants on the incidence of cardiovascular diseases.
 
 ```{r ccm_cvd}
-rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = 6,progressbar = FALSE)
+rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 11,k = c(13,12),progressbar = FALSE)
 rsp_cvd
-no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6),progressbar = FALSE)
+no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 11,k = 12,progressbar = FALSE)
 no2_cvd
-so2_cvd = tEDM::ccm(cvd,"so2","cvd",libsizes = seq(32,1032,100),E = 5,k = c(15,6),progressbar = FALSE)
+so2_cvd = tEDM::ccm(cvd,"so2","cvd",libsizes = seq(32,1032,100),E = 11,k = c(18,12),progressbar = FALSE)
 so2_cvd
-o3_cvd = tEDM::ccm(cvd,"o3","cvd",libsizes = seq(32,1032,100),E = 5,k = 6,progressbar = FALSE)
+o3_cvd = tEDM::ccm(cvd,"o3","cvd",libsizes = seq(32,1032,100),E = 11,k = 12,progressbar = FALSE)
 o3_cvd
 ```
 
 ```{r fig2,fig.width=7.5,fig.height=7.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 2**. Cross-mapping results between different air pollutants and cardiovascular diseases.")}
-figa = plot(rsp_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
-figb = plot(no2_cvd,ylimits = c(0.03,0.25),ybreaks = seq(0.05,0.25,0.05))
-figc = plot(so2_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
-figd = plot(o3_cvd,ylimits = c(-0.01,0.1),ybreaks = c(0,0.05,0.1))
+figa = plot(rsp_cvd,ylimits = c(0,0.12),ybreaks = c(0,0.05,0.10))
+figb = plot(no2_cvd,ylimits = c(0.03,0.30),ybreaks = seq(0.05,0.25,0.05))
+figc = plot(so2_cvd,ylimits = c(0.03,0.15),ybreaks = c(0,0.15,0.05))
+figd = plot(o3_cvd,ylimits = c(-0.05,0.1),ybreaks = c(-0.05,0.05,0.05))
 
 fig2 = cowplot::plot_grid(figa, figb, figc, figd, ncol = 2,
                          label_fontfamily = 'serif',
@@ -177,33 +177,44 @@ fig2
 
 The results shown in Figure2 indicate the presence of the following causal influences:
 
-- rsp → cvd  
-- no₂ → cvd  
-- cvd → no₂  
+- rsp → cvd
+- no₂ → cvd
+- so₂ → cvd
+- cvd → rsp
+- cvd → so₂
+- cvd → no₂
 - cvd → o₃
 
-However, based on practical experience, the relationship between CVDs and spatial pollution is likely reflective rather than causal. Therefore, we further employ CCM to examine the causal paths of cvd → no₂ and cvd → o₃.
+However, based on practical experience, the relationship between CVDs and air pollution is likely reflective rather than causal. Therefore, we further employ CCM to examine the causal paths of cvd → no₂ and cvd → o₃.
 
 ```{r cmc_cvd}
-g1 = tEDM::cmc(cvd,"o3","cvd",E = 5,k = 100,progressbar = FALSE)
+g1 = tEDM::cmc(cvd,"rsp","cvd",E = 11,k = 50,progressbar = FALSE)
 g1
 g1$xmap
 
-g2 = tEDM::cmc(cvd,"no2","cvd",E = 5,k = 100,progressbar = FALSE)
+g2 = tEDM::cmc(cvd,"so2","cvd",E = 11,k = 50,progressbar = FALSE)
 g2
 g2$xmap
+
+g3 = tEDM::cmc(cvd,"no2","cvd",E = 11,k = 50,progressbar = FALSE)
+g3
+g3$xmap
+
+g4 = tEDM::cmc(cvd,"o3","cvd",E = 11,k = 50,progressbar = FALSE)
+g4
+g4$xmap
 ```
 
-The causal paths **cvd → no₂** and **cvd → o₃** are not statistically significant in the CMC analysis results, allowing us to rule out these two directions. Therefore, we conclude that only **rsp** and **no₂** exhibit causal influences on CVDs.
+The causal paths from CVDs to air pollutants are not statistically significant in the CMC analysis results, allowing us to rule out these four directions. Meanwhile, the causal strength from SO₂ to CVDs is too weak (approximately 0.05), excluding the existence of a causal path from SO₂ to CVDs. Therefore, we conclude that only RSP and NO₂ exhibit causal influences on CVDs, with no evidence of feedback causality.
 
 We further aim to explore the potential causal interactions among different air pollutants. However, due to space constraints in this vignette, we limit our analysis to a single test case — specifically, examining whether **NO₂** exerts a causal influence on **Respirable Suspended Particulates (rsp)**.
 
 ```{r fig3,fig.width=6.5,fig.height=3.55,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Cross-mapping results between no₂ and respirable suspended particulates. **a**. CCM results without accounting for other variables. **b**. PCM results controlling for the influence of CVDs.")}
-no2_rsp = tEDM::pcm(cvd,"no2","rsp","cvd",libsizes = seq(32,1032,100),E = 5,k = c(8,6,6),progressbar = FALSE)
+no2_rsp = tEDM::pcm(cvd,"no2","rsp","cvd",libsizes = seq(32,1032,100),E = 11,k = c(12,13,12),progressbar = FALSE)
 no2_rsp
 
-figa = plot(no2_rsp,partial = FALSE,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
-figb = plot(no2_rsp,ylimits = c(0.5,0.85),ybreaks = seq(0.5,0.85,0.05))
+figa = plot(no2_rsp,partial = FALSE,ylimits = c(0.45,0.8),ybreaks = seq(0.45,0.8,0.05))
+figb = plot(no2_rsp,ylimits = c(0.45,0.8),ybreaks = seq(0.45,0.8,0.05))
 
 fig3 = cowplot::plot_grid(figa, figb, ncol = 2,
                           label_fontfamily = 'serif',
@@ -237,27 +248,27 @@ Using the 100th county as an example, we determine the appropriate embedding dim
 tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]]$carbon))
 ```
 
-When E equals 6, the FNN ratio begins to drop to zero; therefore, we select $E = 6$ as the embedding dimension for the CMC analysis.
+When E equals 3, the FNN ratio begins to drop to zero; therefore, we select $E = 3$ as the embedding dimension for the CMC analysis.
 
 ```{r carbon_cmc}
-res = carbon_list |> 
+res = carbon_list |>
   purrr::map_dfr(\(.x) {
-    g = tEDM::cmc(.x,"tem","carbon",E = 6,k = 20,progressbar = FALSE)
+    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 20,progressbar = FALSE)
     return(g$xmap)
   })
 head(res)
 
-res_carbon = res |> 
+res_carbon = res |>
   dplyr::select(neighbors,
                 carbon_tem = x_xmap_y_mean,
-                tem_carbon = y_xmap_x_mean) |> 
-  tidyr::pivot_longer(c(carbon_tem, tem_carbon), 
+                tem_carbon = y_xmap_x_mean) |>
+  tidyr::pivot_longer(c(carbon_tem, tem_carbon),
                       names_to = "variable", values_to = "value")
 head(res_carbon)
 ```
 
 ```{r fig_case2,fig.width=4.5,fig.height=4.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 5**. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20.")}
-fig_case2 = ggplot2::ggplot(res_carbon, 
+fig_case2 = ggplot2::ggplot(res_carbon,
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
@@ -282,7 +293,7 @@ head(covid)
 The data are first differenced:
 
 ```{r}
-covid = covid |> 
+covid = covid |>
   dplyr::mutate(dplyr::across(dplyr::everything(),
                               \(.x) c(NA,diff(.x))))
 ```
@@ -290,19 +301,19 @@ covid = covid |>
 Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
 
 ```{r covid_fnn}
-tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
+tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo)/10)
 ```
 
-Since the FNN ratio begins to approach zero when E equals 11, embedding dimensions from 11 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
+Since the FNN ratio begins to approach zero when E equals 4, embedding dimensions from 4 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
 
 ```{r covid_simplex}
-tEDM::simplex(covid,"Tokyo","Tokyo",E = 11:50,k = 15:60)
+tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60)
 ```
 
 ```{r covid_ccm}
-res = names(covid)[-match("Tokyo",names(covid))] |> 
+res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 11,k = 16,tau = 0,progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 5,tau = 0,progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })
@@ -314,10 +325,10 @@ df1 = res |>
 df2 = res |>
     dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |>
     purrr::set_names(c("cause","effect","cs","sig"))
-res_covid = dplyr::bind_rows(df1,df2)|> 
-  dplyr::filter(cause == "Tokyo") |> 
+res_covid = dplyr::bind_rows(df1,df2)|>
+  dplyr::filter(cause == "Tokyo") |>
   dplyr::arrange(dplyr::desc(cs))
-head(res_covid,5)
+head(res_covid,10)
 ```
 
 Our CCM analysis reproduced the same results as the [original CMC study][3], with the top five prefectures most affected by Tokyo’s COVID-19 spread matching those previously identified.
@@ -338,7 +349,7 @@ Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara
 
 Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discovery from city data, where urban scaling meets information theory. Cities 162, 105980. [https://doi.org/10.1016/j.cities.2025.105980][5].
 
-&nbsp; 
+&nbsp;
 
 [1]: https://doi.org/10.1126/science.1227079
 [2]: https://doi.org/10.1038/s41467-020-16238-0

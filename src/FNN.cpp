@@ -69,9 +69,9 @@ double CppSingleFNN(const std::vector<std::vector<double>>& embedding,
         std::vector<double> xi_E1(embedding[merged[i]].begin(), embedding[merged[i]].begin() + E1);
         std::vector<double> xj_E1(embedding[merged[j]].begin(), embedding[merged[j]].begin() + E1);
         double distv = CppDistance(xi_E1, xj_E1, L1norm, true);
-        distmat[i][j] = distv;  // Correctly assign distance to upper triangle
-        distmat[j][i] = distv;  // Mirror the value to the lower triangle
-        // distmat[i][j] = distmat[j][i] = CppDistance(xi_E1, xj_E1, L1norm, true);
+        distmat[merged[i]][merged[j]] = distv;  // Correctly assign distance to upper triangle
+        distmat[merged[j]][merged[i]] = distv;  // Mirror the value to the lower triangle
+        // distmat[merged[i]][j] = distmat[j][merged[i]] = CppDistance(xi_E1, xj_E1, L1norm, true);
       }
     }
 

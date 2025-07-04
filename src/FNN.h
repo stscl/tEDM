@@ -10,7 +10,7 @@
 #include <RcppThread.h>
 
 /*
- * Compute the False Nearest Neighbors (FNN) ratio for time serires data.
+ * Compute the False Nearest Neighbors (FNN) ratio for time series data.
  *
  * This function determines whether nearest neighbors identified in a lower-dimensional
  * embedded space (E1) remain close in a higher-dimensional space (E2).

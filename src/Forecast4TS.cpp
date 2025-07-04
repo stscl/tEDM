@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <utility>
 #include "CppStats.h"
+#include "CppDistances.h"
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
@@ -327,9 +328,13 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         if (!x_nan && !y_nan) valid_pred.push_back(idx);
       }
 
-      // Precompute neighbors
-      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
-      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
+      // // Precompute neighbors (The earlier implementation based on a serial version)
+      // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
+      // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
+
+      // Precompute neighbors (parallel computation)
+      auto nx = CppMatKNNeighbors(embedding_x, lib_indices, max_num_neighbors, threads_sizet);
+      auto ny = CppMatKNNeighbors(embedding_y, lib_indices, max_num_neighbors, threads_sizet);
 
       // Parameter initialization
       const size_t n_excluded_sizet = static_cast<size_t>(exclude);
@@ -369,9 +374,13 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         if (!x_nan && !y_nan) valid_pred.push_back(idx);
       }
 
-      // Precompute neighbors
-      auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
-      auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
+      // // Precompute neighbors (The earlier implementation based on a serial version)
+      // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
+      // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
+
+      // Precompute neighbors (parallel computation)
+      auto nx = CppMatKNNeighbors(embedding_x, lib_indices, max_num_neighbors, threads_sizet);
+      auto ny = CppMatKNNeighbors(embedding_y, lib_indices, max_num_neighbors, threads_sizet);
 
       // Parameter initialization
       const size_t n_excluded_sizet = static_cast<size_t>(exclude);

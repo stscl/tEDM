@@ -71,7 +71,7 @@ double CppSingleFNN(const std::vector<std::vector<double>>& embedding,
         double distv = CppDistance(xi_E1, xj_E1, L1norm, true);
         distmat[merged[i]][merged[j]] = distv;  // Correctly assign distance to upper triangle
         distmat[merged[j]][merged[i]] = distv;  // Mirror the value to the lower triangle
-        // distmat[merged[i]][j] = distmat[j][merged[i]] = CppDistance(xi_E1, xj_E1, L1norm, true);
+        // distmat[merged[i]][merged[j]] = distmat[merged[j]][merged[i]] = CppDistance(xi_E1, xj_E1, L1norm, true);
       }
     }
 

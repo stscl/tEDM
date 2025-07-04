@@ -32,6 +32,6 @@
 #'
 #' @examples
 #' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
-#' ic(sim,"x","y",E = 9,k = 15:30,threads = 1)
+#' ic(sim,"x","y",E = 4,k = 15:30,threads = 1)
 #'
 methods::setMethod("ic", "data.frame", .ic_ts_method)

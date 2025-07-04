@@ -241,8 +241,8 @@ between various air pollutants and cardiovascular diseases:</p>
 <span><span class="co">## 5   181  49.4  62.3  23.1  3.6 </span></span>
 <span><span class="co">## 6   129  67.4  63.6  17.4  6.73</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cvd_long</span> <span class="op">=</span> <span class="va">cvd</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rowid_to_column</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">cvd_long</span> <span class="op">=</span> <span class="va">cvd</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html" class="external-link">rowid_to_column</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">id</span>,</span>
 <span>                      names_to <span class="op">=</span> <span class="st">"variable"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span>
 <span></span>
@@ -265,98 +265,98 @@ November 1997.</div>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">50</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">cvd</span><span class="op">$</span><span class="va">cvd</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 </span></span>
-<span><span class="co">## 0.4827586 0.5611765 0.3894850 0.3004292 0.2682403 0.2564378 0.2607296 0.2671674 </span></span>
+<span><span class="co">## 0.8275862 0.4944072 0.3044807 0.2902240 0.2148676 0.2067210 0.1945010 0.1853360 </span></span>
 <span><span class="co">##       E:9      E:10      E:11      E:12      E:13      E:14      E:15      E:16 </span></span>
-<span><span class="co">## 0.2639485 0.2607296 0.2521459 0.2682403 0.2467811 0.2457082 0.2392704 0.2242489 </span></span>
+<span><span class="co">## 0.1863544 0.1894094 0.1832994 0.1843177 0.1782077 0.1710794 0.1680244 0.1680244 </span></span>
 <span><span class="co">##      E:17      E:18      E:19      E:20      E:21      E:22      E:23      E:24 </span></span>
-<span><span class="co">## 0.2306867 0.2371245 0.2435622 0.2414163 0.2317597 0.2242489 0.2199571 0.2296137 </span></span>
+<span><span class="co">## 0.1547862 0.1537678 0.1670061 0.1568228 0.1588595 0.1710794 0.1639511 0.1659878 </span></span>
 <span><span class="co">##      E:25      E:26      E:27      E:28      E:29      E:30      E:31      E:32 </span></span>
-<span><span class="co">## 0.2253219 0.2242489 0.2285408 0.2435622 0.2339056 0.2306867 0.2242489 0.2360515 </span></span>
+<span><span class="co">## 0.1670061 0.1873727 0.1659878 0.1751527 0.1731161 0.1812627 0.1710794 0.1802444 </span></span>
 <span><span class="co">##      E:33      E:34      E:35      E:36      E:37      E:38      E:39      E:40 </span></span>
-<span><span class="co">## 0.2510730 0.2532189 0.2553648 0.2532189 0.2500000 0.2521459 0.2564378 0.2457082 </span></span>
+<span><span class="co">## 0.1700611 0.1720978 0.1710794 0.1629328 0.1517312 0.1639511 0.1670061 0.1700611 </span></span>
 <span><span class="co">##      E:41      E:42      E:43      E:44      E:45      E:46      E:47      E:48 </span></span>
-<span><span class="co">## 0.2478541 0.2414163 0.2435622 0.2478541 0.2489270 0.2585837 0.2671674 0.2553648 </span></span>
+<span><span class="co">## 0.1659878 0.1649695 0.1670061 0.1690428 0.1619145 0.1670061 0.1792261 0.1822811 </span></span>
 <span><span class="co">##      E:49 </span></span>
-<span><span class="co">## 0.2585837</span></span></code></pre></div>
-<p>Starting at <span class="math inline">\(E = 5\)</span>, the FNN ratio
-stabilizes near 0.2; thus, embedding dimension E and neighbor number k
-are chosen from 5 onward for subsequent self-prediction parameter
-selection.</p>
+<span><span class="co">## 0.1761711</span></span></code></pre></div>
+<p>Starting at <span class="math inline">\(E = 11\)</span>, the FNN
+ratio stabilizes near 0.18; thus, embedding dimension E and neighbor
+number k are chosen from 11 onward for subsequent self-prediction
+parameter selection.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable cvd is 5 and 6</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable rsp is 5 and 6</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable no2 is 5 and 8</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable so2 is 5 and 15</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">6</span><span class="op">:</span><span class="fl">35</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable o3 is 5 and 6</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">35</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">36</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable cvd is 11 and 12</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">35</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">36</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable rsp is 11 and 13</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">35</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">36</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable no2 is 11 and 12</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">35</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">36</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable so2 is 11 and 18</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">35</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">36</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable o3 is 11 and 12</span></span></code></pre></div>
 <p>We first use CCM to explore the causal influences of air pollutants
 on the incidence of cardiovascular diseases.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">rsp_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">6</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">rsp_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13</span>,<span class="fl">12</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">rsp_cvd</span></span>
 <span><span class="co">##    libsizes   rsp-&gt;cvd   cvd-&gt;rsp</span></span>
-<span><span class="co">## 1        32 0.04319516 0.01319450</span></span>
-<span><span class="co">## 2       132 0.04437840 0.04042972</span></span>
-<span><span class="co">## 3       232 0.05755968 0.04856251</span></span>
-<span><span class="co">## 4       332 0.05213455 0.05497566</span></span>
-<span><span class="co">## 5       432 0.04204529 0.05345864</span></span>
-<span><span class="co">## 6       532 0.03869321 0.05163371</span></span>
-<span><span class="co">## 7       632 0.03449846 0.05149252</span></span>
-<span><span class="co">## 8       732 0.02813186 0.05075322</span></span>
-<span><span class="co">## 9       832 0.02364578 0.05075094</span></span>
-<span><span class="co">## 10      932 0.02226927 0.05080212</span></span>
-<span><span class="co">## 11     1027 0.07212221 0.05626339</span></span>
-<span><span class="va">no2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">## 1        32 0.03212919 0.01228767</span></span>
+<span><span class="co">## 2       132 0.05654363 0.02018887</span></span>
+<span><span class="co">## 3       232 0.06463454 0.03607634</span></span>
+<span><span class="co">## 4       332 0.06064099 0.04698896</span></span>
+<span><span class="co">## 5       432 0.06180930 0.04813387</span></span>
+<span><span class="co">## 6       532 0.06262916 0.04713303</span></span>
+<span><span class="co">## 7       632 0.05983990 0.04859066</span></span>
+<span><span class="co">## 8       732 0.05386418 0.05365310</span></span>
+<span><span class="co">## 9       832 0.04783700 0.05779265</span></span>
+<span><span class="co">## 10      932 0.04788904 0.06048993</span></span>
+<span><span class="co">## 11     1021 0.11465191 0.10133554</span></span>
+<span><span class="va">no2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">no2_cvd</span></span>
-<span><span class="co">##    libsizes   no2-&gt;cvd   cvd-&gt;no2</span></span>
-<span><span class="co">## 1        32 0.09597753 0.04864942</span></span>
-<span><span class="co">## 2       132 0.12416134 0.09638212</span></span>
-<span><span class="co">## 3       232 0.15621628 0.11924223</span></span>
-<span><span class="co">## 4       332 0.16302570 0.12659628</span></span>
-<span><span class="co">## 5       432 0.15722930 0.12724020</span></span>
-<span><span class="co">## 6       532 0.15592151 0.12779650</span></span>
-<span><span class="co">## 7       632 0.15271207 0.12670729</span></span>
-<span><span class="co">## 8       732 0.14752161 0.12305037</span></span>
-<span><span class="co">## 9       832 0.14525414 0.12052819</span></span>
-<span><span class="co">## 10      932 0.14519559 0.11924900</span></span>
-<span><span class="co">## 11     1027 0.23186797 0.17037681</span></span>
-<span><span class="va">so2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">##    libsizes  no2-&gt;cvd   cvd-&gt;no2</span></span>
+<span><span class="co">## 1        32 0.0725866 0.04646570</span></span>
+<span><span class="co">## 2       132 0.1223500 0.07452473</span></span>
+<span><span class="co">## 3       232 0.1440400 0.10979245</span></span>
+<span><span class="co">## 4       332 0.1463108 0.12676364</span></span>
+<span><span class="co">## 5       432 0.1493368 0.13259880</span></span>
+<span><span class="co">## 6       532 0.1505781 0.13601417</span></span>
+<span><span class="co">## 7       632 0.1463268 0.13721917</span></span>
+<span><span class="co">## 8       732 0.1392535 0.13837513</span></span>
+<span><span class="co">## 9       832 0.1352347 0.13943520</span></span>
+<span><span class="co">## 10      932 0.1359023 0.14033241</span></span>
+<span><span class="co">## 11     1021 0.2701247 0.18804876</span></span>
+<span><span class="va">so2_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">18</span>,<span class="fl">12</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">so2_cvd</span></span>
-<span><span class="co">##    libsizes    so2-&gt;cvd   cvd-&gt;so2</span></span>
-<span><span class="co">## 1        32 0.038665119 0.03405003</span></span>
-<span><span class="co">## 2       132 0.023943075 0.06258078</span></span>
-<span><span class="co">## 3       232 0.020748020 0.07086180</span></span>
-<span><span class="co">## 4       332 0.019672824 0.07066856</span></span>
-<span><span class="co">## 5       432 0.017233107 0.07339913</span></span>
-<span><span class="co">## 6       532 0.016922496 0.07205969</span></span>
-<span><span class="co">## 7       632 0.014945947 0.07428336</span></span>
-<span><span class="co">## 8       732 0.011701558 0.07877438</span></span>
-<span><span class="co">## 9       832 0.009729901 0.08091936</span></span>
-<span><span class="co">## 10      932 0.009048317 0.08116150</span></span>
-<span><span class="co">## 11     1027 0.011257499 0.07416282</span></span>
-<span><span class="va">o3_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">6</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co">##    libsizes   so2-&gt;cvd   cvd-&gt;so2</span></span>
+<span><span class="co">## 1        32 0.05100118 0.03461720</span></span>
+<span><span class="co">## 2       132 0.07979493 0.07406730</span></span>
+<span><span class="co">## 3       232 0.07390120 0.08535797</span></span>
+<span><span class="co">## 4       332 0.06454759 0.09205499</span></span>
+<span><span class="co">## 5       432 0.06421670 0.09589412</span></span>
+<span><span class="co">## 6       532 0.06667487 0.09915476</span></span>
+<span><span class="co">## 7       632 0.06752325 0.10104920</span></span>
+<span><span class="co">## 8       732 0.06628738 0.10265838</span></span>
+<span><span class="co">## 9       832 0.06534601 0.10523615</span></span>
+<span><span class="co">## 10      932 0.06505378 0.10782963</span></span>
+<span><span class="co">## 11     1021 0.12820854 0.11510196</span></span>
+<span><span class="va">o3_cvd</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">o3_cvd</span></span>
-<span><span class="co">##    libsizes       o3-&gt;cvd    cvd-&gt;o3</span></span>
-<span><span class="co">## 1        32 -0.0021382170 0.02675574</span></span>
-<span><span class="co">## 2       132 -0.0028994401 0.03818003</span></span>
-<span><span class="co">## 3       232  0.0015246470 0.04784981</span></span>
-<span><span class="co">## 4       332  0.0047085847 0.04764828</span></span>
-<span><span class="co">## 5       432  0.0030374107 0.04542627</span></span>
-<span><span class="co">## 6       532  0.0020648753 0.04110124</span></span>
-<span><span class="co">## 7       632  0.0009115659 0.03699687</span></span>
-<span><span class="co">## 8       732 -0.0017126973 0.03108036</span></span>
-<span><span class="co">## 9       832 -0.0011312952 0.02697292</span></span>
-<span><span class="co">## 10      932  0.0004006101 0.02451813</span></span>
-<span><span class="co">## 11     1027  0.0480365415 0.06844222</span></span></code></pre></div>
+<span><span class="co">##    libsizes      o3-&gt;cvd    cvd-&gt;o3</span></span>
+<span><span class="co">## 1        32  0.002955184 0.02271010</span></span>
+<span><span class="co">## 2       132 -0.002839356 0.05643341</span></span>
+<span><span class="co">## 3       232 -0.009653301 0.07583492</span></span>
+<span><span class="co">## 4       332 -0.018512914 0.08387571</span></span>
+<span><span class="co">## 5       432 -0.019942039 0.08175905</span></span>
+<span><span class="co">## 6       532 -0.015815466 0.07819425</span></span>
+<span><span class="co">## 7       632 -0.014698935 0.07679967</span></span>
+<span><span class="co">## 8       732 -0.019196844 0.07226140</span></span>
+<span><span class="co">## 9       832 -0.023726153 0.06974574</span></span>
+<span><span class="co">## 10      932 -0.024137957 0.06943232</span></span>
+<span><span class="co">## 11     1021  0.013982373 0.09503517</span></span></code></pre></div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rsp_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.1</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">figb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.03</span>,<span class="fl">0.25</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.25</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">figc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">so2_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.1</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">figd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">o3_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.1</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.05</span>,<span class="fl">0.1</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">rsp_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.12</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.05</span>,<span class="fl">0.10</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">figb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.03</span>,<span class="fl">0.30</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.25</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">figc</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">so2_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.03</span>,<span class="fl">0.15</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.15</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">figd</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">o3_cvd</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.1</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.05</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fig2</span> <span class="op">=</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">figa</span>, <span class="va">figb</span>, <span class="va">figc</span>, <span class="va">figd</span>, ncol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                         label_fontfamily <span class="op">=</span> <span class="st">'serif'</span>,</span>
@@ -370,85 +370,106 @@ between different air pollutants and cardiovascular diseases.</div>
 <p>The results shown in Figure2 indicate the presence of the following
 causal influences:</p>
 <ul>
-<li>rsp → cvd<br>
-</li>
-<li>no₂ → cvd<br>
-</li>
-<li>cvd → no₂<br>
-</li>
+<li>rsp → cvd</li>
+<li>no₂ → cvd</li>
+<li>so₂ → cvd</li>
+<li>cvd → rsp</li>
+<li>cvd → so₂</li>
+<li>cvd → no₂</li>
 <li>cvd → o₃</li>
 </ul>
 <p>However, based on practical experience, the relationship between CVDs
-and spatial pollution is likely reflective rather than causal.
-Therefore, we further employ CCM to examine the causal paths of cvd →
-no₂ and cvd → o₃.</p>
+and air pollution is likely reflective rather than causal. Therefore, we
+further employ CCM to examine the causal paths of cvd → no₂ and cvd →
+o₃.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">g1</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">100</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">g1</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">50</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">g1</span></span>
-<span><span class="co">##   neighbors o3-&gt;cvd cvd-&gt;o3</span></span>
-<span><span class="co">## 1       100  0.2344  0.5589</span></span>
+<span><span class="co">##   neighbors rsp-&gt;cvd cvd-&gt;rsp</span></span>
+<span><span class="co">## 1        50    0.364   0.4696</span></span>
 <span><span class="va">g1</span><span class="op">$</span><span class="va">xmap</span></span>
 <span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
-<span><span class="co">## 1       100        0.5589     0.188823      0.6467507      0.4710493</span></span>
+<span><span class="co">## 1        50        0.4696     0.645344      0.5990605      0.3401395</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
-<span><span class="co">## 1        0.2344 2.138197e-12      0.3085003      0.1602997</span></span>
+<span><span class="co">## 1         0.364   0.03509439      0.4904932      0.2375068</span></span>
 <span></span>
-<span><span class="va">g2</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fl">100</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">g2</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">50</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">g2</span></span>
-<span><span class="co">##   neighbors no2-&gt;cvd cvd-&gt;no2</span></span>
-<span><span class="co">## 1       100   0.4833   0.5363</span></span>
+<span><span class="co">##   neighbors so2-&gt;cvd cvd-&gt;so2</span></span>
+<span><span class="co">## 1        50    0.046     0.46</span></span>
 <span><span class="va">g2</span><span class="op">$</span><span class="va">xmap</span></span>
 <span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
-<span><span class="co">## 1       100        0.5363    0.4205595      0.6246315      0.4479685</span></span>
+<span><span class="co">## 1        50          0.46    0.5434416      0.5890263      0.3309737</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
-<span><span class="co">## 1        0.4833    0.7186329      0.5741482      0.3924518</span></span></code></pre></div>
-<p>The causal paths <strong>cvd → no₂</strong> and <strong>cvd →
-o₃</strong> are not statistically significant in the CMC analysis
-results, allowing us to rule out these two directions. Therefore, we
-conclude that only <strong>rsp</strong> and <strong>no₂</strong> exhibit
-causal influences on CVDs.</p>
+<span><span class="co">## 1         0.046 3.508029e-77      0.0938521              0</span></span>
+<span></span>
+<span><span class="va">g3</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">50</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">g3</span></span>
+<span><span class="co">##   neighbors no2-&gt;cvd cvd-&gt;no2</span></span>
+<span><span class="co">## 1        50   0.2728    0.446</span></span>
+<span><span class="va">g3</span><span class="op">$</span><span class="va">xmap</span></span>
+<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
+<span><span class="co">## 1        50         0.446    0.4123805      0.5751162      0.3168838</span></span>
+<span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
+<span><span class="co">## 1        0.2728 0.0001114126      0.3880356      0.1575644</span></span>
+<span></span>
+<span><span class="va">g4</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">50</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">g4</span></span>
+<span><span class="co">##   neighbors o3-&gt;cvd cvd-&gt;o3</span></span>
+<span><span class="co">## 1        50  0.0536  0.4628</span></span>
+<span><span class="va">g4</span><span class="op">$</span><span class="va">xmap</span></span>
+<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
+<span><span class="co">## 1        50        0.4628    0.5733574      0.5922777      0.3333223</span></span>
+<span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
+<span><span class="co">## 1        0.0536 8.756939e-60      0.1072525              0</span></span></code></pre></div>
+<p>The causal paths from CVDs to air pollutants are not statistically
+significant in the CMC analysis results, allowing us to rule out these
+four directions. Meanwhile, the causal strength from SO₂ to CVDs is too
+weak (approximately 0.05), excluding the existence of a causal path from
+SO₂ to CVDs. Therefore, we conclude that only RSP and NO₂ exhibit causal
+influences on CVDs, with no evidence of feedback causality.</p>
 <p>We further aim to explore the potential causal interactions among
 different air pollutants. However, due to space constraints in this
 vignette, we limit our analysis to a single test case — specifically,
 examining whether <strong>NO₂</strong> exerts a causal influence on
 <strong>Respirable Suspended Particulates (rsp)</strong>.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">no2_rsp</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">5</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">8</span>,<span class="fl">6</span>,<span class="fl">6</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">no2_rsp</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/pcm.html">pcm</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"rsp"</span>,<span class="st">"cvd"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">1032</span>,<span class="fl">100</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">12</span>,<span class="fl">13</span>,<span class="fl">12</span><span class="op">)</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">no2_rsp</span></span>
 <span><span class="co">## -------------------------------------- </span></span>
 <span><span class="co">## ***partial cross mapping prediction*** </span></span>
 <span><span class="co">## -------------------------------------- </span></span>
 <span><span class="co">##    libsizes  no2-&gt;rsp  rsp-&gt;no2</span></span>
-<span><span class="co">## 1        32 0.5718384 0.5872235</span></span>
-<span><span class="co">## 2       132 0.6926588 0.6891724</span></span>
-<span><span class="co">## 3       232 0.7129181 0.6999073</span></span>
-<span><span class="co">## 4       332 0.7251034 0.7065649</span></span>
-<span><span class="co">## 5       432 0.7292544 0.7132728</span></span>
-<span><span class="co">## 6       532 0.7305393 0.7175689</span></span>
-<span><span class="co">## 7       632 0.7308904 0.7208970</span></span>
-<span><span class="co">## 8       732 0.7322006 0.7239768</span></span>
-<span><span class="co">## 9       832 0.7335073 0.7282566</span></span>
-<span><span class="co">## 10      932 0.7338654 0.7295781</span></span>
-<span><span class="co">## 11     1027 0.7362657 0.7246647</span></span>
+<span><span class="co">## 1        32 0.5003795 0.5287113</span></span>
+<span><span class="co">## 2       132 0.6586740 0.6540733</span></span>
+<span><span class="co">## 3       232 0.6739825 0.6725413</span></span>
+<span><span class="co">## 4       332 0.6869853 0.6898026</span></span>
+<span><span class="co">## 5       432 0.6936791 0.7003889</span></span>
+<span><span class="co">## 6       532 0.6972028 0.7064767</span></span>
+<span><span class="co">## 7       632 0.7021889 0.7115672</span></span>
+<span><span class="co">## 8       732 0.7038956 0.7154391</span></span>
+<span><span class="co">## 9       832 0.7051222 0.7172094</span></span>
+<span><span class="co">## 10      932 0.7053735 0.7181287</span></span>
+<span><span class="co">## 11     1021 0.7355427 0.7249313</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## ------------------------------ </span></span>
 <span><span class="co">## ***cross mapping prediction*** </span></span>
 <span><span class="co">## ------------------------------ </span></span>
 <span><span class="co">##    libsizes  no2-&gt;rsp  rsp-&gt;no2</span></span>
-<span><span class="co">## 1        32 0.5891342 0.6095253</span></span>
-<span><span class="co">## 2       132 0.7085988 0.7137024</span></span>
-<span><span class="co">## 3       232 0.7235291 0.7327955</span></span>
-<span><span class="co">## 4       332 0.7325251 0.7409321</span></span>
-<span><span class="co">## 5       432 0.7368667 0.7435845</span></span>
-<span><span class="co">## 6       532 0.7382566 0.7454804</span></span>
-<span><span class="co">## 7       632 0.7389185 0.7473104</span></span>
-<span><span class="co">## 8       732 0.7397101 0.7479086</span></span>
-<span><span class="co">## 9       832 0.7399319 0.7481982</span></span>
-<span><span class="co">## 10      932 0.7399475 0.7481772</span></span>
-<span><span class="co">## 11     1027 0.7623938 0.7574991</span></span>
+<span><span class="co">## 1        32 0.4973450 0.5286056</span></span>
+<span><span class="co">## 2       132 0.6727828 0.6705453</span></span>
+<span><span class="co">## 3       232 0.6958408 0.6953063</span></span>
+<span><span class="co">## 4       332 0.7076968 0.7127944</span></span>
+<span><span class="co">## 5       432 0.7114252 0.7198838</span></span>
+<span><span class="co">## 6       532 0.7128014 0.7238218</span></span>
+<span><span class="co">## 7       632 0.7132465 0.7269140</span></span>
+<span><span class="co">## 8       732 0.7139286 0.7281575</span></span>
+<span><span class="co">## 9       832 0.7148172 0.7286784</span></span>
+<span><span class="co">## 10      932 0.7156600 0.7287909</span></span>
+<span><span class="co">## 11     1021 0.7438401 0.7541179</span></span>
 <span></span>
-<span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,partial <span class="op">=</span> <span class="cn">FALSE</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">figb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.5</span>,<span class="fl">0.85</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">figa</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,partial <span class="op">=</span> <span class="cn">FALSE</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.45</span>,<span class="fl">0.8</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.45</span>,<span class="fl">0.8</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">figb</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">no2_rsp</span>,ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.45</span>,<span class="fl">0.8</span><span class="op">)</span>,ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.45</span>,<span class="fl">0.8</span>,<span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">fig3</span> <span class="op">=</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">figa</span>, <span class="va">figb</span>, ncol <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>                          label_fontfamily <span class="op">=</span> <span class="st">'serif'</span>,</span>
@@ -509,52 +530,52 @@ embedding dimension by applying the FNN method.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">carbon</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
-<span><span class="co">## 0.58823529 0.23529412 0.23529412 0.17647059 0.05882353 0.00000000 0.00000000 </span></span>
+<span><span class="co">## 0.37037037 0.03703704 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##        E:8        E:9 </span></span>
 <span><span class="co">## 0.00000000 0.00000000</span></span></code></pre></div>
-<p>When E equals 6, the FNN ratio begins to drop to zero; therefore, we
-select <span class="math inline">\(E = 6\)</span> as the embedding
+<p>When E equals 3, the FNN ratio begins to drop to zero; therefore, we
+select <span class="math inline">\(E = 3\)</span> as the embedding
 dimension for the CMC analysis.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="va">carbon_list</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="va">carbon_list</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">6</span>,k <span class="op">=</span> <span class="fl">20</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">3</span>,k <span class="op">=</span> <span class="fl">20</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
-<span><span class="co">## 1        20       0.23000 7.559829e-04      0.3871031     0.07289694</span></span>
-<span><span class="co">## 2        20       0.15250 5.155608e-08      0.2775652     0.02743478</span></span>
-<span><span class="co">## 3        20       0.15125 3.546400e-08      0.2752574     0.02724258</span></span>
-<span><span class="co">## 4        20       0.14125 1.237298e-08      0.2647264     0.01777360</span></span>
-<span><span class="co">## 5        20       0.14625 2.766598e-08      0.2710497     0.02145029</span></span>
-<span><span class="co">## 6        20       0.13625 9.223181e-09      0.2603593     0.01214072</span></span>
+<span><span class="co">## 1        20       0.25125 2.124762e-03      0.4099436     0.09255637</span></span>
+<span><span class="co">## 2        20       0.20375 5.512985e-05      0.3477313     0.05976872</span></span>
+<span><span class="co">## 3        20       0.19875 3.159932e-05      0.3406271     0.05687288</span></span>
+<span><span class="co">## 4        20       0.19875 4.990860e-05      0.3443198     0.05318018</span></span>
+<span><span class="co">## 5        20       0.23875 1.142665e-03      0.3961644     0.08133556</span></span>
+<span><span class="co">## 6        20       0.17375 1.734913e-06      0.3074655     0.04003447</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
-<span><span class="co">## 1       0.03875 2.661759e-41      0.1059107              0</span></span>
-<span><span class="co">## 2       0.04250 3.673257e-37      0.1128988              0</span></span>
-<span><span class="co">## 3       0.04375 2.129338e-31      0.1204663              0</span></span>
-<span><span class="co">## 4       0.04375 2.129338e-31      0.1204663              0</span></span>
-<span><span class="co">## 5       0.04500 1.570561e-32      0.1200890              0</span></span>
-<span><span class="co">## 6       0.03750 2.118657e-39      0.1065211              0</span></span>
+<span><span class="co">## 1       0.05125 2.626718e-31      0.1268212              0</span></span>
+<span><span class="co">## 2       0.05875 8.667168e-29      0.1364321              0</span></span>
+<span><span class="co">## 3       0.06125 8.776684e-26      0.1431602              0</span></span>
+<span><span class="co">## 4       0.06000 3.141877e-27      0.1397885              0</span></span>
+<span><span class="co">## 5       0.06250 1.945554e-26      0.1430922              0</span></span>
+<span><span class="co">## 6       0.05375 5.280357e-31      0.1292878              0</span></span>
 <span></span>
-<span><span class="va">res_carbon</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">res_carbon</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">neighbors</span>,</span>
 <span>                carbon_tem <span class="op">=</span> <span class="va">x_xmap_y_mean</span>,</span>
-<span>                tem_carbon <span class="op">=</span> <span class="va">y_xmap_x_mean</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">carbon_tem</span>, <span class="va">tem_carbon</span><span class="op">)</span>, </span>
+<span>                tem_carbon <span class="op">=</span> <span class="va">y_xmap_x_mean</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">carbon_tem</span>, <span class="va">tem_carbon</span><span class="op">)</span>,</span>
 <span>                      names_to <span class="op">=</span> <span class="st">"variable"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_carbon</span><span class="op">)</span></span>
 <span><span class="co">## # A tibble: 6 × 3</span></span>
 <span><span class="co">##   neighbors variable    value</span></span>
 <span><span class="co">##       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
-<span><span class="co">## 1        20 carbon_tem 0.23  </span></span>
-<span><span class="co">## 2        20 tem_carbon 0.0388</span></span>
-<span><span class="co">## 3        20 carbon_tem 0.152 </span></span>
-<span><span class="co">## 4        20 tem_carbon 0.0425</span></span>
-<span><span class="co">## 5        20 carbon_tem 0.151 </span></span>
-<span><span class="co">## 6        20 tem_carbon 0.0438</span></span></code></pre></div>
+<span><span class="co">## 1        20 carbon_tem 0.251 </span></span>
+<span><span class="co">## 2        20 tem_carbon 0.0512</span></span>
+<span><span class="co">## 3        20 carbon_tem 0.204 </span></span>
+<span><span class="co">## 4        20 tem_carbon 0.0588</span></span>
+<span><span class="co">## 5        20 carbon_tem 0.199 </span></span>
+<span><span class="co">## 6        20 tem_carbon 0.0612</span></span></code></pre></div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fig_case2</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">res_carbon</span>, </span>
+<code class="sourceCode R"><span><span class="va">fig_case2</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">res_carbon</span>,</span>
 <span>                            <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">variable</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
@@ -607,52 +628,52 @@ of the epidemic spread</p>
 <span><span class="co">## #   Ehime &lt;dbl&gt;, Kochi &lt;dbl&gt;, Fukuoka &lt;dbl&gt;, Saga &lt;dbl&gt;, Nagasaki &lt;dbl&gt;, …</span></span></code></pre></div>
 <p>The data are first differenced:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">covid</span> <span class="op">=</span> <span class="va">covid</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">covid</span> <span class="op">=</span> <span class="va">covid</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/across.html" class="external-link">across</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                              \<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>,<span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>Using Tokyo’s COVID-19 infection data to test the optimal embedding
 dimension.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">covid</span><span class="op">$</span><span class="va">Tokyo</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">covid</span><span class="op">$</span><span class="va">Tokyo</span><span class="op">)</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
-<span><span class="co">## 0.82432432 0.43333333 0.14598540 0.07664234 0.06934307 0.05474453 0.03284672 </span></span>
+<span><span class="co">## 0.79452055 0.16901408 0.01351351 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##        E:8        E:9       E:10       E:11       E:12       E:13       E:14 </span></span>
-<span><span class="co">## 0.01459854 0.01459854 0.00729927 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
+<span><span class="co">## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##       E:15       E:16       E:17       E:18       E:19       E:20       E:21 </span></span>
 <span><span class="co">## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##       E:22       E:23       E:24       E:25       E:26       E:27       E:28 </span></span>
 <span><span class="co">## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##       E:29 </span></span>
 <span><span class="co">## 0.00000000</span></span></code></pre></div>
-<p>Since the FNN ratio begins to approach zero when E equals 11,
-embedding dimensions from 11 onward are evaluated, and the pair of E and
+<p>Since the FNN ratio begins to approach zero when E equals 4,
+embedding dimensions from 4 onward are evaluated, and the pair of E and
 k yielding the highest self-prediction accuracy is selected for the CCM
 procedure.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">50</span>,k <span class="op">=</span> <span class="fl">15</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable Tokyo is 11 and 16</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">50</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E and k for variable Tokyo is 4 and 5</span></span></code></pre></div>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"Tokyo"</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span> </span>
+<code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"Tokyo"</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.l</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="va">.l</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">16</span>,tau <span class="op">=</span> <span class="fl">0</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="va">.l</span>,E <span class="op">=</span> <span class="fl">4</span>,k <span class="op">=</span> <span class="fl">5</span>,tau <span class="op">=</span> <span class="fl">0</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="va">res</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span>,x <span class="op">=</span> <span class="st">"Tokyo"</span>,y <span class="op">=</span> <span class="va">.l</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="co">##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
-<span><span class="co">## 1      323     0.7194347 9.527435e-53     0.66230393      0.7682476</span></span>
-<span><span class="co">## 2      323     0.2356305 1.879218e-05     0.12984019      0.3361165</span></span>
-<span><span class="co">## 3      323     0.5676352 6.057533e-29     0.48878419      0.6372872</span></span>
-<span><span class="co">## 4      323     0.6004427 5.029307e-33     0.52576481      0.6659358</span></span>
-<span><span class="co">## 5      323     0.1912783 5.475818e-04     0.08390065      0.2942648</span></span>
-<span><span class="co">## 6      323     0.7341790 6.346860e-56     0.67949098      0.7807538</span></span>
+<span><span class="co">## 1      330    0.67946026 5.040237e-46     0.61673862      0.7336087</span></span>
+<span><span class="co">## 2      330    0.16587490 2.504472e-03     0.05896709      0.2690210</span></span>
+<span><span class="co">## 3      330    0.57198896 4.570356e-30     0.49456667      0.6404051</span></span>
+<span><span class="co">## 4      330    0.48695807 4.721760e-21     0.40002512      0.5652068</span></span>
+<span><span class="co">## 5      330    0.01813049 7.428103e-01    -0.09000951      0.1258480</span></span>
+<span><span class="co">## 6      330    0.59876324 1.747480e-33     0.52471981      0.6638149</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower     x        y</span></span>
-<span><span class="co">## 1     0.7813231 1.089493e-67      0.7348512      0.8204928 Tokyo Hokkaido</span></span>
-<span><span class="co">## 2     0.5286610 1.185012e-24      0.4452176      0.6030015 Tokyo   Aomori</span></span>
-<span><span class="co">## 3     0.7795907 3.314325e-67      0.7328059      0.8190392 Tokyo    Iwate</span></span>
-<span><span class="co">## 4     0.7972467 2.392638e-72      0.7536909      0.8338302 Tokyo   Miyagi</span></span>
-<span><span class="co">## 5     0.4590275 3.079043e-18      0.3683504      0.5410534 Tokyo    Akita</span></span>
-<span><span class="co">## 6     0.5694476 3.704062e-29      0.4908197      0.6388748 Tokyo Yamagata</span></span>
+<span><span class="co">## 1     0.7109490 4.377688e-52      0.6531163      0.7605365 Tokyo Hokkaido</span></span>
+<span><span class="co">## 2     0.4283765 3.684937e-16      0.3359501      0.5126315 Tokyo   Aomori</span></span>
+<span><span class="co">## 3     0.7497992 8.652007e-61      0.6983692      0.7935262 Tokyo    Iwate</span></span>
+<span><span class="co">## 4     0.7060805 4.274506e-51      0.6474744      0.7563843 Tokyo   Miyagi</span></span>
+<span><span class="co">## 5     0.2951683 4.658751e-08      0.1933666      0.3906821 Tokyo    Akita</span></span>
+<span><span class="co">## 6     0.5089213 3.832070e-23      0.4242690      0.5847557 Tokyo Yamagata</span></span>
 <span></span>
 <span><span class="va">df1</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>,<span class="va">y_xmap_x_mean</span>,<span class="va">y_xmap_x_sig</span><span class="op">)</span><span class="op">|&gt;</span></span>
@@ -660,16 +681,21 @@ procedure.</p>
 <span><span class="va">df2</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">y</span>,<span class="va">x</span>,<span class="va">x_xmap_y_mean</span>,<span class="va">x_xmap_y_sig</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cause"</span>,<span class="st">"effect"</span>,<span class="st">"cs"</span>,<span class="st">"sig"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">res_covid</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">df1</span>,<span class="va">df2</span><span class="op">)</span><span class="op">|&gt;</span> </span>
-<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cause</span> <span class="op">==</span> <span class="st">"Tokyo"</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span><span class="va">res_covid</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">df1</span>,<span class="va">df2</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cause</span> <span class="op">==</span> <span class="st">"Tokyo"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">cs</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_covid</span>,<span class="fl">5</span><span class="op">)</span></span>
-<span><span class="co">##   cause   effect        cs           sig</span></span>
-<span><span class="co">## 1 Tokyo Kanagawa 0.9337641 2.698678e-145</span></span>
-<span><span class="co">## 2 Tokyo    Osaka 0.9277809 1.762531e-139</span></span>
-<span><span class="co">## 3 Tokyo  Saitama 0.9247632 9.810852e-137</span></span>
-<span><span class="co">## 4 Tokyo    Chiba 0.9174220 1.653727e-130</span></span>
-<span><span class="co">## 5 Tokyo    Aichi 0.9153784 7.065131e-129</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_covid</span>,<span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">##    cause   effect        cs           sig</span></span>
+<span><span class="co">## 1  Tokyo    Osaka 0.9296920 2.534740e-144</span></span>
+<span><span class="co">## 2  Tokyo Kanagawa 0.9260169 7.921221e-141</span></span>
+<span><span class="co">## 3  Tokyo  Saitama 0.9105236 7.469393e-128</span></span>
+<span><span class="co">## 4  Tokyo    Chiba 0.9092392 6.936383e-127</span></span>
+<span><span class="co">## 5  Tokyo    Hyogo 0.8998115 3.402957e-120</span></span>
+<span><span class="co">## 6  Tokyo    Aichi 0.8990747 1.062894e-119</span></span>
+<span><span class="co">## 7  Tokyo     Nara 0.8743578 5.100364e-105</span></span>
+<span><span class="co">## 8  Tokyo  Ibaraki 0.8719708 9.088820e-104</span></span>
+<span><span class="co">## 9  Tokyo Shizuoka 0.8680988 8.611093e-102</span></span>
+<span><span class="co">## 10 Tokyo     Gifu 0.8470633  4.766119e-92</span></span></code></pre></div>
 <p>Our CCM analysis reproduced the same results as the <a href="https://doi.org/10.1016/j.fmre.2023.01.007" class="external-link">original CMC
 study</a>, with the top five prefectures most affected by Tokyo’s
 COVID-19 spread matching those previously identified.</p>

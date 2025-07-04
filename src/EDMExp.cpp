@@ -463,8 +463,8 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
                                    const Rcpp::IntegerVector& pred,
                                    const Rcpp::IntegerVector& E,
                                    const Rcpp::IntegerVector& b,
-                                   int tau,
-                                   int threads) {
+                                   int tau = 0,
+                                   int threads = 8) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
   std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
@@ -535,10 +535,10 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
                                 const Rcpp::IntegerVector& lib,
                                 const Rcpp::IntegerVector& pred,
                                 const Rcpp::NumericVector& theta,
-                                int E,
-                                int tau,
-                                int b,
-                                int threads) {
+                                int E = 3,
+                                int tau = 0,
+                                int b = 4,
+                                int threads = 8) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
   std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
@@ -611,8 +611,8 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
                                         const Rcpp::IntegerVector& pred,
                                         const Rcpp::IntegerVector& E,
                                         const Rcpp::IntegerVector& b,
-                                        int tau,
-                                        int threads) {
+                                        int tau = 0,
+                                        int threads = 8) {
   // Convert Rcpp NumericMatrix to std::vector of std::vectors
   std::vector<std::vector<double>> source_std(source.ncol());
   std::vector<std::vector<double>> target_std(target.ncol());
@@ -709,7 +709,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
                               const Rcpp::IntegerVector& pred,
                               const Rcpp::IntegerVector& E,
                               const Rcpp::IntegerVector& b,
-                              int tau,
+                              int tau = 0,
                               int exclude = 0,
                               int threads = 8,
                               int parallel_level = 0) {
@@ -792,14 +792,14 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
                             const Rcpp::IntegerVector& libsizes,
                             const Rcpp::IntegerVector& lib,
                             const Rcpp::IntegerVector& pred,
-                            int E,
-                            int tau,
-                            int b,
-                            bool simplex,
-                            double theta,
-                            int threads,
-                            int parallel_level,
-                            bool progressbar) {
+                            int E = 3,
+                            int tau = 0,
+                            int b = 4,
+                            bool simplex = true,
+                            double theta = 0,
+                            int threads = 8,
+                            int parallel_level = 0,
+                            bool progressbar = false) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
   std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
@@ -878,12 +878,12 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
                             const Rcpp::IntegerVector& E,
                             const Rcpp::IntegerVector& tau,
                             const Rcpp::IntegerVector& b,
-                            bool simplex,
-                            double theta,
-                            int threads,
-                            int parallel_level,
-                            bool cumulate,
-                            bool progressbar) {
+                            bool simplex = true,
+                            double theta = 0,
+                            int threads = 8,
+                            int parallel_level = 0,
+                            bool cumulate = false,
+                            bool progressbar = false) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
   std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
@@ -980,10 +980,10 @@ Rcpp::List RcppCMC(
     const Rcpp::IntegerVector& E,
     const Rcpp::IntegerVector& tau,
     int b,
-    int r,
-    int threads,
-    int parallel_level,
-    bool progressbar){
+    int r = 0,
+    int threads = 8,
+    int parallel_level = 0,
+    bool progressbar = false){
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
   std::vector<double> y_std = Rcpp::as<std::vector<double>>(y);
@@ -1063,14 +1063,14 @@ Rcpp::List RcppCMC(
 Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
                                         const Rcpp::NumericMatrix& y,
                                         const Rcpp::IntegerVector& libsizes,
-                                        int E,
-                                        int tau,
-                                        int b,
-                                        int boot,
-                                        int seed,
-                                        int threads,
-                                        int parallel_level,
-                                        bool progressbar) {
+                                        int E = 3,
+                                        int tau = 0,
+                                        int b = 4,
+                                        int boot = 299,
+                                        int seed = 42,
+                                        int threads = 8,
+                                        int parallel_level = 0,
+                                        bool progressbar = false) {
   // Convert Rcpp NumericMatrix to std::vector of std::vectors
   std::vector<std::vector<double>> x_std(x.ncol());
   std::vector<std::vector<double>> y_std(y.ncol());

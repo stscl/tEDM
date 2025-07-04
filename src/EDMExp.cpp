@@ -404,8 +404,9 @@ Rcpp::NumericVector RcppFNN4TS(
     const Rcpp::IntegerVector& lib,
     const Rcpp::IntegerVector& pred,
     const Rcpp::IntegerVector& E,
-    int tau,
-    int threads){
+    int tau = 0,
+    int threads = 8,
+    int parallel_level = 0){
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> vec_std = Rcpp::as<std::vector<double>>(vec);
 
@@ -441,7 +442,7 @@ Rcpp::NumericVector RcppFNN4TS(
   }
 
   // Perform FNN for time series data
-  std::vector<double> fnn = CppFNN(embeddings,lib_std,pred_std,rt_std,eps_std,true,threads);
+  std::vector<double> fnn = CppFNN(embeddings,lib_std,pred_std,rt_std,eps_std,true,threads,parallel_level);
 
   // Convert the result back to Rcpp::NumericVector and set names as "E:1", "E:2", ..., "E:n"
   Rcpp::NumericVector result = Rcpp::wrap(fnn);

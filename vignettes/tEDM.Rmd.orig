@@ -337,6 +337,19 @@ Our CCM analysis reproduced the same results as the [original CMC study][3], wit
 knitr::include_graphics("../man/figures/edm/jp-covid19.png")
 ```
 
+```{r}
+if (!requireNamespace("rnaturalearth")) {
+    install.packages("rnaturalearth")
+}
+jp = rnaturalearth::ne_states(country = "Japan")
+
+ggplot2::ggplot(data = jp) +
+  ggplot2::geom_sf(fill = "#ffe7b7", color = "grey") +
+  ggplot2::theme(
+    panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA)
+  )
+```
+
 ## Reference
 
 Sugihara, G., May, R., Ye, H., Hsieh, C., Deyle, E., Fogarty, M., Munch, S., 2012. Detecting Causality in Complex Ecosystems. Science 338, 496–500. [https://doi.org/10.1126/science.1227079][1].

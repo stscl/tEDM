@@ -347,7 +347,7 @@ jp = rnaturalearth::ne_states(country = "Japan")
 if (!requireNamespace("tidygeocoder")) {
     install.packages("tidygeocoder")
 }
-jpp = tibble::tibble(name = c("Tokyo",head(res_covid,10)$effect)) |>
+jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 

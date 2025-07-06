@@ -373,6 +373,7 @@ fig_case3 = ggplot2::ggplot() +
   ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw() +
   ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
+fig_case3
 ```
 
 ## Reference

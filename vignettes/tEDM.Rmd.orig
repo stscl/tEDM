@@ -331,10 +331,49 @@ res_covid = dplyr::bind_rows(df1,df2)|>
 head(res_covid,10)
 ```
 
-Our CCM analysis reproduced the same results as the [original CMC study][3], with the top five prefectures most affected by Tokyo’s COVID-19 spread matching those previously identified.
+Using `0.90` as the threshold (rounded to two decimal places), we map the causal responses in the spread of COVID-19 from Tokyo for those with a causal strength greater than `0.90`.
 
-```{r fig_case3,echo=FALSE,fig.width=6,fig.height=4.9,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 6**. The five prefectures most affected by Tokyo, Kanagawa, Osaka, Saitama, Chiba, and Aichi, are located on the map. Red, blue and green dashed rings represent Tokyo, Nagoya and Osaka metropolitan areas, respectively. (*Figure adapted from [CMC article][3].*)")}
-knitr::include_graphics("../man/figures/edm/jp-covid19.png")
+```{r fig_case3,fig.width=5.5,fig.height=3.15,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 6**. The prefectures most affected by Tokyo, Osaka, Kanagawa, Saitama, Chiba, Hyogo, and Aichi, are located on the map.")}
+res_covid = res_covid |>
+  dplyr::mutate(cs = round(res_covid$cs,2)) |>
+  dplyr::filter(cs >= 0.90)
+res_covid
+
+if (!requireNamespace("rnaturalearth")) {
+    install.packages("rnaturalearth")
+}
+jp = rnaturalearth::ne_states(country = "Japan")
+
+if (!requireNamespace("tidygeocoder")) {
+    install.packages("tidygeocoder")
+}
+jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
+  tidygeocoder::geocode(state = name, method = "arcgis",
+                        long = "lon", lat = "lat")
+
+fig_case3 = ggplot2::ggplot() +
+  ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", lwd = 0.45) +
+  ggplot2::geom_curve(data = jpp[-1,],
+                      ggplot2::aes(x = jpp[1,"lon",drop = TRUE],
+                                   y = jpp[1,"lat",drop = TRUE],
+                                   xend = lon, yend = lat),
+                      curvature = 0.2,
+                      arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")),
+                      color = "#6eab47", size = 1) +
+  ggplot2::geom_point(data = jpp[-1,], ggplot2::aes(x = lon, y = lat),
+                      color = "#cf574b", size = 1.25) +
+  ggrepel::geom_text_repel(data = jpp[-1,], color = "#cf574b",
+                           ggplot2::aes(label = name, x = lon, y = lat)) +
+  ggplot2::geom_point(data = jpp[1,], ggplot2::aes(x = lon, y = lat),
+                      color = "#2c74b7", size = 1.25) +
+  ggrepel::geom_text_repel(data = jpp[1,], color = "#2c74b7",
+                           ggplot2::aes(label = name, x = lon, y = lat)) +
+  ggplot2::coord_sf(xlim = range(jpp$lon) + c(-0.45,0.45),
+                    ylim = range(jpp$lat) + c(-0.75,0.75)) +
+  ggplot2::labs(x = "", y = "") +
+  ggplot2::theme_bw() +
+  ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
+fig_case3
 ```
 
 ## Reference

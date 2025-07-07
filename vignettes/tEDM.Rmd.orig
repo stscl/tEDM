@@ -181,8 +181,8 @@ The results shown in Figure2 indicate the presence of the following causal influ
 - no₂ → cvd
 - so₂ → cvd
 - cvd → rsp
-- cvd → so₂
 - cvd → no₂
+- cvd → so₂
 - cvd → o₃
 
 However, based on practical experience, the relationship between CVDs and air pollution is likely reflective rather than causal. Therefore, we further employ CCM to examine the causal paths of cvd → no₂ and cvd → o₃.

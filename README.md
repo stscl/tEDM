@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tEDM <img src="man/figures/logo.png" align="right" height="139" alt="https://stscl.github.io/tEDM/">
+# tEDM <a href="https://stscl.github.io/tEDM/"><img src="man/figures/tEDM.png" align="right" hspace="10" vspace="0" width="15%" alt="tEDM website: https://stscl.github.io/tEDM/"/></a>
 
 <!-- badges: start -->
 <!-- [![CRAN](https://www.r-pkg.org/badges/version/tEDM)](https://CRAN.R-project.org/package=tEDM) -->

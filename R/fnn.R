@@ -26,6 +26,6 @@
 #'
 #' @examples
 #' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
-#' fnn(sim,"x")
+#' fnn(sim,"x",threads = 1)
 #'
 methods::setMethod("fnn", "data.frame", .fnn_ts_method)

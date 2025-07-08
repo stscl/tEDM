@@ -464,9 +464,10 @@ fig_case2 = ggplot2::ggplot(res_carbon,
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
-  ggplot2::labs(x = "", y = "Causal Strength") +
-  ggplot2::scale_x_discrete(labels = c("carbon_tem" = "carbon → tem",
+  ggplot2::scale_x_discrete(name = "",
+                            labels = c("carbon_tem" = "carbon → tem",
                                        "tem_carbon" = "tem → carbon")) +
+  ggplot2::scale_y_continuous(name = "Causal Strength") +
   ggplot2::theme(legend.position = "none")
 fig_case2
 ```
@@ -608,11 +609,13 @@ res_covid
 if (!requireNamespace("rnaturalearth")) {
     install.packages("rnaturalearth")
 }
+## Loading required namespace: rnaturalearth
 jp = rnaturalearth::ne_states(country = "Japan")
 
 if (!requireNamespace("tidygeocoder")) {
     install.packages("tidygeocoder")
 }
+## Loading required namespace: tidygeocoder
 jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
@@ -641,6 +644,11 @@ fig_case3 = ggplot2::ggplot() +
   ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw() +
   ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
+## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+## ℹ Please use `linewidth` instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+## generated.
 fig_case3
 ```
 

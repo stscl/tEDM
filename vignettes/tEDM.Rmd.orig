@@ -272,9 +272,10 @@ fig_case2 = ggplot2::ggplot(res_carbon,
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
-  ggplot2::labs(y = "Causal Strength") +
-  ggplot2::scale_x_discrete(labels = c("carbon_tem" = "carbon → tem",
+  ggplot2::scale_x_discrete(name = "",
+                            labels = c("carbon_tem" = "carbon → tem",
                                        "tem_carbon" = "tem → carbon")) +
+  ggplot2::scale_y_continuous(name = "Causal Strength") +
   ggplot2::theme(legend.position = "none")
 fig_case2
 ```

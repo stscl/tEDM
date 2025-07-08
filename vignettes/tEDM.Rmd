@@ -620,17 +620,17 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 5.2 seconds
+## Query completed in: 5.1 seconds
 
 fig_case3 = ggplot2::ggplot() +
-  ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", lwd = 0.45) +
+  ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +
   ggplot2::geom_curve(data = jpp[-1,],
                       ggplot2::aes(x = jpp[1,"lon",drop = TRUE],
                                    y = jpp[1,"lat",drop = TRUE],
                                    xend = lon, yend = lat),
                       curvature = 0.2,
                       arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")),
-                      color = "#6eab47", size = 1) +
+                      color = "#6eab47", linewidth = 1) +
   ggplot2::geom_point(data = jpp[-1,], ggplot2::aes(x = lon, y = lat),
                       color = "#cf574b", size = 1.25) +
   ggrepel::geom_text_repel(data = jpp[-1,], color = "#cf574b",
@@ -644,11 +644,6 @@ fig_case3 = ggplot2::ggplot() +
   ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw() +
   ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
-## Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
-## ℹ Please use `linewidth` instead.
-## This warning is displayed once every 8 hours.
-## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
-## generated.
 fig_case3
 ```
 

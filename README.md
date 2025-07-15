@@ -4,12 +4,14 @@
 # tEDM <a href="https://stscl.github.io/tEDM/"><img src="man/figures/tEDM.png" align="right" hspace="10" vspace="0" width="15%" alt="tEDM website: https://stscl.github.io/tEDM/"/></a>
 
 <!-- badges: start -->
-<!-- [![CRAN](https://www.r-pkg.org/badges/version/tEDM)](https://CRAN.R-project.org/package=tEDM) -->
-<!-- [![CRAN Release](https://www.r-pkg.org/badges/last-release/tEDM)](https://CRAN.R-project.org/package=tEDM) -->
-<!-- [![CRAN Checks](https://badges.cranchecks.info/worst/tEDM.svg)](https://cran.r-project.org/web/checks/check_results_tEDM.html) -->
-<!-- [![Downloads_all](https://badgen.net/cran/dt/tEDM?color=orange)](https://CRAN.R-project.org/package=tEDM) -->
-<!-- [![Downloads_month](https://cranlogs.r-pkg.org/badges/tEDM)](https://CRAN.R-project.org/package=tEDM) -->
 
+[![CRAN](https://www.r-pkg.org/badges/version/tEDM)](https://CRAN.R-project.org/package=tEDM)
+[![CRAN
+Release](https://www.r-pkg.org/badges/last-release/tEDM)](https://CRAN.R-project.org/package=tEDM)
+[![CRAN
+Checks](https://badges.cranchecks.info/worst/tEDM.svg)](https://cran.r-project.org/web/checks/check_results_tEDM.html)
+[![Downloads_all](https://badgen.net/cran/dt/tEDM?color=orange)](https://CRAN.R-project.org/package=tEDM)
+[![Downloads_month](https://cranlogs.r-pkg.org/badges/tEDM)](https://CRAN.R-project.org/package=tEDM)
 [![License](https://img.shields.io/badge/license-GPL--3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html)
 [![R-CMD-check](https://github.com/stscl/tEDM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stscl/tEDM/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle:

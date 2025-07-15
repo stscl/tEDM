@@ -1,6 +1,6 @@
 Package: tEDM
 Title: Temporal Empirical Dynamic Modeling
-Version: 1.0
+Version: 1.1
 Authors@R: 
     person(given = "Wenbo", family = "Lv",
            email = "lyu.geosocial@gmail.com", 

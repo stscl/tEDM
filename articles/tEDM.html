@@ -70,6 +70,9 @@
 
       <h1>Temporal Empirical Dynamic Modeling</h1>
             
+            <h4 data-toc-skip class="date"><div class="line-block">Last
+update: 2025-07-15<br>
+Last run: 2025-07-15</div></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stscl/tEDM/blob/main/vignettes/tEDM.Rmd" class="external-link"><code>vignettes/tEDM.Rmd</code></a></small>
       <div class="d-none name"><code>tEDM.Rmd</code></div>
@@ -489,10 +492,11 @@ differences and are both statistically significant, indicating the
 presence of a causal relationship between the two. Therefore, the final
 set of confirmed causal pathways is as follows (exclude those with no
 causal influence on CVDs):</p>
-<div class="float">
-<img src="../reference/figures/edm/hk-cvd.png" alt="Figure 4. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong."><div class="figcaption">
-<strong>Figure 4</strong>. Causal interactions
-between air pollutants and cardiovascular diseases in Hong Kong.</div>
+<div class="figure">
+<img src="../reference/figures/edm/hk-cvd.png" alt="**Figure 4**. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong." width="600px"><p class="caption">
+<strong>Figure 4</strong>. Causal interactions between air pollutants
+and cardiovascular diseases in Hong Kong.
+</p>
 </div>
 </div>
 <div class="section level3">
@@ -729,7 +733,7 @@ Tokyo for those with a causal strength greater than
 <span>  <span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu">geocode</span><span class="op">(</span>state <span class="op">=</span> <span class="va">name</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,</span>
 <span>                        long <span class="op">=</span> <span class="st">"lon"</span>, lat <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span>
 <span><span class="co">## Passing 7 addresses to the ArcGIS single address geocoder</span></span>
-<span><span class="co">## Query completed in: 5.1 seconds</span></span>
+<span><span class="co">## Query completed in: 7.6 seconds</span></span>
 <span></span>
 <span><span class="va">fig_case3</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">jp</span>, fill <span class="op">=</span> <span class="st">"#ffe7b7"</span>, color <span class="op">=</span> <span class="st">"grey"</span>, linewidth <span class="op">=</span> <span class="fl">0.45</span><span class="op">)</span> <span class="op">+</span></span>

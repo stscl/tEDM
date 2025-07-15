@@ -1,5 +1,8 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
+date: |
+  | Last update: 2025-07-15
+  | Last run: `r Sys.Date()`
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}
@@ -224,7 +227,7 @@ fig3
 
 The CCM and PCM results between **NO₂** and **respirable suspended particulates** show minimal differences and are both statistically significant, indicating the presence of a causal relationship between the two. Therefore, the final set of confirmed causal pathways is as follows (exclude those with no causal influence on CVDs):
 
-```{r fig_case1,echo=FALSE,fig.width=6,fig.height=4.9,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 4**. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong.")}
+```{r fig_case1,echo=FALSE,out.width = "600px",fig.cap=knitr::asis_output("**Figure 4**. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong.")}
 knitr::include_graphics("../man/figures/edm/hk-cvd.png")
 ```
 

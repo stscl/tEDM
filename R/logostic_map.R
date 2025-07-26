@@ -30,7 +30,7 @@ logistic_map = \(x, y = NULL, z = NULL, step = 15, alpha_x = 3.6, alpha_y = 3.72
   if (is.null(y)) yl = 0;
   if (is.null(z)) zl = 0;
   res = lapply(RcppLogisticMap(xl,yl,zl,step,alpha_x,alpha_y,alpha_z,beta_xy,beta_xz,beta_yx,beta_yz,beta_zx,beta_zy,threshold),
-               \(.x) .x[-transient])
+               \(.x) .x[-unique(abs(transient))])
   if (is.null(y)) res$y = NULL
   if (is.null(z)) res$z = NULL
   return(as.data.frame(res))

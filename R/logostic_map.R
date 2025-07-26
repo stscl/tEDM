@@ -25,12 +25,12 @@
 logistic_map = \(x, y = NULL, z = NULL, step = 15, alpha_x = 3.6, alpha_y = 3.72, alpha_z = 3.68,
                  beta_xy = 0.05, beta_xz = 0.05, beta_yx = 0.2, beta_yz = 0.2, beta_zx = 0.35, beta_zy = 0.35,
                  threshold = Inf, transient = 1){
-  xl = x; yl = y; zl = z;
-  if (is.null(x)) xl = 0;
-  if (is.null(y)) yl = 0;
-  if (is.null(z)) zl = 0;
+  xl = x; yl = y; zl = z
+  if (is.null(x)) xl = 0
+  if (is.null(y)) yl = 0
+  if (is.null(z)) zl = 0
   res = lapply(RcppLogisticMap(xl,yl,zl,step,alpha_x,alpha_y,alpha_z,beta_xy,beta_xz,beta_yx,beta_yz,beta_zx,beta_zy,threshold),
-               \(.x) .x[-transient])
+               \(.x) .x[-unique(abs(transient))])
   if (is.null(y)) res$y = NULL
   if (is.null(z)) res$z = NULL
   return(as.data.frame(res))

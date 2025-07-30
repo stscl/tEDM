@@ -632,8 +632,7 @@ double PartialCor(const std::vector<double>& y,
                   const std::vector<std::vector<double>>& controls,
                   bool NA_rm = false,
                   bool linear = false,
-                  double pinv_tol = 1e-10,
-                  double ridge_lambda = 1e-6) {
+                  double pinv_tol = 1e-10) {
   // Check input sizes
   if (y.size() != y_hat.size()) {
     throw std::invalid_argument("Input vectors y and y_hat must have the same size.");
@@ -724,60 +723,15 @@ double PartialCor(const std::vector<double>& y,
       return std::numeric_limits<double>::quiet_NaN();
     }
 
-    // The previous precision matrix calculation method has been replaced with a more robust approach.
-    // // // Compute the precision matrix (inverse of the correlation matrix)
-    // // arma::mat precm = arma::inv(corrm);
-    //
-    // // Moore-Penrose pseudo-inverse
-    // // arma::mat precm = arma::pinv(corrm);
-    // arma::mat precm;
-    // try {
-    //   precm = arma::pinv(corrm, 1e-10);
-    // } catch (...) {
-    //   return std::numeric_limits<double>::quiet_NaN();
-    // }
+    // // Compute the precision matrix (inverse of the correlation matrix)
+    // arma::mat precm = arma::inv(corrm);
 
-    // Compute condition number
-    double cond_num = arma::cond(corrm);
-    if (!std::isfinite(cond_num)) {
-      return std::numeric_limits<double>::quiet_NaN();
-    }
-
-    // Decide strategy based on condition number
+    // Moore-Penrose pseudo-inverse
+    // arma::mat precm = arma::pinv(corrm);
     arma::mat precm;
-    bool success = false;
-
     try {
-      if (cond_num < 1e6) {
-        // Well-conditioned, use fast inverse
-        precm = arma::inv(corrm);
-        success = precm.is_finite();
-      }
+      precm = arma::pinv(corrm, pinv_tol);
     } catch (...) {
-      success = false;
-    }
-
-    if (!success) {
-      try {
-        precm = arma::pinv(corrm, pinv_tol);
-        success = precm.is_finite();
-      } catch (...) {
-        success = false;
-      }
-    }
-
-    if (!success) {
-      try {
-        arma::mat corrm_ridge = corrm + ridge_lambda * arma::eye(corrm.n_rows, corrm.n_cols);
-        precm = arma::inv(corrm_ridge);
-        success = precm.is_finite();
-      } catch (...) {
-        return std::numeric_limits<double>::quiet_NaN();
-      }
-    }
-
-    // Final fallback check
-    if (!success) {
       return std::numeric_limits<double>::quiet_NaN();
     }
 
@@ -797,12 +751,11 @@ double PartialCorTrivar(const std::vector<double>& y,
                         const std::vector<double>& control,
                         bool NA_rm = false,
                         bool linear = false,
-                        double pinv_tol = 1e-10,
-                        double ridge_lambda = 1e-6){
+                        double pinv_tol = 1e-10){
   std::vector<std::vector<double>> conmat;
   conmat.push_back(control);
 
-  double res = PartialCor(y,y_hat,conmat,NA_rm,linear,pinv_tol,ridge_lambda);
+  double res = PartialCor(y,y_hat,conmat,NA_rm,linear,pinv_tol);
   return res;
 }
 

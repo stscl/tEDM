@@ -53,7 +53,7 @@ smap forecast
 }
 \examples{
 sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
-smap(sim,"x","y",E = 8,k = 7,threads = 1)
+smap(sim,"x","y",E = 9,k = 7,threads = 1)
 
 }
 \references{

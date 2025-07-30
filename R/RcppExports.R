@@ -161,12 +161,12 @@ RcppKendallCor <- function(y, y_hat, NA_rm = FALSE) {
     .Call(`_tEDM_RcppKendallCor`, y, y_hat, NA_rm)
 }
 
-RcppPartialCor <- function(y, y_hat, controls, NA_rm = FALSE, linear = FALSE) {
-    .Call(`_tEDM_RcppPartialCor`, y, y_hat, controls, NA_rm, linear)
+RcppPartialCor <- function(y, y_hat, controls, NA_rm = FALSE, linear = FALSE, pinv_tol = 1e-10) {
+    .Call(`_tEDM_RcppPartialCor`, y, y_hat, controls, NA_rm, linear, pinv_tol)
 }
 
-RcppPartialCorTrivar <- function(y, y_hat, control, NA_rm = FALSE, linear = FALSE) {
-    .Call(`_tEDM_RcppPartialCorTrivar`, y, y_hat, control, NA_rm, linear)
+RcppPartialCorTrivar <- function(y, y_hat, control, NA_rm = FALSE, linear = FALSE, pinv_tol = 1e-10) {
+    .Call(`_tEDM_RcppPartialCorTrivar`, y, y_hat, control, NA_rm, linear, pinv_tol)
 }
 
 RcppCorSignificance <- function(r, n, k = 0L) {

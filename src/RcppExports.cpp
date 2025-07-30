@@ -569,8 +569,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppPartialCor
-double RcppPartialCor(const Rcpp::NumericVector& y, const Rcpp::NumericVector& y_hat, const Rcpp::NumericMatrix& controls, bool NA_rm, bool linear);
-RcppExport SEXP _tEDM_RcppPartialCor(SEXP ySEXP, SEXP y_hatSEXP, SEXP controlsSEXP, SEXP NA_rmSEXP, SEXP linearSEXP) {
+double RcppPartialCor(const Rcpp::NumericVector& y, const Rcpp::NumericVector& y_hat, const Rcpp::NumericMatrix& controls, bool NA_rm, bool linear, double pinv_tol);
+RcppExport SEXP _tEDM_RcppPartialCor(SEXP ySEXP, SEXP y_hatSEXP, SEXP controlsSEXP, SEXP NA_rmSEXP, SEXP linearSEXP, SEXP pinv_tolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type y(ySEXP);
@@ -578,13 +578,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type controls(controlsSEXP);
     Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
     Rcpp::traits::input_parameter< bool >::type linear(linearSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppPartialCor(y, y_hat, controls, NA_rm, linear));
+    Rcpp::traits::input_parameter< double >::type pinv_tol(pinv_tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppPartialCor(y, y_hat, controls, NA_rm, linear, pinv_tol));
     return rcpp_result_gen;
 END_RCPP
 }
 // RcppPartialCorTrivar
-double RcppPartialCorTrivar(const Rcpp::NumericVector& y, const Rcpp::NumericVector& y_hat, const Rcpp::NumericVector& control, bool NA_rm, bool linear);
-RcppExport SEXP _tEDM_RcppPartialCorTrivar(SEXP ySEXP, SEXP y_hatSEXP, SEXP controlSEXP, SEXP NA_rmSEXP, SEXP linearSEXP) {
+double RcppPartialCorTrivar(const Rcpp::NumericVector& y, const Rcpp::NumericVector& y_hat, const Rcpp::NumericVector& control, bool NA_rm, bool linear, double pinv_tol);
+RcppExport SEXP _tEDM_RcppPartialCorTrivar(SEXP ySEXP, SEXP y_hatSEXP, SEXP controlSEXP, SEXP NA_rmSEXP, SEXP linearSEXP, SEXP pinv_tolSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type y(ySEXP);
@@ -592,7 +593,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type control(controlSEXP);
     Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
     Rcpp::traits::input_parameter< bool >::type linear(linearSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppPartialCorTrivar(y, y_hat, control, NA_rm, linear));
+    Rcpp::traits::input_parameter< double >::type pinv_tol(pinv_tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppPartialCorTrivar(y, y_hat, control, NA_rm, linear, pinv_tol));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -853,8 +855,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppPearsonCor", (DL_FUNC) &_tEDM_RcppPearsonCor, 3},
     {"_tEDM_RcppSpearmanCor", (DL_FUNC) &_tEDM_RcppSpearmanCor, 3},
     {"_tEDM_RcppKendallCor", (DL_FUNC) &_tEDM_RcppKendallCor, 3},
-    {"_tEDM_RcppPartialCor", (DL_FUNC) &_tEDM_RcppPartialCor, 5},
-    {"_tEDM_RcppPartialCorTrivar", (DL_FUNC) &_tEDM_RcppPartialCorTrivar, 5},
+    {"_tEDM_RcppPartialCor", (DL_FUNC) &_tEDM_RcppPartialCor, 6},
+    {"_tEDM_RcppPartialCorTrivar", (DL_FUNC) &_tEDM_RcppPartialCorTrivar, 6},
     {"_tEDM_RcppCorSignificance", (DL_FUNC) &_tEDM_RcppCorSignificance, 3},
     {"_tEDM_RcppCorConfidence", (DL_FUNC) &_tEDM_RcppCorConfidence, 4},
     {"_tEDM_RcppMeanCorSignificance", (DL_FUNC) &_tEDM_RcppMeanCorSignificance, 3},

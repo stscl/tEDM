@@ -47,19 +47,30 @@ std::vector<double> PartialSimplex4TS(
   std::vector<double> rho(2, std::numeric_limits<double>::quiet_NaN());
 
   if (cumulate) {
+    // Cumulative control embedding path
     std::vector<double> temp_pred;
     std::vector<std::vector<double>> temp_embedding;
+    std::vector<int> temp_lib = lib_indices;  // initialize
 
     for (int i = 0; i < n_controls; ++i) {
       if (i == 0){
         temp_pred = SimplexProjectionPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0]);
       } else {
-        temp_pred = SimplexProjectionPrediction(temp_embedding, controls[i], lib_indices, pred_indices, num_neighbors[i]);
+        temp_pred = SimplexProjectionPrediction(temp_embedding, controls[i], temp_lib, pred_indices, num_neighbors[i]);
       }
+
+      // Reconstruct temp_lib from full lib_indices each time
+      temp_lib.clear();
+      for (int idx : lib_indices) {
+        if (!std::isnan(temp_pred[idx])) {
+          temp_lib.push_back(idx);
+        }
+      }
+
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
     }
 
-    std::vector<double> con_pred = SimplexProjectionPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[n_controls]);
+    std::vector<double> con_pred = SimplexProjectionPrediction(temp_embedding, target, temp_lib, pred_indices, num_neighbors[n_controls]);
     std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0]);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3){
@@ -67,14 +78,24 @@ std::vector<double> PartialSimplex4TS(
       rho[1] = PartialCorTrivar(target,target_pred,con_pred,true,false);
     }
   } else {
+    // Independent control paths
     std::vector<std::vector<double>> con_pred(n_controls);
     std::vector<double> temp_pred;
     std::vector<std::vector<double>> temp_embedding;
 
     for (int i = 0; i < n_controls; ++i) {
       temp_pred = SimplexProjectionPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0]);
+
+      // In-place filter lib_indices to get valid temp_lib
+      std::vector<int> temp_lib;
+      for (int idx : lib_indices) {
+        if (!std::isnan(temp_pred[idx])) {
+          temp_lib.push_back(idx);
+        }
+      }
+
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
-      temp_pred = SimplexProjectionPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[i+1]);
+      temp_pred = SimplexProjectionPrediction(temp_embedding, target, temp_lib, pred_indices, num_neighbors[i+1]);
       con_pred[i] = temp_pred;
     }
     std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0]);
@@ -126,19 +147,30 @@ std::vector<double> PartialSMap4TS(
   std::vector<double> rho(2, std::numeric_limits<double>::quiet_NaN());
 
   if (cumulate){
+    // Cumulative control embedding path
     std::vector<double> temp_pred;
     std::vector<std::vector<double>> temp_embedding;
+    std::vector<int> temp_lib = lib_indices;  // initialize
 
     for (int i = 0; i < n_controls; ++i) {
       if (i == 0){
         temp_pred = SMapPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], theta);
       } else {
-        temp_pred = SMapPrediction(temp_embedding, controls[i], lib_indices, pred_indices, num_neighbors[i], theta);
+        temp_pred = SMapPrediction(temp_embedding, controls[i], temp_lib, pred_indices, num_neighbors[i], theta);
       }
+
+      // Reconstruct temp_lib from full lib_indices each time
+      temp_lib.clear();
+      for (int idx : lib_indices) {
+        if (!std::isnan(temp_pred[idx])) {
+          temp_lib.push_back(idx);
+        }
+      }
+
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
     }
 
-    std::vector<double> con_pred = SMapPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[n_controls], theta);
+    std::vector<double> con_pred = SMapPrediction(temp_embedding, target, temp_lib, pred_indices, num_neighbors[n_controls], theta);
     std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], theta);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3){
@@ -146,14 +178,24 @@ std::vector<double> PartialSMap4TS(
       rho[1] = PartialCorTrivar(target,target_pred,con_pred,true,false);
     }
   } else {
+    // Independent control paths
     std::vector<std::vector<double>> con_pred(n_controls);
     std::vector<double> temp_pred;
     std::vector<std::vector<double>> temp_embedding;
 
     for (int i = 0; i < n_controls; ++i) {
       temp_pred = SMapPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], theta);
+
+      // In-place filter lib_indices to get valid temp_lib
+      std::vector<int> temp_lib;
+      for (int idx : lib_indices) {
+        if (!std::isnan(temp_pred[idx])) {
+          temp_lib.push_back(idx);
+        }
+      }
+
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
-      temp_pred = SMapPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[i+1], theta);
+      temp_pred = SMapPrediction(temp_embedding, target, temp_lib, pred_indices, num_neighbors[i+1], theta);
       con_pred[i] = temp_pred;
     }
     std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], theta);

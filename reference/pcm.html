@@ -170,32 +170,30 @@
 <span class="r-in"><span>                   beta_xy <span class="op">=</span> <span class="fl">0.5</span>, beta_xz <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>                   beta_yx <span class="op">=</span> <span class="fl">0</span>, beta_yz <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
 <span class="r-in"><span>                   beta_zx <span class="op">=</span> <span class="fl">0</span>, beta_zy <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">pcm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"z"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">35</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">10</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pcm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"z"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">45</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">9</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ***partial cross mapping prediction*** </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes      x-&gt;z      z-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.2624652 0.1736783</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.1055747 0.1325781</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.2414723 0.1448711</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.1349209 0.2088565</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.1303855 0.2467683</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       30 0.1181458 0.2853506</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       35 0.1245560 0.5516479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.3769847 0.1919834</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.1552762 0.1208702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.1140625 0.1399795</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.1330796 0.1745114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.0560103 0.2620439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       29 0.1296895 0.3336119</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------ </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ***cross mapping prediction*** </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------ </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes      x-&gt;z      z-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.8099271 0.6423512</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.8818607 0.6830390</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.8961755 0.6924374</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.8961413 0.6965852</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.8948321 0.7039838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       30 0.8941432 0.7064543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       35 0.9346800 0.7623188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.6834933 0.5598584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.7755220 0.6085279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.7927651 0.6163557</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.7942027 0.6237987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.7892809 0.6300565</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       29 0.9142839 0.6740660</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

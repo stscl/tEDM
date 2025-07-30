@@ -154,17 +154,18 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">sim</span> <span class="op">=</span> <span class="fu"><a href="logistic_map.html">logistic_map</a></span><span class="op">(</span>x <span class="op">=</span> <span class="fl">0.4</span>,y <span class="op">=</span> <span class="fl">0.4</span>,step <span class="op">=</span> <span class="fl">45</span>,beta_xy <span class="op">=</span> <span class="fl">0.5</span>,beta_yx <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">ccm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">35</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">8</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">ccm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">45</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">9</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes      x-&gt;y      y-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.6658725 0.4459743</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.7903164 0.5440701</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.8073800 0.5425474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.8056960 0.5364679</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.8020987 0.5307466</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       30 0.7983809 0.5253733</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7       35 0.7965829 0.5258838</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.6758136 0.4678152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.7956798 0.5544817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.8158553 0.5534857</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.8144579 0.5512150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.8127184 0.5464754</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       30 0.8100589 0.5405818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7       35 0.8091125 0.5422224</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8       37 0.8962573 0.6521405</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

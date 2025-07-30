@@ -77,7 +77,7 @@ sim = logistic_map(x = 0.4,y = 0.4,z = 0.4,step = 45,
                    beta_xy = 0.5, beta_xz = 0,
                    beta_yx = 0, beta_yz = 0.5,
                    beta_zx = 0, beta_zy = 0)
-pcm(sim,"x","z","y",libsizes = seq(5,35,5),E = 10,k = 7,threads = 1)
+pcm(sim,"x","z","y",libsizes = seq(5,45,5),E = 9,k = 7,threads = 1)
 
 }
 \references{

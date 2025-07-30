@@ -38,6 +38,11 @@ std::vector<double> SimplexProjectionPrediction(
   for (size_t pi = 0; pi < pred_indices.size(); ++pi) {
     int p = pred_indices[pi];
 
+    // Skip if target at prediction index is NaN
+    if (std::isnan(target[p])) {
+      continue;
+    }
+
     // Create lib set excluding the current prediction index p
     std::vector<int> libs;
     for (int idx : lib_indices) {

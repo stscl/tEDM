@@ -39,6 +39,11 @@ std::vector<double> SMapPrediction(
   }
 
   for (int pred_i : pred_indices) {
+    // Skip if target at prediction index is NaN
+    if (std::isnan(target[pred_i])) {
+      continue;
+    }
+
     // Filter out the current prediction index from the library
     std::vector<size_t> libs;
     for (int lib_i : lib_indices) {

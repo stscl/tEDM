@@ -83,13 +83,17 @@ double PartialCor(const std::vector<double>& y,
                   const std::vector<double>& y_hat,
                   const std::vector<std::vector<double>>& controls,
                   bool NA_rm = false,
-                  bool linear = false);
+                  bool linear = false,
+                  double pinv_tol = 1e-10,
+                  double ridge_lambda = 1e-6);
 
 double PartialCorTrivar(const std::vector<double>& y,
                         const std::vector<double>& y_hat,
                         const std::vector<double>& control,
                         bool NA_rm = false,
-                        bool linear = false);
+                        bool linear = false,
+                        double pinv_tol = 1e-10,
+                        double ridge_lambda = 1e-6);
 
 double CppCorSignificance(double r, size_t n, size_t k = 0);
 

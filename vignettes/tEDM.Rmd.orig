@@ -344,7 +344,10 @@ fig_case2 = ggplot2::ggplot(res_carbon,
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
   ggplot2::scale_x_discrete(name = "") +
-  ggplot2::scale_y_continuous(name = "Causal Strength") +
+  ggplot2::scale_y_continuous(name = "Causal Strength",
+                              expand = c(0,0),
+                              limits = c(0,0.3),
+                              breaks = seq(0,0.3,by = 0.1)) +
   ggplot2::theme(legend.position = "none")
 fig_case2
 ```

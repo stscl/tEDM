@@ -446,7 +446,10 @@ fig_case2 = ggplot2::ggplot(res_carbon,
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
   ggplot2::scale_x_discrete(name = "") +
-  ggplot2::scale_y_continuous(name = "Causal Strength") +
+  ggplot2::scale_y_continuous(name = "Causal Strength",
+                              expand = c(0,0),
+                              limits = c(0,0.3),
+                              breaks = seq(0,0.3,by = 0.1)) +
   ggplot2::theme(legend.position = "none")
 fig_case2
 ```
@@ -603,7 +606,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 9.8 seconds
+## Query completed in: 5.9 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

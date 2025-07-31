@@ -1,5 +1,5 @@
 .pcm_ts_method = \(data, cause, effect, conds, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
-                   pred = NULL, threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, cumulate = FALSE, progressbar = TRUE){
+                   pred = NULL, threads = length(pred), parallel.level = "low", bidirectional = TRUE, cumulate = FALSE, progressbar = TRUE){
   varname = .check_character(c(cause, effect, conds))
   E = .check_inputelementnum(E,length(varname),length(conds))
   tau = .check_inputelementnum(tau,length(varname))

@@ -1,5 +1,5 @@
 .cmc_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = pmin(E^2), lib = NULL, pred = NULL,
-                   threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+                   threads = length(pred), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)

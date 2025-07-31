@@ -1,7 +1,7 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2025-07-15
+  | Last update: 2025-07-31
   | Last run: `r Sys.Date()`
 output: rmarkdown::html_vignette
 vignette: >
@@ -111,7 +111,7 @@ install.packages("tEDM",
 
 ### Air Pollution and Cardiovascular Health in Hong Kong
 
-Employing CCM, CMC and PCM to investigate the causal relationships between various air pollutants and cardiovascular diseases:
+Employing PCM to investigate the causal relationships between various air pollutants and cardiovascular diseases:
 
 ```{r load_cvd_data}
 library(tEDM)
@@ -120,115 +120,177 @@ cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
 head(cvd)
 ```
 
-```{r fig1,fig.width=6.5,fig.height=3.75,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 1**. Time series of air pollutants and confirmed CVD cases in Hong Kong from March 1995 to November 1997.")}
+```{r fig_cvds_ts,fig.width=6.5,fig.height=3.75,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 1**. Time series of air pollutants and confirmed CVD cases in Hong Kong from March 1995 to November 1997.")}
 cvd_long = cvd |>
   tibble::rowid_to_column("id") |>
   tidyr::pivot_longer(cols = -id,
                       names_to = "variable", values_to = "value")
 
-fig1 = ggplot2::ggplot(cvd_long, ggplot2::aes(x = id, y = value, color = variable)) +
-  ggplot2::geom_line(linewidth = 1) +
+fig_cvds_ts = ggplot2::ggplot(cvd_long, ggplot2::aes(x = id, y = value, color = variable)) +
+  ggplot2::geom_line(linewidth = 0.5) +
   ggplot2::labs(x = "Days (from 1995-3 to 1997-11)", y = "Concentrations or \nNO. of CVD admissions", color = "") +
   ggplot2::theme_bw() +
   ggplot2::theme(legend.direction = "horizontal",
                  legend.position = "inside",
                  legend.justification = c("center","top"),
                  legend.background = ggplot2::element_rect(fill = "transparent", color = NA))
-fig1
+fig_cvds_ts
 ```
 
 Determining optimal embedding dimension:
 
-```{r simplex_fnn}
+```{r fnn_cvd}
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ```
 
 Starting at $E = 11$, the FNN ratio stabilizes near 0.18; thus, embedding dimension E and neighbor number k are chosen from 11 onward for subsequent self-prediction parameter selection.
 
-```{r simplex_cvd}
-tEDM::simplex(cvd,"cvd","cvd",E = 11:35,k = 12:36)
-tEDM::simplex(cvd,"rsp","rsp",E = 11:35,k = 12:36)
-tEDM::simplex(cvd,"no2","no2",E = 11:35,k = 12:36)
-tEDM::simplex(cvd,"so2","so2",E = 11:35,k = 12:36)
-tEDM::simplex(cvd,"o3","o3",E = 11:35,k = 12:36)
+```{r fig_simplex_cvd,fig.width=4.5,fig.height=3.15,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 2**. Variation of prediction skill with the number of nearest neighbors.")}
+tEDM::simplex(cvd,"cvd","cvd",E = 11:25,k = 12:26)
+tEDM::simplex(cvd,"rsp","rsp",E = 11:25,k = 12:26)
+tEDM::simplex(cvd,"no2","no2",E = 11:25,k = 12:26)
+tEDM::simplex(cvd,"so2","so2",E = 11:25,k = 12:26)
+tEDM::simplex(cvd,"o3","o3",E = 11:25,k = 12:26)
+
+s1 = tEDM::simplex(cvd,"cvd","cvd",E = 11,k = 12:26)
+s2 = tEDM::simplex(cvd,"rsp","rsp",E = 11,k = 12:26)
+s3 = tEDM::simplex(cvd,"no2","no2",E = 11,k = 12:26)
+s4 = tEDM::simplex(cvd,"so2","so2",E = 11,k = 12:26)
+s5 = tEDM::simplex(cvd,"o3","o3",E = 11,k = 12:26)
+
+list(s1,s2,s3,s4,s5)
+
+simplex_df = purrr::map2_dfr(list(s1,s2,s3,s4,s5),
+                             c("cvd","rsp","no2","so2","o3"),
+                             \(.list,.name) dplyr::mutate(.list$xmap,variable = .name))
+ggplot2::ggplot(data = simplex_df) +
+  ggplot2::geom_line(ggplot2::aes(x = k, y = rho, color = variable))
 ```
 
-We first use CCM to explore the causal influences of air pollutants on the incidence of cardiovascular diseases.
+To investigate the causal influences of air pollutants on the incidence of cardiovascular diseases, we performed PCM analysis using an embedding dimension of 11 and 12 nearest neighbors per variable pair.
 
-```{r ccm_cvd}
-rsp_cvd = tEDM::ccm(cvd,"rsp","cvd",libsizes = seq(32,1032,100),E = 11,k = c(13,12),progressbar = FALSE)
-rsp_cvd
-no2_cvd = tEDM::ccm(cvd,"no2","cvd",libsizes = seq(32,1032,100),E = 11,k = 12,progressbar = FALSE)
-no2_cvd
-so2_cvd = tEDM::ccm(cvd,"so2","cvd",libsizes = seq(32,1032,100),E = 11,k = c(18,12),progressbar = FALSE)
-so2_cvd
-o3_cvd = tEDM::ccm(cvd,"o3","cvd",libsizes = seq(32,1032,100),E = 11,k = 12,progressbar = FALSE)
-o3_cvd
+```{r pcm_cvd,eval = FALSE}
+vars = c("cvd", "rsp", "no2", "so2", "o3")
+res = list()
+var_pairs = combn(vars, 2, simplify = FALSE)
+
+for (pair in var_pairs) {
+  var1 = pair[1]
+  var2 = pair[2]
+  conds = setdiff(vars, pair)
+  key = paste0(var1, "_", var2)
+  res[[key]] = tEDM::pcm(data = cvd,
+                         cause = var2,
+                         effect = var1,
+                         conds = conds,
+                         libsizes = seq(12, 1012, 100),
+                         E = 11, k = 12,
+                         progress = FALSE)
+}
 ```
 
-```{r fig2,fig.width=7.5,fig.height=7.5,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 2**. Cross-mapping results between different air pollutants and cardiovascular diseases.")}
-figa = plot(rsp_cvd,ylimits = c(0,0.12),ybreaks = c(0,0.05,0.10))
-figb = plot(no2_cvd,ylimits = c(0.03,0.30),ybreaks = seq(0.05,0.25,0.05))
-figc = plot(so2_cvd,ylimits = c(0.03,0.15),ybreaks = c(0,0.15,0.05))
-figd = plot(o3_cvd,ylimits = c(-0.05,0.1),ybreaks = c(-0.05,0.05,0.05))
-
-fig2 = cowplot::plot_grid(figa, figb, figc, figd, ncol = 2,
-                         label_fontfamily = 'serif',
-                         labels = letters[1:4])
-fig2
+```{r load_pcm_results,include = FALSE}
+res = readr::read_rds("../man/figures/edm/air_hk.rds")
 ```
 
-The results shown in Figure2 indicate the presence of the following causal influences:
+The PCM results are shown in the figure below:
 
-- rsp → cvd
-- no₂ → cvd
-- so₂ → cvd
-- cvd → rsp
-- cvd → no₂
-- cvd → so₂
-- cvd → o₃
+```{r fig_pcm,fig.width=15.55,fig.height=18.55,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Partial cross mapping results between different air pollutants and cardiovascular diseases.")}
+fig_cvd_rsp = plot(res[["cvd_rsp"]], partial = FALSE,
+                   ylimits = c(-0.01,0.2), ybreaks = seq(0,0.2,by = 0.05),
+                   legend_texts = c("CVD xmap RSP, P = 0",
+                                    "RSP xmap CVD, P = 0.001"))
+fig_cvd_rsp_p = plot(res[["cvd_rsp"]], ylimits = c(-0.01,0.2), ybreaks = seq(0,0.2,by = 0.05),
+                     legend_texts = c("CVD xmap RSP | NO2 & SO2 & O3, P = 0",
+                                      "RSP xmap CVD | NO2 & SO2 & O3, P = 0.0179"))
 
-However, based on practical experience, the relationship between CVDs and air pollution is likely reflective rather than causal. Therefore, we further employ CCM to examine the causal paths of cvd → no₂ and cvd → o₃.
+fig_cvd_no2 = plot(res[["cvd_no2"]], partial = FALSE,
+                   ylimits = c(0,0.35), ybreaks = seq(0,0.35,by = 0.05),
+                   legend_texts = c("CVD xmap NO2, P = 0",
+                                    "NO2 xmap CVD, P = 0"))
+fig_cvd_no2_p = plot(res[["cvd_no2"]], ylimits = c(0,0.35), ybreaks = seq(0,0.35,by = 0.05),
+                     legend_texts = c("CVD xmap NO2 | RSP & SO2 & O3, P = 0",
+                                      "NO2 xmap CVD | RSP & SO2 & O3, P = 0"))
 
-```{r cmc_cvd}
-g1 = tEDM::cmc(cvd,"rsp","cvd",E = 11,k = 50,progressbar = FALSE)
-g1
-g1$xmap
+fig_cvd_so2 = plot(res[["cvd_so2"]], partial = FALSE,
+                   ylimits = c(0,0.25), ybreaks = seq(0,0.25,by = 0.05),
+                   legend_texts = c("CVD xmap SO2, P = 0",
+                                    "SO2 xmap CVD, P = 0"))
+fig_cvd_so2_p = plot(res[["cvd_so2"]], ylimits = c(0,0.25), ybreaks = seq(0,0.25,by = 0.05),
+                     legend_texts = c("CVD xmap SO2 | RSP & NO2 & O3, P = 0",
+                                      "SO2 xmap CVD | RSP & NO2 & O3, P = 0.003"))
 
-g2 = tEDM::cmc(cvd,"so2","cvd",E = 11,k = 50,progressbar = FALSE)
-g2
-g2$xmap
+fig_cvd_o3 = plot(res[["cvd_o3"]], partial = FALSE,
+                  ylimits = c(-0.05,0.25), ybreaks = seq(-0.05,0.25,by = 0.05),
+                  legend_texts = c("CVD xmap O3, P = 0.495",
+                                    "O3 xmap CVD, P = 0.002"))
+fig_cvd_o3_p = plot(res[["cvd_o3"]], ylimits = c(-0.05,0.25), ybreaks = seq(-0.05,0.25,by = 0.05),
+                    legend_texts = c("CVD xmap O3 | RSP & NO2 & SO2, P = 0.402",
+                                     "O3 xmap CVD | RSP & NO2 & SO2, P = 0.028"))
 
-g3 = tEDM::cmc(cvd,"no2","cvd",E = 11,k = 50,progressbar = FALSE)
-g3
-g3$xmap
+fig_rsp_no2 = plot(res[["rsp_no2"]], partial = FALSE,
+                   ylimits = c(0.2,0.9), ybreaks = seq(0.2,0.9,by = 0.1),
+                   legend_texts = c("RSP xmap NO2, P = 0",
+                                    "NO2 xmap RSP, P = 0"))
+fig_rsp_no2_p = plot(res[["rsp_no2"]], ylimits = c(0.2,0.9), ybreaks = seq(0.2,0.9,by = 0.1),
+                     legend_texts = c("RSP xmap NO2 | CVD & SO2 & O3, P = 0",
+                                      "NO2 xmap RSP | CVD & SO2 & O3, P = 0"))
 
-g4 = tEDM::cmc(cvd,"o3","cvd",E = 11,k = 50,progressbar = FALSE)
-g4
-g4$xmap
+fig_rsp_so2 = plot(res[["rsp_so2"]], partial = FALSE,
+                   ylimits = c(0.05,0.55), ybreaks = seq(0.05,0.55,by = 0.1),
+                   legend_texts = c("RSP xmap SO2, P = 0",
+                                    "SO2 xmap RSP, P = 0"))
+fig_rsp_so2_p = plot(res[["rsp_so2"]], ylimits = c(0.05,0.55), ybreaks = seq(0.05,0.55,by = 0.1),
+                     legend_texts = c("RSP xmap SO2 | CVD & NO2 & O3, P = 0",
+                                      "SO2 xmap RSP | CVD & NO2 & O3, P = 0"))
+
+fig_rsp_o3 = plot(res[["rsp_o3"]], partial = FALSE,
+                  ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
+                  legend_texts = c("RSP xmap O3, P = 0",
+                                   "O3 xmap RSP, P = 0"))
+fig_rsp_o3_p = plot(res[["rsp_o3"]], ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
+                    legend_texts = c("RSP xmap O3 | CVD & SO2 & NO2, P = 0",
+                                     "O3 xmap RSP | CVD & SO2 & NO2, P = 0"))
+
+fig_no2_so2 = plot(res[["no2_so2"]], partial = FALSE,
+                   ylimits = c(0.15,0.75), ybreaks = seq(0.15,0.75,by = 0.1),
+                   legend_texts = c("NO2 xmap SO2, P = 0",
+                                    "SO2 xmap NO2, P = 0"))
+fig_no2_so2_p = plot(res[["no2_so2"]], ylimits = c(0.15,0.75), ybreaks = seq(0.15,0.75,by = 0.1),
+                     legend_texts = c("NO2 xmap SO2 | CVD & RSP & O3, P = 0",
+                                      "SO2 xmap NO2 | CVD & RSP & O3, P = 0"))
+
+fig_no2_o3 = plot(res[["no2_o3"]], partial = FALSE,
+                  ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
+                  legend_texts = c("NO2 xmap O3, P = 0",
+                                   "O3 xmap NO2, P = 0"))
+fig_no2_o3_p = plot(res[["no2_o3"]], ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
+                    legend_texts = c("NO2 xmap O3 | CVD & RSP & SO2, P = 0",
+                                     "O3 xmap NO2 | CVD & RSP & SO2, P = 0"))
+
+fig_so2_o3 = plot(res[["so2_o3"]], partial = FALSE,
+                  ylimits = c(-0.05,0.45), ybreaks = seq(-0.05,0.45,by = 0.1),
+                  legend_texts = c("SO2 xmap O3, P = 0",
+                                   "O3 xmap SO2, P = 0.094"))
+fig_so2_o3_p = plot(res[["so2_o3"]], ylimits = c(-0.05,0.45), ybreaks = seq(-0.05,0.45,by = 0.1),
+                    legend_texts = c("SO2 xmap O3 | CVD & RSP & NO2, P = 0",
+                                     "O3 xmap SO2 | CVD & RSP & NO2, P = 0.131"))
+
+fig_pcm = cowplot::plot_grid(fig_cvd_rsp, fig_cvd_rsp_p, fig_cvd_no2, fig_cvd_no2_p,
+                             fig_cvd_so2, fig_cvd_so2_p, fig_cvd_o3, fig_cvd_o3_p,
+                             fig_rsp_no2, fig_rsp_no2_p, fig_rsp_so2, fig_rsp_so2_p,
+                             fig_rsp_o3, fig_rsp_o3_p, fig_no2_so2, fig_no2_so2_p,
+                             fig_no2_o3, fig_no2_o3_p, fig_so2_o3, fig_so2_o3_p,
+                             ncol = 4, label_fontfamily = 'serif',
+                             labels = letters[1:20],
+                             label_x = -0.005, label_y = 1)
+fig_pcm
 ```
 
-The causal paths from CVDs to air pollutants are not statistically significant in the CMC analysis results, allowing us to rule out these four directions. Meanwhile, the causal strength from SO₂ to CVDs is too weak (approximately 0.05), excluding the existence of a causal path from SO₂ to CVDs. Therefore, we conclude that only RSP and NO₂ exhibit causal influences on CVDs, with no evidence of feedback causality.
-
-We further aim to explore the potential causal interactions among different air pollutants. However, due to space constraints in this vignette, we limit our analysis to a single test case — specifically, examining whether **NO₂** exerts a causal influence on **Respirable Suspended Particulates (rsp)**.
-
-```{r fig3,fig.width=6.5,fig.height=3.55,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 3**. Cross-mapping results between no₂ and respirable suspended particulates. **a**. CCM results without accounting for other variables. **b**. PCM results controlling for the influence of CVDs.")}
-no2_rsp = tEDM::pcm(cvd,"no2","rsp","cvd",libsizes = seq(32,1032,100),E = 11,k = c(12,13,12),progressbar = FALSE)
-no2_rsp
-
-figa = plot(no2_rsp,partial = FALSE,ylimits = c(0.45,0.8),ybreaks = seq(0.45,0.8,0.05))
-figb = plot(no2_rsp,ylimits = c(0.45,0.8),ybreaks = seq(0.45,0.8,0.05))
-
-fig3 = cowplot::plot_grid(figa, figb, ncol = 2,
-                          label_fontfamily = 'serif',
-                          labels = letters[1:2])
-fig3
-```
-
-The CCM and PCM results between **NO₂** and **respirable suspended particulates** show minimal differences and are both statistically significant, indicating the presence of a causal relationship between the two. Therefore, the final set of confirmed causal pathways is as follows (exclude those with no causal influence on CVDs):
+From Figure 3, we can infer the following causal links:
 
 ```{r fig_case1,echo=FALSE,out.width = "600px",fig.cap=knitr::asis_output("**Figure 4**. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong.")}
-knitr::include_graphics("../man/figures/edm/hk-cvd.png")
+knitr::include_graphics("../man/figures/edm/cvds_hk.png")
 ```
 
 ### US County Carbon Emissions and Temperature Dynamics
@@ -311,7 +373,7 @@ tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo)/10)
 Since the FNN ratio begins to approach zero when E equals 4, embedding dimensions from 4 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
 
 ```{r covid_simplex}
-tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60)
+tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60,tau = 0)
 ```
 
 ```{r covid_ccm}
@@ -344,14 +406,16 @@ res_covid = res_covid |>
 res_covid
 
 if (!requireNamespace("rnaturalearth")) {
-    install.packages("rnaturalearth")
+  install.packages("rnaturalearth")
 }
 jp = rnaturalearth::ne_states(country = "Japan")
 
 if (!requireNamespace("tidygeocoder")) {
-    install.packages("tidygeocoder")
+  install.packages("tidygeocoder")
 }
 jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
+  dplyr::mutate(type = factor(c("source",rep("target",6)),
+                              levels = c("source","target"))) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 
@@ -364,19 +428,20 @@ fig_case3 = ggplot2::ggplot() +
                       curvature = 0.2,
                       arrow = ggplot2::arrow(length = ggplot2::unit(0.2, "cm")),
                       color = "#6eab47", linewidth = 1) +
-  ggplot2::geom_point(data = jpp[-1,], ggplot2::aes(x = lon, y = lat),
-                      color = "#cf574b", size = 1.25) +
-  ggrepel::geom_text_repel(data = jpp[-1,], color = "#cf574b",
-                           ggplot2::aes(label = name, x = lon, y = lat)) +
-  ggplot2::geom_point(data = jpp[1,], ggplot2::aes(x = lon, y = lat),
-                      color = "#2c74b7", size = 1.25) +
-  ggrepel::geom_text_repel(data = jpp[1,], color = "#2c74b7",
-                           ggplot2::aes(label = name, x = lon, y = lat)) +
+  ggplot2::geom_point(data = jpp,
+                      ggplot2::aes(x = lon, y = lat, color = type),
+                      size = 1.25, show.legend = FALSE) +
+  ggrepel::geom_text_repel(data = jpp,
+                           ggplot2::aes(label = name, x = lon, y = lat, color = type),
+                           show.legend = FALSE) +
+  ggplot2::scale_color_manual(values = c(source = "#2c74b7",
+                                         target = "#cf574b")) +
   ggplot2::coord_sf(xlim = range(jpp$lon) + c(-0.45,0.45),
                     ylim = range(jpp$lat) + c(-0.75,0.75)) +
   ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw() +
   ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
+
 fig_case3
 ```
 

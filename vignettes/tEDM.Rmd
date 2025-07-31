@@ -236,6 +236,7 @@ for (pair in var_pairs) {
                          effect = var1,
                          conds = conds,
                          libsizes = seq(12, 1012, 100),
+                         threads = parallel::detectCores(),
                          E = 11, k = 12,
                          progress = FALSE)
 }
@@ -396,7 +397,9 @@ When E equals 3, the FNN ratio begins to drop to zero; therefore, we select $E =
 ``` r
 res = carbon_list |>
   purrr::map_dfr(\(.x) {
-    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 20,progressbar = FALSE)
+    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 20,
+                  threads = parallel::detectCores(),
+                  progressbar = FALSE)
     return(g$xmap)
   })
 head(res)
@@ -435,14 +438,18 @@ head(res_carbon)
 
 
 ``` r
+res_carbon$variable = factor(res_carbon$variable,
+                             levels = c("carbon_tem", "tem_carbon"),
+                             labels = c("carbon → tem", "tem → carbon"))
 fig_case2 = ggplot2::ggplot(res_carbon,
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
   ggplot2::theme_bw() +
-  ggplot2::scale_x_discrete(name = "",
-                            labels = c("carbon_tem" = "carbon → tem",
-                                       "tem_carbon" = "tem → carbon")) +
-  ggplot2::scale_y_continuous(name = "Causal Strength") +
+  ggplot2::scale_x_discrete(name = "") +
+  ggplot2::scale_y_continuous(name = "Causal Strength",
+                              expand = c(0,0),
+                              limits = c(0,0.3),
+                              breaks = seq(0,0.3,by = 0.1)) +
   ggplot2::theme(legend.position = "none")
 fig_case2
 ```
@@ -522,7 +529,9 @@ tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60,tau = 0)
 ``` r
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 5,tau = 0,progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 5,tau = 0,
+                  threads = parallel::detectCores(),
+                  progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })
@@ -597,7 +606,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 9.1 seconds
+## Query completed in: 5.9 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

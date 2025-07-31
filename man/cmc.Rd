@@ -15,7 +15,7 @@
   k = pmin(E^2),
   lib = NULL,
   pred = NULL,
-  threads = length(libsizes),
+  threads = length(pred),
   parallel.level = "low",
   bidirectional = TRUE,
   progressbar = TRUE

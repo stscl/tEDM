@@ -18,7 +18,7 @@
   algorithm = "simplex",
   lib = NULL,
   pred = NULL,
-  threads = length(libsizes),
+  threads = length(pred),
   parallel.level = "low",
   bidirectional = TRUE,
   cumulate = FALSE,

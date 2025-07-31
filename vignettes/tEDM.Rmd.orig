@@ -184,12 +184,13 @@ for (pair in var_pairs) {
                          effect = var1,
                          conds = conds,
                          libsizes = seq(12, 1012, 100),
-                         E = 11, k = 12)
+                         E = 11, k = 12,
+                         progress = FALSE)
 }
 ```
 
 ```{r load_pcm_results,include = FALSE}
-res = readr::read_rds("./man/figures/edm/air_hk.rds")
+res = readr::read_rds("../man/figures/edm/air_hk.rds")
 ```
 
 The PCM results are shown in the figure below:

@@ -48,22 +48,12 @@ std::vector<double> SimplexProjectionPrediction(
     //   continue;
     // }
 
-    // Build library excluding current prediction index p
-    std::vector<int> libs;
-    for (int idx : lib_indices) {
-      if (idx != p) {
-        libs.push_back(idx);
-      }
-    }
-
-    if (libs.empty()) {
-      continue;
-    }
-
     // Compute distances only for valid vector pairs (exclude NaNs)
     std::vector<double> distances;
     std::vector<int> valid_libs;  // keep track of libs corresponding to valid distances
-    for (int i : libs) {
+    for (int i : lib_indices) {
+      if (i == p) continue; // Skip self-matching
+
       double sum_sq = 0.0;
       double count = 0.0;
       for (size_t j = 0; j < vectors[p].size(); ++j) {

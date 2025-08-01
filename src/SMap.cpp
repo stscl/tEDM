@@ -46,25 +46,15 @@ std::vector<double> SMapPrediction(
     //   continue;
     // }
 
-    // Build library excluding the current prediction index
-    std::vector<size_t> libs;
-    for (int lib_i : lib_indices) {
-      if (lib_i != pred_i) {
-        libs.push_back(static_cast<size_t>(lib_i));
-      }
-    }
-
-    if (libs.empty()) {
-      continue;
-    }
-
     // Compute distances only for valid vector pairs with valid target values
-    std::vector<size_t> valid_libs;
     std::vector<double> distances;
+    std::vector<int> valid_libs;
 
-    for (size_t i : libs) {
+    for (int i : lib_indices) {
       // // Only use neighbors with valid target
       // if (std::isnan(target[i])) continue;
+
+      if (i == pred_i) continue; // Skip self-matching
 
       double sum_sq = 0.0;
       double count = 0.0;
@@ -117,7 +107,7 @@ std::vector<double> SMapPrediction(
     std::vector<double> b(actual_neighbors, 0.0);
 
     for (size_t i = 0; i < actual_neighbors; ++i) {
-      size_t idx = valid_libs[neighbor_indices[i]];
+      int idx = valid_libs[neighbor_indices[i]];
       double w = weights[neighbor_indices[i]];
       for (size_t j = 0; j < dim; ++j) {
         A[i][j] = vectors[idx][j] * w;

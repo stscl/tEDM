@@ -911,12 +911,12 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
   int max_tau = *std::max_element(tau_std.begin(), tau_std.end());
   int max_lag = (max_tau == 0) ? (max_E - 1) : (max_E * max_tau);
 
-  // // Not all predictions need such a strict max_lag.
-  // if (cumulate){
-  //   max_lag = max_lag * static_cast<int>(z.ncol());
-  // } else {
-  //   max_lag = max_lag * 2;
-  // }
+  // Constrain the usable library scope to exclude untrusted predictions.
+  if (cumulate){
+    max_lag = max_lag * static_cast<int>(z.ncol());
+  } else {
+    max_lag = max_lag * 2;
+  }
 
   int n = y_std.size();
   for (int i = 0; i < lib.size(); ++i) {

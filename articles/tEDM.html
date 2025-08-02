@@ -71,8 +71,8 @@
       <h1>Temporal Empirical Dynamic Modeling</h1>
             
             <h4 data-toc-skip class="date"><div class="line-block">Last
-update: 2025-07-31<br>
-Last run: 2025-07-31</div></h4>
+update: 2025-08-01<br>
+Last run: 2025-08-02</div></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stscl/tEDM/blob/main/vignettes/tEDM.Rmd" class="external-link"><code>vignettes/tEDM.Rmd</code></a></small>
       <div class="d-none name"><code>tEDM.Rmd</code></div>
@@ -349,7 +349,6 @@ pair.</p>
 <span>                         effect <span class="op">=</span> <span class="va">var1</span>,</span>
 <span>                         conds <span class="op">=</span> <span class="va">conds</span>,</span>
 <span>                         libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">1012</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span>                         threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>                         E <span class="op">=</span> <span class="fl">11</span>, k <span class="op">=</span> <span class="fl">12</span>,</span>
 <span>                         progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
@@ -503,9 +502,7 @@ dimension for the CMC analysis.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="va">carbon_list</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">3</span>,k <span class="op">=</span> <span class="fl">20</span>,</span>
-<span>                  threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                  progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">3</span>,k <span class="op">=</span> <span class="fl">20</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
@@ -626,9 +623,7 @@ procedure.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"Tokyo"</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.l</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="va">.l</span>,E <span class="op">=</span> <span class="fl">4</span>,k <span class="op">=</span> <span class="fl">5</span>,tau <span class="op">=</span> <span class="fl">0</span>,</span>
-<span>                  threads <span class="op">=</span> <span class="fu">parallel</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>                  progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/ccm.html">ccm</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="va">.l</span>,E <span class="op">=</span> <span class="fl">4</span>,k <span class="op">=</span> <span class="fl">5</span>,tau <span class="op">=</span> <span class="fl">0</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="va">res</span> <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span>,x <span class="op">=</span> <span class="st">"Tokyo"</span>,y <span class="op">=</span> <span class="va">.l</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
@@ -702,7 +697,7 @@ Tokyo for those with a causal strength greater than
 <span>  <span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu">geocode</span><span class="op">(</span>state <span class="op">=</span> <span class="va">name</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,</span>
 <span>                        long <span class="op">=</span> <span class="st">"lon"</span>, lat <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span>
 <span><span class="co">## Passing 7 addresses to the ArcGIS single address geocoder</span></span>
-<span><span class="co">## Query completed in: 5.9 seconds</span></span>
+<span><span class="co">## Query completed in: 6.1 seconds</span></span>
 <span></span>
 <span><span class="va">fig_case3</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">jp</span>, fill <span class="op">=</span> <span class="st">"#ffe7b7"</span>, color <span class="op">=</span> <span class="st">"grey"</span>, linewidth <span class="op">=</span> <span class="fl">0.45</span><span class="op">)</span> <span class="op">+</span></span>

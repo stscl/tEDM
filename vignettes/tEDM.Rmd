@@ -1,8 +1,8 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2025-07-31
-  | Last run: 2025-07-31
+  | Last update: 2025-08-01
+  | Last run: 2025-08-02
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}
@@ -236,7 +236,6 @@ for (pair in var_pairs) {
                          effect = var1,
                          conds = conds,
                          libsizes = seq(12, 1012, 100),
-                         threads = parallel::detectCores(),
                          E = 11, k = 12,
                          progress = FALSE)
 }
@@ -397,9 +396,7 @@ When E equals 3, the FNN ratio begins to drop to zero; therefore, we select $E =
 ``` r
 res = carbon_list |>
   purrr::map_dfr(\(.x) {
-    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 20,
-                  threads = parallel::detectCores(),
-                  progressbar = FALSE)
+    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 20,progressbar = FALSE)
     return(g$xmap)
   })
 head(res)
@@ -529,9 +526,7 @@ tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60,tau = 0)
 ``` r
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 5,tau = 0,
-                  threads = parallel::detectCores(),
-                  progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 5,tau = 0,progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })
@@ -606,7 +601,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 5.9 seconds
+## Query completed in: 6.1 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

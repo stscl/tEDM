@@ -16,7 +16,6 @@
  * For each prediction index, it:
  *   - Finds the nearest neighbors from the library indices, excluding the current prediction index.
  *   - Computes distance-based weights using the S-map weighting parameter (theta).
- *   - Only retains neighbors whose target values are not NaN.
  *   - Constructs a locally weighted linear regression model using the valid neighbors.
  *   - Predicts the target value using the derived local model.
  *

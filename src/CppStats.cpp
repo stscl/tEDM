@@ -620,8 +620,6 @@ double KendallCor(const std::vector<double>& y,
  *                  for computing the partial correlation (default is false).
  *   pinv_tol     - Tolerance used for the pseudo-inverse (arma::pinv). Smaller values increase precision but may be less stable
  *                  (default is 1e-10).
- *   ridge_lambda - Ridge regularization parameter used when pseudo-inverse fails or the correlation matrix is ill-conditioned.
- *                  A small positive value helps stabilize the precision matrix (default is 1e-6).
  *
  * Returns:
  *   A double representing the partial correlation coefficient between 'y' and 'y_hat' after controlling for

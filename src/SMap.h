@@ -10,7 +10,7 @@
 #include "CppStats.h"
 
 /**
- * @brief Perform S-Map prediction using locally weighted linear regression.
+ * @brief Perform S-Mapping prediction using locally weighted linear regression.
  *
  * This function performs prediction based on a reconstructed state-space (time-delay embedding).
  * For each prediction index, it:
@@ -38,7 +38,7 @@ std::vector<double> SMapPrediction(
 );
 
 /*
- * Computes the Rho value using the 'S-Maps' prediction method.
+ * Computes the Rho value using the 'S-Mapping' prediction method.
  *
  * Parameters:
  *   - vectors: Reconstructed state-space (each row is a separate vector/state).
@@ -60,7 +60,7 @@ double SMap(
 );
 
 /*
- * Computes the S-Map prediction and evaluates prediction performance.
+ * Computes the S-Mapping prediction and evaluates prediction performance.
  *
  * Parameters:
  *   - vectors: Reconstructed state-space (each row is a separate vector/state).

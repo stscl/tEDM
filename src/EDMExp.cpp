@@ -102,7 +102,9 @@ Rcpp::NumericVector RcppSimplexForecast(
     int tau,
     const Rcpp::IntegerVector& lib,
     const Rcpp::IntegerVector& pred,
-    const int& num_neighbors){
+    const int& num_neighbors,
+    const int& dist_metric,
+    const bool& dist_average){
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
   std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
@@ -143,7 +145,9 @@ Rcpp::NumericVector RcppSimplexForecast(
     target_std,
     lib_indices,
     pred_indices,
-    num_neighbors
+    num_neighbors,
+    dist_metric,
+    dist_average
   );
 
   // Convert the result back to Rcpp::NumericVector
@@ -160,7 +164,9 @@ Rcpp::NumericVector RcppSMapForecast(
     const Rcpp::IntegerVector& lib,
     const Rcpp::IntegerVector& pred,
     const int& num_neighbors,
-    const double& theta){
+    const double& theta,
+    const int& dist_metric,
+    const bool& dist_average){
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
   std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
@@ -202,7 +208,9 @@ Rcpp::NumericVector RcppSMapForecast(
     lib_indices,
     pred_indices,
     num_neighbors,
-    theta
+    theta,
+    dist_metric,
+    dist_average
   );
 
   // Convert the result back to Rcpp::NumericVector

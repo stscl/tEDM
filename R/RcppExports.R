@@ -221,8 +221,8 @@ RcppDistSortedIndice <- function(dist_mat, lib, k, include_self = FALSE) {
     .Call(`_tEDM_RcppDistSortedIndice`, dist_mat, lib, k, include_self)
 }
 
-RcppMatKNNeighbors <- function(embeddings, lib, k, threads = 8L) {
-    .Call(`_tEDM_RcppMatKNNeighbors`, embeddings, lib, k, threads)
+RcppMatKNNeighbors <- function(embeddings, lib, k, threads = 8L, L1norm = FALSE) {
+    .Call(`_tEDM_RcppMatKNNeighbors`, embeddings, lib, k, threads, L1norm)
 }
 
 RcppLinearTrendRM <- function(vec, xcoord, ycoord, NA_rm = FALSE) {

@@ -767,15 +767,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppMatKNNeighbors
-Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings, const Rcpp::IntegerVector& lib, int k, int threads);
-RcppExport SEXP _tEDM_RcppMatKNNeighbors(SEXP embeddingsSEXP, SEXP libSEXP, SEXP kSEXP, SEXP threadsSEXP) {
+Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings, const Rcpp::IntegerVector& lib, int k, int threads, bool L1norm);
+RcppExport SEXP _tEDM_RcppMatKNNeighbors(SEXP embeddingsSEXP, SEXP libSEXP, SEXP kSEXP, SEXP threadsSEXP, SEXP L1normSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type embeddings(embeddingsSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type lib(libSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppMatKNNeighbors(embeddings, lib, k, threads));
+    Rcpp::traits::input_parameter< bool >::type L1norm(L1normSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppMatKNNeighbors(embeddings, lib, k, threads, L1norm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -871,7 +872,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppKNNIndice", (DL_FUNC) &_tEDM_RcppKNNIndice, 4},
     {"_tEDM_RcppDistKNNIndice", (DL_FUNC) &_tEDM_RcppDistKNNIndice, 4},
     {"_tEDM_RcppDistSortedIndice", (DL_FUNC) &_tEDM_RcppDistSortedIndice, 4},
-    {"_tEDM_RcppMatKNNeighbors", (DL_FUNC) &_tEDM_RcppMatKNNeighbors, 4},
+    {"_tEDM_RcppMatKNNeighbors", (DL_FUNC) &_tEDM_RcppMatKNNeighbors, 5},
     {"_tEDM_RcppLinearTrendRM", (DL_FUNC) &_tEDM_RcppLinearTrendRM, 4},
     {"_tEDM_RcppSVD", (DL_FUNC) &_tEDM_RcppSVD, 1},
     {"_tEDM_RcppDeLongPlacements", (DL_FUNC) &_tEDM_RcppDeLongPlacements, 3},

@@ -6,6 +6,8 @@
 
 ### breaking changes
 
+* Adjust time-delay embedding logic to support flexible tau configurations (#111).
+
 * Refine `lib` and `pred` index filtering logic for cross mapping (#102).
 
 # tEDM 1.0

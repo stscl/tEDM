@@ -13,8 +13,9 @@
  * This function reconstructs the state space of a scalar time series
  * using time-delay embedding with dimension E and lag tau.
  *
- * - When tau = 0, embedding uses lags of 0, 1, ..., E-1.
- * - When tau > 0, embedding uses lags of tau, 2*tau, ..., E*tau.
+ * - When tau = 0, embedding uses lags of 0, 1, ..., E-1.  (original behavior)
+ * - When tau > 0 and style = 1, embedding uses lags of tau, 2*tau, ..., E*tau.
+ * - When tau > 0 and style = 0, embedding uses lags of 0, tau, 2*tau, ..., (E-1)*tau.
  *
  * Example:
  * Input: vec = {1, 2, 3, 4, 5}, E = 3, tau = 0
@@ -34,12 +35,16 @@
  * @param vec The input time series as a vector of doubles.
  * @param E Embedding dimension.
  * @param tau Time lag.
+ * @param style Lag style when tau > 0:
+ *        - style = 1: tau, 2*tau, ..., E*tau
+ *        - style = 0: 0, tau, 2*tau, ..., (E-1)*tau
  * @return A 2D vector (matrix) with valid embeddings (rows × cols).
  */
 std::vector<std::vector<double>> Embed(
     const std::vector<double>& vec,
-    int E,
-    int tau
+    int E = 3,
+    int tau = 1,
+    int style = 0
 );
 
 #endif // Embed_H

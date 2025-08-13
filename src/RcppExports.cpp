@@ -36,14 +36,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppEmbed
-Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec, int E, int tau);
-RcppExport SEXP _tEDM_RcppEmbed(SEXP vecSEXP, SEXP ESEXP, SEXP tauSEXP) {
+Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec, int E, int tau, int style);
+RcppExport SEXP _tEDM_RcppEmbed(SEXP vecSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP styleSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec(vecSEXP);
     Rcpp::traits::input_parameter< int >::type E(ESEXP);
     Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppEmbed(vec, E, tau));
+    Rcpp::traits::input_parameter< int >::type style(styleSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppEmbed(vec, E, tau, style));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -816,7 +817,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLogisticMap", (DL_FUNC) &_tEDM_RcppLogisticMap, 14},
-    {"_tEDM_RcppEmbed", (DL_FUNC) &_tEDM_RcppEmbed, 3},
+    {"_tEDM_RcppEmbed", (DL_FUNC) &_tEDM_RcppEmbed, 4},
     {"_tEDM_RcppSimplexForecast", (DL_FUNC) &_tEDM_RcppSimplexForecast, 7},
     {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 8},
     {"_tEDM_RcppIntersectionCardinality", (DL_FUNC) &_tEDM_RcppIntersectionCardinality, 10},

@@ -71,13 +71,14 @@ Rcpp::List RcppLogisticMap(
 // Wrapper function to generate time-delay embeddings for a univariate time series
 // [[Rcpp::export(rng = false)]]
 Rcpp::NumericMatrix RcppEmbed(const Rcpp::NumericVector& vec,
-                              int E,
-                              int tau = 0) {
+                              int E = 3,
+                              int tau = 1,
+                              int style = 0) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> vec_std = Rcpp::as<std::vector<double>>(vec);
 
   // Generate embeddings
-  std::vector<std::vector<double>> embeddings = Embed(vec_std, E, tau);
+  std::vector<std::vector<double>> embeddings = Embed(vec_std, E, tau, style);
 
   // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix
   int rows = embeddings.size();

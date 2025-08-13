@@ -49,10 +49,10 @@ std::vector<std::vector<double>> Embed(
   int max_lag;
   if (tau == 0) {
     max_lag = E - 1;
-  } else if (style == 1) {
-    max_lag = E * tau;
-  } else { // style == 0
+  } else if (style == 0) {
     max_lag = (E - 1) * tau;
+  } else { // style == 1
+    max_lag = E * tau;
   }
 
   // Pre-check: if the largest required lag exceeds available data
@@ -72,10 +72,10 @@ std::vector<std::vector<double>> Embed(
       int lag;
       if (tau == 0) {
         lag = j; // Original behavior: 0, 1, ..., E-1
-      } else if (style == 1) {
-          lag = (j + 1) * tau;   // tau, 2*tau, ..., E*tau
-      } else {
-          lag = j * tau;         // 0, tau, 2*tau, ..., (E-1)*tau
+      } else if (style == 0) {
+        lag = j * tau;         // 0, tau, 2*tau, ..., (E-1)*tau  
+      } else { // style == 1;
+        lag = (j + 1) * tau;   // tau, 2*tau, ..., E*tau
       }
       int idx = static_cast<int>(t) - lag;
       if (idx >= 0 && idx < static_cast<int>(N)) {
@@ -125,5 +125,3 @@ std::vector<std::vector<double>> Embed(
 
   return cleaned;
 }
-
-

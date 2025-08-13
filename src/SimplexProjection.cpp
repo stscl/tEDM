@@ -9,18 +9,27 @@
 /*
  * Perform simplex projection prediction using state-space reconstruction.
  *
- * Given reconstructed vectors and a target time series, this function predicts
- * target values at specified prediction indices by weighting nearest neighbors
- * in the library set. Distances involving NaN components are excluded to ensure
- * numerical stability.
+ * Given reconstructed state-space vectors and corresponding target values,
+ * this function predicts target values at specified prediction indices by
+ * weighting nearest neighbors from a given library set.
+ *
+ * Distance calculations exclude NaN components to ensure numerical stability.
+ * Supports two distance metrics and optional averaging of distance by the
+ * number of valid vector components.
+ *
+ * Supported distance metrics:
+ *   dist_metric = 1: L1 (Manhattan) distance
+ *   dist_metric = 2: L2 (Euclidean) distance
  *
  * Parameters:
- *   vectors     - A 2D vector representing reconstructed state-space vectors.
- *                 Each element vectors[i] is a vector/state at time i.
- *   target      - The time series values corresponding to each vector.
- *   lib_indices - Indices specifying which states to use as library (neighbors).
- *   pred_indices- Indices specifying which states to make predictions for.
- *   num_neighbors - Number of nearest neighbors to consider in prediction.
+ *   vectors        - A 2D vector representing reconstructed state-space vectors.
+ *                    Each element vectors[i] is a vector/state at time i.
+ *   target         - The time series values corresponding to each vector.
+ *   lib_indices    - Indices specifying which states to use as library (neighbors).
+ *   pred_indices   - Indices specifying which states to make predictions for.
+ *   num_neighbors  - Number of nearest neighbors considered for prediction. Default is 4.
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   dist_average   - Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns:
  *   A vector<double> of predicted target values aligned with input target size.
@@ -31,7 +40,9 @@ std::vector<double> SimplexProjectionPrediction(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors
+    int num_neighbors = 4,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   size_t N = target.size();
   std::vector<double> pred(N, std::numeric_limits<double>::quiet_NaN());
@@ -58,12 +69,22 @@ std::vector<double> SimplexProjectionPrediction(
       double count = 0.0;
       for (size_t j = 0; j < vectors[p].size(); ++j) {
         if (!std::isnan(vectors[i][j]) && !std::isnan(vectors[p][j])) {
-          sum_sq += std::pow(vectors[i][j] - vectors[p][j], 2);
+          double diff = vectors[i][j] - vectors[p][j];
+          // sum_sq += (dist_metric == 1) ? std::abs(diff) : diff * diff;
+          if (dist_metric == 1) {
+            sum_sq += std::abs(diff); // L1
+          } else {
+            sum_sq += diff * diff;    // L2
+          }
           count += 1.0;
         }
       }
       if (count > 0) {
-        distances.push_back(std::sqrt(sum_sq / count));
+        if (dist_metric == 1) {  // L1
+          distances.push_back(sum_sq / (dist_average ? count : 1.0));
+        } else {                 // L2
+          distances.push_back(std::sqrt(sum_sq / (dist_average ? count : 1.0)));
+        }
         valid_libs.push_back(i);
       }
     }
@@ -131,7 +152,9 @@ std::vector<double> SimplexProjectionPrediction(
  *   - target: Time series used as the target (should align with vectors).
  *   - lib_indices: Vector of indices indicating which states to include when searching for neighbors.
  *   - pred_indices: Vector of indices indicating which states to use for prediction.
- *   - num_neighbors: Number of neighbors to use for simplex projection.
+ *   - num_neighbors: Number of neighbors to use for simplex projection. Default is 4.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns:
  *   A double representing the Pearson correlation coefficient (rho) between the predicted and actual target values.
@@ -141,11 +164,13 @@ double SimplexProjection(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors
+    int num_neighbors = 4,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   double rho = std::numeric_limits<double>::quiet_NaN();
 
-  std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors);
+  std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors, dist_metric, dist_average);
 
   if (checkOneDimVectorNotNanNum(target_pred) >= 3) {
     rho = PearsonCor(target_pred, target, true);
@@ -161,7 +186,9 @@ double SimplexProjection(
  *   - target: Time series to be used as the target (should align with vectors).
  *   - lib_indices: Vector of indices indicating which states to include when searching for neighbors.
  *   - pred_indices: Vector of indices indicating which states to predict from.
- *   - num_neighbors: Number of neighbors to use for simplex projection.
+ *   - num_neighbors: Number of neighbors to use for simplex projection. Default is 4.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns:
  *   A vector<double> containing:
@@ -174,13 +201,15 @@ std::vector<double> SimplexBehavior(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors
+    int num_neighbors = 4,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   double pearson = std::numeric_limits<double>::quiet_NaN();
   double mae = std::numeric_limits<double>::quiet_NaN();
   double rmse = std::numeric_limits<double>::quiet_NaN();
 
-  std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors);
+  std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors, dist_metric, dist_average);
 
   if (checkOneDimVectorNotNanNum(target_pred) >= 3) {
     pearson = PearsonCor(target_pred, target, true);

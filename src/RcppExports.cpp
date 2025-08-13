@@ -49,8 +49,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppSimplexForecast
-Rcpp::NumericVector RcppSimplexForecast(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, int E, int tau, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const int& num_neighbors);
-RcppExport SEXP _tEDM_RcppSimplexForecast(SEXP sourceSEXP, SEXP targetSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP libSEXP, SEXP predSEXP, SEXP num_neighborsSEXP) {
+Rcpp::NumericVector RcppSimplexForecast(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, int E, int tau, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const int& num_neighbors, const int& dist_metric, const bool& dist_average);
+RcppExport SEXP _tEDM_RcppSimplexForecast(SEXP sourceSEXP, SEXP targetSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP libSEXP, SEXP predSEXP, SEXP num_neighborsSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type source(sourceSEXP);
@@ -60,13 +60,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type lib(libSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
     Rcpp::traits::input_parameter< const int& >::type num_neighbors(num_neighborsSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppSimplexForecast(source, target, E, tau, lib, pred, num_neighbors));
+    Rcpp::traits::input_parameter< const int& >::type dist_metric(dist_metricSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type dist_average(dist_averageSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppSimplexForecast(source, target, E, tau, lib, pred, num_neighbors, dist_metric, dist_average));
     return rcpp_result_gen;
 END_RCPP
 }
 // RcppSMapForecast
-Rcpp::NumericVector RcppSMapForecast(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, int E, int tau, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const int& num_neighbors, const double& theta);
-RcppExport SEXP _tEDM_RcppSMapForecast(SEXP sourceSEXP, SEXP targetSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP libSEXP, SEXP predSEXP, SEXP num_neighborsSEXP, SEXP thetaSEXP) {
+Rcpp::NumericVector RcppSMapForecast(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, int E, int tau, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const int& num_neighbors, const double& theta, const int& dist_metric, const bool& dist_average);
+RcppExport SEXP _tEDM_RcppSMapForecast(SEXP sourceSEXP, SEXP targetSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP libSEXP, SEXP predSEXP, SEXP num_neighborsSEXP, SEXP thetaSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type source(sourceSEXP);
@@ -77,7 +79,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
     Rcpp::traits::input_parameter< const int& >::type num_neighbors(num_neighborsSEXP);
     Rcpp::traits::input_parameter< const double& >::type theta(thetaSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppSMapForecast(source, target, E, tau, lib, pred, num_neighbors, theta));
+    Rcpp::traits::input_parameter< const int& >::type dist_metric(dist_metricSEXP);
+    Rcpp::traits::input_parameter< const bool& >::type dist_average(dist_averageSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppSMapForecast(source, target, E, tau, lib, pred, num_neighbors, theta, dist_metric, dist_average));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -767,15 +771,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppMatKNNeighbors
-Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings, const Rcpp::IntegerVector& lib, int k, int threads);
-RcppExport SEXP _tEDM_RcppMatKNNeighbors(SEXP embeddingsSEXP, SEXP libSEXP, SEXP kSEXP, SEXP threadsSEXP) {
+Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings, const Rcpp::IntegerVector& lib, int k, int threads, bool L1norm);
+RcppExport SEXP _tEDM_RcppMatKNNeighbors(SEXP embeddingsSEXP, SEXP libSEXP, SEXP kSEXP, SEXP threadsSEXP, SEXP L1normSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type embeddings(embeddingsSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type lib(libSEXP);
     Rcpp::traits::input_parameter< int >::type k(kSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppMatKNNeighbors(embeddings, lib, k, threads));
+    Rcpp::traits::input_parameter< bool >::type L1norm(L1normSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppMatKNNeighbors(embeddings, lib, k, threads, L1norm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -818,8 +823,8 @@ END_RCPP
 static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLogisticMap", (DL_FUNC) &_tEDM_RcppLogisticMap, 14},
     {"_tEDM_RcppEmbed", (DL_FUNC) &_tEDM_RcppEmbed, 4},
-    {"_tEDM_RcppSimplexForecast", (DL_FUNC) &_tEDM_RcppSimplexForecast, 7},
-    {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 8},
+    {"_tEDM_RcppSimplexForecast", (DL_FUNC) &_tEDM_RcppSimplexForecast, 9},
+    {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 10},
     {"_tEDM_RcppIntersectionCardinality", (DL_FUNC) &_tEDM_RcppIntersectionCardinality, 10},
     {"_tEDM_RcppMVE4TS", (DL_FUNC) &_tEDM_RcppMVE4TS, 10},
     {"_tEDM_RcppFNN4TS", (DL_FUNC) &_tEDM_RcppFNN4TS, 9},
@@ -871,7 +876,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppKNNIndice", (DL_FUNC) &_tEDM_RcppKNNIndice, 4},
     {"_tEDM_RcppDistKNNIndice", (DL_FUNC) &_tEDM_RcppDistKNNIndice, 4},
     {"_tEDM_RcppDistSortedIndice", (DL_FUNC) &_tEDM_RcppDistSortedIndice, 4},
-    {"_tEDM_RcppMatKNNeighbors", (DL_FUNC) &_tEDM_RcppMatKNNeighbors, 4},
+    {"_tEDM_RcppMatKNNeighbors", (DL_FUNC) &_tEDM_RcppMatKNNeighbors, 5},
     {"_tEDM_RcppLinearTrendRM", (DL_FUNC) &_tEDM_RcppLinearTrendRM, 4},
     {"_tEDM_RcppSVD", (DL_FUNC) &_tEDM_RcppSVD, 1},
     {"_tEDM_RcppDeLongPlacements", (DL_FUNC) &_tEDM_RcppDeLongPlacements, 3},

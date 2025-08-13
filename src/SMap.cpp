@@ -19,8 +19,10 @@
  * @param target         A vector of scalar values to predict (e.g., time series observations).
  * @param lib_indices    Indices of the vectors used as the library (neighbor candidates).
  * @param pred_indices   Indices of the vectors used for prediction.
- * @param num_neighbors  Number of nearest neighbors to use in local regression.
- * @param theta          Weighting parameter controlling exponential decay of distances.
+ * @param num_neighbors  Number of nearest neighbors to use in local regression. Default is 4.
+ * @param theta          Weighting parameter controlling exponential decay of distances. Default is 1.0.
+ * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ * @param dist_average   Whether to average distance by the number of valid vector components. Default is true.
  * @return std::vector<double> Predicted values aligned with the input target vector.
  *         Entries at non-prediction indices or with insufficient valid neighbors are NaN.
  */
@@ -29,8 +31,10 @@ std::vector<double> SMapPrediction(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    double theta
+    int num_neighbors = 4,
+    double theta = 1.0,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   size_t N = target.size();
   std::vector<double> pred(N, std::numeric_limits<double>::quiet_NaN());
@@ -61,13 +65,23 @@ std::vector<double> SMapPrediction(
         double vi = vectors[i][j];
         double vj = vectors[pred_i][j];
         if (!std::isnan(vi) && !std::isnan(vj)) {
-          sum_sq += (vi - vj) * (vi - vj);
+          double diff = vi - vj; 
+          // sum_sq += (dist_metric == 1) ? std::abs(diff) : diff * diff;
+          if (dist_metric == 1) {
+            sum_sq += std::abs(diff); // L1
+          } else {
+            sum_sq += diff * diff;    // L2
+          }
           count += 1.0;
         }
       }
 
       if (count > 0) {
-        distances.push_back(std::sqrt(sum_sq / count));
+        if (dist_metric == 1) {  // L1
+          distances.push_back(sum_sq / (dist_average ? count : 1.0));       
+        } else {                 // L2
+          distances.push_back(std::sqrt(sum_sq / (dist_average ? count : 1.0))); 
+        }
         valid_libs.push_back(i);
       }
     }
@@ -163,8 +177,10 @@ std::vector<double> SMapPrediction(
  *   - target: Time series data vector to be predicted.
  *   - lib_indices: Vector of integer indices specifying which states to use for finding neighbors.
  *   - pred_indices: Vector of integer indices specifying which states to predict.
- *   - num_neighbors: Number of neighbors to use for S-Map.
- *   - theta: Weighting parameter for distances.
+ *   - num_neighbors: Number of neighbors to use for S-Map. Default is 4.
+ *   - theta: Weighting parameter for distances. Default is 1.0.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns: The Pearson correlation coefficient (Rho) between predicted and actual values.
  */
@@ -173,20 +189,21 @@ double SMap(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    double theta
+    int num_neighbors = 4,
+    double theta = 1.0,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   double rho = std::numeric_limits<double>::quiet_NaN();
 
   // Call SMapPrediction to get the prediction results
-  std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors, theta);
+  std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors, theta, dist_metric, dist_average);
 
   if (checkOneDimVectorNotNanNum(target_pred) >= 3) {
     rho = PearsonCor(target_pred, target, true);
   }
   return rho;
 }
-
 
 /*
  * Computes the S-Mapping prediction and evaluates prediction performance.
@@ -196,8 +213,10 @@ double SMap(
  *   - target: Time series data vector to be predicted.
  *   - lib_indices: Vector of integer indices specifying which states to use for finding neighbors.
  *   - pred_indices: Vector of integer indices specifying which states to predict.
- *   - num_neighbors: Number of neighbors to use for S-Map.
- *   - theta: Weighting parameter for distances.
+ *   - num_neighbors: Number of neighbors to use for S-Map. Default is 4.
+ *   - theta: Weighting parameter for distances. Default is 1.0.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns: A vector<double> containing {Pearson correlation, MAE, RMSE}.
  */
@@ -206,8 +225,10 @@ std::vector<double> SMapBehavior(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    double theta
+    int num_neighbors = 4,
+    double theta = 1.0,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   // Initialize PearsonCor, MAE, and RMSE
   double pearson = std::numeric_limits<double>::quiet_NaN();
@@ -215,7 +236,7 @@ std::vector<double> SMapBehavior(
   double rmse = std::numeric_limits<double>::quiet_NaN();
 
   // Call SMapPrediction to get the prediction results
-  std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors, theta);
+  std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors, theta, dist_metric, dist_average);
 
   if (checkOneDimVectorNotNanNum(target_pred) >= 3) {
     // Compute PearsonCor, MAE, and RMSE

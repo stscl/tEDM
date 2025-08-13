@@ -9,12 +9,12 @@ RcppEmbed <- function(vec, E = 3L, tau = 1L, style = 0L) {
     .Call(`_tEDM_RcppEmbed`, vec, E, tau, style)
 }
 
-RcppSimplexForecast <- function(source, target, E, tau, lib, pred, num_neighbors) {
-    .Call(`_tEDM_RcppSimplexForecast`, source, target, E, tau, lib, pred, num_neighbors)
+RcppSimplexForecast <- function(source, target, E, tau, lib, pred, num_neighbors, dist_metric, dist_average) {
+    .Call(`_tEDM_RcppSimplexForecast`, source, target, E, tau, lib, pred, num_neighbors, dist_metric, dist_average)
 }
 
-RcppSMapForecast <- function(source, target, E, tau, lib, pred, num_neighbors, theta) {
-    .Call(`_tEDM_RcppSMapForecast`, source, target, E, tau, lib, pred, num_neighbors, theta)
+RcppSMapForecast <- function(source, target, E, tau, lib, pred, num_neighbors, theta, dist_metric, dist_average) {
+    .Call(`_tEDM_RcppSMapForecast`, source, target, E, tau, lib, pred, num_neighbors, theta, dist_metric, dist_average)
 }
 
 RcppIntersectionCardinality <- function(source, target, E, tau, lib, pred, num_neighbors = 4L, n_excluded = 0L, threads = 8L, parallel_level = 0L) {
@@ -221,8 +221,8 @@ RcppDistSortedIndice <- function(dist_mat, lib, k, include_self = FALSE) {
     .Call(`_tEDM_RcppDistSortedIndice`, dist_mat, lib, k, include_self)
 }
 
-RcppMatKNNeighbors <- function(embeddings, lib, k, threads = 8L) {
-    .Call(`_tEDM_RcppMatKNNeighbors`, embeddings, lib, k, threads)
+RcppMatKNNeighbors <- function(embeddings, lib, k, threads = 8L, L1norm = FALSE) {
+    .Call(`_tEDM_RcppMatKNNeighbors`, embeddings, lib, k, threads, L1norm)
 }
 
 RcppLinearTrendRM <- function(vec, xcoord, ycoord, NA_rm = FALSE) {

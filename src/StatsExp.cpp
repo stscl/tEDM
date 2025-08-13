@@ -540,7 +540,7 @@ Rcpp::List RcppDistSortedIndice(const Rcpp::NumericMatrix& dist_mat,
 // [[Rcpp::export(rng = false)]]
 Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings,
                               const Rcpp::IntegerVector& lib,
-                              int k, int threads = 8) {
+                              int k, int threads = 8, bool L1norm = false) {
   // Get number of rows and columns
   const int n = embeddings.nrow();
   const int m = embeddings.ncol();
@@ -559,7 +559,10 @@ Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings,
   }
 
   // Call the existing C++ function to compute sorted neighbor indices
-  std::vector<std::vector<size_t>> result = CppMatKNNeighbors(emb, lib_std, static_cast<size_t>(k), static_cast<size_t>(threads));
+  std::vector<std::vector<size_t>> result = CppMatKNNeighbors(emb, lib_std, 
+                                                              static_cast<size_t>(k), 
+                                                              static_cast<size_t>(threads),
+                                                              L1norm);
 
   // Convert the result to an R list of integer vectors
   Rcpp::List out(n);

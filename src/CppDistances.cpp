@@ -456,6 +456,7 @@ std::vector<std::vector<size_t>> CppDistSortedIndice(
  * @param lib A vector of indices representing the subset of points to consider for neighbor search.
  * @param k The number of nearest neighbors to find for each point in 'lib'.
  * @param threads The number of threads to use for parallel computation.
+ * @param L1norm Flag to use Manhattan distance (true) or Euclidean distance (false).
  * @return std::vector<std::vector<size_t>> A vector where each row corresponds to an embedding_space
  *         point and contains the indices of its k nearest neighbors from 'lib', or an invalid index if not in 'lib'.
  */
@@ -463,7 +464,8 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
     const std::vector<std::vector<double>>& embedding_space,
     const std::vector<size_t>& lib,
     size_t k,
-    size_t threads) {
+    size_t threads,
+    bool L1norm = false) {
 
   const size_t n = embedding_space.size();
   const size_t invalid_index = std::numeric_limits<size_t>::max();
@@ -485,7 +487,7 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
   //     if (idx_i == idx_j) continue;  // Skip distance to self
   //     size_t j = lib[idx_j];
   //
-  //     double dist = CppDistance(embedding_space[i], embedding_space[j], false, true);
+  //     double dist = CppDistance(embedding_space[i], embedding_space[j], L1norm, true);
   //
   //     if (std::isnan(dist)) continue; // Skip invalid distances
   //
@@ -520,7 +522,7 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
       if (idx_i == idx_j) continue;  // Skip distance to self
       size_t j = lib[idx_j];
 
-      double dist = CppDistance(embedding_space[i], embedding_space[j], false, true);
+      double dist = CppDistance(embedding_space[i], embedding_space[j], L1norm, true);
 
       if (std::isnan(dist)) continue; // Skip invalid distances
 

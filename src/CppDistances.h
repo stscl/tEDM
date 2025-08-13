@@ -68,6 +68,7 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
     const std::vector<std::vector<double>>& embedding_space,
     const std::vector<size_t>& lib,
     size_t k,
-    size_t threads);
+    size_t threads,
+    bool L1norm = false);
 
 #endif // CppDistances_H

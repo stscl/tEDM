@@ -5,8 +5,8 @@ RcppLogisticMap <- function(x = 3.6, y = 3.72, z = 3.68, step = 20L, alpha_x = 0
     .Call(`_tEDM_RcppLogisticMap`, x, y, z, step, alpha_x, alpha_y, alpha_z, beta_xy, beta_xz, beta_yx, beta_yz, beta_zx, beta_zy, escape_threshold)
 }
 
-RcppEmbed <- function(vec, E, tau = 0L) {
-    .Call(`_tEDM_RcppEmbed`, vec, E, tau)
+RcppEmbed <- function(vec, E = 3L, tau = 1L, style = 0L) {
+    .Call(`_tEDM_RcppEmbed`, vec, E, tau, style)
 }
 
 RcppSimplexForecast <- function(source, target, E, tau, lib, pred, num_neighbors) {

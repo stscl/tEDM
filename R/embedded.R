@@ -1,4 +1,4 @@
-.embedded_ts_method = \(data,target,E = 3,tau = 0){
+.embedded_ts_method = \(data,target,E = 3,tau = 1){
   vec = .uni_ts(data,target)
   return(RcppEmbed(vec,E,tau))
 }

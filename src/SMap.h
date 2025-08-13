@@ -23,8 +23,10 @@
  * @param target         A vector of scalar values to predict (e.g., time series observations).
  * @param lib_indices    Indices of the vectors used as the library (neighbor candidates).
  * @param pred_indices   Indices of the vectors used for prediction.
- * @param num_neighbors  Number of nearest neighbors to use in local regression.
- * @param theta          Weighting parameter controlling exponential decay of distances.
+ * @param num_neighbors  Number of nearest neighbors to use in local regression. Default is 4.
+ * @param theta          Weighting parameter controlling exponential decay of distances. Default is 1.0.
+ * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ * @param dist_average   Whether to average distance by the number of valid vector components. Default is true.
  * @return std::vector<double> Predicted values aligned with the input target vector.
  *         Entries at non-prediction indices or with insufficient valid neighbors are NaN.
  */
@@ -33,8 +35,10 @@ std::vector<double> SMapPrediction(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    double theta
+    int num_neighbors = 4,
+    double theta = 1.0,
+    int dist_metric = 2,
+    bool dist_average = true
 );
 
 /*
@@ -45,8 +49,10 @@ std::vector<double> SMapPrediction(
  *   - target: Time series data vector to be predicted.
  *   - lib_indices: Vector of integer indices specifying which states to use for finding neighbors.
  *   - pred_indices: Vector of integer indices specifying which states to predict.
- *   - num_neighbors: Number of neighbors to use for S-Map.
- *   - theta: Weighting parameter for distances.
+ *   - num_neighbors: Number of neighbors to use for S-Map. Default is 4.
+ *   - theta: Weighting parameter for distances. Default is 1.0.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns: The Pearson correlation coefficient (Rho) between predicted and actual values.
  */
@@ -55,8 +61,10 @@ double SMap(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    double theta
+    int num_neighbors = 4,
+    double theta = 1.0,
+    int dist_metric = 2,
+    bool dist_average = true
 );
 
 /*
@@ -67,8 +75,10 @@ double SMap(
  *   - target: Time series data vector to be predicted.
  *   - lib_indices: Vector of integer indices specifying which states to use for finding neighbors.
  *   - pred_indices: Vector of integer indices specifying which states to predict.
- *   - num_neighbors: Number of neighbors to use for S-Map.
- *   - theta: Weighting parameter for distances.
+ *   - num_neighbors: Number of neighbors to use for S-Map. Default is 4.
+ *   - theta: Weighting parameter for distances. Default is 1.0.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *
  * Returns: A vector<double> containing {Pearson correlation, MAE, RMSE}.
  */
@@ -77,8 +87,10 @@ std::vector<double> SMapBehavior(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    double theta
+    int num_neighbors = 4,
+    double theta = 1.0,
+    int dist_metric = 2,
+    bool dist_average = true
 );
 
 #endif // SMap_H

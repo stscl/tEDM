@@ -197,6 +197,8 @@ std::vector<double> PartialSMap4TS(
  *   - threads: The number of threads to use for parallel processing.
  *   - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
  *   - cumulate: Whether to accumulate partial correlations.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components.
  *
  * Returns:
  *   A vector of PartialCorRes objects, where each contains:
@@ -218,7 +220,9 @@ std::vector<PartialCorRes> PCMSingle(
     double theta,                                       // Distance weighting parameter for the local neighbours in the manifold
     size_t threads,                                     // Number of threads to use for parallel processing
     int parallel_level,                                 // Level of parallel computing: 0 for `lower`, 1 for `higher`
-    bool cumulate                                       // Whether to cumulate the partial correlations
+    bool cumulate,                                      // Whether to cumulate the partial correlations
+    int dist_metric,                                    // Distance metric selector (1: Manhattan, 2: Euclidean)
+    bool dist_average                                   // Whether to average distance by the number of valid vector components
 ) {
   int max_lib_size = lib_indices.size();
 
@@ -228,9 +232,9 @@ std::vector<PartialCorRes> PCMSingle(
     // Run partial cross map and store results
     std::vector<double> rho;
     if (simplex) {
-      rho = PartialSimplex4TS(x_vectors, y, controls, lib_indices, pred_indices, conEs, taus, b, cumulate);
+      rho = PartialSimplex4TS(x_vectors, y, controls, lib_indices, pred_indices, conEs, taus, b, cumulate, dist_metric, dist_average);
     } else {
-      rho = PartialSMap4TS(x_vectors, y, controls, lib_indices, pred_indices, conEs, taus, b, theta, cumulate);
+      rho = PartialSMap4TS(x_vectors, y, controls, lib_indices, pred_indices, conEs, taus, b, theta, cumulate, dist_metric, dist_average);
     }
     x_xmap_y.emplace_back(lib_size, rho[0], rho[1]);
     return x_xmap_y;
@@ -265,9 +269,9 @@ std::vector<PartialCorRes> PCMSingle(
       // Run partial cross map and store results
       std::vector<double> rho;
       if (simplex) {
-        rho = PartialSimplex4TS(x_vectors, y, controls, valid_lib_indices[i], pred_indices, conEs, taus, b, cumulate);
+        rho = PartialSimplex4TS(x_vectors, y, controls, valid_lib_indices[i], pred_indices, conEs, taus, b, cumulate, dist_metric, dist_average);
       } else {
-        rho = PartialSMap4TS(x_vectors, y, controls, valid_lib_indices[i], pred_indices, conEs, taus, b, theta, cumulate);
+        rho = PartialSMap4TS(x_vectors, y, controls, valid_lib_indices[i], pred_indices, conEs, taus, b, theta, cumulate, dist_metric, dist_average);
       }
       // Directly initialize a PartialCorRes struct with the three values
       PartialCorRes result(lib_size, rho[0], rho[1]);
@@ -299,9 +303,9 @@ std::vector<PartialCorRes> PCMSingle(
       // Run partial cross map and store results
       std::vector<double> rho;
       if (simplex) {
-        rho = PartialSimplex4TS(x_vectors, y, controls, local_lib_indices, pred_indices, conEs, taus, b, cumulate);
+        rho = PartialSimplex4TS(x_vectors, y, controls, local_lib_indices, pred_indices, conEs, taus, b, cumulate, dist_metric, dist_average);
       } else {
-        rho = PartialSMap4TS(x_vectors, y, controls, local_lib_indices, pred_indices, conEs, taus, b, theta, cumulate);
+        rho = PartialSMap4TS(x_vectors, y, controls, local_lib_indices, pred_indices, conEs, taus, b, theta, cumulate, dist_metric, dist_average);
       }
       x_xmap_y.emplace_back(lib_size, rho[0], rho[1]);
     }
@@ -328,6 +332,8 @@ std::vector<PartialCorRes> PCMSingle(
  * - threads: Number of threads to use for parallel computation.
  * - cumulate: Boolean flag indicating whether to cumulate partial correlations.
  * - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
+ * - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * - dist_average: Whether to average distance by the number of valid vector components.
  * - progressbar: Boolean flag indicating whether to display a progress bar during computation.
  *
  * Returns:
@@ -357,6 +363,8 @@ std::vector<std::vector<double>> PCM(
     int threads,                                        // Number of threads used from the global pool
     int parallel_level,                                 // Level of parallel computing: 0 for `lower`, 1 for `higher`
     bool cumulate,                                      // Whether to cumulate the partial correlations
+    int dist_metric,                                    // Distance metric selector (1: Manhattan, 2: Euclidean)
+    bool dist_average,                                  // Whether to average distance by the number of valid vector components
     bool progressbar                                    // Whether to print the progress bar
 ) {
   // If b is not provided correctly, default it to E + 2
@@ -427,7 +435,9 @@ std::vector<std::vector<double>> PCM(
           theta,
           threads_sizet,
           parallel_level,
-          cumulate
+          cumulate,
+          dist_metric,
+          dist_average
         );
         bar++;
       }
@@ -447,7 +457,9 @@ std::vector<std::vector<double>> PCM(
           theta,
           threads_sizet,
           parallel_level,
-          cumulate
+          cumulate,
+          dist_metric,
+          dist_average
         );
       }
     }
@@ -471,7 +483,9 @@ std::vector<std::vector<double>> PCM(
           theta,
           threads_sizet,
           parallel_level,
-          cumulate
+          cumulate,
+          dist_metric,
+          dist_average
         );
         bar++;
       }, threads_sizet);
@@ -492,7 +506,9 @@ std::vector<std::vector<double>> PCM(
           theta,
           threads_sizet,
           parallel_level,
-          cumulate
+          cumulate,
+          dist_metric,
+          dist_average
         );
       }, threads_sizet);
     }

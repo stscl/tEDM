@@ -13,8 +13,10 @@
   lib = NULL,
   pred = NULL,
   E = 2:10,
-  tau = 0,
+  tau = 1,
   k = E + 1,
+  dist.metric = "L2",
+  dist.average = TRUE,
   threads = length(E)
 )
 
@@ -46,6 +48,10 @@
 \item{tau}{(optional) step of time lags.}
 
 \item{k}{(optional) number of nearest neighbors used in prediction.}
+
+\item{dist.metric}{(optional) distance metric (\code{L1}: Manhattan, \code{L2}: Euclidean).}
+
+\item{dist.average}{(optional) whether to average distance.}
 
 \item{threads}{(optional) number of threads to use.}
 }

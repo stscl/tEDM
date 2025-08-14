@@ -1,5 +1,5 @@
-.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42,
-                               threads = length(libsizes), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42, dist.metric = "L2",
+                               dist.average = TRUE,threads = length(libsizes),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
@@ -10,9 +10,9 @@
 
   x_xmap_y = NULL
   if (bidirectional){
-    x_xmap_y = RcppMultispatialCCM(cause,effect,libsizes,E[1],tau[1],k[1],boot,seed,threads,pl,progressbar)
+    x_xmap_y = RcppMultispatialCCM(cause,effect,libsizes,E[1],tau[1],k[1],boot,seed,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
   }
-  y_xmap_x = RcppMultispatialCCM(effect,cause,libsizes,E[2],tau[2],k[2],boot,seed,threads,pl,progressbar)
+  y_xmap_x = RcppMultispatialCCM(effect,cause,libsizes,E[2],tau[2],k[2],boot,seed,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
 
   return(.bind_xmapdf(varname,x_xmap_y,y_xmap_x,bidirectional))
 }
@@ -28,6 +28,8 @@
 #' @param k (optional) number of nearest neighbors used in prediction.
 #' @param boot (optional) number of bootstraps to perform.
 #' @param seed (optional) random seed.
+#' @param dist.metric (optional) distance metric (`L1`: Manhattan, `L2`: Euclidean).
+#' @param dist.average (optional) whether to average distance.
 #' @param threads (optional) number of threads to use.
 #' @param parallel.level (optional) level of parallelism, `low` or `high`.
 #' @param bidirectional (optional) whether to examine bidirectional causality.

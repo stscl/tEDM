@@ -160,6 +160,8 @@ std::vector<double> SimplexPredictionBoot(
  *   threads        - Number of threads to use for parallel processing.
  *   seed           - Random seed for reproducibility.
  *   parallel_level - 0 for sequential execution; >0 enables parallelization with RcppThread.
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   dist_average   - Whether to average distance by the number of valid vector components.
  *   progressbar    - Logical flag to enable/disable a progress bar during execution.
  *
  * Returns:
@@ -181,6 +183,8 @@ std::vector<std::vector<double>> MultispatialCCM(
     int threads,
     unsigned int seed = 42,
     int parallel_level = 0,
+    int dist_metric = 2,
+    bool dist_average = true,
     bool progressbar = true
 ) {
   // If b is not provided correctly, default it to E + 1
@@ -225,7 +229,9 @@ std::vector<std::vector<double>> MultispatialCCM(
           boot,
           threads_sizet,
           seed,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
         bar++;
       }
     } else {
@@ -240,7 +246,9 @@ std::vector<std::vector<double>> MultispatialCCM(
           boot,
           threads_sizet,
           seed,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
       }
     }
   } else {
@@ -259,7 +267,9 @@ std::vector<std::vector<double>> MultispatialCCM(
           boot,
           threads_sizet,
           seed,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
         bar++;
       }, threads_sizet);
     } else {
@@ -275,7 +285,9 @@ std::vector<std::vector<double>> MultispatialCCM(
           boot,
           threads_sizet,
           seed,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
       }, threads_sizet);
     }
   }

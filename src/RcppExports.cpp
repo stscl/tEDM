@@ -125,8 +125,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppFNN4TS
-Rcpp::NumericVector RcppFNN4TS(const Rcpp::NumericVector& vec, const Rcpp::NumericVector& rt, const Rcpp::NumericVector& eps, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, int tau, int threads, int parallel_level);
-RcppExport SEXP _tEDM_RcppFNN4TS(SEXP vecSEXP, SEXP rtSEXP, SEXP epsSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP) {
+Rcpp::NumericVector RcppFNN4TS(const Rcpp::NumericVector& vec, const Rcpp::NumericVector& rt, const Rcpp::NumericVector& eps, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, int tau, int dist_metric, int threads, int parallel_level);
+RcppExport SEXP _tEDM_RcppFNN4TS(SEXP vecSEXP, SEXP rtSEXP, SEXP epsSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP dist_metricSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec(vecSEXP);
@@ -136,9 +136,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type E(ESEXP);
     Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
     Rcpp::traits::input_parameter< int >::type parallel_level(parallel_levelSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppFNN4TS(vec, rt, eps, lib, pred, E, tau, threads, parallel_level));
+    rcpp_result_gen = Rcpp::wrap(RcppFNN4TS(vec, rt, eps, lib, pred, E, tau, dist_metric, threads, parallel_level));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -836,7 +837,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppSMapForecast", (DL_FUNC) &_tEDM_RcppSMapForecast, 10},
     {"_tEDM_RcppIntersectionCardinality", (DL_FUNC) &_tEDM_RcppIntersectionCardinality, 11},
     {"_tEDM_RcppMVE4TS", (DL_FUNC) &_tEDM_RcppMVE4TS, 10},
-    {"_tEDM_RcppFNN4TS", (DL_FUNC) &_tEDM_RcppFNN4TS, 9},
+    {"_tEDM_RcppFNN4TS", (DL_FUNC) &_tEDM_RcppFNN4TS, 10},
     {"_tEDM_RcppSimplex4TS", (DL_FUNC) &_tEDM_RcppSimplex4TS, 10},
     {"_tEDM_RcppSMap4TS", (DL_FUNC) &_tEDM_RcppSMap4TS, 11},
     {"_tEDM_RcppMultiSimplex4TS", (DL_FUNC) &_tEDM_RcppMultiSimplex4TS, 10},

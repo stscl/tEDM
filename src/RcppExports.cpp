@@ -222,8 +222,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppCCM
-Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x, const Rcpp::NumericVector& y, const Rcpp::IntegerVector& libsizes, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, int E, int tau, int b, bool simplex, double theta, int threads, int parallel_level, bool progressbar);
-RcppExport SEXP _tEDM_RcppCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP simplexSEXP, SEXP thetaSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP progressbarSEXP) {
+Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x, const Rcpp::NumericVector& y, const Rcpp::IntegerVector& libsizes, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, int E, int tau, int b, bool simplex, double theta, int threads, int parallel_level, int dist_metric, bool dist_average, bool progressbar);
+RcppExport SEXP _tEDM_RcppCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP simplexSEXP, SEXP thetaSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP, SEXP progressbarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
@@ -238,14 +238,16 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type theta(thetaSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
     Rcpp::traits::input_parameter< int >::type parallel_level(parallel_levelSEXP);
+    Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
+    Rcpp::traits::input_parameter< bool >::type dist_average(dist_averageSEXP);
     Rcpp::traits::input_parameter< bool >::type progressbar(progressbarSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppCCM(x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, progressbar));
+    rcpp_result_gen = Rcpp::wrap(RcppCCM(x, y, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, dist_metric, dist_average, progressbar));
     return rcpp_result_gen;
 END_RCPP
 }
 // RcppPCM
-Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x, const Rcpp::NumericVector& y, const Rcpp::NumericMatrix& z, const Rcpp::IntegerVector& libsizes, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& tau, const Rcpp::IntegerVector& b, bool simplex, double theta, int threads, int parallel_level, bool cumulate, bool progressbar);
-RcppExport SEXP _tEDM_RcppPCM(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP libsizesSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP simplexSEXP, SEXP thetaSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP cumulateSEXP, SEXP progressbarSEXP) {
+Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x, const Rcpp::NumericVector& y, const Rcpp::NumericMatrix& z, const Rcpp::IntegerVector& libsizes, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& tau, const Rcpp::IntegerVector& b, bool simplex, double theta, int threads, int parallel_level, bool cumulate, int dist_metric, bool dist_average, bool progressbar);
+RcppExport SEXP _tEDM_RcppPCM(SEXP xSEXP, SEXP ySEXP, SEXP zSEXP, SEXP libsizesSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP simplexSEXP, SEXP thetaSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP cumulateSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP, SEXP progressbarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type x(xSEXP);
@@ -262,8 +264,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
     Rcpp::traits::input_parameter< int >::type parallel_level(parallel_levelSEXP);
     Rcpp::traits::input_parameter< bool >::type cumulate(cumulateSEXP);
+    Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
+    Rcpp::traits::input_parameter< bool >::type dist_average(dist_averageSEXP);
     Rcpp::traits::input_parameter< bool >::type progressbar(progressbarSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppPCM(x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, cumulate, progressbar));
+    rcpp_result_gen = Rcpp::wrap(RcppPCM(x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, cumulate, dist_metric, dist_average, progressbar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -290,8 +294,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppMultispatialCCM
-Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x, const Rcpp::NumericMatrix& y, const Rcpp::IntegerVector& libsizes, int E, int tau, int b, int boot, int seed, int threads, int parallel_level, bool progressbar);
-RcppExport SEXP _tEDM_RcppMultispatialCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP bootSEXP, SEXP seedSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP progressbarSEXP) {
+Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x, const Rcpp::NumericMatrix& y, const Rcpp::IntegerVector& libsizes, int E, int tau, int b, int boot, int seed, int threads, int parallel_level, int dist_metric, bool dist_average, bool progressbar);
+RcppExport SEXP _tEDM_RcppMultispatialCCM(SEXP xSEXP, SEXP ySEXP, SEXP libsizesSEXP, SEXP ESEXP, SEXP tauSEXP, SEXP bSEXP, SEXP bootSEXP, SEXP seedSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP, SEXP progressbarSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< const Rcpp::NumericMatrix& >::type x(xSEXP);
@@ -304,8 +308,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type seed(seedSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
     Rcpp::traits::input_parameter< int >::type parallel_level(parallel_levelSEXP);
+    Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
+    Rcpp::traits::input_parameter< bool >::type dist_average(dist_averageSEXP);
     Rcpp::traits::input_parameter< bool >::type progressbar(progressbarSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppMultispatialCCM(x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, progressbar));
+    rcpp_result_gen = Rcpp::wrap(RcppMultispatialCCM(x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, dist_metric, dist_average, progressbar));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -842,10 +848,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppSMap4TS", (DL_FUNC) &_tEDM_RcppSMap4TS, 11},
     {"_tEDM_RcppMultiSimplex4TS", (DL_FUNC) &_tEDM_RcppMultiSimplex4TS, 10},
     {"_tEDM_RcppIC4TS", (DL_FUNC) &_tEDM_RcppIC4TS, 11},
-    {"_tEDM_RcppCCM", (DL_FUNC) &_tEDM_RcppCCM, 13},
-    {"_tEDM_RcppPCM", (DL_FUNC) &_tEDM_RcppPCM, 15},
+    {"_tEDM_RcppCCM", (DL_FUNC) &_tEDM_RcppCCM, 15},
+    {"_tEDM_RcppPCM", (DL_FUNC) &_tEDM_RcppPCM, 17},
     {"_tEDM_RcppCMC", (DL_FUNC) &_tEDM_RcppCMC, 13},
-    {"_tEDM_RcppMultispatialCCM", (DL_FUNC) &_tEDM_RcppMultispatialCCM, 11},
+    {"_tEDM_RcppMultispatialCCM", (DL_FUNC) &_tEDM_RcppMultispatialCCM, 13},
     {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
     {"_tEDM_OptEmbedDim", (DL_FUNC) &_tEDM_OptEmbedDim, 1},
     {"_tEDM_OptThetaParm", (DL_FUNC) &_tEDM_OptThetaParm, 1},

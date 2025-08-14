@@ -1,4 +1,4 @@
-.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42, dist.metric = "L2",
+.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42, dist.metric = "L1",
                                dist.average = TRUE,threads = length(libsizes),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)

@@ -1,5 +1,5 @@
 .ic_ts_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1, k = E+2,
-                  dist.metric = "L2", threads = length(pred), parallel.level = "low"){
+                  dist.metric = "L1", threads = length(pred), parallel.level = "low"){
   vx = .uni_ts(data,column)
   vy = .uni_ts(data,target)
   pl = .check_parallellevel(parallel.level)

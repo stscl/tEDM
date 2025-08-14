@@ -27,6 +27,8 @@
  *   seed           - Random seed for reproducibility.
  *   boot           - Number of bootstrap replicates.
  *   parallel_level - If 0, run in parallel using RcppThread. Otherwise, run sequentially.
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   dist_average   - Whether to average distance by the number of valid vector components.
  *
  * Returns:
  *   A vector of length 5:
@@ -46,7 +48,9 @@ std::vector<double> SimplexPredictionBoot(
     int boot,
     size_t threads,
     unsigned int seed = 42,
-    int parallel_level = 0
+    int parallel_level = 0,
+    int dist_metric = 2,
+    bool dist_average = true
 );
 
 /*
@@ -72,6 +76,8 @@ std::vector<double> SimplexPredictionBoot(
  *   threads        - Number of threads to use for parallel processing.
  *   seed           - Random seed for reproducibility.
  *   parallel_level - 0 for sequential execution; >0 enables parallelization with RcppThread.
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   dist_average   - Whether to average distance by the number of valid vector components.
  *   progressbar    - Logical flag to enable/disable a progress bar during execution.
  *
  * Returns:
@@ -93,6 +99,8 @@ std::vector<std::vector<double>> MultispatialCCM(
     int threads,
     unsigned int seed = 42,
     int parallel_level = 0,
+    int dist_metric = 2,
+    bool dist_average = true,
     bool progressbar = true
 );
 

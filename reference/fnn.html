@@ -56,7 +56,8 @@
 <span>  lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pred <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,</span>
-<span>  tau <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tau <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  dist.metric <span class="op">=</span> <span class="st">"L1"</span>,</span>
 <span>  rt <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>  eps <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  threads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">E</span><span class="op">)</span></span>
@@ -89,6 +90,10 @@
 
 <dt id="arg-tau">tau<a class="anchor" aria-label="anchor" href="#arg-tau"></a></dt>
 <dd><p>(optional) step of time lags.</p></dd>
+
+
+<dt id="arg-dist-metric">dist.metric<a class="anchor" aria-label="anchor" href="#arg-dist-metric"></a></dt>
+<dd><p>(optional) distance metric (<code>L1</code>: Manhattan, <code>L2</code>: Euclidean).</p></dd>
 
 
 <dt id="arg-rt">rt<a class="anchor" aria-label="anchor" href="#arg-rt"></a></dt>

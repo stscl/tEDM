@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include "CppStats.h"
 #include "CppDistances.h"
-#include "tEDMDataStruct.h"
+#include "spEDMDataStruct.h"
 #include <RcppThread.h>
 
 // [[Rcpp::depends(RcppThread)]]
@@ -239,10 +239,11 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
           for (size_t i = start_lib; i < max_lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
           }
-          int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
-          for (int i = 0; i < num_vectors_remaining; ++i) {
-            local_lib_indices.emplace_back(lib_indices[i]);
-          }
+          // // no wrapping around
+          // int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
+          // for (int i = 0; i < num_vectors_remaining; ++i) {
+          //   local_lib_indices.emplace_back(lib_indices[i]);
+          // }
         } else {
           for (size_t i = start_lib; i < start_lib + lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
@@ -273,10 +274,11 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
           for (size_t i = start_lib; i < max_lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
           }
-          int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
-          for (int i = 0; i < num_vectors_remaining; ++i) {
-            local_lib_indices.emplace_back(lib_indices[i]);
-          }
+          // // no wrapping around
+          // int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
+          // for (int i = 0; i < num_vectors_remaining; ++i) {
+          //   local_lib_indices.emplace_back(lib_indices[i]);
+          // }
         } else {
           for (size_t i = start_lib; i < start_lib + lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
@@ -310,6 +312,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
  * @param pred            Vector of prediction indices (shouble be 0-based in C++).
  * @param num_neighbors   Maximum number of neighbors to consider in intersection (e.g., from 1 to k).
  * @param n_excluded      Number of nearest neighbors to exclude (e.g., due to temporal proximity).
+ * @param dist_metric     Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads         Number of threads used for parallel computation.
  * @param parallel_level  Parallel mode flag: 0 = parallel, 1 = serial.
  *
@@ -331,7 +334,8 @@ std::vector<double> IntersectionCardinality(
     const std::vector<size_t>& pred,
     size_t num_neighbors,
     size_t n_excluded,
-    int threads,
+    int dist_metric = 2,
+    int threads = 8,
     int parallel_level = 0) {
   std::vector<double> result (num_neighbors, std::numeric_limits<double>::quiet_NaN());
   // Input validation
@@ -356,13 +360,16 @@ std::vector<double> IntersectionCardinality(
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
+  // Use L1 norm (Manhattan distance) if dist_metric == 1, else use L2 norm
+  bool L1norm = (dist_metric == 1);
+
   // // Precompute neighbors (The earlier implementation based on a serial version)
-  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib, num_neighbors + n_excluded);
-  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib, num_neighbors + n_excluded);
+  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, L1norm, true), lib, num_neighbors + n_excluded);
+  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, L1norm, true), lib, num_neighbors + n_excluded);
 
   // Precompute neighbors (parallel computation)
-  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet);
-  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet);
+  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet, L1norm);
+  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet, L1norm);
 
   // run cross mapping
   std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
@@ -389,6 +396,7 @@ std::vector<double> IntersectionCardinality(
  *   pred           - Prediction index vector (shouble be 0-based in C++).
  *   num_neighbors  - Number of neighbors used for cross mapping (after exclusion).
  *   n_excluded     - Number of nearest neighbors to exclude (e.g. temporal).
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
  *   threads        - Number of threads used in parallel computation.
  *   parallel_level - Whether to use multithreaded (0) or serial (1) mode
  *
@@ -406,7 +414,8 @@ std::vector<double> IntersectionCardinalityScores(
     const std::vector<size_t>& pred,
     size_t num_neighbors,
     size_t n_excluded,
-    int threads,
+    int dist_metric = 2,
+    int threads = 8,
     int parallel_level = 0) {
   // Input validation
   if (embedding_x.size() != embedding_y.size() || embedding_x.empty()) {
@@ -430,13 +439,16 @@ std::vector<double> IntersectionCardinalityScores(
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
+  // Use L1 norm (Manhattan distance) if dist_metric == 1, else use L2 norm
+  bool L1norm = (dist_metric == 1);
+
   // // Precompute neighbors (The earlier implementation based on a serial version)
-  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib, num_neighbors + n_excluded);
-  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib, num_neighbors + n_excluded);
+  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, L1norm, true), lib, num_neighbors + n_excluded);
+  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, L1norm, true), lib, num_neighbors + n_excluded);
 
   // Precompute neighbors (parallel computation)
-  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet);
-  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet);
+  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet, L1norm);
+  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet, L1norm);
 
   // run cross mapping
   std::vector<IntersectionRes> res = IntersectionCardinalitySingle(

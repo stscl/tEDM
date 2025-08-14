@@ -228,6 +228,7 @@ Rcpp::NumericVector RcppIntersectionCardinality(
     const Rcpp::IntegerVector& pred,
     const int& num_neighbors = 4,
     const int& n_excluded = 0,
+    const int& dist_metric = 2,
     const int& threads = 8,
     const int& parallel_level = 0){
   // Convert Rcpp::NumericVector to std::vector<double>
@@ -277,6 +278,7 @@ Rcpp::NumericVector RcppIntersectionCardinality(
     pred_indices,
     static_cast<size_t>(num_neighbors),
     static_cast<size_t>(n_excluded),
+    dist_metric,
     threads,
     parallel_level
   );
@@ -731,6 +733,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
                               const Rcpp::IntegerVector& b,
                               int tau = 1,
                               int exclude = 0,
+                              int dist_metric = 2,
                               int threads = 8,
                               int parallel_level = 0) {
   // Convert Rcpp::NumericVector to std::vector<double>
@@ -788,6 +791,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
     b_std,
     tau,
     exclude,
+    dist_metric,
     threads,
     parallel_level);
 

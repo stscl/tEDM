@@ -11,10 +11,11 @@
   effect,
   libsizes = NULL,
   E = 3,
-  tau = 0,
+  tau = 1,
   k = pmin(E^2),
   lib = NULL,
   pred = NULL,
+  dist.metric = "L2",
   threads = length(pred),
   parallel.level = "low",
   bidirectional = TRUE,
@@ -39,6 +40,8 @@
 \item{lib}{(optional) libraries indices.}
 
 \item{pred}{(optional) predictions indices.}
+
+\item{dist.metric}{(optional) distance metric (\code{L1}: Manhattan, \code{L2}: Euclidean).}
 
 \item{threads}{(optional) number of threads to use.}
 

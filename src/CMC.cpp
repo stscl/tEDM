@@ -27,6 +27,7 @@
  * @param pred Indices of prediction points (0-based).
  * @param num_neighbors Number of neighbors used in cross mapping.
  * @param n_excluded Number of temporally excluded neighbors (Theiler window).
+ * @param dist_metric Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads Number of threads for parallel processing.
  * @param parallel_level Level of parallelism to control nested parallel execution.
  * @param progressbar Boolean flag to show or hide a progress bar.
@@ -43,6 +44,7 @@ CMCRes CMC(
     const std::vector<size_t>& pred,
     size_t num_neighbors = 4,
     size_t n_excluded = 0,
+    int dist_metric = 2,
     int threads = 8,
     int parallel_level = 0,
     bool progressbar = true) {
@@ -84,13 +86,16 @@ CMCRes CMC(
   std::sort(unique_lib_sizes.begin(), unique_lib_sizes.end());
   unique_lib_sizes.erase(std::unique(unique_lib_sizes.begin(), unique_lib_sizes.end()), unique_lib_sizes.end());
 
+  // Use L1 norm (Manhattan distance) if dist_metric == 1, else use L2 norm
+  bool L1norm = (dist_metric == 1);
+
   // // Precompute neighbors (The earlier implementation based on a serial version)
-  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true), lib, num_neighbors + n_excluded);
-  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true), lib, num_neighbors + n_excluded);
+  // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, L1norm, true), lib, num_neighbors + n_excluded);
+  // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, L1norm, true), lib, num_neighbors + n_excluded);
 
   // Precompute neighbors (parallel computation)
-  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet);
-  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet);
+  auto nx = CppMatKNNeighbors(embedding_x, lib, num_neighbors + n_excluded, threads_sizet, L1norm);
+  auto ny = CppMatKNNeighbors(embedding_y, lib, num_neighbors + n_excluded, threads_sizet, L1norm);
 
   // Local results for each library
   std::vector<std::vector<IntersectionRes>> local_results(unique_lib_sizes.size());

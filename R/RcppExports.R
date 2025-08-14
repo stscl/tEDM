@@ -17,8 +17,8 @@ RcppSMapForecast <- function(source, target, E, tau, lib, pred, num_neighbors, t
     .Call(`_tEDM_RcppSMapForecast`, source, target, E, tau, lib, pred, num_neighbors, theta, dist_metric, dist_average)
 }
 
-RcppIntersectionCardinality <- function(source, target, E, tau, lib, pred, num_neighbors = 4L, n_excluded = 0L, threads = 8L, parallel_level = 0L) {
-    .Call(`_tEDM_RcppIntersectionCardinality`, source, target, E, tau, lib, pred, num_neighbors, n_excluded, threads, parallel_level)
+RcppIntersectionCardinality <- function(source, target, E, tau, lib, pred, num_neighbors = 4L, n_excluded = 0L, dist_metric = 2L, threads = 8L, parallel_level = 0L) {
+    .Call(`_tEDM_RcppIntersectionCardinality`, source, target, E, tau, lib, pred, num_neighbors, n_excluded, dist_metric, threads, parallel_level)
 }
 
 RcppMVE4TS <- function(x, y, lib, pred, E, tau, b, top, nvar, threads) {
@@ -41,8 +41,8 @@ RcppMultiSimplex4TS <- function(source, target, lib, pred, E, b, tau = 1L, dist_
     .Call(`_tEDM_RcppMultiSimplex4TS`, source, target, lib, pred, E, b, tau, dist_metric, dist_average, threads)
 }
 
-RcppIC4TS <- function(source, target, lib, pred, E, b, tau = 1L, exclude = 0L, threads = 8L, parallel_level = 0L) {
-    .Call(`_tEDM_RcppIC4TS`, source, target, lib, pred, E, b, tau, exclude, threads, parallel_level)
+RcppIC4TS <- function(source, target, lib, pred, E, b, tau = 1L, exclude = 0L, dist_metric = 2L, threads = 8L, parallel_level = 0L) {
+    .Call(`_tEDM_RcppIC4TS`, source, target, lib, pred, E, b, tau, exclude, dist_metric, threads, parallel_level)
 }
 
 RcppCCM <- function(x, y, libsizes, lib, pred, E = 3L, tau = 0L, b = 4L, simplex = TRUE, theta = 0, threads = 8L, parallel_level = 0L, progressbar = FALSE) {
@@ -53,8 +53,8 @@ RcppPCM <- function(x, y, z, libsizes, lib, pred, E, tau, b, simplex = TRUE, the
     .Call(`_tEDM_RcppPCM`, x, y, z, libsizes, lib, pred, E, tau, b, simplex, theta, threads, parallel_level, cumulate, progressbar)
 }
 
-RcppCMC <- function(x, y, libsizes, lib, pred, E, tau, b, r = 0L, threads = 8L, parallel_level = 0L, progressbar = FALSE) {
-    .Call(`_tEDM_RcppCMC`, x, y, libsizes, lib, pred, E, tau, b, r, threads, parallel_level, progressbar)
+RcppCMC <- function(x, y, libsizes, lib, pred, E, tau, b = 4L, r = 0L, dist_metric = 2L, threads = 8L, parallel_level = 0L, progressbar = FALSE) {
+    .Call(`_tEDM_RcppCMC`, x, y, libsizes, lib, pred, E, tau, b, r, dist_metric, threads, parallel_level, progressbar)
 }
 
 RcppMultispatialCCM <- function(x, y, libsizes, E = 3L, tau = 0L, b = 4L, boot = 299L, seed = 42L, threads = 8L, parallel_level = 0L, progressbar = FALSE) {

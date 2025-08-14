@@ -68,6 +68,7 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
  * @param pred            Vector of prediction indices (shouble be 0-based in C++).
  * @param num_neighbors   Maximum number of neighbors to consider in intersection (e.g., from 1 to k).
  * @param n_excluded      Number of nearest neighbors to exclude (e.g., due to temporal proximity).
+ * @param dist_metric     Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads         Number of threads used for parallel computation.
  * @param parallel_level  Parallel mode flag: 0 = parallel, 1 = serial.
  *
@@ -89,7 +90,8 @@ std::vector<double> IntersectionCardinality(
     const std::vector<size_t>& pred,
     size_t num_neighbors,
     size_t n_excluded,
-    int threads,
+    int dist_metric = 2,
+    int threads = 8,
     int parallel_level = 0);
 
 /**
@@ -107,6 +109,7 @@ std::vector<double> IntersectionCardinality(
  *   pred           - Prediction index vector (shouble be 0-based in C++).
  *   num_neighbors  - Number of neighbors used for cross mapping (after exclusion).
  *   n_excluded     - Number of nearest neighbors to exclude (e.g. temporal).
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
  *   threads        - Number of threads used in parallel computation.
  *   parallel_level - Whether to use multithreaded (0) or serial (1) mode
  *
@@ -124,7 +127,8 @@ std::vector<double> IntersectionCardinalityScores(
     const std::vector<size_t>& pred,
     size_t num_neighbors,
     size_t n_excluded,
-    int threads,
+    int dist_metric = 2,
+    int threads = 8,
     int parallel_level = 0);
 
 #endif // IntersectionCardinality_H

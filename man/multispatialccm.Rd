@@ -15,6 +15,8 @@
   k = E + 1,
   boot = 99,
   seed = 42,
+  dist.metric = "L2",
+  dist.average = TRUE,
   threads = length(libsizes),
   parallel.level = "low",
   bidirectional = TRUE,
@@ -39,6 +41,10 @@
 \item{boot}{(optional) number of bootstraps to perform.}
 
 \item{seed}{(optional) random seed.}
+
+\item{dist.metric}{(optional) distance metric (\code{L1}: Manhattan, \code{L2}: Euclidean).}
+
+\item{dist.average}{(optional) whether to average distance.}
 
 \item{threads}{(optional) number of threads to use.}
 

@@ -1,5 +1,5 @@
-.ic_ts_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 0,
-                  k = E+2, threads = length(pred), parallel.level = "low"){
+.ic_ts_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1, k = E+2,
+                  dist.metric = "L2", threads = length(pred), parallel.level = "low"){
   vx = .uni_ts(data,column)
   vy = .uni_ts(data,target)
   pl = .check_parallellevel(parallel.level)
@@ -8,7 +8,7 @@
   if (is.null(pred)) pred = lib
   if (threads == 0) threads = length(pred)
 
-  res = RcppIC4TS(vx,vy,lib,pred,E,k,tau,0,threads,pl)
+  res = RcppIC4TS(vx,vy,lib,pred,E,k,tau,0,.check_distmetric(dist.metric),threads,pl)
   return(.bind_xmapself(res,target,"ic",tau))
 }
 

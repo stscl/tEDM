@@ -117,7 +117,7 @@ Rcpp::NumericVector RcppSimplexForecast(
   std::vector<int> pred_indices;
 
   int target_len = target_std.size();
-  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  int max_lag = (tau == 0) ? (E - 1) : ((E - 1) * tau);
   // Convert lib and pred (1-based in R) to 0-based indices and check validity
   for (int i = 0; i < lib.size(); ++i) {
     if (lib[i] < 0 || lib[i] > target_len) {
@@ -179,7 +179,7 @@ Rcpp::NumericVector RcppSMapForecast(
   std::vector<int> pred_indices;
 
   int target_len = target_std.size();
-  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  int max_lag = (tau == 0) ? (E - 1) : ((E - 1) * tau);
   // Convert lib and pred (1-based in R) to 0-based indices and check validity
   for (int i = 0; i < lib.size(); ++i) {
     if (lib[i] < 0 || lib[i] > target_len) {
@@ -244,7 +244,7 @@ Rcpp::NumericVector RcppIntersectionCardinality(
   std::vector<size_t> pred_indices;
 
   int target_len = target_std.size();
-  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  int max_lag = (tau == 0) ? (E - 1) : ((E - 1) * tau);
   // Convert lib and pred (1-based in R) to 0-based indices and check validity
   for (int i = 0; i < lib.size(); ++i) {
     if (lib[i] < 0 || lib[i] > target_len) {
@@ -428,7 +428,7 @@ Rcpp::NumericVector RcppFNN4TS(
   // Generate embeddings
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
   int max_E = *std::max_element(E_std.begin(), E_std.end());
-  int max_lag = (tau == 0) ? (max_E - 1) : (max_E * tau);
+  int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau);
   std::vector<std::vector<double>> embeddings = Embed(vec_std, max_E, tau);
 
   int validSampleNum = vec_std.size();
@@ -491,7 +491,7 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
   std::vector<int> lib_indices;
   std::vector<int> pred_indices;
   int max_E = *std::max_element(E_std.begin(), E_std.end());
-  int max_lag = (tau == 0) ? (max_E - 1) : (max_E * tau);
+  int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau);
 
   int target_len = target_std.size();
   // Convert lib and pred (1-based in R) to 0-based indices and set corresponding positions to true
@@ -570,7 +570,7 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
   std::vector<int> pred_indices;
 
   int target_len = target_std.size();
-  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  int max_lag = (tau == 0) ? (E - 1) : ((E - 1) * tau);
   // Convert lib and pred (1-based in R) to 0-based indices and set corresponding positions to true
   size_t n_libsize = lib.size();   // convert R R_xlen_t to C++ size_t
   for (size_t i = 0; i < n_libsize; ++i) {
@@ -747,7 +747,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
   // Convert Rcpp::IntegerVector to std::vector<int>
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
   int max_E = *std::max_element(E_std.begin(), E_std.end());
-  int max_lag = (tau == 0) ? (max_E - 1) : (max_E * tau);
+  int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau);
 
   // Initialize lib_indices and pred_indices
   std::vector<size_t> lib_indices;
@@ -846,7 +846,7 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
 
   // Check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index
   int n = y_std.size();
-  int max_lag = (tau == 0) ? (E - 1) : (E * tau);
+  int max_lag = (tau == 0) ? (E - 1) : ((E - 1) * tau);
   for (int i = 0; i < lib.size(); ++i) {
     if (lib[i] < 1 || lib[i] > n) {
       Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
@@ -944,7 +944,7 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
   std::vector<int> pred_std;
   int max_E = *std::max_element(E_std.begin(), E_std.end());
   int max_tau = *std::max_element(tau_std.begin(), tau_std.end());
-  int max_lag = (max_tau == 0) ? (max_E - 1) : (max_E * max_tau);
+  int max_lag = (max_tau == 0) ? (max_E - 1) : ((max_E - 1) * max_tau);
 
   // Constrain the usable library scope to exclude untrusted predictions.
   if (cumulate){
@@ -1043,7 +1043,7 @@ Rcpp::List RcppCMC(
 
   int max_E = *std::max_element(E_std.begin(), E_std.end());
   int max_tau = *std::max_element(tau_std.begin(), tau_std.end());
-  int max_lag = (max_tau == 0) ? (max_E - 1) : (max_E * max_tau);
+  int max_lag = (max_tau == 0) ? (max_E - 1) : ((max_E - 1) * max_tau);
 
   int validSampleNum = x_std.size();
   // Convert and check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index

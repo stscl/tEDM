@@ -28,6 +28,8 @@
  * @param taus: Vector specifying the time lag step for constructing lagged state-space vectors with control variables.
  * @param num_neighbors: Vector specifying the numbers of neighbors to use for simplex projection.
  * @param cumulate: Flag indicating whether to cumulatively incorporate control variables.
+ * @param dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * @param dist_average: Whether to average distance by the number of valid vector components.
  *
  * @return A std::vector<double> containing:
  *         - rho[0]: Pearson correlation between the target and its simplex projection.
@@ -42,7 +44,9 @@ std::vector<double> PartialSimplex4TS(
     const std::vector<int>& conEs,
     const std::vector<int>& taus,
     const std::vector<int>& num_neighbors,
-    bool cumulate
+    bool cumulate = false,
+    int dist_metric = 2,
+    bool dist_average = true
 );
 
 /**
@@ -63,6 +67,8 @@ std::vector<double> PartialSimplex4TS(
  * @param num_neighbors: Vector specifying the numbers of neighbors to use for S-Map prediction.
  * @param theta: Weighting parameter for distances in S-Map.
  * @param cumulate: Boolean flag to determine whether to cumulate the partial correlations.
+ * @param dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * @param dist_average: Whether to average distance by the number of valid vector components.
  * @return A vector of size 2 containing:
  *         - rho[0]: Pearson correlation between the target and its predicted values.
  *         - rho[1]: Partial correlation between the target and its predicted values, adjusting for control variables.
@@ -76,8 +82,10 @@ std::vector<double> PartialSMap4TS(
     const std::vector<int>& conEs,
     const std::vector<int>& taus,
     const std::vector<int>& num_neighbors,
-    double theta,
-    bool cumulate
+    double theta = 1.0,
+    bool cumulate = false,
+    int dist_metric = 2,
+    bool dist_average = true
 );
 
 /*
@@ -98,6 +106,8 @@ std::vector<double> PartialSMap4TS(
  *   - threads: The number of threads to use for parallel processing.
  *   - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
  *   - cumulate: Whether to accumulate partial correlations.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components.
  *
  * Returns:
  *   A vector of PartialCorRes objects, where each contains:
@@ -119,7 +129,9 @@ std::vector<PartialCorRes> PCMSingle(
     double theta,                                       // Distance weighting parameter for the local neighbours in the manifold
     size_t threads,                                     // Number of threads to use for parallel processing
     int parallel_level,                                 // Level of parallel computing: 0 for `lower`, 1 for `higher`
-    bool cumulate                                       // Whether to cumulate the partial correlations
+    bool cumulate,                                      // Whether to cumulate the partial correlations
+    int dist_metric,                                    // Distance metric selector (1: Manhattan, 2: Euclidean)
+    bool dist_average                                   // Whether to average distance by the number of valid vector components
 );
 
 /**
@@ -140,6 +152,8 @@ std::vector<PartialCorRes> PCMSingle(
  * - threads: Number of threads to use for parallel computation.
  * - cumulate: Boolean flag indicating whether to cumulate partial correlations.
  * - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
+ * - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * - dist_average: Whether to average distance by the number of valid vector components.
  * - progressbar: Boolean flag indicating whether to display a progress bar during computation.
  *
  * Returns:
@@ -169,6 +183,8 @@ std::vector<std::vector<double>> PCM(
     int threads,                                        // Number of threads used from the global pool
     int parallel_level,                                 // Level of parallel computing: 0 for `lower`, 1 for `higher`
     bool cumulate,                                      // Whether to cumulate the partial correlations
+    int dist_metric,                                    // Distance metric selector (1: Manhattan, 2: Euclidean)
+    bool dist_average,                                  // Whether to average distance by the number of valid vector components
     bool progressbar                                    // Whether to print the progress bar
 );
 

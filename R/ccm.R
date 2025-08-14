@@ -1,5 +1,5 @@
-.ccm_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL,
-                   pred = NULL, threads = length(pred), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+.ccm_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL, pred = NULL, 
+                   dist.metric = "L2",dist.average = TRUE,threads = length(pred),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
@@ -17,9 +17,9 @@
   simplex = ifelse(algorithm == "simplex", TRUE, FALSE)
   x_xmap_y = NULL
   if (bidirectional){
-    x_xmap_y = RcppCCM(cause,effect,libsizes,lib,pred,E[1],tau[1],k[1],simplex,theta,threads,pl,progressbar)
+    x_xmap_y = RcppCCM(cause,effect,libsizes,lib,pred,E[1],tau[1],k[1],simplex,theta,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
   }
-  y_xmap_x = RcppCCM(effect,cause,libsizes,lib,pred,E[2],tau[2],k[2],simplex,theta,threads,pl,progressbar)
+  y_xmap_x = RcppCCM(effect,cause,libsizes,lib,pred,E[2],tau[2],k[2],simplex,theta,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
 
   return(.bind_xmapdf(varname,x_xmap_y,y_xmap_x,bidirectional))
 }
@@ -29,6 +29,7 @@
 #' @inheritParams cmc
 #' @param theta (optional) weighting parameter for distances, useful when `algorithm` is `smap`.
 #' @param algorithm (optional) prediction algorithm.
+#' @param dist.average (optional) whether to average distance.
 #'
 #' @return A list
 #' \describe{

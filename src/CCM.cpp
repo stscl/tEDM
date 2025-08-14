@@ -27,6 +27,8 @@
  *   - theta: Distance weighting parameter for local neighbors in the manifold (used in s-mapping).
  *   - threads: The number of threads to use for parallel processing.
  *   - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components.
  *
  * Returns:
  *   A vector of pairs, where each pair consists of:
@@ -43,7 +45,9 @@ std::vector<std::pair<int, double>> CCMSingle(
     bool simplex,
     double theta,
     size_t threads,
-    int parallel_level
+    int parallel_level,
+    int dist_metric,
+    bool dist_average
 ) {
   int max_lib_size = lib_indices.size();
 
@@ -54,9 +58,9 @@ std::vector<std::pair<int, double>> CCMSingle(
     // Run cross map and store results
     double rho = std::numeric_limits<double>::quiet_NaN();
     if (simplex) {
-      rho = SimplexProjection(x_vectors, y, lib_indices, pred_indices, b);
+      rho = SimplexProjection(x_vectors, y, lib_indices, pred_indices, b, dist_metric, dist_average);
     } else {
-      rho = SMap(x_vectors, y, lib_indices, pred_indices, b, theta);
+      rho = SMap(x_vectors, y, lib_indices, pred_indices, b, theta, dist_metric, dist_average);
     }
     x_xmap_y.emplace_back(lib_size, rho);
     return x_xmap_y;
@@ -91,9 +95,9 @@ std::vector<std::pair<int, double>> CCMSingle(
       // Run cross map and store results
       double rho = std::numeric_limits<double>::quiet_NaN();
       if (simplex) {
-        rho = SimplexProjection(x_vectors, y, valid_lib_indices[i], pred_indices, b);
+        rho = SimplexProjection(x_vectors, y, valid_lib_indices[i], pred_indices, b, dist_metric, dist_average);
       } else {
-        rho = SMap(x_vectors, y, valid_lib_indices[i], pred_indices, b, theta);
+        rho = SMap(x_vectors, y, valid_lib_indices[i], pred_indices, b, theta, dist_metric, dist_average);
       }
 
       std::pair<int, double> result(lib_size, rho); // Store the product of row and column library sizes
@@ -125,9 +129,9 @@ std::vector<std::pair<int, double>> CCMSingle(
       // Run cross map and store results
       double rho = std::numeric_limits<double>::quiet_NaN();
       if (simplex) {
-        rho = SimplexProjection(x_vectors, y, local_lib_indices, pred_indices, b);
+        rho = SimplexProjection(x_vectors, y, local_lib_indices, pred_indices, b, dist_metric, dist_average);
       } else {
-        rho = SMap(x_vectors, y, local_lib_indices, pred_indices, b, theta);
+        rho = SMap(x_vectors, y, local_lib_indices, pred_indices, b, theta, dist_metric, dist_average);
       }
       x_xmap_y.emplace_back(lib_size, rho);
     }
@@ -152,6 +156,8 @@ std::vector<std::pair<int, double>> CCMSingle(
  * - theta: Distance weighting parameter used for weighting neighbors in the S-mapping prediction.
  * - threads: Number of threads to use for parallel computation.
  * - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   dist_average   - Whether to average distance by the number of valid vector components.
  * - progressbar: Boolean flag to indicate whether to display a progress bar during computation.
  *
  * Returns:
@@ -168,14 +174,16 @@ std::vector<std::vector<double>> CCM(
     const std::vector<int>& lib_sizes,
     const std::vector<int>& lib,
     const std::vector<int>& pred,
-    int E,
-    int tau,
-    int b,
-    bool simplex,
-    double theta,
-    int threads,
-    int parallel_level,
-    bool progressbar
+    int E = 3,
+    int tau = 1,
+    int b = 4,
+    bool simplex = true,
+    double theta = 1.0,
+    int threads = 8,
+    int parallel_level = 0,
+    int dist_metric = 2,
+    bool dist_average = true,
+    bool progressbar = false
 ) {
   // If b is not provided correctly, default it to E + 1
   if (b <= 0) {
@@ -225,7 +233,9 @@ std::vector<std::vector<double>> CCM(
           simplex,
           theta,
           threads_sizet,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
         bar++;
       }
     } else {
@@ -240,7 +250,9 @@ std::vector<std::vector<double>> CCM(
           simplex,
           theta,
           threads_sizet,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
       }
     }
   } else {
@@ -259,7 +271,9 @@ std::vector<std::vector<double>> CCM(
           simplex,
           theta,
           threads_sizet,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
         bar++;
       }, threads_sizet);
     } else {
@@ -275,7 +289,9 @@ std::vector<std::vector<double>> CCM(
           simplex,
           theta,
           threads_sizet,
-          parallel_level);
+          parallel_level,
+          dist_metric,
+          dist_average);
       }, threads_sizet);
     }
   }

@@ -832,6 +832,8 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
                             double theta = 0,
                             int threads = 8,
                             int parallel_level = 0,
+                            int dist_metric = 2,
+                            bool dist_average = true,
                             bool progressbar = false) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
@@ -879,6 +881,8 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
     theta,
     threads,
     parallel_level,
+    dist_metric,
+    dist_average,
     progressbar);
 
   // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix
@@ -915,6 +919,8 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
                             int threads = 8,
                             int parallel_level = 0,
                             bool cumulate = false,
+                            int dist_metric = 2,
+                            bool dist_average = true,
                             bool progressbar = false) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> x_std = Rcpp::as<std::vector<double>>(x);
@@ -984,6 +990,8 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
     threads,
     parallel_level,
     cumulate,
+    dist_metric,
+    dist_average,
     progressbar);
 
   // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix
@@ -1117,6 +1125,8 @@ Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
                                         int seed = 42,
                                         int threads = 8,
                                         int parallel_level = 0,
+                                        int dist_metric = 2,
+                                        bool dist_average = true,
                                         bool progressbar = false) {
   // Convert Rcpp NumericMatrix to std::vector of std::vectors
   std::vector<std::vector<double>> x_std(x.ncol());
@@ -1145,6 +1155,8 @@ Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
     threads,
     std::abs(seed),
     parallel_level,
+    dist_metric,
+    dist_average,
     progressbar);
 
   // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix

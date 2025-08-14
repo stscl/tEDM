@@ -18,6 +18,8 @@
   algorithm = "simplex",
   lib = NULL,
   pred = NULL,
+  dist.metric = "L2",
+  dist.average = TRUE,
   threads = length(pred),
   parallel.level = "low",
   bidirectional = TRUE,
@@ -49,6 +51,10 @@
 \item{lib}{(optional) libraries indices.}
 
 \item{pred}{(optional) predictions indices.}
+
+\item{dist.metric}{(optional) distance metric (\code{L1}: Manhattan, \code{L2}: Euclidean).}
+
+\item{dist.average}{(optional) whether to average distance.}
 
 \item{threads}{(optional) number of threads to use.}
 

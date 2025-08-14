@@ -1,5 +1,5 @@
-.cmc_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = pmin(E^2), lib = NULL, pred = NULL,
-                   threads = length(pred), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
+.cmc_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 1, k = pmin(E^2), lib = NULL, pred = NULL,
+                   dist.metric = "L2", threads = length(pred), parallel.level = "low", bidirectional = TRUE, progressbar = TRUE){
   varname = .check_character(cause, effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
@@ -16,9 +16,9 @@
 
   x_xmap_y = NULL
   if (bidirectional){
-    x_xmap_y = RcppCMC(cause,effect,libsizes,lib,pred,E,tau,k[1],0,threads,pl,progressbar)
+    x_xmap_y = RcppCMC(cause,effect,libsizes,lib,pred,E,tau,k[1],0,.check_distmetric(dist.metric),threads,pl,progressbar)
   }
-  y_xmap_x = RcppCMC(effect,cause,libsizes,lib,pred,rev(E),rev(tau),k[2],0,threads,pl,progressbar)
+  y_xmap_x = RcppCMC(effect,cause,libsizes,lib,pred,rev(E),rev(tau),k[2],0,.check_distmetric(dist.metric),threads,pl,progressbar)
 
   return(.bind_intersectdf(varname,x_xmap_y,y_xmap_x,bidirectional))
 }
@@ -32,6 +32,7 @@
 #' @param E (optional) embedding dimensions.
 #' @param tau (optional) step of time lags.
 #' @param k (optional) number of nearest neighbors.
+#' @param dist.metric (optional) distance metric (`L1`: Manhattan, `L2`: Euclidean).
 #' @param lib (optional) libraries indices.
 #' @param pred (optional) predictions indices.
 #' @param threads (optional) number of threads to use.

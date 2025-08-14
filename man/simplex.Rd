@@ -15,7 +15,7 @@
   E = 2:10,
   tau = 1,
   k = E + 1,
-  dist.metric = "L2",
+  dist.metric = "L1",
   dist.average = TRUE,
   threads = length(E)
 )
@@ -29,6 +29,8 @@
   E = 2:10,
   tau = 1,
   k = E + 1,
+  dist.metric = "L1",
+  dist.average = TRUE,
   threads = length(E)
 )
 }

@@ -14,7 +14,7 @@
   E = 2:10,
   tau = 1,
   k = E + 2,
-  dist.metric = "L2",
+  dist.metric = "L1",
   threads = length(pred),
   parallel.level = "low"
 )

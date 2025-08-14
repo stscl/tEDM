@@ -27,6 +27,14 @@
   return(pl)
 }
 
+.check_distmetric = \(dist.metric){
+  dm = 2
+  if (dist.metric != "L2"){
+    dm = 1
+  }
+  return(dm)
+}
+
 .internal_varname = \(conds = NULL){
   .varname = c("cause","effect")
   return(.varname)

@@ -469,7 +469,9 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
                                    const Rcpp::IntegerVector& pred,
                                    const Rcpp::IntegerVector& E,
                                    const Rcpp::IntegerVector& b,
-                                   int tau = 0,
+                                   int tau = 1,
+                                   int dist_metric = 2,
+                                   bool dist_average = true,
                                    int threads = 8) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
@@ -517,6 +519,8 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
     E_std,
     b_std,
     tau,
+    dist_metric,
+    dist_average,
     threads);
 
   size_t n_rows = res_std.size();
@@ -545,8 +549,10 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
                                 const Rcpp::IntegerVector& pred,
                                 const Rcpp::NumericVector& theta,
                                 int E = 3,
-                                int tau = 0,
+                                int tau = 1,
                                 int b = 4,
+                                int dist_metric = 2,
+                                bool dist_average = true,
                                 int threads = 8) {
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
@@ -591,6 +597,8 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
     E,
     tau,
     b,
+    dist_metric,
+    dist_average,
     threads);
 
   size_t n_rows = res_std.size();
@@ -619,7 +627,9 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
                                         const Rcpp::IntegerVector& pred,
                                         const Rcpp::IntegerVector& E,
                                         const Rcpp::IntegerVector& b,
-                                        int tau = 0,
+                                        int tau = 1,
+                                        int dist_metric = 2,
+                                        bool dist_average = true,
                                         int threads = 8) {
   // Convert Rcpp NumericMatrix to std::vector of std::vectors
   std::vector<std::vector<double>> source_std(source.ncol());
@@ -689,6 +699,8 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
     E_std,
     b_std,
     tau,
+    dist_metric,
+    dist_average,
     threads);
 
   size_t n_rows = res_std.size();
@@ -717,7 +729,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
                               const Rcpp::IntegerVector& pred,
                               const Rcpp::IntegerVector& E,
                               const Rcpp::IntegerVector& b,
-                              int tau = 0,
+                              int tau = 1,
                               int exclude = 0,
                               int threads = 8,
                               int parallel_level = 0) {

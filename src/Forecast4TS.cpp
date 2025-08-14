@@ -23,8 +23,10 @@
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - E: A vector of embedding dimensions to evaluate.
  *   - b: A vector of nearest neighbor values to evaluate.
- *   - tau: The time lag step for constructing lagged state-space vectors.
- *   - threads: Number of threads used from the global pool.
+ *   - tau: The time lag step for constructing lagged state-space vectors. Default is 1.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
+ *   - threads: Number of threads used from the global pool. Default is 8.
  *
  * Returns:
  *   A 2D vector where each row contains [E, b, rho, mae, rmse] for a given combination of E and b.
@@ -35,8 +37,10 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<int>& pred_indices,
                                             const std::vector<int>& E,
                                             const std::vector<int>& b,
-                                            int tau,
-                                            int threads) {
+                                            int tau = 1,
+                                            int dist_metric = 2,
+                                            bool dist_average = true,
+                                            int threads = 8) {
   // Configure threads
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
@@ -63,7 +67,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
     const int bi = unique_Ebcom[i].second;
 
     auto embeddings = Embed(source, Ei, tau);
-    auto metrics = SimplexBehavior(embeddings, target, lib_indices, pred_indices, bi);
+    auto metrics = SimplexBehavior(embeddings, target, lib_indices, pred_indices, bi, dist_metric, dist_average);
 
     result[i][0] = Ei;
     result[i][1] = bi;
@@ -84,10 +88,12 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
  *   - lib_indices: A vector of indices indicating the library (training) set.
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - theta: A vector of weighting parameters for distance calculation in SMap.
- *   - E: The embedding dimension to evaluate.
- *   - tau: The time lag step for constructing lagged state-space vectors.
- *   - b: Number of nearest neighbors to use for prediction.
- *   - threads: Number of threads used from the global pool.
+ *   - E: The embedding dimension to evaluate. Default is 3.
+ *   - tau: The time lag step for constructing lagged state-space vectors. Default is 1.
+ *   - b: Number of nearest neighbors to use for prediction. Default is 4.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
+ *   - threads: Number of threads used from the global pool. Default is 8.
  *
  * Returns:
  *   A 2D vector where each row contains [theta, rho, mae, rmse] for a given theta value.
@@ -97,10 +103,12 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
                                          const std::vector<int>& lib_indices,
                                          const std::vector<int>& pred_indices,
                                          const std::vector<double>& theta,
-                                         int E,
-                                         int tau,
-                                         int b,
-                                         int threads){
+                                         int E = 3,
+                                         int tau = 1,
+                                         int b = 4,
+                                         int dist_metric = 2,
+                                         bool dist_average = true,
+                                         int threads = 8){
   // Configure threads
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
@@ -110,7 +118,7 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
   std::vector<std::vector<double>> result(theta.size(), std::vector<double>(4));
 
   RcppThread::parallelFor(0, theta.size(), [&](size_t i) {
-    auto metrics = SMapBehavior(embeddings, target, lib_indices, pred_indices, b, theta[i]);
+    auto metrics = SMapBehavior(embeddings, target, lib_indices, pred_indices, b, theta[i], dist_metric, dist_average);
 
     result[i][0] = theta[i];   // theta
     result[i][1] = metrics[0]; // rho
@@ -134,8 +142,10 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
  * @param pred_indices   Indices of time series used as prediction sets (1-based).
  * @param E              Vector of embedding dimensions to evaluate.
  * @param b              Vector of number of nearest neighbors to evaluate.
- * @param tau            Time delay between embedding dimensions.
- * @param threads        Number of threads for parallel computation.
+ * @param tau            Time delay between embedding dimensions. Default is 1.
+ * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
+ * @param dist_average   Whether to average distance by the number of valid vector components. Default is true.
+ * @param threads        Number of threads for parallel computation. Default is 8.
  *
  * @return A vector of vectors where each sub-vector contains:
  *         [E, b, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
@@ -147,8 +157,10 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
                                                  const std::vector<int>& pred_indices,
                                                  const std::vector<int>& E,
                                                  const std::vector<int>& b,
-                                                 int tau,
-                                                 int threads) {
+                                                 int tau = 1,
+                                                 int dist_metric = 2,
+                                                 bool dist_average = true,
+                                                 int threads = 8) {
   // Sort and deduplicate lib and pred
   std::vector<int> lib;
   lib.reserve(lib_indices.size());
@@ -222,7 +234,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
     double mae = std::numeric_limits<double>::quiet_NaN();
     double rmse = std::numeric_limits<double>::quiet_NaN();
 
-    std::vector<double> target_pred = SimplexProjectionPrediction(all_vectors, all_targets, com_lib, com_pred, bi);
+    std::vector<double> target_pred = SimplexProjectionPrediction(all_vectors, all_targets, com_lib, com_pred, bi, dist_metric, dist_average);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3) {
       pearson = PearsonCor(target_pred, all_targets, true);
@@ -262,6 +274,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
  * @param b              Vector of neighbor sizes to try.
  * @param tau            Embedding delay (usually 1 for lattice).
  * @param exclude        Number of nearest neighbors to exclude (e.g., temporal or spatial proximity).
+ * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads        Number of threads for parallel computation.
  * @param parallel_level Flag indicating whether to use multi-threading (0: serial, 1: parallel).
  *
@@ -280,10 +293,11 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
                                        const std::vector<size_t>& pred_indices,
                                        const std::vector<int>& E,
                                        const std::vector<int>& b,
-                                       int tau,
-                                       int exclude,
-                                       int threads,
-                                       int parallel_level) {
+                                       int tau = 1,
+                                       int exclude = 0,
+                                       int dist_metric = 2,
+                                       int threads = 8,
+                                       int parallel_level = 0) {
   // Configure threads
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
@@ -328,13 +342,16 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         if (!x_nan && !y_nan) valid_pred.push_back(idx);
       }
 
+      // Use L1 norm (Manhattan distance) if dist_metric == 1, else use L2 norm
+      bool L1norm = (dist_metric == 1);
+
       // // Precompute neighbors (The earlier implementation based on a serial version)
-      // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
-      // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
+      // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, L1norm, true),lib_indices,max_num_neighbors);
+      // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, L1norm, true),lib_indices,max_num_neighbors);
 
       // Precompute neighbors (parallel computation)
-      auto nx = CppMatKNNeighbors(embedding_x, lib_indices, max_num_neighbors, threads_sizet);
-      auto ny = CppMatKNNeighbors(embedding_y, lib_indices, max_num_neighbors, threads_sizet);
+      auto nx = CppMatKNNeighbors(embedding_x, lib_indices, max_num_neighbors, threads_sizet, L1norm);
+      auto ny = CppMatKNNeighbors(embedding_y, lib_indices, max_num_neighbors, threads_sizet, L1norm);
 
       // Parameter initialization
       const size_t n_excluded_sizet = static_cast<size_t>(exclude);
@@ -374,13 +391,16 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         if (!x_nan && !y_nan) valid_pred.push_back(idx);
       }
 
+      // Use L1 norm (Manhattan distance) if dist_metric == 1, else use L2 norm
+      bool L1norm = (dist_metric == 1);
+
       // // Precompute neighbors (The earlier implementation based on a serial version)
-      // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, false, true),lib_indices,max_num_neighbors);
-      // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, false, true),lib_indices,max_num_neighbors);
+      // auto nx = CppDistSortedIndice(CppMatDistance(embedding_x, L1norm, true),lib_indices,max_num_neighbors);
+      // auto ny = CppDistSortedIndice(CppMatDistance(embedding_y, L1norm, true),lib_indices,max_num_neighbors);
 
       // Precompute neighbors (parallel computation)
-      auto nx = CppMatKNNeighbors(embedding_x, lib_indices, max_num_neighbors, threads_sizet);
-      auto ny = CppMatKNNeighbors(embedding_y, lib_indices, max_num_neighbors, threads_sizet);
+      auto nx = CppMatKNNeighbors(embedding_x, lib_indices, max_num_neighbors, threads_sizet, L1norm);
+      auto ny = CppMatKNNeighbors(embedding_y, lib_indices, max_num_neighbors, threads_sizet, L1norm);
 
       // Parameter initialization
       const size_t n_excluded_sizet = static_cast<size_t>(exclude);

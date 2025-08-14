@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include "CppStats.h"
 #include "CppDistances.h"
-#include "spEDMDataStruct.h"
+#include "tEDMDataStruct.h"
 #include <RcppThread.h>
 
 // [[Rcpp::depends(RcppThread)]]

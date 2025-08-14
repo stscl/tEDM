@@ -46,7 +46,7 @@ std::vector<double> PartialSimplex4TS(
     bool cumulate = false,
     int dist_metric = 2,
     bool dist_average = true
-){
+) {
   int n_controls = controls.size();
   std::vector<double> rho(2, std::numeric_limits<double>::quiet_NaN());
 
@@ -131,7 +131,7 @@ std::vector<double> PartialSMap4TS(
     bool cumulate = false,
     int dist_metric = 2,
     bool dist_average = true
-){
+) {
   int n_controls = controls.size();
   std::vector<double> rho(2, std::numeric_limits<double>::quiet_NaN());
 

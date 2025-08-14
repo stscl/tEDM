@@ -15,7 +15,7 @@
   k = pmin(E^2),
   lib = NULL,
   pred = NULL,
-  dist.metric = "L2",
+  dist.metric = "L1",
   threads = length(pred),
   parallel.level = "low",
   bidirectional = TRUE,

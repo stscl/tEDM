@@ -15,7 +15,7 @@
   k = E + 1,
   boot = 99,
   seed = 42,
-  dist.metric = "L2",
+  dist.metric = "L1",
   dist.average = TRUE,
   threads = length(libsizes),
   parallel.level = "low",

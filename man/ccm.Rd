@@ -17,7 +17,7 @@
   algorithm = "simplex",
   lib = NULL,
   pred = NULL,
-  dist.metric = "L2",
+  dist.metric = "L1",
   dist.average = TRUE,
   threads = length(pred),
   parallel.level = "low",
@@ -73,7 +73,7 @@ convergent cross mapping
 }
 \examples{
 sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
-ccm(sim,"x","y",libsizes = seq(5,45,5),E = 9,k = 7,threads = 1)
+ccm(sim,"x","y",libsizes = seq(5,45,5),E = 10,k = 7,threads = 1)
 
 }
 \references{

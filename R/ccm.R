@@ -1,5 +1,5 @@
 .ccm_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL, pred = NULL, 
-                   dist.metric = "L2",dist.average = TRUE,threads = length(pred),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
+                   dist.metric = "L1",dist.average = TRUE,threads = length(pred),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
   tau = .check_inputelementnum(tau,2)
@@ -45,6 +45,6 @@
 #'
 #' @examples
 #' sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
-#' ccm(sim,"x","y",libsizes = seq(5,45,5),E = 9,k = 7,threads = 1)
+#' ccm(sim,"x","y",libsizes = seq(5,45,5),E = 10,k = 7,threads = 1)
 #'
 methods::setMethod("ccm", "data.frame", .ccm_ts_method)

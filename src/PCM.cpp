@@ -27,6 +27,8 @@
  * @param taus: Vector specifying the time lag step for constructing lagged state-space vectors with control variables.
  * @param num_neighbors: Vector specifying the numbers of neighbors to use for simplex projection.
  * @param cumulate: Flag indicating whether to cumulatively incorporate control variables.
+ * @param dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * @param dist_average: Whether to average distance by the number of valid vector components.
  *
  * @return A std::vector<double> containing:
  *         - rho[0]: Pearson correlation between the target and its simplex projection.
@@ -41,7 +43,9 @@ std::vector<double> PartialSimplex4TS(
     const std::vector<int>& conEs,
     const std::vector<int>& taus,
     const std::vector<int>& num_neighbors,
-    bool cumulate
+    bool cumulate = false,
+    int dist_metric = 2,
+    bool dist_average = true
 ){
   int n_controls = controls.size();
   std::vector<double> rho(2, std::numeric_limits<double>::quiet_NaN());
@@ -53,15 +57,15 @@ std::vector<double> PartialSimplex4TS(
 
     for (int i = 0; i < n_controls; ++i) {
       if (i == 0){
-        temp_pred = SimplexProjectionPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0]);
+        temp_pred = SimplexProjectionPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], dist_metric, dist_average);
       } else {
-        temp_pred = SimplexProjectionPrediction(temp_embedding, controls[i], lib_indices, pred_indices, num_neighbors[i]);
+        temp_pred = SimplexProjectionPrediction(temp_embedding, controls[i], lib_indices, pred_indices, num_neighbors[i], dist_metric, dist_average);
       }
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
     }
 
-    std::vector<double> con_pred = SimplexProjectionPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[n_controls]);
-    std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0]);
+    std::vector<double> con_pred = SimplexProjectionPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[n_controls], dist_metric, dist_average);
+    std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], dist_metric, dist_average);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3){
       rho[0] = PearsonCor(target,target_pred,true);
@@ -74,12 +78,12 @@ std::vector<double> PartialSimplex4TS(
     std::vector<std::vector<double>> temp_embedding;
 
     for (int i = 0; i < n_controls; ++i) {
-      temp_pred = SimplexProjectionPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0]);
+      temp_pred = SimplexProjectionPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], dist_metric, dist_average);
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
-      temp_pred = SimplexProjectionPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[i+1]);
+      temp_pred = SimplexProjectionPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[i+1], dist_metric, dist_average);
       con_pred[i] = temp_pred;
     }
-    std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0]);
+    std::vector<double> target_pred = SimplexProjectionPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], dist_metric, dist_average);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3){
       rho[0] = PearsonCor(target,target_pred,true);
@@ -108,6 +112,8 @@ std::vector<double> PartialSimplex4TS(
  * @param num_neighbors: Vector specifying the numbers of neighbors to use for S-Map prediction.
  * @param theta: Weighting parameter for distances in S-Map.
  * @param cumulate: Boolean flag to determine whether to cumulate the partial correlations.
+ * @param dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * @param dist_average: Whether to average distance by the number of valid vector components.
  * @return A vector of size 2 containing:
  *         - rho[0]: Pearson correlation between the target and its predicted values.
  *         - rho[1]: Partial correlation between the target and its predicted values, adjusting for control variables.
@@ -121,8 +127,10 @@ std::vector<double> PartialSMap4TS(
     const std::vector<int>& conEs,
     const std::vector<int>& taus,
     const std::vector<int>& num_neighbors,
-    double theta,
-    bool cumulate
+    double theta = 1.0,
+    bool cumulate = false,
+    int dist_metric = 2,
+    bool dist_average = true
 ){
   int n_controls = controls.size();
   std::vector<double> rho(2, std::numeric_limits<double>::quiet_NaN());
@@ -134,15 +142,15 @@ std::vector<double> PartialSMap4TS(
 
     for (int i = 0; i < n_controls; ++i) {
       if (i == 0){
-        temp_pred = SMapPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], theta);
+        temp_pred = SMapPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], theta, dist_metric, dist_average);
       } else {
-        temp_pred = SMapPrediction(temp_embedding, controls[i], lib_indices, pred_indices, num_neighbors[i], theta);
+        temp_pred = SMapPrediction(temp_embedding, controls[i], lib_indices, pred_indices, num_neighbors[i], theta, dist_metric, dist_average);
       }
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
     }
 
-    std::vector<double> con_pred = SMapPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[n_controls], theta);
-    std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], theta);
+    std::vector<double> con_pred = SMapPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[n_controls], theta, dist_metric, dist_average);
+    std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], theta, dist_metric, dist_average);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3){
       rho[0] = PearsonCor(target,target_pred,true);
@@ -155,12 +163,12 @@ std::vector<double> PartialSMap4TS(
     std::vector<std::vector<double>> temp_embedding;
 
     for (int i = 0; i < n_controls; ++i) {
-      temp_pred = SMapPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], theta);
+      temp_pred = SMapPrediction(vectors, controls[i], lib_indices, pred_indices, num_neighbors[0], theta, dist_metric, dist_average);
       temp_embedding = Embed(temp_pred,conEs[i],taus[i]);
-      temp_pred = SMapPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[i+1], theta);
+      temp_pred = SMapPrediction(temp_embedding, target, lib_indices, pred_indices, num_neighbors[i+1], theta, dist_metric, dist_average);
       con_pred[i] = temp_pred;
     }
-    std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], theta);
+    std::vector<double> target_pred = SMapPrediction(vectors, target, lib_indices, pred_indices, num_neighbors[0], theta, dist_metric, dist_average);
 
     if (checkOneDimVectorNotNanNum(target_pred) >= 3){
       rho[0] = PearsonCor(target,target_pred,true);

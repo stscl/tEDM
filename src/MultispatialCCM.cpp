@@ -26,6 +26,8 @@
  *   seed           - Random seed for reproducibility.
  *   boot           - Number of bootstrap replicates.
  *   parallel_level - If 0, run in parallel using RcppThread. Otherwise, run sequentially.
+ *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean).
+ *   dist_average   - Whether to average distance by the number of valid vector components.
  *
  * Returns:
  *   A vector of length 5:
@@ -45,7 +47,9 @@ std::vector<double> SimplexPredictionBoot(
     int boot,
     size_t threads,
     unsigned int seed = 42,
-    int parallel_level = 0
+    int parallel_level = 0,
+    int dist_metric = 2,
+    bool dist_average = true
 ) {
   int n_plot = source.size();
   std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());
@@ -92,7 +96,8 @@ std::vector<double> SimplexPredictionBoot(
     std::iota(all_indices.begin(), all_indices.end(), 0);
 
     auto pred = SimplexProjectionPrediction(library_vectors, library_targets,
-                                            all_indices, all_indices, num_neighbors);
+                                            all_indices, all_indices, num_neighbors,
+                                            dist_metric, dist_average);
 
     rho_list[b] = PearsonCor(library_targets, pred, true);
   };

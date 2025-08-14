@@ -28,6 +28,7 @@
  * @param pred Indices of prediction points (0-based).
  * @param num_neighbors Number of neighbors used in cross mapping.
  * @param n_excluded Number of temporally excluded neighbors (Theiler window).
+ * @param dist_metric Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads Number of threads for parallel processing.
  * @param parallel_level Level of parallelism to control nested parallel execution.
  * @param progressbar Boolean flag to show or hide a progress bar.
@@ -44,6 +45,7 @@ CMCRes CMC(
     const std::vector<size_t>& pred,
     size_t num_neighbors = 4,
     size_t n_excluded = 0,
+    int dist_metric = 2,
     int threads = 8,
     int parallel_level = 0,
     bool progressbar = true);

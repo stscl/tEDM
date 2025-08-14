@@ -25,8 +25,8 @@ RcppMVE4TS <- function(x, y, lib, pred, E, tau, b, top, nvar, threads) {
     .Call(`_tEDM_RcppMVE4TS`, x, y, lib, pred, E, tau, b, top, nvar, threads)
 }
 
-RcppFNN4TS <- function(vec, rt, eps, lib, pred, E, tau = 0L, threads = 8L, parallel_level = 0L) {
-    .Call(`_tEDM_RcppFNN4TS`, vec, rt, eps, lib, pred, E, tau, threads, parallel_level)
+RcppFNN4TS <- function(vec, rt, eps, lib, pred, E, tau = 1L, dist_metric = 2L, threads = 8L, parallel_level = 0L) {
+    .Call(`_tEDM_RcppFNN4TS`, vec, rt, eps, lib, pred, E, tau, dist_metric, threads, parallel_level)
 }
 
 RcppSimplex4TS <- function(source, target, lib, pred, E, b, tau = 1L, dist_metric = 2L, dist_average = TRUE, threads = 8L) {

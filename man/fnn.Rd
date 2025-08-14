@@ -11,7 +11,8 @@
   lib = NULL,
   pred = NULL,
   E = 2:10,
-  tau = 0,
+  tau = 1,
+  dist.metric = "L1",
   rt = 10,
   eps = 2,
   threads = length(E)
@@ -29,6 +30,8 @@
 \item{E}{(optional) embedding dimensions.}
 
 \item{tau}{(optional) step of time lags.}
+
+\item{dist.metric}{(optional) distance metric (\code{L1}: Manhattan, \code{L2}: Euclidean).}
 
 \item{rt}{(optional) escape factor.}
 

@@ -57,8 +57,10 @@
 <span>  lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pred <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,</span>
-<span>  tau <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tau <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  k <span class="op">=</span> <span class="va">E</span> <span class="op">+</span> <span class="fl">1</span>,</span>
+<span>  dist.metric <span class="op">=</span> <span class="st">"L2"</span>,</span>
+<span>  dist.average <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  threads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">E</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
@@ -70,7 +72,7 @@
 <span>  lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pred <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,</span>
-<span>  tau <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  tau <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  k <span class="op">=</span> <span class="va">E</span> <span class="op">+</span> <span class="fl">1</span>,</span>
 <span>  threads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">E</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
@@ -110,6 +112,14 @@
 
 <dt id="arg-k">k<a class="anchor" aria-label="anchor" href="#arg-k"></a></dt>
 <dd><p>(optional) number of nearest neighbors used in prediction.</p></dd>
+
+
+<dt id="arg-dist-metric">dist.metric<a class="anchor" aria-label="anchor" href="#arg-dist-metric"></a></dt>
+<dd><p>(optional) distance metric (<code>L1</code>: Manhattan, <code>L2</code>: Euclidean).</p></dd>
+
+
+<dt id="arg-dist-average">dist.average<a class="anchor" aria-label="anchor" href="#arg-dist-average"></a></dt>
+<dd><p>(optional) whether to average distance.</p></dd>
 
 
 <dt id="arg-threads">threads<a class="anchor" aria-label="anchor" href="#arg-threads"></a></dt>

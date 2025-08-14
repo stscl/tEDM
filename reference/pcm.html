@@ -63,7 +63,7 @@
 <span>  algorithm <span class="op">=</span> <span class="st">"simplex"</span>,</span>
 <span>  lib <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  pred <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  dist.metric <span class="op">=</span> <span class="st">"L2"</span>,</span>
+<span>  dist.metric <span class="op">=</span> <span class="st">"L1"</span>,</span>
 <span>  dist.average <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  threads <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">pred</span><span class="op">)</span>,</span>
 <span>  parallel.level <span class="op">=</span> <span class="st">"low"</span>,</span>
@@ -180,30 +180,30 @@
 <span class="r-in"><span>                   beta_xy <span class="op">=</span> <span class="fl">0.5</span>, beta_xz <span class="op">=</span> <span class="fl">0</span>,</span></span>
 <span class="r-in"><span>                   beta_yx <span class="op">=</span> <span class="fl">0</span>, beta_yz <span class="op">=</span> <span class="fl">0.5</span>,</span></span>
 <span class="r-in"><span>                   beta_zx <span class="op">=</span> <span class="fl">0</span>, beta_zy <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">pcm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"z"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">45</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">9</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">pcm</span><span class="op">(</span><span class="va">sim</span>,<span class="st">"x"</span>,<span class="st">"z"</span>,<span class="st">"y"</span>,libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">45</span>,<span class="fl">5</span><span class="op">)</span>,E <span class="op">=</span> <span class="fl">10</span>,k <span class="op">=</span> <span class="fl">7</span>,threads <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Computing: [========================================] 100% (done)                         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------- </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ***partial cross mapping prediction*** </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -------------------------------------- </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes      x-&gt;z       z-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.4031409 0.15436158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.2924073 0.06431117</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.2315126 0.06146024</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.2258133 0.11499257</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.2212198 0.14445706</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       29 0.1187136 0.19047712</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes        x-&gt;z       z-&gt;x</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.410387689 0.11654973</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.316685463 0.04464733</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.256396689 0.02586971</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.250855810 0.07990501</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.250303599 0.09410492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       27 0.007456209 0.15394446</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------ </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ***cross mapping prediction*** </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ------------------------------ </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   libsizes      x-&gt;z      z-&gt;x</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.7951207 0.6217198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.8682935 0.6404764</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.8797832 0.6379368</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.8796930 0.6421839</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.8758969 0.6457823</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6       29 0.9266489 0.6514443</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1        5 0.8104853 0.6090928</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2       10 0.8695076 0.6226428</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3       15 0.8802282 0.6245086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4       20 0.8808134 0.6285323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5       25 0.8801786 0.6288845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6       27 0.9314565 0.6174386</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

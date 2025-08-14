@@ -1,7 +1,7 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2025-08-01
+  | Last update: 2025-08-15
   | Last run: `r Sys.Date()`
 output: rmarkdown::html_vignette
 vignette: >
@@ -344,7 +344,7 @@ fig_case2 = ggplot2::ggplot(res_carbon,
   ggplot2::scale_y_continuous(name = "Causal Strength",
                               expand = c(0,0),
                               limits = c(0,0.3),
-                              breaks = seq(0,0.3,by = 0.1)) +
+                              breaks = seq(0,0.3,by = 0.05)) +
   ggplot2::theme(legend.position = "none")
 fig_case2
 ```
@@ -377,13 +377,13 @@ tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo)/10)
 Since the FNN ratio begins to approach zero when E equals 4, embedding dimensions from 4 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
 
 ```{r covid_simplex}
-tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60,tau = 0)
+tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60)
 ```
 
 ```{r covid_ccm}
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 5,tau = 0,progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 7,progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })

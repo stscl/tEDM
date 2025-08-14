@@ -6,7 +6,7 @@
   vy = .uni_ts(data,target)
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))
   if (is.null(pred)) pred = lib
-  res = RcppSMap4TS(vx,vy,lib,pred,theta,E,tau,k,threads)
+  res = RcppSMap4TS(vx,vy,lib,pred,theta,E,tau,k,.check_distmetric(dist.metric),dist.average,threads)
   return(.bind_xmapself(res,target,"smap"))
 }
 

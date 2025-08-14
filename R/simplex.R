@@ -1,10 +1,10 @@
-.simplex_ts_method = \(data, column, target, lib = NULL, pred = NULL,
-                       E = 2:10, tau = 0, k = E+1, threads = length(E)){
+.simplex_ts_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1, 
+                       k = E+1,dist.metric = "L2",dist.average = TRUE,threads = length(E)){
   vx = .uni_ts(data,column)
   vy = .uni_ts(data,target)
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))
   if (is.null(pred)) pred = lib
-  res = RcppSimplex4TS(vx,vy,lib,pred,E,k,tau,threads)
+  res = RcppSimplex4TS(vx,vy,lib,pred,E,k,tau,.check_distmetric(dist.metric),dist.average,threads)
   return(.bind_xmapself(res,target,"simplex",tau))
 }
 
@@ -14,7 +14,7 @@
   my = as.matrix(data[[target]])
   if (is.null(lib)) lib = seq_len(ncol(my))
   if (is.null(pred)) pred = lib
-  res = RcppMultiSimplex4TS(mx,my,lib,pred,E,k,tau,threads)
+  res = RcppMultiSimplex4TS(mx,my,lib,pred,E,k,tau,.check_distmetric(dist.metric),dist.average,threads)
   return(.bind_xmapself(res,target,"simplex",tau))
 }
 
@@ -25,6 +25,8 @@
 #' @param lib (optional) libraries indices.
 #' @param pred (optional) predictions indices.
 #' @param k (optional) number of nearest neighbors used in prediction.
+#' @param dist.metric (optional) distance metric (`L1`: Manhattan, `L2`: Euclidean).
+#' @param dist.average (optional) whether to average distance.
 #' @param threads (optional) number of threads to use.
 #'
 #' @return A list

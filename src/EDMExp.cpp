@@ -293,12 +293,14 @@ Rcpp::NumericVector RcppMVE4TS(const Rcpp::NumericMatrix& x,
                                const Rcpp::NumericVector& y,
                                const Rcpp::IntegerVector& lib,
                                const Rcpp::IntegerVector& pred,
-                               int E,
-                               int tau,
-                               int b,
-                               int top,
-                               int nvar,
-                               int threads){
+                               int E = 3,
+                               int tau = 1,
+                               int b = 4,
+                               int top = 3,
+                               int nvar = 3,
+                               int dist_metric = 2,
+                               int dist_average = true,
+                               int threads = 8){
   // Convert Rcpp::NumericVector to std::vector<double>
   std::vector<double> target = Rcpp::as<std::vector<double>>(y);
 
@@ -397,6 +399,8 @@ Rcpp::NumericVector RcppMVE4TS(const Rcpp::NumericMatrix& x,
     pred_indices,
     b,
     k,
+    dist_metric,
+    dist_average,
     threads);
 
   // Convert the result back to Rcpp::NumericVector

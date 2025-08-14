@@ -1,5 +1,9 @@
 # tEDM 1.1
 
+### new
+
+* Introduce configurable distance metrics for cross mapping (#120).
+
 ### enhancements
 
 * Safeguard transient removal logic in logistic map to prevent index errors (#96).

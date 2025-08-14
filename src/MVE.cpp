@@ -19,6 +19,8 @@
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - num_neighbors: Number of neighbors used for simplex projection.
  *   - top_num: Number of top-performing reconstructions to select.
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). 
+ *   - dist_average: Whether to average distance by the number of valid vector components.
  *   - threads: Number of threads used from the global pool.
  *
  * Returns:
@@ -29,9 +31,11 @@ std::vector<double> MVE(
     const std::vector<double>& target,
     const std::vector<int>& lib_indices,
     const std::vector<int>& pred_indices,
-    int num_neighbors,
-    int top_num,
-    int threads
+    int num_neighbors = 4,
+    int top_num = 3,
+    int dist_metric = 2,
+    int dist_average = true,
+    int threads = 8
 ) {
   // Configure threads
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
@@ -72,7 +76,7 @@ std::vector<double> MVE(
   //   }
   //
   //   // Get performance metrics for this subset
-  //   auto metrics = SimplexBehavior(subset, target, lib_indices, pred_indices, num_neighbors);
+  //   auto metrics = SimplexBehavior(subset, target, lib_indices, pred_indices, num_neighbors, dist_metric, dist_average);
   //   // if (metrics.size() != 3) continue;  // Skip invalid results
   //   pred_metrics.push_back(metrics);
   // }
@@ -141,7 +145,7 @@ std::vector<double> MVE(
       selected_embeddings[row][col] = vectors[row][selected[col]];
     }
   }
-  std::vector<double> result = SimplexProjectionPrediction(selected_embeddings, target, lib_indices, pred_indices, num_neighbors);
+  std::vector<double> result = SimplexProjectionPrediction(selected_embeddings, target, lib_indices, pred_indices, num_neighbors, dist_metric, dist_average);
 
   return result;
 }

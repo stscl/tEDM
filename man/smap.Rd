@@ -12,7 +12,7 @@
   lib = NULL,
   pred = NULL,
   E = 3,
-  tau = 0,
+  tau = 1,
   k = E + 1,
   dist.metric = "L2",
   dist.average = TRUE,

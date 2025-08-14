@@ -9,7 +9,7 @@
 }
 
 .simplex_tss_method = \(data, column, target, lib = NULL, pred = NULL,
-                        E = 2:10, tau = 0, k = E+1, threads = length(E)){
+                        E = 2:10, tau = 1, k = E+1, threads = length(E)){
   mx = as.matrix(data[[column]])
   my = as.matrix(data[[target]])
   if (is.null(lib)) lib = seq_len(ncol(my))

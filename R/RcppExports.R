@@ -33,15 +33,15 @@ RcppSimplex4TS <- function(source, target, lib, pred, E, b, tau = 1L, dist_metri
     .Call(`_tEDM_RcppSimplex4TS`, source, target, lib, pred, E, b, tau, dist_metric, dist_average, threads)
 }
 
-RcppSMap4TS <- function(source, target, lib, pred, theta, E = 3L, tau = 0L, b = 4L, dist_metric = 2L, dist_average = TRUE, threads = 8L) {
+RcppSMap4TS <- function(source, target, lib, pred, theta, E = 3L, tau = 1L, b = 4L, dist_metric = 2L, dist_average = TRUE, threads = 8L) {
     .Call(`_tEDM_RcppSMap4TS`, source, target, lib, pred, theta, E, tau, b, dist_metric, dist_average, threads)
 }
 
-RcppMultiSimplex4TS <- function(source, target, lib, pred, E, b, tau = 0L, dist_metric = 2L, dist_average = TRUE, threads = 8L) {
+RcppMultiSimplex4TS <- function(source, target, lib, pred, E, b, tau = 1L, dist_metric = 2L, dist_average = TRUE, threads = 8L) {
     .Call(`_tEDM_RcppMultiSimplex4TS`, source, target, lib, pred, E, b, tau, dist_metric, dist_average, threads)
 }
 
-RcppIC4TS <- function(source, target, lib, pred, E, b, tau = 0L, exclude = 0L, threads = 8L, parallel_level = 0L) {
+RcppIC4TS <- function(source, target, lib, pred, E, b, tau = 1L, exclude = 0L, threads = 8L, parallel_level = 0L) {
     .Call(`_tEDM_RcppIC4TS`, source, target, lib, pred, E, b, tau, exclude, threads, parallel_level)
 }
 

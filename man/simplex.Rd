@@ -27,7 +27,7 @@
   lib = NULL,
   pred = NULL,
   E = 2:10,
-  tau = 0,
+  tau = 1,
   k = E + 1,
   threads = length(E)
 )

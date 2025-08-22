@@ -49,8 +49,8 @@ The package implements four fundamental EDM-based methods:
   reconstructing causal dynamics from replicated time series across
   multiple spatial locations.
 
-*Refer to the package documentation <https://stscl.github.io/tEDM/> for
-more detailed information.*
+> *Refer to the package documentation <https://stscl.github.io/tEDM/>
+> for more detailed information.*
 
 ## Installation
 

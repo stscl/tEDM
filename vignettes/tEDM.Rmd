@@ -1,8 +1,8 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2025-08-15
-  | Last run: 2025-08-15
+  | Last update: 2025-08-25
+  | Last run: 2025-08-25
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}
@@ -113,7 +113,7 @@ library(tEDM)
 
 cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
 ## Rows: 1032 Columns: 5
-## ── Column specification ─────────────────────────────────────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (5): cvd, rsp, no2, so2, o3
 ## 
@@ -156,20 +156,20 @@ Determining optimal embedding dimension:
 
 ``` r
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
-##       E:1       E:2       E:3       E:4       E:5       E:6       E:7 
-## 0.8275862 0.4882729 0.3026188 0.2880698 0.2133851 0.2065955 0.1920466 
-##       E:8       E:9      E:10      E:11      E:12      E:13      E:14 
-## 0.1871969 0.1842871 0.1862270 0.1794374 0.1823472 0.1765276 0.1687682 
-##      E:15      E:16      E:17      E:18      E:19      E:20      E:21 
-## 0.1619787 0.1619787 0.1503395 0.1483996 0.1629486 0.1513094 0.1542192 
-##      E:22      E:23      E:24      E:25      E:26      E:27      E:28 
-## 0.1658584 0.1610087 0.1610087 0.1619787 0.1833172 0.1610087 0.1697381 
-##      E:29      E:30      E:31      E:32      E:33      E:34      E:35 
-## 0.1668283 0.1755577 0.1668283 0.1755577 0.1648885 0.1668283 0.1668283 
-##      E:36      E:37      E:38      E:39      E:40      E:41      E:42 
-## 0.1580989 0.1464597 0.1571290 0.1590689 0.1639185 0.1580989 0.1580989 
-##      E:43      E:44      E:45      E:46      E:47      E:48      E:49 
-## 0.1590689 0.1610087 0.1542192 0.1590689 0.1707081 0.1736178 0.1677983
+##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 
+## 0.8275862 0.4882729 0.3026188 0.2880698 0.2133851 0.2065955 0.1920466 0.1871969 
+##       E:9      E:10      E:11      E:12      E:13      E:14      E:15      E:16 
+## 0.1842871 0.1862270 0.1794374 0.1823472 0.1765276 0.1687682 0.1619787 0.1619787 
+##      E:17      E:18      E:19      E:20      E:21      E:22      E:23      E:24 
+## 0.1503395 0.1483996 0.1629486 0.1513094 0.1542192 0.1658584 0.1610087 0.1610087 
+##      E:25      E:26      E:27      E:28      E:29      E:30      E:31      E:32 
+## 0.1619787 0.1833172 0.1610087 0.1697381 0.1668283 0.1755577 0.1668283 0.1755577 
+##      E:33      E:34      E:35      E:36      E:37      E:38      E:39      E:40 
+## 0.1648885 0.1668283 0.1668283 0.1580989 0.1464597 0.1571290 0.1590689 0.1639185 
+##      E:41      E:42      E:43      E:44      E:45      E:46      E:47      E:48 
+## 0.1580989 0.1580989 0.1590689 0.1610087 0.1542192 0.1590689 0.1707081 0.1736178 
+##      E:49 
+## 0.1677983
 ```
 
 Starting at $E = 11$, the FNN ratio stabilizes near 0.18; thus, embedding dimension E and neighbor number k are chosen from 11 onward for subsequent self-prediction parameter selection.
@@ -262,17 +262,17 @@ fig_cvd_no2 = plot(res[["cvd_no2"]], partial = FALSE,
                    ybreaks = seq(0,0.35,by = 0.05),
                    legend_texts = c("CVD xmap NO2, P = 0",
                                     "NO2 xmap CVD, P = 0"))
-fig_cvd_no2_p = plot(res[["cvd_no2"]], xlimits = c(0,1030), 
+fig_cvd_no2_p = plot(res[["cvd_no2"]], xlimits = c(0,1030),
                      ylimits = c(0,0.35), ybreaks = seq(0,0.35,by = 0.05),
                      legend_texts = c("CVD xmap NO2 | RSP & SO2 & O3, P = 0",
                                       "NO2 xmap CVD | RSP & SO2 & O3, P = 0"))
 
 fig_cvd_so2 = plot(res[["cvd_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0,0.25), 
+                   xlimits = c(0,1030), ylimits = c(0,0.25),
                    ybreaks = seq(0,0.25,by = 0.05),
                    legend_texts = c("CVD xmap SO2, P = 0",
                                     "SO2 xmap CVD, P = 0"))
-fig_cvd_so2_p = plot(res[["cvd_so2"]], xlimits = c(0,1030), 
+fig_cvd_so2_p = plot(res[["cvd_so2"]], xlimits = c(0,1030),
                      ylimits = c(0,0.25), ybreaks = seq(0,0.25,by = 0.05),
                      legend_texts = c("CVD xmap SO2 | RSP & NO2 & O3, P = 0",
                                       "SO2 xmap CVD | RSP & NO2 & O3, P = 0.003"))
@@ -282,27 +282,27 @@ fig_cvd_o3 = plot(res[["cvd_o3"]], partial = FALSE,
                   ybreaks = seq(-0.05,0.35,by = 0.1),
                   legend_texts = c("CVD xmap O3, P = 0.495",
                                    "O3 xmap CVD, P = 0.002"))
-fig_cvd_o3_p = plot(res[["cvd_o3"]], xlimits = c(0,1030), 
+fig_cvd_o3_p = plot(res[["cvd_o3"]], xlimits = c(0,1030),
                     ylimits = c(-0.05,0.35), ybreaks = seq(-0.05,0.35,by = 0.1),
                     legend_texts = c("CVD xmap O3 | RSP & NO2 & SO2, P = 0.402",
                                      "O3 xmap CVD | RSP & NO2 & SO2, P = 0.028"))
 
 fig_rsp_no2 = plot(res[["rsp_no2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.2,0.9), 
+                   xlimits = c(0,1030), ylimits = c(0.2,0.9),
                    ybreaks = seq(0.2,0.9,by = 0.1),
                    legend_texts = c("RSP xmap NO2, P = 0",
                                     "NO2 xmap RSP, P = 0"))
-fig_rsp_no2_p = plot(res[["rsp_no2"]], xlimits = c(0,1030), 
+fig_rsp_no2_p = plot(res[["rsp_no2"]], xlimits = c(0,1030),
                      ylimits = c(0.2,0.9), ybreaks = seq(0.2,0.9,by = 0.1),
                      legend_texts = c("RSP xmap NO2 | CVD & SO2 & O3, P = 0",
                                       "NO2 xmap RSP | CVD & SO2 & O3, P = 0"))
 
 fig_rsp_so2 = plot(res[["rsp_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.05,0.55), 
+                   xlimits = c(0,1030), ylimits = c(0.05,0.55),
                    ybreaks = seq(0.05,0.55,by = 0.1),
                    legend_texts = c("RSP xmap SO2, P = 0",
                                     "SO2 xmap RSP, P = 0"))
-fig_rsp_so2_p = plot(res[["rsp_so2"]], xlimits = c(0,1030), 
+fig_rsp_so2_p = plot(res[["rsp_so2"]], xlimits = c(0,1030),
                      ylimits = c(0.05,0.55), ybreaks = seq(0.05,0.55,by = 0.1),
                      legend_texts = c("RSP xmap SO2 | CVD & NO2 & O3, P = 0",
                                       "SO2 xmap RSP | CVD & NO2 & O3, P = 0"))
@@ -312,27 +312,27 @@ fig_rsp_o3 = plot(res[["rsp_o3"]], partial = FALSE,
                   ybreaks = seq(0.05,0.65,by = 0.1),
                   legend_texts = c("RSP xmap O3, P = 0",
                                    "O3 xmap RSP, P = 0"))
-fig_rsp_o3_p = plot(res[["rsp_o3"]], xlimits = c(0,1030), 
+fig_rsp_o3_p = plot(res[["rsp_o3"]], xlimits = c(0,1030),
                     ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
                     legend_texts = c("RSP xmap O3 | CVD & SO2 & NO2, P = 0",
                                      "O3 xmap RSP | CVD & SO2 & NO2, P = 0"))
 
 fig_no2_so2 = plot(res[["no2_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.15,0.75), 
+                   xlimits = c(0,1030), ylimits = c(0.15,0.75),
                    ybreaks = seq(0.15,0.75,by = 0.1),
                    legend_texts = c("NO2 xmap SO2, P = 0",
                                     "SO2 xmap NO2, P = 0"))
-fig_no2_so2_p = plot(res[["no2_so2"]], xlimits = c(0,1030), 
+fig_no2_so2_p = plot(res[["no2_so2"]], xlimits = c(0,1030),
                      ylimits = c(0.15,0.75), ybreaks = seq(0.15,0.75,by = 0.1),
                      legend_texts = c("NO2 xmap SO2 | CVD & RSP & O3, P = 0",
                                       "SO2 xmap NO2 | CVD & RSP & O3, P = 0"))
 
 fig_no2_o3 = plot(res[["no2_o3"]], partial = FALSE,
-                  xlimits = c(0,1030), ylimits = c(0.05,0.65), 
+                  xlimits = c(0,1030), ylimits = c(0.05,0.65),
                   ybreaks = seq(0.05,0.65,by = 0.1),
                   legend_texts = c("NO2 xmap O3, P = 0",
                                    "O3 xmap NO2, P = 0"))
-fig_no2_o3_p = plot(res[["no2_o3"]], xlimits = c(0,1030), 
+fig_no2_o3_p = plot(res[["no2_o3"]], xlimits = c(0,1030),
                     ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
                     legend_texts = c("NO2 xmap O3 | CVD & RSP & SO2, P = 0",
                                      "O3 xmap NO2 | CVD & RSP & SO2, P = 0"))
@@ -342,7 +342,7 @@ fig_so2_o3 = plot(res[["so2_o3"]], partial = FALSE,
                   ybreaks = seq(-0.05,0.45,by = 0.1),
                   legend_texts = c("SO2 xmap O3, P = 0",
                                    "O3 xmap SO2, P = 0.094"))
-fig_so2_o3_p = plot(res[["so2_o3"]], xlimits = c(0,1030), 
+fig_so2_o3_p = plot(res[["so2_o3"]], xlimits = c(0,1030),
                     ylimits = c(-0.05,0.45), ybreaks = seq(-0.05,0.45,by = 0.1),
                     legend_texts = c("SO2 xmap O3 | CVD & RSP & NO2, P = 0",
                                      "O3 xmap SO2 | CVD & RSP & NO2, P = 0.131"))
@@ -377,7 +377,7 @@ library(tEDM)
 
 carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
 ## Rows: 113627 Columns: 4
-## ── Column specification ─────────────────────────────────────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (4): year, fips, tem, carbon
 ## 
@@ -483,9 +483,9 @@ library(tEDM)
 
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
 ## Rows: 334 Columns: 47
-## ── Column specification ─────────────────────────────────────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────
 ## Delimiter: ","
-## dbl (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ib...
+## dbl (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ibarak...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
@@ -499,13 +499,13 @@ head(covid)
 ## 4        0      0     0      0     0        0         0       0       0     0
 ## 5        0      0     0      0     0        0         0       0       0     0
 ## 6        0      0     0      0     0        0         0       0       0     0
-## # ℹ 37 more variables: Saitama <dbl>, Chiba <dbl>, Tokyo <dbl>,
-## #   Kanagawa <dbl>, Niigata <dbl>, Toyama <dbl>, Ishikawa <dbl>,
-## #   Fukui <dbl>, Yamanashi <dbl>, Nagano <dbl>, Gifu <dbl>, Shizuoka <dbl>,
-## #   Aichi <dbl>, Mie <dbl>, Shiga <dbl>, Kyoto <dbl>, Osaka <dbl>,
-## #   Hyogo <dbl>, Nara <dbl>, Wakayama <dbl>, Tottori <dbl>, Shimane <dbl>,
-## #   Okayama <dbl>, Hiroshima <dbl>, Yamaguchi <dbl>, Tokushima <dbl>,
-## #   Kagawa <dbl>, Ehime <dbl>, Kochi <dbl>, Fukuoka <dbl>, Saga <dbl>, …
+## # ℹ 37 more variables: Saitama <dbl>, Chiba <dbl>, Tokyo <dbl>, Kanagawa <dbl>,
+## #   Niigata <dbl>, Toyama <dbl>, Ishikawa <dbl>, Fukui <dbl>, Yamanashi <dbl>,
+## #   Nagano <dbl>, Gifu <dbl>, Shizuoka <dbl>, Aichi <dbl>, Mie <dbl>,
+## #   Shiga <dbl>, Kyoto <dbl>, Osaka <dbl>, Hyogo <dbl>, Nara <dbl>,
+## #   Wakayama <dbl>, Tottori <dbl>, Shimane <dbl>, Okayama <dbl>,
+## #   Hiroshima <dbl>, Yamaguchi <dbl>, Tokushima <dbl>, Kagawa <dbl>,
+## #   Ehime <dbl>, Kochi <dbl>, Fukuoka <dbl>, Saga <dbl>, Nagasaki <dbl>, …
 ```
 
 The data are first differenced:
@@ -621,7 +621,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 7.1 seconds
+## Query completed in: 6.4 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

@@ -1,7 +1,7 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2025-08-15
+  | Last update: 2025-08-25
   | Last run: `r Sys.Date()`
 output: rmarkdown::html_vignette
 vignette: >
@@ -211,17 +211,17 @@ fig_cvd_no2 = plot(res[["cvd_no2"]], partial = FALSE,
                    ybreaks = seq(0,0.35,by = 0.05),
                    legend_texts = c("CVD xmap NO2, P = 0",
                                     "NO2 xmap CVD, P = 0"))
-fig_cvd_no2_p = plot(res[["cvd_no2"]], xlimits = c(0,1030), 
+fig_cvd_no2_p = plot(res[["cvd_no2"]], xlimits = c(0,1030),
                      ylimits = c(0,0.35), ybreaks = seq(0,0.35,by = 0.05),
                      legend_texts = c("CVD xmap NO2 | RSP & SO2 & O3, P = 0",
                                       "NO2 xmap CVD | RSP & SO2 & O3, P = 0"))
 
 fig_cvd_so2 = plot(res[["cvd_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0,0.25), 
+                   xlimits = c(0,1030), ylimits = c(0,0.25),
                    ybreaks = seq(0,0.25,by = 0.05),
                    legend_texts = c("CVD xmap SO2, P = 0",
                                     "SO2 xmap CVD, P = 0"))
-fig_cvd_so2_p = plot(res[["cvd_so2"]], xlimits = c(0,1030), 
+fig_cvd_so2_p = plot(res[["cvd_so2"]], xlimits = c(0,1030),
                      ylimits = c(0,0.25), ybreaks = seq(0,0.25,by = 0.05),
                      legend_texts = c("CVD xmap SO2 | RSP & NO2 & O3, P = 0",
                                       "SO2 xmap CVD | RSP & NO2 & O3, P = 0.003"))
@@ -231,27 +231,27 @@ fig_cvd_o3 = plot(res[["cvd_o3"]], partial = FALSE,
                   ybreaks = seq(-0.05,0.35,by = 0.1),
                   legend_texts = c("CVD xmap O3, P = 0.495",
                                    "O3 xmap CVD, P = 0.002"))
-fig_cvd_o3_p = plot(res[["cvd_o3"]], xlimits = c(0,1030), 
+fig_cvd_o3_p = plot(res[["cvd_o3"]], xlimits = c(0,1030),
                     ylimits = c(-0.05,0.35), ybreaks = seq(-0.05,0.35,by = 0.1),
                     legend_texts = c("CVD xmap O3 | RSP & NO2 & SO2, P = 0.402",
                                      "O3 xmap CVD | RSP & NO2 & SO2, P = 0.028"))
 
 fig_rsp_no2 = plot(res[["rsp_no2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.2,0.9), 
+                   xlimits = c(0,1030), ylimits = c(0.2,0.9),
                    ybreaks = seq(0.2,0.9,by = 0.1),
                    legend_texts = c("RSP xmap NO2, P = 0",
                                     "NO2 xmap RSP, P = 0"))
-fig_rsp_no2_p = plot(res[["rsp_no2"]], xlimits = c(0,1030), 
+fig_rsp_no2_p = plot(res[["rsp_no2"]], xlimits = c(0,1030),
                      ylimits = c(0.2,0.9), ybreaks = seq(0.2,0.9,by = 0.1),
                      legend_texts = c("RSP xmap NO2 | CVD & SO2 & O3, P = 0",
                                       "NO2 xmap RSP | CVD & SO2 & O3, P = 0"))
 
 fig_rsp_so2 = plot(res[["rsp_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.05,0.55), 
+                   xlimits = c(0,1030), ylimits = c(0.05,0.55),
                    ybreaks = seq(0.05,0.55,by = 0.1),
                    legend_texts = c("RSP xmap SO2, P = 0",
                                     "SO2 xmap RSP, P = 0"))
-fig_rsp_so2_p = plot(res[["rsp_so2"]], xlimits = c(0,1030), 
+fig_rsp_so2_p = plot(res[["rsp_so2"]], xlimits = c(0,1030),
                      ylimits = c(0.05,0.55), ybreaks = seq(0.05,0.55,by = 0.1),
                      legend_texts = c("RSP xmap SO2 | CVD & NO2 & O3, P = 0",
                                       "SO2 xmap RSP | CVD & NO2 & O3, P = 0"))
@@ -261,27 +261,27 @@ fig_rsp_o3 = plot(res[["rsp_o3"]], partial = FALSE,
                   ybreaks = seq(0.05,0.65,by = 0.1),
                   legend_texts = c("RSP xmap O3, P = 0",
                                    "O3 xmap RSP, P = 0"))
-fig_rsp_o3_p = plot(res[["rsp_o3"]], xlimits = c(0,1030), 
+fig_rsp_o3_p = plot(res[["rsp_o3"]], xlimits = c(0,1030),
                     ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
                     legend_texts = c("RSP xmap O3 | CVD & SO2 & NO2, P = 0",
                                      "O3 xmap RSP | CVD & SO2 & NO2, P = 0"))
 
 fig_no2_so2 = plot(res[["no2_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.15,0.75), 
+                   xlimits = c(0,1030), ylimits = c(0.15,0.75),
                    ybreaks = seq(0.15,0.75,by = 0.1),
                    legend_texts = c("NO2 xmap SO2, P = 0",
                                     "SO2 xmap NO2, P = 0"))
-fig_no2_so2_p = plot(res[["no2_so2"]], xlimits = c(0,1030), 
+fig_no2_so2_p = plot(res[["no2_so2"]], xlimits = c(0,1030),
                      ylimits = c(0.15,0.75), ybreaks = seq(0.15,0.75,by = 0.1),
                      legend_texts = c("NO2 xmap SO2 | CVD & RSP & O3, P = 0",
                                       "SO2 xmap NO2 | CVD & RSP & O3, P = 0"))
 
 fig_no2_o3 = plot(res[["no2_o3"]], partial = FALSE,
-                  xlimits = c(0,1030), ylimits = c(0.05,0.65), 
+                  xlimits = c(0,1030), ylimits = c(0.05,0.65),
                   ybreaks = seq(0.05,0.65,by = 0.1),
                   legend_texts = c("NO2 xmap O3, P = 0",
                                    "O3 xmap NO2, P = 0"))
-fig_no2_o3_p = plot(res[["no2_o3"]], xlimits = c(0,1030), 
+fig_no2_o3_p = plot(res[["no2_o3"]], xlimits = c(0,1030),
                     ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
                     legend_texts = c("NO2 xmap O3 | CVD & RSP & SO2, P = 0",
                                      "O3 xmap NO2 | CVD & RSP & SO2, P = 0"))
@@ -291,7 +291,7 @@ fig_so2_o3 = plot(res[["so2_o3"]], partial = FALSE,
                   ybreaks = seq(-0.05,0.45,by = 0.1),
                   legend_texts = c("SO2 xmap O3, P = 0",
                                    "O3 xmap SO2, P = 0.094"))
-fig_so2_o3_p = plot(res[["so2_o3"]], xlimits = c(0,1030), 
+fig_so2_o3_p = plot(res[["so2_o3"]], xlimits = c(0,1030),
                     ylimits = c(-0.05,0.45), ybreaks = seq(-0.05,0.45,by = 0.1),
                     legend_texts = c("SO2 xmap O3 | CVD & RSP & NO2, P = 0",
                                      "O3 xmap SO2 | CVD & RSP & NO2, P = 0.131"))

@@ -71,8 +71,8 @@
       <h1>Temporal Empirical Dynamic Modeling</h1>
             
             <h4 data-toc-skip class="date"><div class="line-block">Last
-update: 2025-08-25<br>
-Last run: 2025-08-25</div></h4>
+update: 2025-09-05<br>
+Last run: 2025-09-05</div></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stscl/tEDM/blob/main/vignettes/tEDM.Rmd" class="external-link"><code>vignettes/tEDM.Rmd</code></a></small>
       <div class="d-none name"><code>tEDM.Rmd</code></div>
@@ -526,20 +526,20 @@ dimension for the CMC analysis.</p>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
-<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
-<span><span class="co">## 1        20       0.17625 1.441152e-06      0.3079181     0.04458194</span></span>
-<span><span class="co">## 2        20       0.15625 5.526258e-08      0.2802472     0.03225277</span></span>
-<span><span class="co">## 3        20       0.15625 5.809091e-08      0.2804509     0.03204912</span></span>
-<span><span class="co">## 4        20       0.20125 3.147621e-05      0.3419196     0.06058040</span></span>
-<span><span class="co">## 5        20       0.20875 7.165149e-05      0.3525117     0.06498830</span></span>
-<span><span class="co">## 6        20       0.13125 2.408340e-10      0.2453769     0.01712311</span></span>
-<span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower</span></span>
-<span><span class="co">## 1       0.06375 4.154966e-26      0.1446512              0</span></span>
-<span><span class="co">## 2       0.06250 1.381916e-28      0.1398111              0</span></span>
-<span><span class="co">## 3       0.06250 4.667439e-26      0.1437169              0</span></span>
-<span><span class="co">## 4       0.06625 2.180138e-25      0.1478975              0</span></span>
-<span><span class="co">## 5       0.06875 2.677461e-23      0.1537491              0</span></span>
-<span><span class="co">## 6       0.05875 1.135327e-30      0.1338684              0</span></span>
+<span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper</span></span>
+<span><span class="co">## 1        20       0.17625 1.441152e-06     0.04458194      0.3079181</span></span>
+<span><span class="co">## 2        20       0.15625 5.526258e-08     0.03225277      0.2802472</span></span>
+<span><span class="co">## 3        20       0.15625 5.809091e-08     0.03204912      0.2804509</span></span>
+<span><span class="co">## 4        20       0.20125 3.147621e-05     0.06058040      0.3419196</span></span>
+<span><span class="co">## 5        20       0.20875 7.165149e-05     0.06498830      0.3525117</span></span>
+<span><span class="co">## 6        20       0.13125 2.408340e-10     0.01712311      0.2453769</span></span>
+<span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper</span></span>
+<span><span class="co">## 1       0.06375 4.154966e-26              0      0.1446512</span></span>
+<span><span class="co">## 2       0.06250 1.381916e-28              0      0.1398111</span></span>
+<span><span class="co">## 3       0.06250 4.667439e-26              0      0.1437169</span></span>
+<span><span class="co">## 4       0.06625 2.180138e-25              0      0.1478975</span></span>
+<span><span class="co">## 5       0.06875 2.677461e-23              0      0.1537491</span></span>
+<span><span class="co">## 6       0.05875 1.135327e-30              0      0.1338684</span></span>
 <span></span>
 <span><span class="va">res_carbon</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">neighbors</span>,</span>
@@ -648,20 +648,20 @@ procedure.</p>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
-<span><span class="co">##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower</span></span>
-<span><span class="co">## 1      331    0.70879268 4.221499e-52     0.65090130      0.7584883</span></span>
-<span><span class="co">## 2      331    0.15540844 4.475224e-03     0.04874688      0.2585655</span></span>
-<span><span class="co">## 3      331    0.61181618 1.410377e-35     0.53983767      0.6749128</span></span>
-<span><span class="co">## 4      331    0.51213248 1.160928e-23     0.42822713      0.5872831</span></span>
-<span><span class="co">## 5      331    0.02065942 7.071982e-01    -0.08700953      0.1278513</span></span>
-<span><span class="co">## 6      331    0.65485497 3.697190e-42     0.58882105      0.7122050</span></span>
-<span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower     x        y</span></span>
-<span><span class="co">## 1     0.7236820 2.936572e-55      0.6681758      0.7711770 Tokyo Hokkaido</span></span>
-<span><span class="co">## 2     0.4371497 5.653496e-17      0.3459266      0.5201856 Tokyo   Aomori</span></span>
-<span><span class="co">## 3     0.7574997 2.893418e-63      0.7076344      0.7998568 Tokyo    Iwate</span></span>
-<span><span class="co">## 4     0.7214586 8.962398e-55      0.6655925      0.7692846 Tokyo   Miyagi</span></span>
+<span><span class="co">##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper</span></span>
+<span><span class="co">## 1      331    0.70879268  0.000000000     0.65090130      0.7584883</span></span>
+<span><span class="co">## 2      331    0.15540844  0.004475224     0.04874688      0.2585655</span></span>
+<span><span class="co">## 3      331    0.61181618  0.000000000     0.53983767      0.6749128</span></span>
+<span><span class="co">## 4      331    0.51213248  0.000000000     0.42822713      0.5872831</span></span>
+<span><span class="co">## 5      331    0.02065942  0.707198233    -0.08700953      0.1278513</span></span>
+<span><span class="co">## 6      331    0.65485497  0.000000000     0.58882105      0.7122050</span></span>
+<span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y</span></span>
+<span><span class="co">## 1     0.7236820 0.000000e+00      0.6681758      0.7711770 Tokyo Hokkaido</span></span>
+<span><span class="co">## 2     0.4371497 0.000000e+00      0.3459266      0.5201856 Tokyo   Aomori</span></span>
+<span><span class="co">## 3     0.7574997 0.000000e+00      0.7076344      0.7998568 Tokyo    Iwate</span></span>
+<span><span class="co">## 4     0.7214586 0.000000e+00      0.6655925      0.7692846 Tokyo   Miyagi</span></span>
 <span><span class="co">## 5     0.2884528 8.400987e-08      0.1867672      0.3840232 Tokyo    Akita</span></span>
-<span><span class="co">## 6     0.5021635 1.126202e-22      0.4172045      0.5784216 Tokyo Yamagata</span></span>
+<span><span class="co">## 6     0.5021635 0.000000e+00      0.4172045      0.5784216 Tokyo Yamagata</span></span>
 <span></span>
 <span><span class="va">df1</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>,<span class="va">y_xmap_x_mean</span>,<span class="va">y_xmap_x_sig</span><span class="op">)</span><span class="op">|&gt;</span></span>
@@ -673,17 +673,17 @@ procedure.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cause</span> <span class="op">==</span> <span class="st">"Tokyo"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">cs</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_covid</span>,<span class="fl">10</span><span class="op">)</span></span>
-<span><span class="co">##    cause   effect        cs           sig</span></span>
-<span><span class="co">## 1  Tokyo    Osaka 0.9340924 4.139602e-150</span></span>
-<span><span class="co">## 2  Tokyo Kanagawa 0.9299503 7.009751e-146</span></span>
-<span><span class="co">## 3  Tokyo  Saitama 0.9170512 3.296461e-134</span></span>
-<span><span class="co">## 4  Tokyo    Chiba 0.9148243 2.186195e-132</span></span>
-<span><span class="co">## 5  Tokyo    Hyogo 0.9074071 1.163021e-126</span></span>
-<span><span class="co">## 6  Tokyo    Aichi 0.9053216 3.880799e-125</span></span>
-<span><span class="co">## 7  Tokyo  Ibaraki 0.8765329 3.896926e-107</span></span>
-<span><span class="co">## 8  Tokyo     Nara 0.8746084 4.261884e-106</span></span>
-<span><span class="co">## 9  Tokyo Shizuoka 0.8659047 1.327148e-101</span></span>
-<span><span class="co">## 10 Tokyo    Kyoto 0.8604876  5.796571e-99</span></span></code></pre></div>
+<span><span class="co">##    cause   effect        cs sig</span></span>
+<span><span class="co">## 1  Tokyo    Osaka 0.9340924   0</span></span>
+<span><span class="co">## 2  Tokyo Kanagawa 0.9299503   0</span></span>
+<span><span class="co">## 3  Tokyo  Saitama 0.9170512   0</span></span>
+<span><span class="co">## 4  Tokyo    Chiba 0.9148243   0</span></span>
+<span><span class="co">## 5  Tokyo    Hyogo 0.9074071   0</span></span>
+<span><span class="co">## 6  Tokyo    Aichi 0.9053216   0</span></span>
+<span><span class="co">## 7  Tokyo  Ibaraki 0.8765329   0</span></span>
+<span><span class="co">## 8  Tokyo     Nara 0.8746084   0</span></span>
+<span><span class="co">## 9  Tokyo Shizuoka 0.8659047   0</span></span>
+<span><span class="co">## 10 Tokyo    Kyoto 0.8604876   0</span></span></code></pre></div>
 <p>Using <code>0.90</code> as the threshold (rounded to two decimal
 places), we map the causal responses in the spread of COVID-19 from
 Tokyo for those with a causal strength greater than
@@ -693,13 +693,13 @@ Tokyo for those with a causal strength greater than
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>cs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res_covid</span><span class="op">$</span><span class="va">cs</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">cs</span> <span class="op">&gt;=</span> <span class="fl">0.90</span><span class="op">)</span></span>
 <span><span class="va">res_covid</span></span>
-<span><span class="co">##   cause   effect   cs           sig</span></span>
-<span><span class="co">## 1 Tokyo    Osaka 0.93 4.139602e-150</span></span>
-<span><span class="co">## 2 Tokyo Kanagawa 0.93 7.009751e-146</span></span>
-<span><span class="co">## 3 Tokyo  Saitama 0.92 3.296461e-134</span></span>
-<span><span class="co">## 4 Tokyo    Chiba 0.91 2.186195e-132</span></span>
-<span><span class="co">## 5 Tokyo    Hyogo 0.91 1.163021e-126</span></span>
-<span><span class="co">## 6 Tokyo    Aichi 0.91 3.880799e-125</span></span>
+<span><span class="co">##   cause   effect   cs sig</span></span>
+<span><span class="co">## 1 Tokyo    Osaka 0.93   0</span></span>
+<span><span class="co">## 2 Tokyo Kanagawa 0.93   0</span></span>
+<span><span class="co">## 3 Tokyo  Saitama 0.92   0</span></span>
+<span><span class="co">## 4 Tokyo    Chiba 0.91   0</span></span>
+<span><span class="co">## 5 Tokyo    Hyogo 0.91   0</span></span>
+<span><span class="co">## 6 Tokyo    Aichi 0.91   0</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"rnaturalearth"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rnaturalearth"</span><span class="op">)</span></span>
@@ -717,7 +717,7 @@ Tokyo for those with a causal strength greater than
 <span>  <span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu">geocode</span><span class="op">(</span>state <span class="op">=</span> <span class="va">name</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,</span>
 <span>                        long <span class="op">=</span> <span class="st">"lon"</span>, lat <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span>
 <span><span class="co">## Passing 7 addresses to the ArcGIS single address geocoder</span></span>
-<span><span class="co">## Query completed in: 6.4 seconds</span></span>
+<span><span class="co">## Query completed in: 4.9 seconds</span></span>
 <span></span>
 <span><span class="va">fig_case3</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">jp</span>, fill <span class="op">=</span> <span class="st">"#ffe7b7"</span>, color <span class="op">=</span> <span class="st">"grey"</span>, linewidth <span class="op">=</span> <span class="fl">0.45</span><span class="op">)</span> <span class="op">+</span></span>

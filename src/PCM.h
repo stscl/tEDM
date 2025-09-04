@@ -165,8 +165,8 @@ std::vector<PartialCorRes> PCMSingle(
  *      - The lower bound of the pearson correlation confidence interval.
  *      - The mean partial cross-mapping partial correlation.
  *      - The statistical significance of the partial correlation.
- *      - The upper bound of the partial correlation confidence interval.
  *      - The lower bound of the partial correlation confidence interval.
+ *      - The upper bound of the partial correlation confidence interval.
  */
 std::vector<std::vector<double>> PCM(
     const std::vector<double>& x,                       // Time series to cross map from

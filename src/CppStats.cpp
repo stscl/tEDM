@@ -782,15 +782,21 @@ double PartialCorTrivar(const std::vector<double>& y,
 double CppCorSignificance(double r, size_t n, size_t k = 0) {
   // Check if degrees of freedom are valid: df = n - k - 2 >= 1
   if (n <= k + 2) {
-    return std::numeric_limits<double>::quiet_NaN();  // Invalid degrees of freedom, return non-significant result
+    return std::numeric_limits<double>::quiet_NaN();  // Invalid degrees of freedom
   }
 
   double df = static_cast<double>(n - k - 2);
-  double t = r * std::sqrt(df / (1.0 - r * r));
+  double denom = 1.0 - r * r;
+
+  if (denom <= 0) {
+    return std::numeric_limits<double>::quiet_NaN();  // Avoid division by zero or invalid case
+  }
+
+  double t = r * std::sqrt(df / denom);
 
   double pvalue = (1 - R::pt(t, df, true, false)) * 2;
 
-  // Ensure p value is within valid range [-1, 1]
+  // Ensure p value is within valid range [0, 1]
   if (pvalue < 0) pvalue = 0;
   if (pvalue > 1.0) pvalue = 1.0;
 
@@ -817,7 +823,7 @@ double CppCorSignificance(double r, size_t n, size_t k = 0) {
  * @param n The number of observations.
  * @param k The number of control variables (default = 0; use 0 for simple correlation).
  * @param level The significance level α for the confidence interval (default = 0.05).
- * @return A vector containing the upper and lower bounds of the confidence interval.
+ * @return A vector containing the lower and upper bounds of the confidence interval.
  */
 std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
                                      double level = 0.05) {
@@ -825,6 +831,10 @@ std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
     // Not enough degrees of freedom to compute confidence interval
     return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
   }
+
+  // // Clamp r to avoid numerical instability when |r| is very close to 1
+  // if (r >= 1.0) r = 0.999999;
+  // if (r <= -1.0) r = -0.999999;
 
   // Calculate the Fisher's z-transformation
   double z = 0.5 * std::log((1 + r) / (1 - r));
@@ -835,7 +845,7 @@ std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
   // Calculate the z-value for the given confidence level
   double qZ = R::qnorm(1 - level / 2, 0.0, 1.0, true, false);
 
-  // Calculate the upper and lower bounds of the confidence interval
+  // Calculate the upper and lower bounds of the confidence interval in z-domain
   double upper = z + qZ * ztheta;
   double lower = z - qZ * ztheta;
 
@@ -849,8 +859,8 @@ std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
   if (r_upper < -1.0) r_upper = -1.0;
   if (r_upper > 1.0) r_upper = 1.0;
 
-  // Return the result as a std::vector<double>
-  return {r_upper, r_lower};
+  // Return the result as {lower, upper}
+  return {r_lower, r_upper};
 }
 
 /**

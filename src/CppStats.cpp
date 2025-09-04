@@ -823,7 +823,7 @@ double CppCorSignificance(double r, size_t n, size_t k = 0) {
  * @param n The number of observations.
  * @param k The number of control variables (default = 0; use 0 for simple correlation).
  * @param level The significance level α for the confidence interval (default = 0.05).
- * @return A vector containing the lower and upper bounds of the confidence interval.
+ * @return A vector containing the upper and lower bounds of the confidence interval.
  */
 std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
                                      double level = 0.05) {
@@ -859,8 +859,8 @@ std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
   if (r_upper < -1.0) r_upper = -1.0;
   if (r_upper > 1.0) r_upper = 1.0;
 
-  // Return the result as {lower, upper}
-  return {r_lower, r_upper};
+  // Return the result as a std::vector<double>
+  return {r_upper, r_lower};
 }
 
 /**

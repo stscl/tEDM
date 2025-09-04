@@ -823,7 +823,7 @@ double CppCorSignificance(double r, size_t n, size_t k = 0) {
  * @param n The number of observations.
  * @param k The number of control variables (default = 0; use 0 for simple correlation).
  * @param level The significance level α for the confidence interval (default = 0.05).
- * @return A vector containing the upper and lower bounds of the confidence interval.
+ * @return A vector containing the lower and upper bounds of the confidence interval.
  */
 std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
                                      double level = 0.05) {
@@ -871,14 +871,15 @@ std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
  * - If only one valid correlation coefficient is provided, it uses a t-distribution
  *   to compute the p-value.
  *
- * - If multiple valid correlation coefficients are provided (e.g., from bootstrapping),
- *   it applies Fisher's z-transformation, computes the mean z, and evaluates significance
- *   using the standard normal distribution.
+ * - If multiple valid correlation coefficients are provided (e.g., from bootstrapping
+ *   or repeated windowing), it applies Fisher's z-transformation, computes the mean z,
+ *   and evaluates significance using the standard normal distribution, adjusting the
+ *   standard error by sqrt(m).
  *
  * Correlation coefficients must be within the valid range (-1, 1); NaN values are ignored.
  *
  * @param rho_vec A vector of correlation or partial correlation coefficients.
- * @param n The number of observations.
+ * @param n The number of observations in each correlation estimate.
  * @param k The number of control variables (0 for simple correlation, >0 for partial correlation).
  * @return The two-sided p-value; returns NaN if no valid rho is found.
  */
@@ -898,26 +899,25 @@ double CppMeanCorSignificance(const std::vector<double>& rho_vec,
 
   if (m == 1) {
     // Use t-statistic for single correlation
-    double r = rho_vec[0];
+    double r = z_values[0];  // use z_values to avoid invalid rho
+    r = std::tanh(r);        // back-transform
     double df = static_cast<double>(n - k - 2);
     double t = r * std::sqrt(df / (1.0 - r * r));
     double pvalue = 2.0 * R::pt(-std::fabs(t), df, true, false);
 
-    // Clamp p-value to [0,1] to prevent numerical issues
     if (pvalue < 0.0) pvalue = 0.0;
     if (pvalue > 1.0) pvalue = 1.0;
 
     return pvalue;
   }
 
-  // Use Fisher z transformation for multiple correlations
+  // Multiple correlations: Fisher z + mean
   double z_mean = std::accumulate(z_values.begin(), z_values.end(), 0.0) / m;
-  double se = 1.0 / std::sqrt(static_cast<double>(n - k - 3));
+  double se = 1.0 / std::sqrt(static_cast<double>(m) * (n - k - 3));
   double z_stat = z_mean / se;
 
   double pvalue = 2.0 * R::pnorm(-std::fabs(z_stat), 0.0, 1.0, true, false);
 
-  // Clamp p-value to [0,1]
   if (pvalue < 0.0) pvalue = 0.0;
   if (pvalue > 1.0) pvalue = 1.0;
 
@@ -932,14 +932,15 @@ double CppMeanCorSignificance(const std::vector<double>& rho_vec,
  * - If only one valid correlation coefficient is provided, it uses Fisher's z-transformation
  *   to compute the confidence interval using the standard normal quantile.
  *
- * - If multiple valid correlation coefficients are provided (e.g., from bootstrapping),
- *   it applies Fisher's z-transformation to each, averages them, and computes the confidence interval
- *   on the transformed scale, then transforms back to correlation scale.
+ * - If multiple valid correlation coefficients are provided (e.g., from bootstrapping
+ *   or repeated windowing), it applies Fisher's z-transformation to each, averages them,
+ *   and computes the confidence interval on the transformed scale, adjusting the standard
+ *   error by sqrt(m), then transforms back to correlation scale.
  *
  * Correlation coefficients must be within the valid range (-1, 1); NaN values are ignored.
  *
  * @param rho_vec A vector of correlation or partial correlation coefficients.
- * @param n The number of observations.
+ * @param n The number of observations in each correlation estimate.
  * @param k The number of control variables (0 for simple correlation).
  * @param level The significance level alpha (default = 0.05 for 95% confidence).
  * @return A vector of two elements: lower and upper bounds of the confidence interval;
@@ -949,7 +950,6 @@ std::vector<double> CppMeanCorConfidence(const std::vector<double>& rho_vec,
                                          size_t n, size_t k = 0,
                                          double level = 0.05) {
   if (n <= k + 3) {
-    // Not enough degrees of freedom
     return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
   }
 
@@ -964,7 +964,7 @@ std::vector<double> CppMeanCorConfidence(const std::vector<double>& rho_vec,
   if (m == 0) return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
 
   double z_mean = std::accumulate(z_values.begin(), z_values.end(), 0.0) / m;
-  double se = 1.0 / std::sqrt(static_cast<double>(n - k - 3));
+  double se = 1.0 / std::sqrt(static_cast<double>(m) * (n - k - 3));
   double z_crit = R::qnorm(1.0 - level / 2.0, 0.0, 1.0, true, false);
 
   double z_lower = z_mean - z_crit * se;
@@ -973,7 +973,6 @@ std::vector<double> CppMeanCorConfidence(const std::vector<double>& rho_vec,
   double r_lower = (std::exp(2 * z_lower) - 1) / (std::exp(2 * z_lower) + 1);
   double r_upper = (std::exp(2 * z_upper) - 1) / (std::exp(2 * z_upper) + 1);
 
-  // Clamp results to [-1,1] to prevent numerical issues
   if (r_lower < -1.0) r_lower = -1.0;
   if (r_lower > 1.0) r_lower = 1.0;
   if (r_upper < -1.0) r_upper = -1.0;

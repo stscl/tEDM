@@ -453,7 +453,7 @@ Rcpp::NumericVector RcppFNN4TS(
       pred_std.push_back(pred[i] - 1);
     }
   }
-  
+
   // Use L1 norm (Manhattan distance) if dist_metric == 1, else use L2 norm
   bool L1norm = (dist_metric == 1);
 
@@ -902,7 +902,7 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
   // Set column names for the result matrix
   Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create("libsizes",
                  "x_xmap_y_mean","x_xmap_y_sig",
-                 "x_xmap_y_upper","x_xmap_y_lower");
+                 "x_xmap_y_lower","x_xmap_y_upper");
   return resultMatrix;
 }
 
@@ -1015,8 +1015,8 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
   // Set column names for the result matrix
   Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create(
     "libsizes","T_mean","D_mean",
-    "T_sig","T_upper","T_lower",
-    "D_sig","D_upper","D_lower");
+    "T_sig","T_lower","T_upper",
+    "D_sig","D_lower","D_upper");
   return resultMatrix;
 }
 
@@ -1106,8 +1106,8 @@ Rcpp::List RcppCMC(
     Rcpp::Named("neighbors") = res.cross_mapping[0],
     Rcpp::Named("x_xmap_y_mean") = res.cross_mapping[1],
     Rcpp::Named("x_xmap_y_sig") = res.cross_mapping[2],
-    Rcpp::Named("x_xmap_y_upper") = res.cross_mapping[3],
-    Rcpp::Named("x_xmap_y_lower")  = res.cross_mapping[4]
+    Rcpp::Named("x_xmap_y_lower") = res.cross_mapping[3],
+    Rcpp::Named("x_xmap_y_upper")  = res.cross_mapping[4]
   );
 
   return Rcpp::List::create(
@@ -1176,6 +1176,6 @@ Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
   // Set column names for the result matrix
   Rcpp::colnames(resultMatrix) = Rcpp::CharacterVector::create("libsizes",
                  "x_xmap_y_mean","x_xmap_y_sig",
-                 "x_xmap_y_upper","x_xmap_y_lower");
+                 "x_xmap_y_lower","x_xmap_y_upper");
   return resultMatrix;
 }

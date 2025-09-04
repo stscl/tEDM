@@ -860,7 +860,7 @@ std::vector<double> CppCorConfidence(double r, size_t n, size_t k = 0,
   if (r_upper > 1.0) r_upper = 1.0;
 
   // Return the result as a std::vector<double>
-  return {r_upper, r_lower};
+  return {r_lower, r_upper};
 }
 
 /**
@@ -1040,7 +1040,7 @@ std::vector<double> CppDeLongAUCConfidence(const std::vector<double>& cases,
   ci_upper = std::min(1.0, ci_upper);
 
   // Return the results as a three-element vector
-  return {theta, ci_upper, ci_lower};
+  return {theta, ci_lower, ci_upper};
 }
 
 /**
@@ -1119,7 +1119,7 @@ std::vector<double> CppCMCTest(const std::vector<double>& cases,
   ci_upper = std::min(1.0, ci_upper);
 
   // Return the results as a four-element vector
-  return {theta, p_value, ci_upper, ci_lower};
+  return {theta, p_value, ci_lower, ci_upper};
 }
 
 // /**
@@ -1211,7 +1211,7 @@ std::vector<double> CppCMCTest(const std::vector<double>& cases,
 //   ci_lower = std::max(0.0, ci_lower);
 //   ci_upper = std::min(1.0, ci_upper);
 //
-//   return {area_auc, p_value, ci_upper, ci_lower};
+//   return {area_auc, p_value, ci_lower, ci_upper};
 // }
 
 /*

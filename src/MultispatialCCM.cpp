@@ -34,8 +34,8 @@
  *     [0] = library size (libsize)
  *     [1] = mean of Pearson correlation (mean rho)
  *     [2] = one-sided p-value (proportion of rho ≤ 0)
- *     [3] = 97.5% percentile (upper bound of 95% CI)
- *     [4] = 2.5% percentile (lower bound of 95% CI)
+ *     [3] = 2.5% percentile (lower bound of 95% CI)
+ *     [4] = 97.5% percentile (upper bound of 95% CI)
  */
 std::vector<double> SimplexPredictionBoot(
     const std::vector<std::vector<double>>& source,
@@ -134,7 +134,7 @@ std::vector<double> SimplexPredictionBoot(
     ci_upper = clean_rho[std::clamp(int(std::ceil(0.975 * n)) - 1, 0, n - 1)];
   }
 
-  return {static_cast<double>(lib), mean_rho, pval, ci_upper, ci_lower};
+  return {static_cast<double>(lib), mean_rho, pval, ci_lower, ci_upper};
 }
 
 /*
@@ -169,8 +169,8 @@ std::vector<double> SimplexPredictionBoot(
  *     [0] = library size (libsize)
  *     [1] = mean of Pearson correlation (mean rho)
  *     [2] = one-sided p-value (proportion of rho ≤ 0 across bootstraps)
- *     [3] = 97.5% percentile of rho distribution (upper CI bound)
- *     [4] = 2.5% percentile of rho distribution (lower CI bound)
+ *     [3] = 2.5% percentile of rho distribution (lower CI bound)
+ *     [4] = 97.5% percentile of rho distribution (upper CI bound)
  */
 std::vector<std::vector<double>> MultispatialCCM(
     const std::vector<std::vector<double>>& x,

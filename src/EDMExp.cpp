@@ -887,6 +887,7 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
     parallel_level,
     dist_metric,
     dist_average,
+    true,
     progressbar);
 
   // Convert std::vector<std::vector<double>> to Rcpp::NumericMatrix

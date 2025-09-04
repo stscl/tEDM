@@ -341,8 +341,8 @@ std::vector<PartialCorRes> PCMSingle(
  *      - The library size.
  *      - The mean pearson cross-mapping correlation.
  *      - The statistical significance of the pearson correlation.
- *      - The upper bound of the pearson correlation confidence interval.
  *      - The lower bound of the pearson correlation confidence interval.
+ *      - The upper bound of the pearson correlation confidence interval.
  *      - The mean partial cross-mapping partial correlation.
  *      - The statistical significance of the partial correlation.
  *      - The lower bound of the partial correlation confidence interval.

@@ -1,8 +1,8 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2025-08-25
-  | Last run: 2025-08-25
+  | Last update: 2025-09-05
+  | Last run: 2025-09-05
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}
@@ -420,20 +420,20 @@ res = carbon_list |>
     return(g$xmap)
   })
 head(res)
-##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower
-## 1        20       0.17625 1.441152e-06      0.3079181     0.04458194
-## 2        20       0.15625 5.526258e-08      0.2802472     0.03225277
-## 3        20       0.15625 5.809091e-08      0.2804509     0.03204912
-## 4        20       0.20125 3.147621e-05      0.3419196     0.06058040
-## 5        20       0.20875 7.165149e-05      0.3525117     0.06498830
-## 6        20       0.13125 2.408340e-10      0.2453769     0.01712311
-##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower
-## 1       0.06375 4.154966e-26      0.1446512              0
-## 2       0.06250 1.381916e-28      0.1398111              0
-## 3       0.06250 4.667439e-26      0.1437169              0
-## 4       0.06625 2.180138e-25      0.1478975              0
-## 5       0.06875 2.677461e-23      0.1537491              0
-## 6       0.05875 1.135327e-30      0.1338684              0
+##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
+## 1        20       0.17625 1.441152e-06     0.04458194      0.3079181
+## 2        20       0.15625 5.526258e-08     0.03225277      0.2802472
+## 3        20       0.15625 5.809091e-08     0.03204912      0.2804509
+## 4        20       0.20125 3.147621e-05     0.06058040      0.3419196
+## 5        20       0.20875 7.165149e-05     0.06498830      0.3525117
+## 6        20       0.13125 2.408340e-10     0.01712311      0.2453769
+##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper
+## 1       0.06375 4.154966e-26              0      0.1446512
+## 2       0.06250 1.381916e-28              0      0.1398111
+## 3       0.06250 4.667439e-26              0      0.1437169
+## 4       0.06625 2.180138e-25              0      0.1478975
+## 5       0.06875 2.677461e-23              0      0.1537491
+## 6       0.05875 1.135327e-30              0      0.1338684
 
 res_carbon = res |>
   dplyr::select(neighbors,
@@ -551,20 +551,20 @@ res = names(covid)[-match("Tokyo",names(covid))] |>
     return(res)
   })
 head(res)
-##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_upper x_xmap_y_lower
-## 1      331    0.70879268 4.221499e-52     0.65090130      0.7584883
-## 2      331    0.15540844 4.475224e-03     0.04874688      0.2585655
-## 3      331    0.61181618 1.410377e-35     0.53983767      0.6749128
-## 4      331    0.51213248 1.160928e-23     0.42822713      0.5872831
-## 5      331    0.02065942 7.071982e-01    -0.08700953      0.1278513
-## 6      331    0.65485497 3.697190e-42     0.58882105      0.7122050
-##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_upper y_xmap_x_lower     x        y
-## 1     0.7236820 2.936572e-55      0.6681758      0.7711770 Tokyo Hokkaido
-## 2     0.4371497 5.653496e-17      0.3459266      0.5201856 Tokyo   Aomori
-## 3     0.7574997 2.893418e-63      0.7076344      0.7998568 Tokyo    Iwate
-## 4     0.7214586 8.962398e-55      0.6655925      0.7692846 Tokyo   Miyagi
+##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
+## 1      331    0.70879268  0.000000000     0.65090130      0.7584883
+## 2      331    0.15540844  0.004475224     0.04874688      0.2585655
+## 3      331    0.61181618  0.000000000     0.53983767      0.6749128
+## 4      331    0.51213248  0.000000000     0.42822713      0.5872831
+## 5      331    0.02065942  0.707198233    -0.08700953      0.1278513
+## 6      331    0.65485497  0.000000000     0.58882105      0.7122050
+##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y
+## 1     0.7236820 0.000000e+00      0.6681758      0.7711770 Tokyo Hokkaido
+## 2     0.4371497 0.000000e+00      0.3459266      0.5201856 Tokyo   Aomori
+## 3     0.7574997 0.000000e+00      0.7076344      0.7998568 Tokyo    Iwate
+## 4     0.7214586 0.000000e+00      0.6655925      0.7692846 Tokyo   Miyagi
 ## 5     0.2884528 8.400987e-08      0.1867672      0.3840232 Tokyo    Akita
-## 6     0.5021635 1.126202e-22      0.4172045      0.5784216 Tokyo Yamagata
+## 6     0.5021635 0.000000e+00      0.4172045      0.5784216 Tokyo Yamagata
 
 df1 = res |>
     dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
@@ -576,17 +576,17 @@ res_covid = dplyr::bind_rows(df1,df2)|>
   dplyr::filter(cause == "Tokyo") |>
   dplyr::arrange(dplyr::desc(cs))
 head(res_covid,10)
-##    cause   effect        cs           sig
-## 1  Tokyo    Osaka 0.9340924 4.139602e-150
-## 2  Tokyo Kanagawa 0.9299503 7.009751e-146
-## 3  Tokyo  Saitama 0.9170512 3.296461e-134
-## 4  Tokyo    Chiba 0.9148243 2.186195e-132
-## 5  Tokyo    Hyogo 0.9074071 1.163021e-126
-## 6  Tokyo    Aichi 0.9053216 3.880799e-125
-## 7  Tokyo  Ibaraki 0.8765329 3.896926e-107
-## 8  Tokyo     Nara 0.8746084 4.261884e-106
-## 9  Tokyo Shizuoka 0.8659047 1.327148e-101
-## 10 Tokyo    Kyoto 0.8604876  5.796571e-99
+##    cause   effect        cs sig
+## 1  Tokyo    Osaka 0.9340924   0
+## 2  Tokyo Kanagawa 0.9299503   0
+## 3  Tokyo  Saitama 0.9170512   0
+## 4  Tokyo    Chiba 0.9148243   0
+## 5  Tokyo    Hyogo 0.9074071   0
+## 6  Tokyo    Aichi 0.9053216   0
+## 7  Tokyo  Ibaraki 0.8765329   0
+## 8  Tokyo     Nara 0.8746084   0
+## 9  Tokyo Shizuoka 0.8659047   0
+## 10 Tokyo    Kyoto 0.8604876   0
 ```
 
 Using `0.90` as the threshold (rounded to two decimal places), we map the causal responses in the spread of COVID-19 from Tokyo for those with a causal strength greater than `0.90`.
@@ -597,13 +597,13 @@ res_covid = res_covid |>
   dplyr::mutate(cs = round(res_covid$cs,2)) |>
   dplyr::filter(cs >= 0.90)
 res_covid
-##   cause   effect   cs           sig
-## 1 Tokyo    Osaka 0.93 4.139602e-150
-## 2 Tokyo Kanagawa 0.93 7.009751e-146
-## 3 Tokyo  Saitama 0.92 3.296461e-134
-## 4 Tokyo    Chiba 0.91 2.186195e-132
-## 5 Tokyo    Hyogo 0.91 1.163021e-126
-## 6 Tokyo    Aichi 0.91 3.880799e-125
+##   cause   effect   cs sig
+## 1 Tokyo    Osaka 0.93   0
+## 2 Tokyo Kanagawa 0.93   0
+## 3 Tokyo  Saitama 0.92   0
+## 4 Tokyo    Chiba 0.91   0
+## 5 Tokyo    Hyogo 0.91   0
+## 6 Tokyo    Aichi 0.91   0
 
 if (!requireNamespace("rnaturalearth")) {
   install.packages("rnaturalearth")
@@ -621,7 +621,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 6.4 seconds
+## Query completed in: 4.9 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

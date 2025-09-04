@@ -67,8 +67,9 @@ std::vector<std::pair<int, double>> CCMSingle(
  * - theta: Distance weighting parameter used for weighting neighbors in the S-mapping prediction.
  * - threads: Number of threads to use for parallel computation.
  * - parallel_level: Level of parallel computing: 0 for `lower`, 1 for `higher`.
- *   dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
- *   dist_average: Whether to average distance by the number of valid vector components.
+ * - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
+ * - dist_average: Whether to average distance by the number of valid vector components.
+ * - single_sig: Whether to estimate significance and confidence intervals using a single rho value.
  * - progressbar: Boolean flag to indicate whether to display a progress bar during computation.
  *
  * Returns:
@@ -94,6 +95,7 @@ std::vector<std::vector<double>> CCM(
     int parallel_level = 0,
     int dist_metric = 2,
     bool dist_average = true,
+    bool single_sig = true,
     bool progressbar = false
 );
 

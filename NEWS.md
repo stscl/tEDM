@@ -1,5 +1,9 @@
 # tEDM 1.2
 
+### enhancements
+
+* Unify font specification in S3 plotting method for cross-mapping results (#135).
+
 # tEDM 1.1
 
 ### new

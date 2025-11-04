@@ -3,7 +3,7 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   tEDM: tEDM.html
-last_built: 2025-11-04T15:57Z
+last_built: 2025-11-04T16:09Z
 urls:
   reference: https://stscl.github.io/tEDM/reference
   article: https://stscl.github.io/tEDM/articles

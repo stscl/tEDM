@@ -2,7 +2,7 @@
 title: "Temporal Empirical Dynamic Modeling"
 date: |
   | Last update: 2025-09-05
-  | Last run: 2025-09-05
+  | Last run: 2025-11-05
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}
@@ -621,7 +621,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 4.9 seconds
+## Query completed in: 5.4 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

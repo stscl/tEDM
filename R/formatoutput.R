@@ -140,15 +140,12 @@ plot.ccm_res = \(x, family = "serif",
     ggplot2::scale_color_manual(values = legend_cols,
                                 labels = legend_texts,
                                 name = "") +
-    ggplot2::theme_bw() +
-    ggplot2::theme(axis.text = ggplot2::element_text(family = family),
-                   axis.text.x = ggplot2::element_text(angle = 30),
-                   axis.title = ggplot2::element_text(family = family),
+    ggplot2::theme_bw(base_family = family) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 30),
                    panel.grid = ggplot2::element_blank(),
                    legend.position = "inside",
                    legend.justification = c(0.05,1),
-                   legend.background = ggplot2::element_rect(fill = 'transparent'),
-                   legend.text = ggplot2::element_text(family = family))
+                   legend.background = ggplot2::element_rect(fill = 'transparent'))
   return(fig1)
 }
 

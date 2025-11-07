@@ -2,7 +2,7 @@
 title: "Temporal Empirical Dynamic Modeling"
 date: |
   | Last update: 2025-09-05
-  | Last run: 2025-11-05
+  | Last run: 2025-11-07
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}

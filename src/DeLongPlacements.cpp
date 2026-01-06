@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <utility>
 #include <string>
-#include "tEDMDataStruct.h"
+#include "DataStruct.h"
 
 /**
  * @brief Computes DeLong placements for ROC analysis.

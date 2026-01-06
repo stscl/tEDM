@@ -61,6 +61,10 @@ std::vector<double> CppSumNormalize(const std::vector<double>& vec,
 
 std::vector<double> CppArithmeticSeq(double from, double to, size_t length_out);
 
+std::vector<double> CppQuantile(const std::vector<double>& vec,
+                                const std::vector<double>& probs = {0.05, 0.5, 0.95},
+                                bool NA_rm = true);
+
 double CppVariance(const std::vector<double>& vec, bool NA_rm = false);
 
 double CppCovariance(const std::vector<double>& vec1,

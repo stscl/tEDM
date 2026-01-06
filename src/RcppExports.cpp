@@ -388,6 +388,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppCombn
+Rcpp::List RcppCombn(const Rcpp::RObject& vec, int m);
+RcppExport SEXP _tEDM_RcppCombn(SEXP vecSEXP, SEXP mSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::RObject& >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< int >::type m(mSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppCombn(vec, m));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppGenSubsets
+Rcpp::List RcppGenSubsets(const Rcpp::RObject& vec);
+RcppExport SEXP _tEDM_RcppGenSubsets(SEXP vecSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::RObject& >::type vec(vecSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppGenSubsets(vec));
+    return rcpp_result_gen;
+END_RCPP
+}
 // RcppDigamma
 double RcppDigamma(double x);
 RcppExport SEXP _tEDM_RcppDigamma(SEXP xSEXP) {
@@ -552,6 +573,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< double >::type to(toSEXP);
     Rcpp::traits::input_parameter< int >::type length_out(length_outSEXP);
     rcpp_result_gen = Rcpp::wrap(RcppArithmeticSeq(from, to, length_out));
+    return rcpp_result_gen;
+END_RCPP
+}
+// RcppQuantile
+Rcpp::NumericVector RcppQuantile(const Rcpp::NumericVector& vec, const Rcpp::NumericVector& probs, bool NA_rm);
+RcppExport SEXP _tEDM_RcppQuantile(SEXP vecSEXP, SEXP probsSEXP, SEXP NA_rmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type vec(vecSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::NumericVector& >::type probs(probsSEXP);
+    Rcpp::traits::input_parameter< bool >::type NA_rm(NA_rmSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppQuantile(vec, probs, NA_rm));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -837,6 +870,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// RcppSpatialBlockBootstrap
+Rcpp::IntegerVector RcppSpatialBlockBootstrap(const Rcpp::IntegerVector& block, unsigned int seed);
+RcppExport SEXP _tEDM_RcppSpatialBlockBootstrap(SEXP blockSEXP, SEXP seedSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type block(blockSEXP);
+    Rcpp::traits::input_parameter< unsigned int >::type seed(seedSEXP);
+    rcpp_result_gen = Rcpp::wrap(RcppSpatialBlockBootstrap(block, seed));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLogisticMap", (DL_FUNC) &_tEDM_RcppLogisticMap, 14},
@@ -861,6 +905,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_MatNotNAIndice", (DL_FUNC) &_tEDM_MatNotNAIndice, 2},
     {"_tEDM_RcppFactorial", (DL_FUNC) &_tEDM_RcppFactorial, 1},
     {"_tEDM_RcppCombine", (DL_FUNC) &_tEDM_RcppCombine, 2},
+    {"_tEDM_RcppCombn", (DL_FUNC) &_tEDM_RcppCombn, 2},
+    {"_tEDM_RcppGenSubsets", (DL_FUNC) &_tEDM_RcppGenSubsets, 1},
     {"_tEDM_RcppDigamma", (DL_FUNC) &_tEDM_RcppDigamma, 1},
     {"_tEDM_RcppLog", (DL_FUNC) &_tEDM_RcppLog, 2},
     {"_tEDM_RcppMedian", (DL_FUNC) &_tEDM_RcppMedian, 2},
@@ -876,6 +922,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppAbsDiff", (DL_FUNC) &_tEDM_RcppAbsDiff, 2},
     {"_tEDM_RcppSumNormalize", (DL_FUNC) &_tEDM_RcppSumNormalize, 2},
     {"_tEDM_RcppArithmeticSeq", (DL_FUNC) &_tEDM_RcppArithmeticSeq, 3},
+    {"_tEDM_RcppQuantile", (DL_FUNC) &_tEDM_RcppQuantile, 3},
     {"_tEDM_RcppPearsonCor", (DL_FUNC) &_tEDM_RcppPearsonCor, 3},
     {"_tEDM_RcppSpearmanCor", (DL_FUNC) &_tEDM_RcppSpearmanCor, 3},
     {"_tEDM_RcppKendallCor", (DL_FUNC) &_tEDM_RcppKendallCor, 3},
@@ -898,6 +945,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLinearTrendRM", (DL_FUNC) &_tEDM_RcppLinearTrendRM, 4},
     {"_tEDM_RcppSVD", (DL_FUNC) &_tEDM_RcppSVD, 1},
     {"_tEDM_RcppDeLongPlacements", (DL_FUNC) &_tEDM_RcppDeLongPlacements, 3},
+    {"_tEDM_RcppSpatialBlockBootstrap", (DL_FUNC) &_tEDM_RcppSpatialBlockBootstrap, 2},
     {NULL, NULL, 0}
 };
 

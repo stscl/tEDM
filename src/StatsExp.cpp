@@ -2,8 +2,10 @@
 #include <vector>
 #include <string>
 #include "CppStats.h"
+#include "CppCombn.h"
 #include "CppDistances.h"
 #include "DeLongPlacements.h"
+#include "SpatialBlockBootstrap.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -18,6 +20,38 @@ int RcppFactorial(int n){
 double RcppCombine(int n,int k){
   return(CppCombine(n,k));
 };
+
+// [[Rcpp::export(rng = false)]]
+Rcpp::List RcppCombn(const Rcpp::RObject& vec, int m) {
+  if (TYPEOF(vec) == REALSXP) {
+    std::vector<double> input = Rcpp::as<std::vector<double>>(vec);
+    return Rcpp::wrap(CppCombn(input, m));  // Calls the double version of the template
+  } else if (TYPEOF(vec) == INTSXP) {
+    std::vector<int> input = Rcpp::as<std::vector<int>>(vec);
+    return Rcpp::wrap(CppCombn(input, m));  // Calls the int version of the template
+  } else if (TYPEOF(vec) == STRSXP) {
+    std::vector<std::string> input = Rcpp::as<std::vector<std::string>>(vec);
+    return Rcpp::wrap(CppCombn(input, m));  // Calls the string version of the template
+  } else {
+    Rcpp::stop("Unsupported vector type. Must be numeric, integer, or character.");
+  }
+}
+
+// [[Rcpp::export(rng = false)]]
+Rcpp::List RcppGenSubsets(const Rcpp::RObject& vec) {
+  if (TYPEOF(vec) == REALSXP) {
+    std::vector<double> input = Rcpp::as<std::vector<double>>(vec);
+    return Rcpp::wrap(CppGenSubsets(input));  // Calls the double version of the template
+  } else if (TYPEOF(vec) == INTSXP) {
+    std::vector<int> input = Rcpp::as<std::vector<int>>(vec);
+    return Rcpp::wrap(CppGenSubsets(input));  // Calls the int version of the template
+  } else if (TYPEOF(vec) == STRSXP) {
+    std::vector<std::string> input = Rcpp::as<std::vector<std::string>>(vec);
+    return Rcpp::wrap(CppGenSubsets(input));  // Calls the string version of the template
+  } else {
+    Rcpp::stop("Unsupported vector type. Must be numeric, integer, or character.");
+  }
+}
 
 // [[Rcpp::export(rng = false)]]
 double RcppDigamma(double x){
@@ -155,6 +189,21 @@ Rcpp::NumericVector RcppArithmeticSeq(double from, double to, int length_out) {
 }
 
 // [[Rcpp::export(rng = false)]]
+Rcpp::NumericVector RcppQuantile(const Rcpp::NumericVector& vec,
+                                 const Rcpp::NumericVector& probs,
+                                 bool NA_rm = true) {
+  // Convert Rcpp::NumericVector to std::vector<double>
+  std::vector<double> vec_std = Rcpp::as<std::vector<double>>(vec);
+  std::vector<double> probs_std = Rcpp::as<std::vector<double>>(probs);
+
+  // Call the CppQuantilefunction
+  std::vector<double> result = CppQuantile(vec_std, probs_std, NA_rm);
+
+  // Convert the result back to Rcpp::NumericVector
+  return Rcpp::wrap(result);
+}
+
+// [[Rcpp::export(rng = false)]]
 double RcppPearsonCor(const Rcpp::NumericVector& y,
                       const Rcpp::NumericVector& y_hat,
                       bool NA_rm = false) {
@@ -211,7 +260,7 @@ double RcppPartialCor(const Rcpp::NumericVector& y,
   }
 
   // Call the PartialCor function
-  return PartialCor(std_y, std_y_hat, std_controls, NA_rm, linear, pinv_tol);
+  return PartialCor(std_y, std_y_hat, std_controls, NA_rm, linear);
 }
 
 // [[Rcpp::export(rng = false)]]
@@ -221,7 +270,6 @@ double RcppPartialCorTrivar(const Rcpp::NumericVector& y,
                             bool NA_rm = false,
                             bool linear = false,
                             double pinv_tol = 1e-10) {
-
   // Convert Rcpp NumericVector to std::vector
   std::vector<double> std_y = Rcpp::as<std::vector<double>>(y);
   std::vector<double> std_y_hat = Rcpp::as<std::vector<double>>(y_hat);
@@ -237,7 +285,7 @@ double RcppCorSignificance(double r, int n, int k = 0){
   return CppCorSignificance(r, static_cast<size_t>(n), static_cast<size_t>(k));
 }
 
-// Wrapper function to calculate the confidence interval for a (partial) correlation coefficient and return a NumericVector
+// Wrapper function to calculate the confidence interval for a (partial) correlation coefficient
 // [[Rcpp::export(rng = false)]]
 Rcpp::NumericVector RcppCorConfidence(double r, int n, int k = 0,
                                       double level = 0.05) {
@@ -559,10 +607,7 @@ Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings,
   }
 
   // Call the existing C++ function to compute sorted neighbor indices
-  std::vector<std::vector<size_t>> result = CppMatKNNeighbors(emb, lib_std, 
-                                                              static_cast<size_t>(k), 
-                                                              static_cast<size_t>(threads),
-                                                              L1norm);
+  std::vector<std::vector<size_t>> result = CppMatKNNeighbors(emb, lib_std, static_cast<size_t>(k), static_cast<size_t>(threads), L1norm);
 
   // Convert the result to an R list of integer vectors
   Rcpp::List out(n);
@@ -669,4 +714,14 @@ Rcpp::List RcppDeLongPlacements(const Rcpp::NumericVector& cases,
     Rcpp::Named("X") = result.X,
     Rcpp::Named("Y") = result.Y
   );
+}
+
+// Rcpp wrapper function for SpatialBlockBootstrap
+// [[Rcpp::export(rng = false)]]
+Rcpp::IntegerVector RcppSpatialBlockBootstrap(
+    const Rcpp::IntegerVector& block,
+    unsigned int seed = 42){
+  std::vector<int> b_std = Rcpp::as<std::vector<int>>(block);
+  std::vector<int> result = SpatialBlockBootstrap(b_std,seed);
+  return Rcpp::wrap(result);
 }

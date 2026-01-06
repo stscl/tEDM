@@ -12,7 +12,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
-#include "tEDMDataStruct.h"
+#include "DataStruct.h"
 #include <RcppThread.h>
 
 /**

@@ -89,6 +89,14 @@ RcppCombine <- function(n, k) {
     .Call(`_tEDM_RcppCombine`, n, k)
 }
 
+RcppCombn <- function(vec, m) {
+    .Call(`_tEDM_RcppCombn`, vec, m)
+}
+
+RcppGenSubsets <- function(vec) {
+    .Call(`_tEDM_RcppGenSubsets`, vec)
+}
+
 RcppDigamma <- function(x) {
     .Call(`_tEDM_RcppDigamma`, x)
 }
@@ -147,6 +155,10 @@ RcppSumNormalize <- function(vec, NA_rm = FALSE) {
 
 RcppArithmeticSeq <- function(from, to, length_out) {
     .Call(`_tEDM_RcppArithmeticSeq`, from, to, length_out)
+}
+
+RcppQuantile <- function(vec, probs, NA_rm = TRUE) {
+    .Call(`_tEDM_RcppQuantile`, vec, probs, NA_rm)
 }
 
 RcppPearsonCor <- function(y, y_hat, NA_rm = FALSE) {

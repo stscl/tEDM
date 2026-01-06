@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include "CppStats.h"
 #include "CppDistances.h"
-#include "tEDMDataStruct.h"
+#include "DataStruct.h"
 #include <RcppThread.h>
 
 /**

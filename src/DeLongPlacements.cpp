@@ -110,6 +110,9 @@ DeLongPlacementsRes CppDeLongPlacements(const std::vector<double>& cases,
 
   // Calculate final X and Y vectors
   DeLongPlacementsRes ret;
+  // ret.X.reserve(n);
+  // ret.Y.reserve(m);
+
   double sum = 0.0;
   const double norm_n = static_cast<double>(n);
   const double norm_m = static_cast<double>(m);

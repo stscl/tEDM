@@ -870,17 +870,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// RcppSpatialBlockBootstrap
-Rcpp::IntegerVector RcppSpatialBlockBootstrap(const Rcpp::IntegerVector& block, unsigned int seed);
-RcppExport SEXP _tEDM_RcppSpatialBlockBootstrap(SEXP blockSEXP, SEXP seedSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type block(blockSEXP);
-    Rcpp::traits::input_parameter< unsigned int >::type seed(seedSEXP);
-    rcpp_result_gen = Rcpp::wrap(RcppSpatialBlockBootstrap(block, seed));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLogisticMap", (DL_FUNC) &_tEDM_RcppLogisticMap, 14},
@@ -945,7 +934,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLinearTrendRM", (DL_FUNC) &_tEDM_RcppLinearTrendRM, 4},
     {"_tEDM_RcppSVD", (DL_FUNC) &_tEDM_RcppSVD, 1},
     {"_tEDM_RcppDeLongPlacements", (DL_FUNC) &_tEDM_RcppDeLongPlacements, 3},
-    {"_tEDM_RcppSpatialBlockBootstrap", (DL_FUNC) &_tEDM_RcppSpatialBlockBootstrap, 2},
     {NULL, NULL, 0}
 };
 

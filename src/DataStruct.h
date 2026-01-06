@@ -1,5 +1,5 @@
-#ifndef tEDMDataStruct_H
-#define tEDMDataStruct_H
+#ifndef DataStruct_H
+#define DataStruct_H
 
 #include <vector>
 
@@ -51,4 +51,4 @@ struct DeLongPlacementsRes {
     : theta(t), X(x), Y(y) {}
 };
 
-#endif // tEDMDataStruct_H
+#endif // DataStruct_H

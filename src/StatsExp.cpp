@@ -5,7 +5,6 @@
 #include "CppCombn.h"
 #include "CppDistances.h"
 #include "DeLongPlacements.h"
-#include "SpatialBlockBootstrap.h"
 // 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
@@ -714,14 +713,4 @@ Rcpp::List RcppDeLongPlacements(const Rcpp::NumericVector& cases,
     Rcpp::Named("X") = result.X,
     Rcpp::Named("Y") = result.Y
   );
-}
-
-// Rcpp wrapper function for SpatialBlockBootstrap
-// [[Rcpp::export(rng = false)]]
-Rcpp::IntegerVector RcppSpatialBlockBootstrap(
-    const Rcpp::IntegerVector& block,
-    unsigned int seed = 42){
-  std::vector<int> b_std = Rcpp::as<std::vector<int>>(block);
-  std::vector<int> result = SpatialBlockBootstrap(b_std,seed);
-  return Rcpp::wrap(result);
 }

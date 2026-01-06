@@ -4,80 +4,103 @@
 #include <numeric>
 #include <limits>
 #include <utility>
+#include <stdexcept>
+#include "NumericUtils.h"
 #include <RcppThread.h>
 
 // [[Rcpp::depends(RcppThread)]]
 
-// Function to compute distance between two vectors:
+/**
+ * @brief Compute L1 or L2 distance between two numeric vectors with NaN handling.
+ *
+ * @param vec1     First input vector
+ * @param vec2     Second input vector
+ * @param L1norm   If true → Manhattan (L1) distance, else → Euclidean (L2)
+ * @param NA_rm    If true → ignore NaNs; if false → return NaN if any NaN present
+ * @return double  Distance value (NaN if invalid or all-NaN)
+ */
 double CppDistance(const std::vector<double>& vec1,
                    const std::vector<double>& vec2,
                    bool L1norm = false,
                    bool NA_rm = false){
-  // Handle NA values
-  std::vector<double> clean_v1, clean_v2;
-  for (size_t i = 0; i < vec1.size(); ++i) {
-    bool is_na = std::isnan(vec1[i]) || std::isnan(vec2[i]);
-    if (is_na) {
-      if (!NA_rm) {
-        return std::numeric_limits<double>::quiet_NaN(); // Return NaN if NA_rm is false
-      }
-    } else {
-      clean_v1.push_back(vec1[i]);
-      clean_v2.push_back(vec2[i]);
-    }
-  }
+  const size_t n = vec1.size();
+  // if (n != vec2.size()) throw std::invalid_argument("CppChebyshevDistance: Input vectors must have the same length.");
 
-  // If no valid data, return NaN
-  if (clean_v1.empty()) {
-    return std::numeric_limits<double>::quiet_NaN();
-  }
+  double dist = 0.0;
+  bool has_valid = false;
 
-  double dist_res = 0.0;
   if (L1norm) {
-    for (size_t i = 0; i < clean_v1.size(); ++i) {
-      dist_res += std::abs(clean_v1[i] - clean_v2[i]);
+    // --- L1 (Manhattan) distance ---
+    for (size_t i = 0; i < n; ++i) {
+      double a = vec1[i], b = vec2[i];
+      if (std::isnan(a) || std::isnan(b)) {
+        if (!NA_rm) return std::numeric_limits<double>::quiet_NaN();
+        else continue;
+      }
+      dist += std::abs(a - b);
+      has_valid = true;
     }
   } else {
-    for (size_t i = 0; i < clean_v1.size(); ++i) {
-      dist_res += (clean_v1[i] - clean_v2[i]) * (clean_v1[i] - clean_v2[i]);
+    // --- L2 (Euclidean) distance ---
+    for (size_t i = 0; i < n; ++i) {
+      double a = vec1[i], b = vec2[i];
+      if (std::isnan(a) || std::isnan(b)) {
+        if (!NA_rm) return std::numeric_limits<double>::quiet_NaN();
+        else continue;
+      }
+      double diff = a - b;
+      dist += diff * diff;
+      has_valid = true;
     }
-    dist_res = std::sqrt(dist_res);
+    dist = std::sqrt(dist);
   }
 
-  return dist_res;
+  return has_valid ? dist : std::numeric_limits<double>::quiet_NaN();
 }
 
-// Function to compute the chebyshev distance between two vectors:
+/**
+ * @brief Compute the Chebyshev (L∞) distance between two numeric vectors.
+ *
+ * The Chebyshev distance is defined as:
+ * \f[
+ *    d(x, y) = \max_i |x_i - y_i|
+ * \f]
+ *
+ * @param vec1   First numeric vector.
+ * @param vec2   Second numeric vector (must have the same length as vec1).
+ * @param NA_rm  Whether to remove NaN pairs before computing distance.
+ *
+ * @return Chebyshev distance (double). Returns NaN if no valid pairs or NA_rm=false with NaN present.
+ */
 double CppChebyshevDistance(const std::vector<double>& vec1,
                             const std::vector<double>& vec2,
                             bool NA_rm = false){
-  // Handle NA values
-  std::vector<double> clean_v1, clean_v2;
-  for (size_t i = 0; i < vec1.size(); ++i) {
-    bool is_na = std::isnan(vec1[i]) || std::isnan(vec2[i]);
-    if (is_na) {
-      if (!NA_rm) {
-        return std::numeric_limits<double>::quiet_NaN(); // Return NaN if NA_rm is false
-      }
-    } else {
-      clean_v1.push_back(vec1[i]);
-      clean_v2.push_back(vec2[i]);
+  // if (vec1.size() != vec2.size()) {
+  //   throw std::invalid_argument("CppChebyshevDistance: Input vectors must have the same length.");
+  // }
+
+  double max_diff = 0.0;
+  bool has_valid = false;
+
+  const size_t n = vec1.size();
+  for (size_t i = 0; i < n; ++i) {
+    double a = vec1[i];
+    double b = vec2[i];
+
+    // Handle missing values
+    if (std::isnan(a) || std::isnan(b)) {
+      if (!NA_rm) return std::numeric_limits<double>::quiet_NaN();
+      continue;
     }
+
+    double diff = std::abs(a - b);
+    if (diff > max_diff) max_diff = diff;
+    has_valid = true;
   }
 
-  // If no valid data, return NaN
-  if (clean_v1.empty()) {
-    return std::numeric_limits<double>::quiet_NaN();
-  }
-
-  double dist_res = 0.0;
-  for (size_t i = 0; i < clean_v1.size(); ++i){
-    if (dist_res < std::abs(clean_v1[i] - clean_v2[i])){
-      dist_res = std::abs(clean_v1[i] - clean_v2[i]);
-    }
-  }
-
-  return dist_res;
+  // Return NaN if all pairs invalid
+  if (!has_valid) return std::numeric_limits<double>::quiet_NaN();
+  return max_diff;
 }
 
 // Function to compute the k-th nearest distance for a vector.
@@ -281,9 +304,9 @@ std::vector<int> CppMatNeighborsNum(
       if (i != j) { // Skip self-comparison
         double distance = dist[i][j];
         // Check neighbor condition based on the 'equal' flag
-        if (!equal && distance < radius[i]) {
+        if (!equal && !doubleNearlyEqual(distance,radius[i]) && distance < radius[i]) {
           NAx[i]++;
-        } else if (equal && distance <= radius[i]) {
+        } else if (equal && doubleNearlyEqual(distance,radius[i]) && distance <= radius[i]) {
           NAx[i]++;
         }
       }
@@ -299,13 +322,14 @@ std::vector<size_t> CppKNNIndice(
     const std::vector<std::vector<double>>& embedding_space,  // Embedding space containing vectors
     size_t target_idx,                                        // Target index for which to find neighbors
     size_t k,                                                 // Number of nearest neighbors to find
-    const std::vector<int>& lib)                              // Indices from which to select neighbors
+    const std::vector<int>& lib,                              // Indices from which to select neighbors
+    bool include_self = false)                                // Whether to include the point itself as a valid neighbor.
 {
   std::vector<std::pair<double, size_t>> distances;
 
   // Iterate through the specified library indices to collect valid distances
-  for (std::size_t i : lib) {
-    if (i == target_idx) continue;  // Skip the target index itself
+  for (size_t i : lib) {
+    if (!include_self && i == target_idx) continue;  // Skip the target index itself if include_self is false
 
     // Check if the entire embedding_space[i] is NaN
     if (std::all_of(embedding_space[i].begin(), embedding_space[i].end(),
@@ -340,13 +364,14 @@ std::vector<size_t> CppDistKNNIndice(
     const std::vector<std::vector<double>>& dist_mat,  // Precomputed n * n distance matrix
     size_t target_idx,                                 // Target index for which to find neighbors
     size_t k,                                          // Number of nearest neighbors to find
-    const std::vector<int>& lib)                       // Indices from which to select neighbors
+    const std::vector<int>& lib,                       // Indices from which to select neighbors
+    bool include_self = false)                         // Whether to include the point itself as a valid neighbor.
 {
   std::vector<std::pair<double, size_t>> distances;
 
   // Iterate through the specified library indices to collect valid distances
   for (size_t i : lib) {
-    if (i == target_idx) continue;  // Skip the target index itself
+    if (!include_self && i == target_idx) continue;  // Skip the target index itself if include_self is false
 
     double dist = dist_mat[target_idx][i];
 
@@ -407,7 +432,7 @@ std::vector<std::vector<size_t>> CppDistSortedIndice(
 
     // Collect valid neighbors from lib
     for (size_t j : lib) {
-      if (!include_self && i == j) continue;
+      if (!include_self && i == j) continue; // Skip the target index itself if include_self is false
       double d = row[j];
       if (!std::isnan(d)) {
         valid_neighbors.emplace_back(d, j);
@@ -422,8 +447,13 @@ std::vector<std::vector<size_t>> CppDistSortedIndice(
       valid_neighbors.begin(),
       valid_neighbors.begin() + num_neighbors,
       valid_neighbors.end(),
-      [](const std::pair<double, size_t>& a, const std::pair<double, size_t>& b) {
-        return (a.first < b.first) || (a.first == b.first && a.second < b.second);
+      [](const std::pair<double, size_t>& a,
+         const std::pair<double, size_t>& b) {
+        if (!doubleNearlyEqual(a.first,b.first)) {
+          return a.first < b.first;
+        } else {
+          return a.second < b.second;
+        }
       }
     );
 
@@ -452,11 +482,12 @@ std::vector<std::vector<size_t>> CppDistSortedIndice(
  * This function uses RcppThread to parallelize the outer loop over the 'lib' indices,
  * with the number of threads controlled by the 'threads' parameter.
  *
- * @param embedding_space The full set of vectors representing the embedding space.
- * @param lib A vector of indices representing the subset of points to consider for neighbor search.
- * @param k The number of nearest neighbors to find for each point in 'lib'.
- * @param threads The number of threads to use for parallel computation.
- * @param L1norm Flag to use Manhattan distance (true) or Euclidean distance (false).
+ * @param embedding_space - The full set of vectors representing the embedding space.
+ * @param lib - A vector of indices representing the subset of points to consider for neighbor search.
+ * @param k - The number of nearest neighbors to find for each point in 'lib'.
+ * @param threads - The number of threads to use for parallel computation.
+ * @param L1norm - Flag to use Manhattan distance (true) or Euclidean distance (false).
+ * @param include_self - Whether to include the point itself (i == j) as a valid neighbor.
  * @return std::vector<std::vector<size_t>> A vector where each row corresponds to an embedding_space
  *         point and contains the indices of its k nearest neighbors from 'lib', or an invalid index if not in 'lib'.
  */
@@ -465,7 +496,8 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
     const std::vector<size_t>& lib,
     size_t k,
     size_t threads,
-    bool L1norm = false) {
+    bool L1norm = false,
+    bool include_self = false) {
 
   const size_t n = embedding_space.size();
   const size_t invalid_index = std::numeric_limits<size_t>::max();
@@ -484,7 +516,7 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
   //
   //   // Compute distances to all other points in lib (excluding self)
   //   for (size_t idx_j = 0; idx_j < lib_size; ++idx_j) {
-  //     if (idx_i == idx_j) continue;  // Skip distance to self
+  //     if (!include_self && idx_i == idx_j) continue; // Skip the target index itself if include_self is false
   //     size_t j = lib[idx_j];
   //
   //     double dist = CppDistance(embedding_space[i], embedding_space[j], L1norm, true);
@@ -499,9 +531,14 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
   //
   //   // Partially sort distances to find the k smallest distances efficiently
   //   std::partial_sort(dist_idx_pairs.begin(), dist_idx_pairs.begin() + knn, dist_idx_pairs.end(),
-  //                     [](const std::pair<double, size_t>& a, const std::pair<double, size_t>& b) {
-  //                       return a.first < b.first || (a.first == b.first && a.second < b.second);
-  //                     });
+  //                    [](const std::pair<double, size_t>& a,
+  //                       const std::pair<double, size_t>& b) {
+  //                      if (!doubleNearlyEqual(a.first,b.first)) {
+  //                        return a.first < b.first;
+  //                      } else {
+  //                       return a.second < b.second;
+  //                      }
+  //                    });
   //
   //   // Resize the output vector for the current point and fill with neighbor indices
   //   sorted_indices[i].resize(knn);
@@ -519,7 +556,7 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
 
     // Compute distances to all other points in lib (excluding self)
     for (size_t idx_j = 0; idx_j < lib_size; ++idx_j) {
-      if (idx_i == idx_j) continue;  // Skip distance to self
+      if (!include_self && idx_i == idx_j) continue; // Skip the target index itself if include_self is false
       size_t j = lib[idx_j];
 
       double dist = CppDistance(embedding_space[i], embedding_space[j], L1norm, true);
@@ -534,8 +571,13 @@ std::vector<std::vector<size_t>> CppMatKNNeighbors(
 
     // Partially sort distances to find the k smallest distances efficiently
     std::partial_sort(dist_idx_pairs.begin(), dist_idx_pairs.begin() + knn, dist_idx_pairs.end(),
-                      [](const std::pair<double, size_t>& a, const std::pair<double, size_t>& b) {
-                        return a.first < b.first || (a.first == b.first && a.second < b.second);
+                      [](const std::pair<double, size_t>& a,
+                         const std::pair<double, size_t>& b) {
+                        if (!doubleNearlyEqual(a.first,b.first)) {
+                          return a.first < b.first;
+                        } else {
+                          return a.second < b.second;
+                        }
                       });
 
     // Resize the output vector for the current point and fill with neighbor indices

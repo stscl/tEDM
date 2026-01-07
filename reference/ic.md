@@ -83,10 +83,6 @@ A list
 
   method of cross mapping
 
-- `tau`:
-
-  step of time lag
-
 ## References
 
 Tao, P., Wang, Q., Shi, J., Hao, X., Liu, X., Min, B., Zhang, Y., Li,
@@ -98,5 +94,5 @@ intersection cardinal concavity. Fundamental Research.
 ``` r
 sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
 ic(sim,"x","y",E = 4,k = 15:30,threads = 1)
-#> The suggested E and k for variable y is 4 and 15 
+#> The suggested E,k,tau for variable y is 4, 15 and 1 
 ```

@@ -98,10 +98,6 @@ A list
 
   method of cross mapping
 
-- `tau`:
-
-  step of time lag
-
 ## References
 
 Sugihara G. and May R. 1990. Nonlinear forecasting as a way of
@@ -113,5 +109,5 @@ distinguishing chaos from measurement error in time series. Nature,
 ``` r
 sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)
 simplex(sim,"x","y",E = 4:10,k = 7,threads = 1)
-#> The suggested E and k for variable y is 10 and 7 
+#> The suggested E,k,tau for variable y is 10, 7 and 1 
 ```

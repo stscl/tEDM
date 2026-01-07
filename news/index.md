@@ -4,6 +4,9 @@
 
 #### enhancements
 
+- Permit `simplex` and `ic` generics to accept varying E, k, and tau
+  inputs ([\#148](https://github.com/stscl/tEDM/issues/148)).
+
 - Enforce strict floating-point comparisons across cpp sources
   ([\#143](https://github.com/stscl/tEDM/issues/143)).
 

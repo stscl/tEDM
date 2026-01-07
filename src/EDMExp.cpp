@@ -426,8 +426,8 @@ Rcpp::NumericVector RcppFNN4TS(
   // Convert Rcpp *Vector to std::vector<*>
   std::vector<double> rt_std = Rcpp::as<std::vector<double>>(rt);
   std::vector<double> eps_std = Rcpp::as<std::vector<double>>(eps);
-  std::vector<int> lib_std;
-  std::vector<int> pred_std;
+  std::vector<size_t> lib_std;
+  std::vector<size_t> pred_std;
 
   // Generate embeddings
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
@@ -442,7 +442,7 @@ Rcpp::NumericVector RcppFNN4TS(
       Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
     }
     if (!std::isnan(vec_std[lib[i] - 1]) && (lib[i] > max_lag)) {
-      lib_std.push_back(lib[i] - 1);
+      lib_std.push_back(static_cast<size_t>(lib[i] - 1));
     }
   }
   for (int i = 0; i < pred.size(); ++i) {
@@ -450,7 +450,7 @@ Rcpp::NumericVector RcppFNN4TS(
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(vec_std[pred[i] - 1])) {
-      pred_std.push_back(pred[i] - 1);
+      pred_std.push_back(static_cast<size_t>(pred[i] - 1));
     }
   }
 

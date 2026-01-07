@@ -146,7 +146,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppSimplex4TS
-Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, int tau, int dist_metric, bool dist_average, int threads);
+Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, const Rcpp::IntegerVector& tau, int dist_metric, bool dist_average, int threads);
 RcppExport SEXP _tEDM_RcppSimplex4TS(SEXP sourceSEXP, SEXP targetSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP bSEXP, SEXP tauSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP, SEXP threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -156,7 +156,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type E(ESEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type b(bSEXP);
-    Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
     Rcpp::traits::input_parameter< bool >::type dist_average(dist_averageSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
@@ -185,7 +185,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppMultiSimplex4TS
-Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source, const Rcpp::NumericMatrix& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, int tau, int dist_metric, bool dist_average, int threads);
+Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source, const Rcpp::NumericMatrix& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, const Rcpp::IntegerVector& tau, int dist_metric, bool dist_average, int threads);
 RcppExport SEXP _tEDM_RcppMultiSimplex4TS(SEXP sourceSEXP, SEXP targetSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP bSEXP, SEXP tauSEXP, SEXP dist_metricSEXP, SEXP dist_averageSEXP, SEXP threadsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -195,7 +195,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type E(ESEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type b(bSEXP);
-    Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
     Rcpp::traits::input_parameter< bool >::type dist_average(dist_averageSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
@@ -204,7 +204,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // RcppIC4TS
-Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, int tau, int exclude, int dist_metric, int threads, int parallel_level);
+Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source, const Rcpp::NumericVector& target, const Rcpp::IntegerVector& lib, const Rcpp::IntegerVector& pred, const Rcpp::IntegerVector& E, const Rcpp::IntegerVector& b, const Rcpp::IntegerVector& tau, int exclude, int dist_metric, int threads, int parallel_level);
 RcppExport SEXP _tEDM_RcppIC4TS(SEXP sourceSEXP, SEXP targetSEXP, SEXP libSEXP, SEXP predSEXP, SEXP ESEXP, SEXP bSEXP, SEXP tauSEXP, SEXP excludeSEXP, SEXP dist_metricSEXP, SEXP threadsSEXP, SEXP parallel_levelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -214,7 +214,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type pred(predSEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type E(ESEXP);
     Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type b(bSEXP);
-    Rcpp::traits::input_parameter< int >::type tau(tauSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type tau(tauSEXP);
     Rcpp::traits::input_parameter< int >::type exclude(excludeSEXP);
     Rcpp::traits::input_parameter< int >::type dist_metric(dist_metricSEXP);
     Rcpp::traits::input_parameter< int >::type threads(threadsSEXP);
@@ -314,56 +314,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type dist_average(dist_averageSEXP);
     Rcpp::traits::input_parameter< bool >::type progressbar(progressbarSEXP);
     rcpp_result_gen = Rcpp::wrap(RcppMultispatialCCM(x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, dist_metric, dist_average, progressbar));
-    return rcpp_result_gen;
-END_RCPP
-}
-// DetectMaxNumThreads
-unsigned int DetectMaxNumThreads();
-RcppExport SEXP _tEDM_DetectMaxNumThreads() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(DetectMaxNumThreads());
-    return rcpp_result_gen;
-END_RCPP
-}
-// OptEmbedDim
-Rcpp::IntegerVector OptEmbedDim(Rcpp::NumericMatrix Emat);
-RcppExport SEXP _tEDM_OptEmbedDim(SEXP EmatSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Emat(EmatSEXP);
-    rcpp_result_gen = Rcpp::wrap(OptEmbedDim(Emat));
-    return rcpp_result_gen;
-END_RCPP
-}
-// OptThetaParm
-double OptThetaParm(Rcpp::NumericMatrix Thetamat);
-RcppExport SEXP _tEDM_OptThetaParm(SEXP ThetamatSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Thetamat(ThetamatSEXP);
-    rcpp_result_gen = Rcpp::wrap(OptThetaParm(Thetamat));
-    return rcpp_result_gen;
-END_RCPP
-}
-// OptICparm
-Rcpp::IntegerVector OptICparm(Rcpp::NumericMatrix Emat);
-RcppExport SEXP _tEDM_OptICparm(SEXP EmatSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Emat(EmatSEXP);
-    rcpp_result_gen = Rcpp::wrap(OptICparm(Emat));
-    return rcpp_result_gen;
-END_RCPP
-}
-// MatNotNAIndice
-Rcpp::NumericMatrix MatNotNAIndice(Rcpp::NumericMatrix mat, bool byrow);
-RcppExport SEXP _tEDM_MatNotNAIndice(SEXP matSEXP, SEXP byrowSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type mat(matSEXP);
-    Rcpp::traits::input_parameter< bool >::type byrow(byrowSEXP);
-    rcpp_result_gen = Rcpp::wrap(MatNotNAIndice(mat, byrow));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -870,6 +820,56 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// DetectMaxNumThreads
+unsigned int DetectMaxNumThreads();
+RcppExport SEXP _tEDM_DetectMaxNumThreads() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    rcpp_result_gen = Rcpp::wrap(DetectMaxNumThreads());
+    return rcpp_result_gen;
+END_RCPP
+}
+// OptSimplexParm
+Rcpp::IntegerVector OptSimplexParm(Rcpp::NumericMatrix Emat);
+RcppExport SEXP _tEDM_OptSimplexParm(SEXP EmatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Emat(EmatSEXP);
+    rcpp_result_gen = Rcpp::wrap(OptSimplexParm(Emat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// OptThetaParm
+double OptThetaParm(Rcpp::NumericMatrix Thetamat);
+RcppExport SEXP _tEDM_OptThetaParm(SEXP ThetamatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Thetamat(ThetamatSEXP);
+    rcpp_result_gen = Rcpp::wrap(OptThetaParm(Thetamat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// OptICparm
+Rcpp::IntegerVector OptICparm(Rcpp::NumericMatrix Emat);
+RcppExport SEXP _tEDM_OptICparm(SEXP EmatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type Emat(EmatSEXP);
+    rcpp_result_gen = Rcpp::wrap(OptICparm(Emat));
+    return rcpp_result_gen;
+END_RCPP
+}
+// MatNotNAIndice
+Rcpp::NumericMatrix MatNotNAIndice(Rcpp::NumericMatrix mat, bool byrow);
+RcppExport SEXP _tEDM_MatNotNAIndice(SEXP matSEXP, SEXP byrowSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericMatrix >::type mat(matSEXP);
+    Rcpp::traits::input_parameter< bool >::type byrow(byrowSEXP);
+    rcpp_result_gen = Rcpp::wrap(MatNotNAIndice(mat, byrow));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLogisticMap", (DL_FUNC) &_tEDM_RcppLogisticMap, 14},
@@ -887,11 +887,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppPCM", (DL_FUNC) &_tEDM_RcppPCM, 17},
     {"_tEDM_RcppCMC", (DL_FUNC) &_tEDM_RcppCMC, 13},
     {"_tEDM_RcppMultispatialCCM", (DL_FUNC) &_tEDM_RcppMultispatialCCM, 13},
-    {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
-    {"_tEDM_OptEmbedDim", (DL_FUNC) &_tEDM_OptEmbedDim, 1},
-    {"_tEDM_OptThetaParm", (DL_FUNC) &_tEDM_OptThetaParm, 1},
-    {"_tEDM_OptICparm", (DL_FUNC) &_tEDM_OptICparm, 1},
-    {"_tEDM_MatNotNAIndice", (DL_FUNC) &_tEDM_MatNotNAIndice, 2},
     {"_tEDM_RcppFactorial", (DL_FUNC) &_tEDM_RcppFactorial, 1},
     {"_tEDM_RcppCombine", (DL_FUNC) &_tEDM_RcppCombine, 2},
     {"_tEDM_RcppCombn", (DL_FUNC) &_tEDM_RcppCombn, 2},
@@ -934,6 +929,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_tEDM_RcppLinearTrendRM", (DL_FUNC) &_tEDM_RcppLinearTrendRM, 4},
     {"_tEDM_RcppSVD", (DL_FUNC) &_tEDM_RcppSVD, 1},
     {"_tEDM_RcppDeLongPlacements", (DL_FUNC) &_tEDM_RcppDeLongPlacements, 3},
+    {"_tEDM_DetectMaxNumThreads", (DL_FUNC) &_tEDM_DetectMaxNumThreads, 0},
+    {"_tEDM_OptSimplexParm", (DL_FUNC) &_tEDM_OptSimplexParm, 1},
+    {"_tEDM_OptThetaParm", (DL_FUNC) &_tEDM_OptThetaParm, 1},
+    {"_tEDM_OptICparm", (DL_FUNC) &_tEDM_OptICparm, 1},
+    {"_tEDM_MatNotNAIndice", (DL_FUNC) &_tEDM_MatNotNAIndice, 2},
     {NULL, NULL, 0}
 };
 

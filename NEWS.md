@@ -2,6 +2,8 @@
 
 ### enhancements
 
+* Permit `simplex` and `ic` generics to accept varying E, k, and tau inputs (#148).
+
 * Enforce strict floating-point comparisons across cpp sources (#143).
 
 * Unify font specification in S3 plotting method for cross-mapping results (#135).

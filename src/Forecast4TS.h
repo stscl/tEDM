@@ -5,6 +5,9 @@
 #include <cmath>
 #include <algorithm>
 #include <utility>
+#include <tuple>
+#include "CppStats.h"
+#include "CppDistances.h"
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
@@ -12,23 +15,24 @@
 #include <RcppThread.h>
 
 /*
- * Evaluates prediction performance of different combinations of embedding dimensions and number of nearest neighbors
- * for time series data using simplex projection.
+ * Evaluates prediction performance of different combinations of embedding dimensions, number of nearest neighbors
+ * and tau values for lattice data using simplex projection forecasting.
  *
  * Parameters:
  *   - source: A vector to be embedded.
  *   - target: A vector to be predicted.
+ *   - nb_vec: A 2D vector of neighbor indices.
  *   - lib_indices: A vector of indices indicating the library (training) set.
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - E: A vector of embedding dimensions to evaluate.
  *   - b: A vector of nearest neighbor values to evaluate.
- *   - tau: The time lag step for constructing lagged state-space vectors. Default is 1.
+ *   - tau: A vector of time lag steps for constructing lagged state-space vectors.
  *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
  *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *   - threads: Number of threads used from the global pool. Default is 8.
  *
  * Returns:
- *   A 2D vector where each row contains [E, b, rho, mae, rmse] for a given combination of E and b.
+ *   A 2D vector where each row contains [E, b, tau, rho, mae, rmse] for a given combination of E and b.
  */
 std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<double>& target,
@@ -36,7 +40,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<int>& pred_indices,
                                             const std::vector<int>& E,
                                             const std::vector<int>& b,
-                                            int tau = 1,
+                                            const std::vector<int>& tau,
                                             int dist_metric = 2,
                                             bool dist_average = true,
                                             int threads = 8);
@@ -91,7 +95,7 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
  * @param threads        Number of threads for parallel computation. Default is 8.
  *
  * @return A vector of vectors where each sub-vector contains:
- *         [E, b, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
+ *         [E, b, tau, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
  *         for one (E, b) combination.
  */
 std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<double>>& source,
@@ -100,16 +104,16 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
                                                  const std::vector<int>& pred_indices,
                                                  const std::vector<int>& E,
                                                  const std::vector<int>& b,
-                                                 int tau = 1,
+                                                 const std::vector<int>& tau,
                                                  int dist_metric = 2,
                                                  bool dist_average = true,
                                                  int threads = 8);
 
 /**
- * Compute Intersection Cardinality AUC over Lattice Embedding Settings.
+ * Compute Intersectional Cardinality AUC over Lattice Embedding Settings.
  *
  * This function computes the causal strength between two lattice-structured time series
- * (`source` and `target`) by evaluating the Intersection Cardinality (IC) curve, and
+ * (`source` and `target`) by evaluating the Intersectional Cardinality (IC) curve, and
  * summarizing it using the Area Under the Curve (AUC) metric.
  *
  * For each combination of embedding dimension `E` and neighbor size `b`, the function:
@@ -125,14 +129,14 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
  * @param pred_indices   Indices used for prediction (testing) data.
  * @param E              Vector of embedding dimensions to try.
  * @param b              Vector of neighbor sizes to try.
- * @param tau            Embedding delay (usually 1 for lattice).
+ * @param tau            Embedding delay (usually 1).
  * @param exclude        Number of nearest neighbors to exclude (e.g., temporal or spatial proximity).
  * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads        Number of threads for parallel computation.
  * @param parallel_level Flag indicating whether to use multi-threading (0: serial, 1: parallel).
  *
- * @return A vector of size `E.size() * b.size()`, each element is a vector:
- *         [embedding_dimension, neighbor_size, auc_value].
+ * @return A vector of size `E.size() * b.size() * tau.size()`, each element is a vector:
+ *         [embedding_dimension, neighbor_size, delay step, auc_value, p value].
  *         If inputs are invalid or no prediction point is valid, the AUC value is NaN.
  *
  * @note
@@ -146,7 +150,7 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
                                        const std::vector<size_t>& pred_indices,
                                        const std::vector<int>& E,
                                        const std::vector<int>& b,
-                                       int tau = 1,
+                                       const std::vector<int>& tau,
                                        int exclude = 0,
                                        int dist_metric = 2,
                                        int threads = 8,

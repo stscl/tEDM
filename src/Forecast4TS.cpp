@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <utility>
+#include <tuple>
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "Embed.h"
@@ -13,23 +14,24 @@
 // [[Rcpp::depends(RcppThread)]]
 
 /*
- * Evaluates prediction performance of different combinations of embedding dimensions and number of nearest neighbors
- * for time series data using simplex projection.
+ * Evaluates prediction performance of different combinations of embedding dimensions, number of nearest neighbors
+ * and tau values for lattice data using simplex projection forecasting.
  *
  * Parameters:
  *   - source: A vector to be embedded.
  *   - target: A vector to be predicted.
+ *   - nb_vec: A 2D vector of neighbor indices.
  *   - lib_indices: A vector of indices indicating the library (training) set.
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - E: A vector of embedding dimensions to evaluate.
  *   - b: A vector of nearest neighbor values to evaluate.
- *   - tau: The time lag step for constructing lagged state-space vectors. Default is 1.
+ *   - tau: A vector of time lag steps for constructing lagged state-space vectors.
  *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
  *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *   - threads: Number of threads used from the global pool. Default is 8.
  *
  * Returns:
- *   A 2D vector where each row contains [E, b, rho, mae, rmse] for a given combination of E and b.
+ *   A 2D vector where each row contains [E, b, tau, rho, mae, rmse] for a given combination of E and b.
  */
 std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<double>& target,
@@ -37,7 +39,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<int>& pred_indices,
                                             const std::vector<int>& E,
                                             const std::vector<int>& b,
-                                            int tau = 1,
+                                            const std::vector<int>& tau,
                                             int dist_metric = 2,
                                             bool dist_average = true,
                                             int threads = 8) {
@@ -45,7 +47,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
-  // Unique sorted embedding dimensions and neighbor values
+  // Unique sorted embedding dimensions, neighbor values, and tau values
   std::vector<int> Es = E;
   std::sort(Es.begin(), Es.end());
   Es.erase(std::unique(Es.begin(), Es.end()), Es.end());
@@ -54,26 +56,34 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
   std::sort(bs.begin(), bs.end());
   bs.erase(std::unique(bs.begin(), bs.end()), bs.end());
 
-  // Generate unique (E, b) combinations
-  std::vector<std::pair<int, int>> unique_Ebcom;
+  std::vector<int> taus = tau;
+  std::sort(taus.begin(), taus.end());
+  taus.erase(std::unique(taus.begin(), taus.end()), taus.end());
+
+  // Generate unique (E, b, tau) combinations
+  std::vector<std::tuple<int, int, int>> unique_EbTau;
   for (int e : Es)
     for (int bb : bs)
-      unique_Ebcom.emplace_back(e, bb);
+      for (int t : taus)
+        unique_EbTau.emplace_back(e, bb, t);
 
-  std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(5));
+  std::vector<std::vector<double>> result(unique_EbTau.size(), std::vector<double>(6));
 
-  RcppThread::parallelFor(0, unique_Ebcom.size(), [&](size_t i) {
-    const int Ei = unique_Ebcom[i].first;
-    const int bi = unique_Ebcom[i].second;
+  RcppThread::parallelFor(0, unique_EbTau.size(), [&](size_t i) {
+    const int Ei   = std::get<0>(unique_EbTau[i]);
+    const int bi   = std::get<1>(unique_EbTau[i]);
+    const int taui = std::get<2>(unique_EbTau[i]);
+    // auto [Ei, bi, taui] = unique_EbTau[i]; // C++17 structured binding
 
-    auto embeddings = Embed(source, Ei, tau);
+    auto embeddings = Embed(source, Ei, taui);
     auto metrics = SimplexBehavior(embeddings, target, lib_indices, pred_indices, bi, dist_metric, dist_average);
 
-    result[i][0] = Ei;
-    result[i][1] = bi;
-    result[i][2] = metrics[0]; // rho
-    result[i][3] = metrics[1]; // MAE
-    result[i][4] = metrics[2]; // RMSE
+    result[i][0] = Ei; // E
+    result[i][1] = bi; // k
+    result[i][2] = taui; // tau
+    result[i][3] = metrics[0]; // rho
+    result[i][4] = metrics[1]; // MAE
+    result[i][5] = metrics[2]; // RMSE
   }, threads_sizet);
 
   return result;
@@ -148,7 +158,7 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
  * @param threads        Number of threads for parallel computation. Default is 8.
  *
  * @return A vector of vectors where each sub-vector contains:
- *         [E, b, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
+ *         [E, b, tau, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
  *         for one (E, b) combination.
  */
 std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<double>>& source,
@@ -157,7 +167,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
                                                  const std::vector<int>& pred_indices,
                                                  const std::vector<int>& E,
                                                  const std::vector<int>& b,
-                                                 int tau = 1,
+                                                 const std::vector<int>& tau,
                                                  int dist_metric = 2,
                                                  bool dist_average = true,
                                                  int threads = 8) {
@@ -178,7 +188,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
-  // Unique sorted embedding dimensions and neighbor values
+  // Unique sorted embedding dimensions, neighbor values, and tau values
   std::vector<int> Es = E;
   std::sort(Es.begin(), Es.end());
   Es.erase(std::unique(Es.begin(), Es.end()), Es.end());
@@ -187,24 +197,31 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
   std::sort(bs.begin(), bs.end());
   bs.erase(std::unique(bs.begin(), bs.end()), bs.end());
 
-  // Generate unique (E, b) combinations
-  std::vector<std::pair<int, int>> unique_Ebcom;
+  std::vector<int> taus = tau;
+  std::sort(taus.begin(), taus.end());
+  taus.erase(std::unique(taus.begin(), taus.end()), taus.end());
+
+  // Generate unique (E, b, tau) combinations
+  std::vector<std::tuple<int, int, int>> unique_EbTau;
   for (int e : Es)
     for (int bb : bs)
-      unique_Ebcom.emplace_back(e, bb);
+      for (int t : taus)
+        unique_EbTau.emplace_back(e, bb, t);
 
-  std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(5));
+  std::vector<std::vector<double>> result(unique_EbTau.size(), std::vector<double>(6));
 
-  RcppThread::parallelFor(0, unique_Ebcom.size(), [&](size_t idx) {
-    const int Ei = unique_Ebcom[idx].first;
-    const int bi = unique_Ebcom[idx].second;
+  RcppThread::parallelFor(0, unique_EbTau.size(), [&](size_t idx) {
+    const int Ei   = std::get<0>(unique_EbTau[idx]);
+    const int bi   = std::get<1>(unique_EbTau[idx]);
+    const int taui = std::get<2>(unique_EbTau[idx]);
+    // auto [Ei, bi, taui] = unique_EbTau[idx]; // C++17 structured binding
 
     // Combine all spatial observations and generate embeddings
     std::vector<std::vector<double>> all_vectors;
     std::vector<double> all_targets;
 
     for (size_t i = 0; i < source.size(); ++i) {
-      auto emb = Embed(source[i], Ei, tau);
+      auto emb = Embed(source[i], Ei, taui);
       all_vectors.insert(all_vectors.end(), emb.begin(), emb.end());
       all_targets.insert(all_targets.end(), target[i].begin(), target[i].end());
     }
@@ -214,7 +231,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
     std::vector<int> com_pred;
 
     int ts_len = source[0].size();
-    size_t max_lag = static_cast<size_t>((tau == 0) ? (Ei - 1) : (Ei * tau));
+    size_t max_lag = static_cast<size_t>((taui == 0) ? (Ei - 1) : (Ei * taui));
     for (size_t i = 0; i < lib.size(); ++i) {
       for (size_t j = 0; j < source[0].size(); ++j) {
         if (j > max_lag){
@@ -242,21 +259,22 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
       rmse = CppRMSE(target_pred, all_targets, true);
     }
 
-    result[idx][0] = Ei;
-    result[idx][1] = bi;
-    result[idx][2] = pearson; // rho
-    result[idx][3] = mae;     // MAE
-    result[idx][4] = rmse;    // RMSE
+    result[idx][0] = Ei;        // E
+    result[idx][1] = bi;        // k
+    result[idx][2] = taui;      // tau
+    result[idx][3] = pearson;   // rho
+    result[idx][4] = mae;       // MAE
+    result[idx][5] = rmse;      // RMSE
   }, threads_sizet);
 
   return result;
 }
 
 /**
- * Compute Intersection Cardinality AUC over Lattice Embedding Settings.
+ * Compute Intersectional Cardinality AUC over Lattice Embedding Settings.
  *
  * This function computes the causal strength between two lattice-structured time series
- * (`source` and `target`) by evaluating the Intersection Cardinality (IC) curve, and
+ * (`source` and `target`) by evaluating the Intersectional Cardinality (IC) curve, and
  * summarizing it using the Area Under the Curve (AUC) metric.
  *
  * For each combination of embedding dimension `E` and neighbor size `b`, the function:
@@ -272,14 +290,14 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
  * @param pred_indices   Indices used for prediction (testing) data.
  * @param E              Vector of embedding dimensions to try.
  * @param b              Vector of neighbor sizes to try.
- * @param tau            Embedding delay (usually 1 for lattice).
+ * @param tau            Embedding delay (usually 1).
  * @param exclude        Number of nearest neighbors to exclude (e.g., temporal or spatial proximity).
  * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads        Number of threads for parallel computation.
  * @param parallel_level Flag indicating whether to use multi-threading (0: serial, 1: parallel).
  *
- * @return A vector of size `E.size() * b.size()`, each element is a vector:
- *         [embedding_dimension, neighbor_size, auc_value].
+ * @return A vector of size `E.size() * b.size() * tau.size()`, each element is a vector:
+ *         [embedding_dimension, neighbor_size, delay step, auc_value, p value].
  *         If inputs are invalid or no prediction point is valid, the AUC value is NaN.
  *
  * @note
@@ -293,7 +311,7 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
                                        const std::vector<size_t>& pred_indices,
                                        const std::vector<int>& E,
                                        const std::vector<int>& b,
-                                       int tau = 1,
+                                       const std::vector<int>& tau,
                                        int exclude = 0,
                                        int dist_metric = 2,
                                        int threads = 8,
@@ -302,7 +320,7 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
-  // Unique sorted embedding dimensions and neighbor values
+  // Unique sorted embedding dimensions, neighbor values, and tau values
   std::vector<int> Es = E;
   std::sort(Es.begin(), Es.end());
   Es.erase(std::unique(Es.begin(), Es.end()), Es.end());
@@ -311,13 +329,19 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
   std::sort(bs.begin(), bs.end());
   bs.erase(std::unique(bs.begin(), bs.end()), bs.end());
 
-  // Generate unique (E, b) combinations
-  std::vector<std::pair<int, int>> unique_Ebcom;
-  for (int e : Es)
-    for (int bb : bs)
-      unique_Ebcom.emplace_back(e, bb);
+  std::vector<int> taus = tau;
+  std::sort(taus.begin(), taus.end());
+  taus.erase(std::unique(taus.begin(), taus.end()), taus.end());
 
-  std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(4));
+  // Generate unique (E, tau) combinations
+  std::vector<std::pair<int, int>> unique_ETau;
+  unique_ETau.reserve(Es.size() * taus.size());
+  for (int e : Es)
+    for (int t : taus)
+      unique_ETau.emplace_back(e, t);
+
+  std::vector<std::vector<double>> result(unique_ETau.size() * bs.size(),
+                                          std::vector<double>(5));
 
   size_t max_num_neighbors = 0;
   if (!bs.empty()) {
@@ -325,10 +349,13 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
   }
 
   if (parallel_level == 0){
-    for (size_t i = 0; i < Es.size(); ++i) {
+    for (size_t i = 0; i < unique_ETau.size(); ++i) {
+      const int Ei = unique_ETau[i].first;
+      const int taui = unique_ETau[i].second;
+
       // Generate embeddings
-      auto embedding_x = Embed(source, Es[i], tau);
-      auto embedding_y = Embed(target, Es[i], tau);
+      auto embedding_x = Embed(source, Es[i], taui);
+      auto embedding_y = Embed(target, Es[i], taui);
 
       // Filter valid prediction points (exclude those with all NaN values)
       std::vector<size_t> valid_pred;
@@ -367,17 +394,21 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         std::vector<double> cs = {0,1};
         if (!res.empty())  cs = CppCMCTest(res[0].Intersection,">");
 
-        result[j + bs.size() * i][0] = Es[i];  // E
+        result[j + bs.size() * i][0] = Ei;     // E
         result[j + bs.size() * i][1] = bs[j];  // k
-        result[j + bs.size() * i][2] = cs[0];  // AUC
-        result[j + bs.size() * i][3] = cs[1];  // P value
+        result[j + bs.size() * i][2] = taui;   // tau
+        result[j + bs.size() * i][3] = cs[0];  // AUC
+        result[j + bs.size() * i][4] = cs[1];  // P value
       }
     }
   } else {
-    for (size_t i = 0; i < Es.size(); ++i) {
+    for (size_t i = 0; i < unique_ETau.size(); ++i) {
+      const int Ei = unique_ETau[i].first;
+      const int taui = unique_ETau[i].second;
+
       // Generate embeddings
-      auto embedding_x = Embed(source, Es[i], tau);
-      auto embedding_y = Embed(target, Es[i], tau);
+      auto embedding_x = Embed(source, Es[i], taui);
+      auto embedding_y = Embed(target, Es[i], taui);
 
       // Filter valid prediction points (exclude those with all NaN values)
       std::vector<size_t> valid_pred;
@@ -416,10 +447,11 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         std::vector<double> cs = {0,1};
         if (!res.empty())  cs = CppCMCTest(res[0].Intersection,">");
 
-        result[j + bs.size() * i][0] = Es[i];  // E
+        result[j + bs.size() * i][0] = Ei;     // E
         result[j + bs.size() * i][1] = bs[j];  // k
-        result[j + bs.size() * i][2] = cs[0];  // AUC
-        result[j + bs.size() * i][3] = cs[1];  // P value
+        result[j + bs.size() * i][2] = taui;   // tau
+        result[j + bs.size() * i][3] = cs[0];  // AUC
+        result[j + bs.size() * i][4] = cs[1];  // P value
       }, threads_sizet);
     }
   }

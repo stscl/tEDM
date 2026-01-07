@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <numeric>
 #include <limits>
+#include "NumericUtils.h"
 #include "CppStats.h"
 
 /**
@@ -52,6 +53,8 @@ std::vector<double> SMapPrediction(
     // Compute distances only for valid vector pairs with valid target values
     std::vector<double> distances;
     std::vector<int> valid_libs;
+    distances.reserve(lib_indices.size());
+    valid_libs.reserve(lib_indices.size());
 
     for (int i : lib_indices) {
       // // Only use neighbors with valid target
@@ -60,27 +63,27 @@ std::vector<double> SMapPrediction(
       if (i == pred_i) continue; // Skip self-matching
 
       double sum_sq = 0.0;
-      double count = 0.0;
+      size_t count = 0;
       for (size_t j = 0; j < vectors[pred_i].size(); ++j) {
         double vi = vectors[i][j];
         double vj = vectors[pred_i][j];
         if (!std::isnan(vi) && !std::isnan(vj)) {
-          double diff = vi - vj; 
+          double diff = vi - vj;
           // sum_sq += (dist_metric == 1) ? std::abs(diff) : diff * diff;
           if (dist_metric == 1) {
             sum_sq += std::abs(diff); // L1
           } else {
             sum_sq += diff * diff;    // L2
           }
-          count += 1.0;
+          ++count;
         }
       }
 
       if (count > 0) {
         if (dist_metric == 1) {  // L1
-          distances.push_back(sum_sq / (dist_average ? count : 1.0));       
+          distances.push_back(sum_sq / (dist_average ? static_cast<double>(count) : 1.0));
         } else {                 // L2
-          distances.push_back(std::sqrt(sum_sq / (dist_average ? count : 1.0))); 
+          distances.push_back(std::sqrt(sum_sq / (dist_average ? static_cast<double>(count) : 1.0)));
         }
         valid_libs.push_back(i);
       }
@@ -109,10 +112,12 @@ std::vector<double> SMapPrediction(
       neighbor_indices.begin() + actual_neighbors,
       neighbor_indices.end(),
       [&](size_t a, size_t b) {
-        return (distances[a] < distances[b]) ||
-          (distances[a] == distances[b] && a < b);
-      }
-    );
+        if (!doubleNearlyEqual(distances[a], distances[b])) {
+          return distances[a] < distances[b];
+        } else {
+          return a < b;
+        }
+      });
 
     // Construct weighted linear system A * coeff = b
     size_t dim = vectors[pred_i].size();

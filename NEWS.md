@@ -2,6 +2,8 @@
 
 ### enhancements
 
+* Enforce strict floating-point comparisons across cpp sources (#143).
+
 * Unify font specification in S3 plotting method for cross-mapping results (#135).
 
 # tEDM 1.1

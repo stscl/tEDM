@@ -4,8 +4,16 @@
 
 #### enhancements
 
+- Enforce strict floating-point comparisons across cpp sources
+  ([\#143](https://github.com/stscl/tEDM/issues/143)).
+
 - Unify font specification in S3 plotting method for cross-mapping
   results ([\#135](https://github.com/stscl/tEDM/issues/135)).
+
+#### breaking changes
+
+- Correct library and prediction indices handling in cross mapping
+  ([\#145](https://github.com/stscl/tEDM/issues/145)).
 
 ## tEDM 1.1
 

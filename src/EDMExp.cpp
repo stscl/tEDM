@@ -417,6 +417,7 @@ Rcpp::NumericVector RcppFNN4TS(
     const Rcpp::IntegerVector& pred,
     const Rcpp::IntegerVector& E,
     int tau = 1,
+    int style = 0,
     int dist_metric = 2,
     int threads = 8,
     int parallel_level = 0){
@@ -433,7 +434,7 @@ Rcpp::NumericVector RcppFNN4TS(
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
   int max_E = *std::max_element(E_std.begin(), E_std.end());
   int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau);
-  std::vector<std::vector<double>> embeddings = Embed(vec_std, max_E, tau);
+  std::vector<std::vector<double>> embeddings = Embed(vec_std, max_E, tau, style);
 
   int validSampleNum = vec_std.size();
   // Check that lib and pred indices are within bounds & convert R based 1 index to C++ based 0 index

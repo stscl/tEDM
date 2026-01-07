@@ -5,6 +5,8 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <numeric>
+#include "NumericUtils.h"
 #include "CppStats.h"
 #include "CppDistances.h"
 #include <RcppThread.h>

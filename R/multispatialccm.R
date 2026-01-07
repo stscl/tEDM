@@ -56,6 +56,6 @@
 #' }
 #' lst = list(x = do.call(cbind, lapply(sim, function(df) df$x)),
 #'            y = do.call(cbind, lapply(sim, function(df) df$y)))
-#' multispatialccm(lst,"x","y",libsizes = 5:15,E = c(7,2),k = 6,threads = 1)
+#' multispatialccm(lst,"x","y",libsizes = 5:15,E = 2,k = 3,threads = 1)
 #'
 methods::setMethod("multispatialccm", "list", .multispatialccm_ts_method)

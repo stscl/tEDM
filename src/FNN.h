@@ -5,6 +5,8 @@
 #include <cmath>
 #include <limits>
 #include <algorithm>
+#include <numeric>
+#include "NumericUtils.h"
 #include "CppStats.h"
 #include "CppDistances.h"
 #include <RcppThread.h>
@@ -41,8 +43,8 @@
  *   If no valid pairs are found, returns NaN.
  */
 double CppSingleFNN(const std::vector<std::vector<double>>& embedding,
-                    const std::vector<int>& lib,
-                    const std::vector<int>& pred,
+                    const std::vector<size_t>& lib,
+                    const std::vector<size_t>& pred,
                     size_t E1,
                     size_t E2,
                     size_t threads,
@@ -85,8 +87,8 @@ double CppSingleFNN(const std::vector<std::vector<double>>& embedding,
  *   If not computable for a given E1, NaN is returned at that position.
  */
 std::vector<double> CppFNN(const std::vector<std::vector<double>>& embedding,
-                           const std::vector<int>& lib,
-                           const std::vector<int>& pred,
+                           const std::vector<size_t>& lib,
+                           const std::vector<size_t>& pred,
                            const std::vector<double>& Rtol,
                            const std::vector<double>& Atol,
                            bool L1norm = false,

@@ -516,7 +516,8 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])) {
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
     }
   }

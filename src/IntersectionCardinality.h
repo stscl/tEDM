@@ -117,8 +117,8 @@ std::vector<double> IntersectionCardinality(
  *   A vector of 4 values:
  *     [0] - AUC (Intersection Cardinality score, bounded [0, 1])
  *     [1] - p-value from DeLong test (testing whether AUC > 0.5)
- *     [2] - Confidence interval upper bound
- *     [3] - Confidence interval lower bound
+ *     [2] - Confidence interval lower bound
+ *     [3] - Confidence interval upper bound
  */
 std::vector<double> IntersectionCardinalityScores(
     const std::vector<std::vector<double>>& embedding_x,

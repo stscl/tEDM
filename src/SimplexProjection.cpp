@@ -4,6 +4,7 @@
 #include <numeric>
 #include <utility>
 #include <limits>
+#include "NumericUtils.h"
 #include "CppStats.h"
 
 /*
@@ -22,11 +23,10 @@
  *   dist_metric = 2: L2 (Euclidean) distance
  *
  * Parameters:
- *   vectors        - A 2D vector representing reconstructed state-space vectors.
- *                    Each element vectors[i] is a vector/state at time i.
- *   target         - The time series values corresponding to each vector.
- *   lib_indices    - Indices specifying which states to use as library (neighbors).
- *   pred_indices   - Indices specifying which states to make predictions for.
+ *   vectors        - 2D vector of reconstructed state-space vectors; vectors[i] corresponds to time point i.
+ *   target         - Target values for each time point.
+ *   lib_indices    - Indices specifying states used as the library (neighbors).
+ *   pred_indices   - Indices specifying states to predict.
  *   num_neighbors  - Number of nearest neighbors considered for prediction. Default is 4.
  *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
  *   dist_average   - Whether to average distance by the number of valid vector components. Default is true.
@@ -61,12 +61,16 @@ std::vector<double> SimplexProjectionPrediction(
 
     // Compute distances only for valid vector pairs (exclude NaNs)
     std::vector<double> distances;
-    std::vector<int> valid_libs;  // keep track of libs corresponding to valid distances
+    distances.reserve(lib_indices.size());
+    // keep track of libs corresponding to valid distances
+    std::vector<int> valid_libs;
+    valid_libs.reserve(lib_indices.size());
+
     for (int i : lib_indices) {
       if (i == p) continue; // Skip self-matching
 
       double sum_sq = 0.0;
-      double count = 0.0;
+      std::size_t count = 0;
       for (size_t j = 0; j < vectors[p].size(); ++j) {
         if (!std::isnan(vectors[i][j]) && !std::isnan(vectors[p][j])) {
           double diff = vectors[i][j] - vectors[p][j];
@@ -76,14 +80,14 @@ std::vector<double> SimplexProjectionPrediction(
           } else {
             sum_sq += diff * diff;    // L2
           }
-          count += 1.0;
+          ++count;
         }
       }
       if (count > 0) {
         if (dist_metric == 1) {  // L1
-          distances.push_back(sum_sq / (dist_average ? count : 1.0));
+          distances.push_back(sum_sq / (dist_average ? static_cast<double>(count) : 1.0));
         } else {                 // L2
-          distances.push_back(std::sqrt(sum_sq / (dist_average ? count : 1.0)));
+          distances.push_back(std::sqrt(sum_sq / (dist_average ? static_cast<double>(count) : 1.0)));
         }
         valid_libs.push_back(i);
       }
@@ -105,18 +109,21 @@ std::vector<double> SimplexProjectionPrediction(
     std::partial_sort(
       neighbors.begin(), neighbors.begin() + k, neighbors.end(),
       [&](size_t a, size_t b) {
-        return (distances[a] < distances[b]) ||
-          (distances[a] == distances[b] && a < b);
+        if (!doubleNearlyEqual(distances[a], distances[b])) {
+          return distances[a] < distances[b];
+        } else {
+          return a < b;
+        }
       });
 
     double min_distance = distances[neighbors[0]];
 
     // Compute weights for neighbors
     std::vector<double> weights(k);
-    if (min_distance == 0.0) {  // Perfect match found
+    if (doubleNearlyEqual(min_distance,0.0)) { // Perfect match found
       std::fill(weights.begin(), weights.end(), 0.000001);
       for (size_t i = 0; i < k; ++i) {
-        if (distances[neighbors[i]] == 0.0) {
+        if (doubleNearlyEqual(distances[neighbors[i]],0.0)) {
           weights[i] = 1.0;
         }
       }

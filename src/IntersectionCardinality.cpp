@@ -239,11 +239,10 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
           for (size_t i = start_lib; i < max_lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
           }
-          // // no wrapping around
-          // int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
-          // for (int i = 0; i < num_vectors_remaining; ++i) {
-          //   local_lib_indices.emplace_back(lib_indices[i]);
-          // }
+          int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
+          for (int i = 0; i < num_vectors_remaining; ++i) {
+            local_lib_indices.emplace_back(lib_indices[i]);
+          }
         } else {
           for (size_t i = start_lib; i < start_lib + lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
@@ -274,11 +273,10 @@ std::vector<IntersectionRes> IntersectionCardinalitySingle(
           for (size_t i = start_lib; i < max_lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
           }
-          // // no wrapping around
-          // int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
-          // for (int i = 0; i < num_vectors_remaining; ++i) {
-          //   local_lib_indices.emplace_back(lib_indices[i]);
-          // }
+          int num_vectors_remaining = static_cast<int>(lib_size) - (static_cast<int>(max_lib_size) - static_cast<int>(start_lib));
+          for (int i = 0; i < num_vectors_remaining; ++i) {
+            local_lib_indices.emplace_back(lib_indices[i]);
+          }
         } else {
           for (size_t i = start_lib; i < start_lib + lib_size; ++i) {
             local_lib_indices.emplace_back(lib_indices[i]);
@@ -404,8 +402,8 @@ std::vector<double> IntersectionCardinality(
  *   A vector of 4 values:
  *     [0] - AUC (Intersection Cardinality score, bounded [0, 1])
  *     [1] - p-value from DeLong test (testing whether AUC > 0.5)
- *     [2] - Confidence interval upper bound
- *     [3] - Confidence interval lower bound
+ *     [2] - Confidence interval lower bound
+ *     [3] - Confidence interval upper bound
  */
 std::vector<double> IntersectionCardinalityScores(
     const std::vector<std::vector<double>>& embedding_x,

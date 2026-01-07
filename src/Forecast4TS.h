@@ -95,7 +95,7 @@ std::vector<std::vector<double>> SMap4TS(const std::vector<double>& source,
  * @param threads        Number of threads for parallel computation. Default is 8.
  *
  * @return A vector of vectors where each sub-vector contains:
- *         [E, b, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
+ *         [E, b, tau, Pearson correlation, Mean Absolute Error (MAE), Root Mean Square Error (RMSE)]
  *         for one (E, b) combination.
  */
 std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<double>>& source,
@@ -104,7 +104,7 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
                                                  const std::vector<int>& pred_indices,
                                                  const std::vector<int>& E,
                                                  const std::vector<int>& b,
-                                                 int tau = 1,
+                                                 const std::vector<int>& tau,
                                                  int dist_metric = 2,
                                                  bool dist_average = true,
                                                  int threads = 8);

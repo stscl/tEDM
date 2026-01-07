@@ -23,8 +23,8 @@
  *   dist_metric = 2: L2 (Euclidean) distance
  *
  * Parameters:
- *   vectors        - 2D vector of reconstructed state-space vectors; vectors[i] corresponds to spatial unit i.
- *   target         - Target values for each spatial unit.
+ *   vectors        - 2D vector of reconstructed state-space vectors; vectors[i] corresponds to time point i.
+ *   target         - Target values for each time point.
  *   lib_indices    - Indices specifying states used as the library (neighbors).
  *   pred_indices   - Indices specifying states to predict.
  *   num_neighbors  - Number of nearest neighbors considered for prediction. Default is 4.

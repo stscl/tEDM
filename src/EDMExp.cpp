@@ -747,7 +747,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
                               const Rcpp::IntegerVector& pred,
                               const Rcpp::IntegerVector& E,
                               const Rcpp::IntegerVector& b,
-                              int tau = 1,
+                              const Rcpp::IntegerVector& tau,
                               int exclude = 0,
                               int dist_metric = 2,
                               int threads = 8,
@@ -756,10 +756,12 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
   std::vector<double> source_std = Rcpp::as<std::vector<double>>(source);
   std::vector<double> target_std = Rcpp::as<std::vector<double>>(target);
 
-  // Convert Rcpp::IntegerVector to std::vector<int>
+  // Convert Rcpp::IntegerVector to std::vector<int> and compute max lag
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
   int max_E = *std::max_element(E_std.begin(), E_std.end());
-  int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau);
+  std::vector<int> tau_std = Rcpp::as<std::vector<int>>(tau);
+  int max_tau = *std::max_element(tau_std.begin(), tau_std.end());
+  int max_lag = (max_tau == 0) ? (max_E - 1) : ((max_E - 1) * max_tau);
 
   // Initialize lib_indices and pred_indices
   std::vector<size_t> lib_indices;
@@ -806,7 +808,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
     pred_indices,
     E_std,
     b_std,
-    tau,
+    tau_std,
     exclude,
     dist_metric,
     threads,
@@ -826,7 +828,7 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
   }
 
   // Set column names for the result matrix
-  Rcpp::colnames(result) = Rcpp::CharacterVector::create("E", "k", "CausalScore", "Significance");
+  Rcpp::colnames(result) = Rcpp::CharacterVector::create("E", "k", "tau", "CausalScore", "Significance");
   return result;
 }
 

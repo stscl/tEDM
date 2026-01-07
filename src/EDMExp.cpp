@@ -134,7 +134,8 @@ Rcpp::NumericVector RcppSimplexForecast(
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])) {
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
     }
   }
@@ -196,7 +197,8 @@ Rcpp::NumericVector RcppSMapForecast(
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])) {
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
     }
   }
@@ -261,7 +263,8 @@ Rcpp::NumericVector RcppIntersectionCardinality(
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])){
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)){
         pred_indices.push_back(static_cast<size_t>(pred[i] - 1)); // Convert to 0-based index
     }
   }
@@ -432,7 +435,7 @@ Rcpp::NumericVector RcppFNN4TS(
   // Generate embeddings
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
   int max_E = *std::max_element(E_std.begin(), E_std.end());
-  int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau);
+  int max_lag = (tau == 0) ? (max_E - 1) : ((max_E - 1) * tau); // Original logic for time-delay
   std::vector<std::vector<double>> embeddings = Embed(vec_std, max_E, tau);
 
   int validSampleNum = vec_std.size();
@@ -449,7 +452,7 @@ Rcpp::NumericVector RcppFNN4TS(
     if (pred[i] < 1 || pred[i] > validSampleNum) {
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
-    if (!std::isnan(vec_std[pred[i] - 1])) {
+    if (!std::isnan(vec_std[pred[i] - 1]) && (pred[i] > max_lag)) {
       pred_std.push_back(static_cast<size_t>(pred[i] - 1));
     }
   }
@@ -516,7 +519,8 @@ Rcpp::NumericMatrix RcppSimplex4TS(const Rcpp::NumericVector& source,
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])) {
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
     }
   }
@@ -593,7 +597,8 @@ Rcpp::NumericMatrix RcppSMap4TS(const Rcpp::NumericVector& source,
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])) {
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_indices.push_back(pred[i] - 1); // Convert to 0-based index
     }
   }
@@ -776,7 +781,8 @@ Rcpp::NumericMatrix RcppIC4TS(const Rcpp::NumericVector& source,
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(source_std[pred[i] - 1]) &&
-        !std::isnan(target_std[pred[i] - 1])) {
+        !std::isnan(target_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_indices.push_back(static_cast<size_t>(pred[i] - 1)); // Convert to 0-based index
     }
   }
@@ -866,7 +872,8 @@ Rcpp::NumericMatrix RcppCCM(const Rcpp::NumericVector& x,
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(x_std[pred[i] - 1]) &&
-        !std::isnan(y_std[pred[i] - 1])) {
+        !std::isnan(y_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_std.push_back(pred[i] - 1);
     }
   }
@@ -974,7 +981,8 @@ Rcpp::NumericMatrix RcppPCM(const Rcpp::NumericVector& x,
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(x_std[pred[i] - 1]) &&
-        !std::isnan(y_std[pred[i] - 1])) {
+        !std::isnan(y_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_std.push_back(pred[i] - 1);
     }
   }
@@ -1070,7 +1078,8 @@ Rcpp::List RcppCMC(
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(x_std[pred[i] - 1]) &&
-        !std::isnan(y_std[pred[i] - 1])) {
+        !std::isnan(y_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_std.push_back(static_cast<size_t>(pred[i] - 1));
     }
   }

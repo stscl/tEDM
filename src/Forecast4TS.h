@@ -8,7 +8,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
-#include "IntersectionCardinality.h"
+#include "IntersectionalCardinality.h"
 #include <RcppThread.h>
 
 /*

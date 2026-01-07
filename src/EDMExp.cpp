@@ -10,7 +10,7 @@
 #include "MVE.h"
 #include "FNN.h"
 #include "Forecast4TS.h"
-#include "IntersectionCardinality.h"
+#include "IntersectionalCardinality.h"
 #include "CCM.h"
 #include "PCM.h"
 #include "CMC.h"
@@ -219,9 +219,9 @@ Rcpp::NumericVector RcppSMapForecast(
   return Rcpp::wrap(pred_res);
 }
 
-// Wrapper function to compute the intersection cardinality curve
+// Wrapper function to compute the intersectional cardinality curve
 // [[Rcpp::export(rng = false)]]
-Rcpp::NumericVector RcppIntersectionCardinality(
+Rcpp::NumericVector RcppIntersectionalCardinality(
     const Rcpp::NumericVector& source,
     const Rcpp::NumericVector& target,
     int E,
@@ -273,8 +273,8 @@ Rcpp::NumericVector RcppIntersectionCardinality(
     Rcpp::stop("Library size must not exceed the number of nearest neighbors used for mapping.");
   }
 
-  // Call the IntersectionCardinality function
-  std::vector<double> res = IntersectionCardinality(
+  // Call the IntersectionalCardinality function
+  std::vector<double> res = IntersectionalCardinality(
     embedding_x,
     embedding_y,
     lib_indices,

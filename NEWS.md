@@ -6,6 +6,10 @@
 
 * Unify font specification in S3 plotting method for cross-mapping results (#135).
 
+### breaking changes
+
+* Correct library and prediction indices handling in cross mapping (#145).
+
 # tEDM 1.1
 
 ### new

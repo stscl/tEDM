@@ -110,10 +110,10 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
                                                  int threads = 8);
 
 /**
- * Compute Intersection Cardinality AUC over Lattice Embedding Settings.
+ * Compute Intersectional Cardinality AUC over Lattice Embedding Settings.
  *
  * This function computes the causal strength between two lattice-structured time series
- * (`source` and `target`) by evaluating the Intersection Cardinality (IC) curve, and
+ * (`source` and `target`) by evaluating the Intersectional Cardinality (IC) curve, and
  * summarizing it using the Area Under the Curve (AUC) metric.
  *
  * For each combination of embedding dimension `E` and neighbor size `b`, the function:
@@ -129,14 +129,14 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
  * @param pred_indices   Indices used for prediction (testing) data.
  * @param E              Vector of embedding dimensions to try.
  * @param b              Vector of neighbor sizes to try.
- * @param tau            Embedding delay (usually 1 for lattice).
+ * @param tau            Embedding delay (usually 1).
  * @param exclude        Number of nearest neighbors to exclude (e.g., temporal or spatial proximity).
  * @param dist_metric    Distance metric selector (1: Manhattan, 2: Euclidean).
  * @param threads        Number of threads for parallel computation.
  * @param parallel_level Flag indicating whether to use multi-threading (0: serial, 1: parallel).
  *
- * @return A vector of size `E.size() * b.size()`, each element is a vector:
- *         [embedding_dimension, neighbor_size, auc_value].
+ * @return A vector of size `E.size() * b.size() * tau.size()`, each element is a vector:
+ *         [embedding_dimension, neighbor_size, delay step, auc_value, p value].
  *         If inputs are invalid or no prediction point is valid, the AUC value is NaN.
  *
  * @note
@@ -150,7 +150,7 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
                                        const std::vector<size_t>& pred_indices,
                                        const std::vector<int>& E,
                                        const std::vector<int>& b,
-                                       int tau = 1,
+                                       const std::vector<int>& tau,
                                        int exclude = 0,
                                        int dist_metric = 2,
                                        int threads = 8,

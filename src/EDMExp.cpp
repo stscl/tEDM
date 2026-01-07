@@ -644,7 +644,7 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
                                         const Rcpp::IntegerVector& pred,
                                         const Rcpp::IntegerVector& E,
                                         const Rcpp::IntegerVector& b,
-                                        int tau = 1,
+                                        const Rcpp::IntegerVector& tau,
                                         int dist_metric = 2,
                                         bool dist_average = true,
                                         int threads = 8) {
@@ -663,6 +663,7 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
   // Convert Rcpp::IntegerVector to std::vector<int>
   std::vector<int> E_std = Rcpp::as<std::vector<int>>(E);
   std::vector<int> b_std = Rcpp::as<std::vector<int>>(b);
+  std::vector<int> tau_std = Rcpp::as<std::vector<int>>(tau);
 
   // Initialize lib_indices and pred_indices
   std::vector<int> lib_indices;
@@ -715,7 +716,7 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
     pred_indices,
     E_std,
     b_std,
-    tau,
+    tau_std,
     dist_metric,
     dist_average,
     threads);
@@ -734,7 +735,7 @@ Rcpp::NumericMatrix RcppMultiSimplex4TS(const Rcpp::NumericMatrix& source,
   }
 
   // Set column names for the result matrix
-  Rcpp::colnames(result) = Rcpp::CharacterVector::create("E", "k", "rho", "mae", "rmse");
+  Rcpp::colnames(result) = Rcpp::CharacterVector::create("E", "k", "tau", "rho", "mae", "rmse");
   return result;
 }
 

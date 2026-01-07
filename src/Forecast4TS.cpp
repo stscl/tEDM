@@ -2,6 +2,7 @@
 #include <cmath>
 #include <algorithm>
 #include <utility>
+#include <tuple>
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "Embed.h"
@@ -13,23 +14,24 @@
 // [[Rcpp::depends(RcppThread)]]
 
 /*
- * Evaluates prediction performance of different combinations of embedding dimensions and number of nearest neighbors
- * for time series data using simplex projection.
+ * Evaluates prediction performance of different combinations of embedding dimensions, number of nearest neighbors
+ * and tau values for lattice data using simplex projection forecasting.
  *
  * Parameters:
  *   - source: A vector to be embedded.
  *   - target: A vector to be predicted.
+ *   - nb_vec: A 2D vector of neighbor indices.
  *   - lib_indices: A vector of indices indicating the library (training) set.
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - E: A vector of embedding dimensions to evaluate.
  *   - b: A vector of nearest neighbor values to evaluate.
- *   - tau: The time lag step for constructing lagged state-space vectors. Default is 1.
+ *   - tau: A vector of time lag steps for constructing lagged state-space vectors.
  *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
  *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *   - threads: Number of threads used from the global pool. Default is 8.
  *
  * Returns:
- *   A 2D vector where each row contains [E, b, rho, mae, rmse] for a given combination of E and b.
+ *   A 2D vector where each row contains [E, b, tau, rho, mae, rmse] for a given combination of E and b.
  */
 std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<double>& target,
@@ -37,7 +39,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<int>& pred_indices,
                                             const std::vector<int>& E,
                                             const std::vector<int>& b,
-                                            int tau = 1,
+                                            const std::vector<int>& tau,
                                             int dist_metric = 2,
                                             bool dist_average = true,
                                             int threads = 8) {
@@ -45,7 +47,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
   size_t threads_sizet = static_cast<size_t>(std::abs(threads));
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
-  // Unique sorted embedding dimensions and neighbor values
+  // Unique sorted embedding dimensions, neighbor values, and tau values
   std::vector<int> Es = E;
   std::sort(Es.begin(), Es.end());
   Es.erase(std::unique(Es.begin(), Es.end()), Es.end());
@@ -54,26 +56,34 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
   std::sort(bs.begin(), bs.end());
   bs.erase(std::unique(bs.begin(), bs.end()), bs.end());
 
-  // Generate unique (E, b) combinations
-  std::vector<std::pair<int, int>> unique_Ebcom;
+  std::vector<int> taus = tau;
+  std::sort(taus.begin(), taus.end());
+  taus.erase(std::unique(taus.begin(), taus.end()), taus.end());
+
+  // Generate unique (E, b, tau) combinations
+  std::vector<std::tuple<int, int, int>> unique_EbTau;
   for (int e : Es)
     for (int bb : bs)
-      unique_Ebcom.emplace_back(e, bb);
+      for (int t : taus)
+        unique_EbTau.emplace_back(e, bb, t);
 
-  std::vector<std::vector<double>> result(unique_Ebcom.size(), std::vector<double>(5));
+  std::vector<std::vector<double>> result(unique_EbTau.size(), std::vector<double>(6));
 
-  RcppThread::parallelFor(0, unique_Ebcom.size(), [&](size_t i) {
-    const int Ei = unique_Ebcom[i].first;
-    const int bi = unique_Ebcom[i].second;
+  RcppThread::parallelFor(0, unique_EbTau.size(), [&](size_t i) {
+    const int Ei   = std::get<0>(unique_EbTau[i]);
+    const int bi   = std::get<1>(unique_EbTau[i]);
+    const int taui = std::get<2>(unique_EbTau[i]);
+    // auto [Ei, bi, taui] = unique_EbTau[i]; // C++17 structured binding
 
-    auto embeddings = Embed(source, Ei, tau);
+    auto embeddings = Embed(source, Ei, taui);
     auto metrics = SimplexBehavior(embeddings, target, lib_indices, pred_indices, bi, dist_metric, dist_average);
 
-    result[i][0] = Ei;
-    result[i][1] = bi;
-    result[i][2] = metrics[0]; // rho
-    result[i][3] = metrics[1]; // MAE
-    result[i][4] = metrics[2]; // RMSE
+    result[i][0] = Ei; // E
+    result[i][1] = bi; // k
+    result[i][2] = taui; // tau
+    result[i][3] = metrics[0]; // rho
+    result[i][4] = metrics[1]; // MAE
+    result[i][5] = metrics[2]; // RMSE
   }, threads_sizet);
 
   return result;

@@ -5,6 +5,9 @@
 #include <cmath>
 #include <algorithm>
 #include <utility>
+#include <tuple>
+#include "CppStats.h"
+#include "CppDistances.h"
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"

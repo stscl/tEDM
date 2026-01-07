@@ -8,7 +8,7 @@
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "DataStruct.h"
-#include "IntersectionCardinality.h"
+#include "IntersectionalCardinality.h"
 #include <RcppThread.h>
 
 // [[Rcpp::depends(RcppThread)]]
@@ -104,7 +104,7 @@ CMCRes CMC(
     if (progressbar) {
       RcppThread::ProgressBar bar(unique_lib_sizes.size(), 1);
       for(size_t i = 0; i < unique_lib_sizes.size(); ++i){
-        local_results[i] = IntersectionCardinalitySingle(
+        local_results[i] = IntersectionalCardinalitySingle(
           nx,ny,unique_lib_sizes[i],lib,valid_pred,
           num_neighbors, n_excluded,
           threads_sizet, parallel_level
@@ -113,7 +113,7 @@ CMCRes CMC(
       }
     } else {
       for(size_t i = 0; i < unique_lib_sizes.size(); ++i){
-        local_results[i] = IntersectionCardinalitySingle(
+        local_results[i] = IntersectionalCardinalitySingle(
           nx,ny,unique_lib_sizes[i],lib,valid_pred,
           num_neighbors, n_excluded,
           threads_sizet, parallel_level
@@ -124,7 +124,7 @@ CMCRes CMC(
     if (progressbar) {
       RcppThread::ProgressBar bar(unique_lib_sizes.size(), 1);
       RcppThread::parallelFor(0, unique_lib_sizes.size(), [&](size_t i) {
-        local_results[i] = IntersectionCardinalitySingle(
+        local_results[i] = IntersectionalCardinalitySingle(
           nx,ny,unique_lib_sizes[i],lib,valid_pred,
           num_neighbors, n_excluded,
           threads_sizet, parallel_level
@@ -133,7 +133,7 @@ CMCRes CMC(
       }, threads_sizet);
     } else {
       RcppThread::parallelFor(0, unique_lib_sizes.size(), [&](size_t i) {
-        local_results[i] = IntersectionCardinalitySingle(
+        local_results[i] = IntersectionalCardinalitySingle(
           nx,ny,unique_lib_sizes[i],lib,valid_pred,
           num_neighbors, n_excluded,
           threads_sizet, parallel_level

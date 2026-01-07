@@ -7,7 +7,7 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
-#include "IntersectionCardinality.h"
+#include "IntersectionalCardinality.h"
 #include <RcppThread.h>
 
 // [[Rcpp::depends(RcppThread)]]
@@ -360,7 +360,7 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         const size_t k = static_cast<size_t>(bs[j]);
 
         // run cross mapping
-        std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
+        std::vector<IntersectionRes> res = IntersectionalCardinalitySingle(
           nx,ny,lib_indices.size(),lib_indices,valid_pred,k,n_excluded_sizet,threads_sizet,0
         );
 
@@ -409,7 +409,7 @@ std::vector<std::vector<double>> IC4TS(const std::vector<double>& source,
         const size_t k = static_cast<size_t>(bs[j]);
 
         // run cross mapping
-        std::vector<IntersectionRes> res = IntersectionCardinalitySingle(
+        std::vector<IntersectionRes> res = IntersectionalCardinalitySingle(
           nx,ny,lib_indices.size(),lib_indices,valid_pred,k,n_excluded_sizet,threads_sizet,1
         );
 

@@ -11,7 +11,7 @@
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "DataStruct.h"
-#include "IntersectionCardinality.h"
+#include "IntersectionalCardinality.h"
 #include <RcppThread.h>
 
 /**

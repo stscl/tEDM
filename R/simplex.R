@@ -1,21 +1,21 @@
-.simplex_ts_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1, 
+.simplex_ts_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1,
                        k = E+1,dist.metric = "L1",dist.average = TRUE,threads = length(E)){
   vx = .uni_ts(data,column)
   vy = .uni_ts(data,target)
   if (is.null(lib)) lib = .internal_library(cbind(vx,vy))
   if (is.null(pred)) pred = lib
   res = RcppSimplex4TS(vx,vy,lib,pred,E,k,tau,.check_distmetric(dist.metric),dist.average,threads)
-  return(.bind_xmapself(res,target,"simplex",tau))
+  return(.bind_xmapself(res,target,"simplex"))
 }
 
-.simplex_tss_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1, 
+.simplex_tss_method = \(data, column, target, lib = NULL, pred = NULL, E = 2:10, tau = 1,
                         k = E+1,dist.metric = "L1",dist.average = TRUE,threads = length(E)){
   mx = as.matrix(data[[column]])
   my = as.matrix(data[[target]])
   if (is.null(lib)) lib = seq_len(ncol(my))
   if (is.null(pred)) pred = lib
   res = RcppMultiSimplex4TS(mx,my,lib,pred,E,k,tau,.check_distmetric(dist.metric),dist.average,threads)
-  return(.bind_xmapself(res,target,"simplex",tau))
+  return(.bind_xmapself(res,target,"simplex"))
 }
 
 #' simplex forecast
@@ -34,7 +34,6 @@
 #' \item{\code{xmap}}{forecast performance}
 #' \item{\code{varname}}{name of target variable}
 #' \item{\code{method}}{method of cross mapping}
-#' \item{\code{tau}}{step of time lag}
 #' }
 #' @export
 #' @name simplex

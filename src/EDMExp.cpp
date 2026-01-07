@@ -1078,7 +1078,8 @@ Rcpp::List RcppCMC(
       Rcpp::stop("pred contains out-of-bounds index at position %d (value: %d)", i + 1, pred[i]);
     }
     if (!std::isnan(x_std[pred[i] - 1]) &&
-        !std::isnan(y_std[pred[i] - 1])) {
+        !std::isnan(y_std[pred[i] - 1]) &&
+        (pred[i] > max_lag)) {
       pred_std.push_back(static_cast<size_t>(pred[i] - 1));
     }
   }

@@ -15,23 +15,24 @@
 #include <RcppThread.h>
 
 /*
- * Evaluates prediction performance of different combinations of embedding dimensions and number of nearest neighbors
- * for time series data using simplex projection.
+ * Evaluates prediction performance of different combinations of embedding dimensions, number of nearest neighbors
+ * and tau values for lattice data using simplex projection forecasting.
  *
  * Parameters:
  *   - source: A vector to be embedded.
  *   - target: A vector to be predicted.
+ *   - nb_vec: A 2D vector of neighbor indices.
  *   - lib_indices: A vector of indices indicating the library (training) set.
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - E: A vector of embedding dimensions to evaluate.
  *   - b: A vector of nearest neighbor values to evaluate.
- *   - tau: The time lag step for constructing lagged state-space vectors. Default is 1.
+ *   - tau: A vector of time lag steps for constructing lagged state-space vectors.
  *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
  *   - dist_average: Whether to average distance by the number of valid vector components. Default is true.
  *   - threads: Number of threads used from the global pool. Default is 8.
  *
  * Returns:
- *   A 2D vector where each row contains [E, b, rho, mae, rmse] for a given combination of E and b.
+ *   A 2D vector where each row contains [E, b, tau, rho, mae, rmse] for a given combination of E and b.
  */
 std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<double>& target,
@@ -39,7 +40,7 @@ std::vector<std::vector<double>> Simplex4TS(const std::vector<double>& source,
                                             const std::vector<int>& pred_indices,
                                             const std::vector<int>& E,
                                             const std::vector<int>& b,
-                                            int tau = 1,
+                                            const std::vector<int>& tau,
                                             int dist_metric = 2,
                                             bool dist_average = true,
                                             int threads = 8);

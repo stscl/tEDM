@@ -71,7 +71,7 @@ A list
 \describe{
 \item{\code{pxmap}}{partial cross mapping results}
 \item{\code{xmap}}{cross mapping results}
-\item{\code{varname}}{names of causal and effect variable}
+\item{\code{varname}}{names of causal, effect and conditioning variables}
 \item{\code{bidirectional}}{whether to examine bidirectional causality}
 }
 }

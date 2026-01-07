@@ -107,8 +107,9 @@
   txmap = .internal_xmapdf_binding(txxmapy,tyxmapx,bidirectional)
   dxmap = .internal_xmapdf_binding(dxxmapy,dyxmapx,bidirectional)
 
-  res = list("pxmap" = dxmap, "xmap" = txmap,
-             "varname" = varname[1:2],
+  res = list("pxmap" = dxmap,
+             "xmap" = txmap,
+             "varname" = varname,
              "bidirectional" = bidirectional)
   class(res) = 'pcm_res'
   return(res)

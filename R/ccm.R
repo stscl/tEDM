@@ -1,4 +1,4 @@
-.ccm_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL, pred = NULL, 
+.ccm_ts_method = \(data, cause, effect, libsizes = NULL, E = 3, tau = 0, k = E+1, theta = 1, algorithm = "simplex", lib = NULL, pred = NULL,
                    dist.metric = "L1",dist.average = TRUE,threads = length(pred),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
@@ -34,7 +34,7 @@
 #' @return A list
 #' \describe{
 #' \item{\code{xmap}}{cross mapping results}
-#' \item{\code{varname}}{names of causal and effect variable}
+#' \item{\code{varname}}{names of causal and effect variables}
 #' \item{\code{bidirectional}}{whether to examine bidirectional causality}
 #' }
 #' @export

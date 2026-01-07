@@ -7,6 +7,7 @@
 #include <numeric>
 #include <utility>
 #include <limits>
+#include "NumericUtils.h"
 #include "CppStats.h"
 
 /*
@@ -25,11 +26,10 @@
  *   dist_metric = 2: L2 (Euclidean) distance
  *
  * Parameters:
- *   vectors        - A 2D vector representing reconstructed state-space vectors.
- *                    Each element vectors[i] is a vector/state at time i.
- *   target         - The time series values corresponding to each vector.
- *   lib_indices    - Indices specifying which states to use as library (neighbors).
- *   pred_indices   - Indices specifying which states to make predictions for.
+ *   vectors        - 2D vector of reconstructed state-space vectors; vectors[i] corresponds to spatial unit i.
+ *   target         - Target values for each spatial unit.
+ *   lib_indices    - Indices specifying states used as the library (neighbors).
+ *   pred_indices   - Indices specifying states to predict.
  *   num_neighbors  - Number of nearest neighbors considered for prediction. Default is 4.
  *   dist_metric    - Distance metric selector (1: Manhattan, 2: Euclidean). Default is 2 (Euclidean).
  *   dist_average   - Whether to average distance by the number of valid vector components. Default is true.

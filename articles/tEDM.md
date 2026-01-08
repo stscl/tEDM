@@ -508,7 +508,9 @@ The data are first differenced:
 ``` r
 covid = covid |>
   dplyr::mutate(dplyr::across(dplyr::everything(),
-                              \(.x) c(NA,diff(.x))))
+                              \(.x) c(NA,diff(.x)))) |> 
+  dplyr::filter(dplyr::if_all(dplyr::everything(), 
+                \(.x) !is.na(.x)))
 ```
 
 Using Tokyo’s COVID-19 infection data to test the optimal embedding

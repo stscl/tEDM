@@ -345,7 +345,7 @@ covid = covid |>
 Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
 
 ```{r covid_fnn}
-tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo)/10)
+tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ```
 
 Since the FNN ratio begins to approach zero when E equals 4, embedding dimensions from 4 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.

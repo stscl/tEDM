@@ -143,20 +143,20 @@ Determining optimal embedding dimension:
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ```
 
-Starting at $E = 11$, the FNN ratio stabilizes near 0.18; thus, embedding dimension E and neighbor number k are chosen from 11 onward for subsequent self-prediction parameter selection.
+Starting at $E = 7$, the FNN ratio stabilizes near 0.19; thus, embedding dimension E and neighbor number k are chosen from 7 onward for subsequent self-prediction parameter selection.
 
 ```{r fig_simplex_cvd,fig.width=4.5,fig.height=3.15,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 2**. Variation of prediction skill with the number of nearest neighbors.")}
-tEDM::simplex(cvd,"cvd","cvd",E = 11:25,k = 12:26)
-tEDM::simplex(cvd,"rsp","rsp",E = 11:25,k = 12:26)
-tEDM::simplex(cvd,"no2","no2",E = 11:25,k = 12:26)
-tEDM::simplex(cvd,"so2","so2",E = 11:25,k = 12:26)
-tEDM::simplex(cvd,"o3","o3",E = 11:25,k = 12:26)
+tEDM::simplex(cvd,"cvd","cvd",E = 7:10,k = 8:12)
+tEDM::simplex(cvd,"rsp","rsp",E = 7:10,k = 8:12)
+tEDM::simplex(cvd,"no2","no2",E = 7:10,k = 8:12)
+tEDM::simplex(cvd,"so2","so2",E = 7:10,k = 8:12)
+tEDM::simplex(cvd,"o3","o3",E = 7:10,k = 8:12)
 
-s1 = tEDM::simplex(cvd,"cvd","cvd",E = 11,k = 12:26)
-s2 = tEDM::simplex(cvd,"rsp","rsp",E = 11,k = 12:26)
-s3 = tEDM::simplex(cvd,"no2","no2",E = 11,k = 12:26)
-s4 = tEDM::simplex(cvd,"so2","so2",E = 11,k = 12:26)
-s5 = tEDM::simplex(cvd,"o3","o3",E = 11,k = 12:26)
+s1 = tEDM::simplex(cvd,"cvd","cvd",E = 7,k = 8:12)
+s2 = tEDM::simplex(cvd,"rsp","rsp",E = 7,k = 8:12)
+s3 = tEDM::simplex(cvd,"no2","no2",E = 7,k = 8:12)
+s4 = tEDM::simplex(cvd,"so2","so2",E = 7,k = 8:12)
+s5 = tEDM::simplex(cvd,"o3","o3",E = 7,k = 8:12)
 
 list(s1,s2,s3,s4,s5)
 
@@ -167,7 +167,7 @@ ggplot2::ggplot(data = simplex_df) +
   ggplot2::geom_line(ggplot2::aes(x = k, y = rho, color = variable))
 ```
 
-To investigate the causal influences of air pollutants on the incidence of cardiovascular diseases, we performed PCM analysis using an embedding dimension of 11 and 12 nearest neighbors per variable pair.
+To investigate the causal influences of air pollutants on the incidence of cardiovascular diseases, we performed PCM analysis using an embedding dimension of 7 and 8 nearest neighbors per variable pair.
 
 ```{r pcm_cvd,eval = FALSE}
 vars = c("cvd", "rsp", "no2", "so2", "o3")
@@ -184,7 +184,7 @@ for (pair in var_pairs) {
                          effect = var1,
                          conds = conds,
                          libsizes = seq(12, 1012, 100),
-                         E = 11, k = 12,
+                         E = 7, k = 8,
                          progress = FALSE)
 }
 ```

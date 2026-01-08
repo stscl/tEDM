@@ -100,7 +100,7 @@ Install the stable version:
 install.packages("tEDM", dep = TRUE)
 ```
 
-or dev version:
+or developed version:
 
 ```r
 install.packages("tEDM",
@@ -137,6 +137,8 @@ fig_cvds_ts = ggplot2::ggplot(cvd_long, ggplot2::aes(x = id, y = value, color = 
 fig_cvds_ts
 ```
 
+<br>
+
 Determining optimal embedding dimension:
 
 ```{r fnn_cvd}
@@ -166,6 +168,8 @@ simplex_df = purrr::map2_dfr(list(s1,s2,s3,s4,s5),
 ggplot2::ggplot(data = simplex_df) +
   ggplot2::geom_line(ggplot2::aes(x = k, y = rho, color = variable))
 ```
+
+<br>
 
 To investigate the causal influences of air pollutants on the incidence of cardiovascular diseases, we performed PCM analysis using an embedding dimension of 7 and 8 nearest neighbors per variable pair.
 
@@ -257,11 +261,15 @@ fig_pcs = plot_cs_matrix(pcm_df)
 fig_pcs
 ```
 
+<br>
+
 From Figure 3, we can infer the following causal links:
 
 ```{r fig_case1,echo=FALSE,out.width = "600px",fig.cap=knitr::asis_output("**Figure 4**. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong.")}
 knitr::include_graphics("../man/figures/edm/cvds_hk.png")
 ```
+
+<br>
 
 ### US County Carbon Emissions and Temperature Dynamics
 
@@ -322,6 +330,8 @@ fig_case2 = ggplot2::ggplot(res_carbon,
                  axis.title.y = ggplot2::element_text(size = 12.5))
 fig_case2
 ```
+
+<br>
 
 ### COVID-19 Spread Across Japanese Prefectures
 
@@ -422,6 +432,8 @@ fig_case3 = ggplot2::ggplot() +
 
 fig_case3
 ```
+
+<br>
 
 ## Reference
 

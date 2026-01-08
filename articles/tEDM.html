@@ -71,8 +71,8 @@
       <h1>Temporal Empirical Dynamic Modeling</h1>
             
             <h4 data-toc-skip class="date"><div class="line-block">Last
-update: 2025-09-05<br>
-Last run: 2025-11-07</div></h4>
+update: 2026-01-09<br>
+Last run: 2026-01-09</div></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stscl/tEDM/blob/main/vignettes/tEDM.Rmd" class="external-link"><code>vignettes/tEDM.Rmd</code></a></small>
       <div class="d-none name"><code>tEDM.Rmd</code></div>
@@ -212,7 +212,7 @@ prefectures (e.g., <code>Tokyo</code>, <code>Osaka</code>,
 <p>Install the stable version:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tEDM"</span>, dep <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p>or dev version:</p>
+<p>or developed version:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tEDM"</span>,</span>
 <span>                 repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"https://stscl.r-universe.dev"</span>,</span>
@@ -265,60 +265,61 @@ air pollutants and cardiovascular diseases:</p>
 pollutants and confirmed CVD cases in Hong Kong from March 1995 to
 November 1997.</div>
 </div>
+<p><br></p>
 <p>Determining optimal embedding dimension:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">50</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">cvd</span><span class="op">$</span><span class="va">cvd</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 </span></span>
-<span><span class="co">## 0.8275862 0.4882729 0.3026188 0.2880698 0.2133851 0.2065955 0.1920466 0.1871969 </span></span>
+<span><span class="co">## 0.8275862 0.4927374 0.3051882 0.2899288 0.2146490 0.2075280 0.1943032 0.1851475 </span></span>
 <span><span class="co">##       E:9      E:10      E:11      E:12      E:13      E:14      E:15      E:16 </span></span>
-<span><span class="co">## 0.1842871 0.1862270 0.1794374 0.1823472 0.1765276 0.1687682 0.1619787 0.1619787 </span></span>
+<span><span class="co">## 0.1861648 0.1902340 0.1831129 0.1851475 0.1790437 0.1719227 0.1678535 0.1678535 </span></span>
 <span><span class="co">##      E:17      E:18      E:19      E:20      E:21      E:22      E:23      E:24 </span></span>
-<span><span class="co">## 0.1503395 0.1483996 0.1629486 0.1513094 0.1542192 0.1658584 0.1610087 0.1610087 </span></span>
+<span><span class="co">## 0.1546287 0.1536114 0.1678535 0.1566633 0.1586979 0.1709054 0.1637843 0.1658189 </span></span>
 <span><span class="co">##      E:25      E:26      E:27      E:28      E:29      E:30      E:31      E:32 </span></span>
-<span><span class="co">## 0.1619787 0.1833172 0.1610087 0.1697381 0.1668283 0.1755577 0.1668283 0.1755577 </span></span>
+<span><span class="co">## 0.1668362 0.1881994 0.1658189 0.1749746 0.1729400 0.1810783 0.1709054 0.1800610 </span></span>
 <span><span class="co">##      E:33      E:34      E:35      E:36      E:37      E:38      E:39      E:40 </span></span>
-<span><span class="co">## 0.1648885 0.1668283 0.1668283 0.1580989 0.1464597 0.1571290 0.1590689 0.1639185 </span></span>
+<span><span class="co">## 0.1698881 0.1719227 0.1719227 0.1627670 0.1515768 0.1637843 0.1668362 0.1709054 </span></span>
 <span><span class="co">##      E:41      E:42      E:43      E:44      E:45      E:46      E:47      E:48 </span></span>
-<span><span class="co">## 0.1580989 0.1580989 0.1590689 0.1610087 0.1542192 0.1590689 0.1707081 0.1736178 </span></span>
+<span><span class="co">## 0.1658189 0.1648016 0.1668362 0.1688708 0.1617497 0.1668362 0.1790437 0.1820956 </span></span>
 <span><span class="co">##      E:49 </span></span>
-<span><span class="co">## 0.1677983</span></span></code></pre></div>
-<p>Starting at <span class="math inline">\(E = 11\)</span>, the FNN
-ratio stabilizes near 0.18; thus, embedding dimension E and neighbor
-number k are chosen from 11 onward for subsequent self-prediction
-parameter selection.</p>
+<span><span class="co">## 0.1759919</span></span></code></pre></div>
+<p>Starting at <span class="math inline">\(E = 7\)</span>, the FNN ratio
+stabilizes near 0.19; thus, embedding dimension E and neighbor number k
+are chosen from 7 onward for subsequent self-prediction parameter
+selection.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable cvd is 11 and 12</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable rsp is 11 and 12</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable no2 is 11 and 12</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable so2 is 11 and 16</span></span>
-<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">25</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable o3 is 11 and 13</span></span>
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">10</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E,k,tau for variable cvd is 7, 8 and 1</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">10</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E,k,tau for variable rsp is 7, 8 and 1</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">10</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E,k,tau for variable no2 is 7, 8 and 1</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">10</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E,k,tau for variable so2 is 7, 11 and 1</span></span>
+<span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">10</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="co">## The suggested E,k,tau for variable o3 is 7, 8 and 1</span></span>
 <span></span>
-<span><span class="va">s1</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="va">s2</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="va">s3</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="va">s4</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
-<span><span class="va">s5</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">11</span>,k <span class="op">=</span> <span class="fl">12</span><span class="op">:</span><span class="fl">26</span><span class="op">)</span></span>
+<span><span class="va">s1</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">7</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">s2</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"rsp"</span>,<span class="st">"rsp"</span>,E <span class="op">=</span> <span class="fl">7</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">s3</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"no2"</span>,<span class="st">"no2"</span>,E <span class="op">=</span> <span class="fl">7</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">s4</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"so2"</span>,<span class="st">"so2"</span>,E <span class="op">=</span> <span class="fl">7</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">s5</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"o3"</span>,<span class="st">"o3"</span>,E <span class="op">=</span> <span class="fl">7</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">s1</span>,<span class="va">s2</span>,<span class="va">s3</span>,<span class="va">s4</span>,<span class="va">s5</span><span class="op">)</span></span>
 <span><span class="co">## [[1]]</span></span>
-<span><span class="co">## The suggested E and k for variable cvd is 11 and 12 </span></span>
+<span><span class="co">## The suggested E,k,tau for variable cvd is 7, 8 and 1 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[2]]</span></span>
-<span><span class="co">## The suggested E and k for variable rsp is 11 and 12 </span></span>
+<span><span class="co">## The suggested E,k,tau for variable rsp is 7, 9 and 1 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[3]]</span></span>
-<span><span class="co">## The suggested E and k for variable no2 is 11 and 12 </span></span>
+<span><span class="co">## The suggested E,k,tau for variable no2 is 7, 8 and 1 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[4]]</span></span>
-<span><span class="co">## The suggested E and k for variable so2 is 11 and 16 </span></span>
+<span><span class="co">## The suggested E,k,tau for variable so2 is 7, 11 and 1 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## [[5]]</span></span>
-<span><span class="co">## The suggested E and k for variable o3 is 11 and 13</span></span>
+<span><span class="co">## The suggested E,k,tau for variable o3 is 7, 8 and 1</span></span>
 <span></span>
 <span><span class="va">simplex_df</span> <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map2_dfr</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">s1</span>,<span class="va">s2</span>,<span class="va">s3</span>,<span class="va">s4</span>,<span class="va">s5</span><span class="op">)</span>,</span>
 <span>                             <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cvd"</span>,<span class="st">"rsp"</span>,<span class="st">"no2"</span>,<span class="st">"so2"</span>,<span class="st">"o3"</span><span class="op">)</span>,</span>
@@ -330,10 +331,10 @@ parameter selection.</p>
 <strong>Figure 2</strong>. Variation of
 prediction skill with the number of nearest neighbors.</div>
 </div>
+<p><br></p>
 <p>To investigate the causal influences of air pollutants on the
 incidence of cardiovascular diseases, we performed PCM analysis using an
-embedding dimension of 11 and 12 nearest neighbors per variable
-pair.</p>
+embedding dimension of 7 and 8 nearest neighbors per variable pair.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cvd"</span>, <span class="st">"rsp"</span>, <span class="st">"no2"</span>, <span class="st">"so2"</span>, <span class="st">"o3"</span><span class="op">)</span></span>
 <span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -348,127 +349,82 @@ pair.</p>
 <span>                         cause <span class="op">=</span> <span class="va">var2</span>,</span>
 <span>                         effect <span class="op">=</span> <span class="va">var1</span>,</span>
 <span>                         conds <span class="op">=</span> <span class="va">conds</span>,</span>
-<span>                         libsizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">12</span>, <span class="fl">1012</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span>                         E <span class="op">=</span> <span class="fl">11</span>, k <span class="op">=</span> <span class="fl">12</span>,</span>
+<span>                         E <span class="op">=</span> <span class="fl">7</span>, k <span class="op">=</span> <span class="fl">8</span>,</span>
 <span>                         progress <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <p>The PCM results are shown in the figure below:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fig_cvd_rsp</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_rsp"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                   xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.2</span><span class="op">)</span>,</span>
-<span>                   ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.2</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                   legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap RSP, P = 0"</span>,</span>
-<span>                                    <span class="st">"RSP xmap CVD, P = 0.001"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_cvd_rsp_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_rsp"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                     ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.01</span>,<span class="fl">0.2</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.2</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                     legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap RSP | NO2 &amp; SO2 &amp; O3, P = 0"</span>,</span>
-<span>                                      <span class="st">"RSP xmap CVD | NO2 &amp; SO2 &amp; O3, P = 0.0179"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">.process_xmap_result</span> <span class="op">=</span> \<span class="op">(</span><span class="va">g</span>,<span class="va">type</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"xmap"</span>,<span class="st">"pxmap"</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">type</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/match.arg.html" class="external-link">match.arg</a></span><span class="op">(</span><span class="va">type</span><span class="op">)</span></span>
+<span>  <span class="va">tempdf</span> <span class="op">=</span> <span class="va">g</span><span class="op">[[</span><span class="va">type</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="va">tempdf</span><span class="op">$</span><span class="va">x</span> <span class="op">=</span> <span class="va">g</span><span class="op">$</span><span class="va">varname</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></span>
+<span>  <span class="va">tempdf</span><span class="op">$</span><span class="va">y</span> <span class="op">=</span> <span class="va">g</span><span class="op">$</span><span class="va">varname</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span></span>
+<span>  <span class="va">tempdf</span> <span class="op">=</span> <span class="va">tempdf</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">x</span>, <span class="va">y</span>,</span>
+<span>                  <span class="va">x_xmap_y_mean</span>,<span class="va">x_xmap_y_sig</span>,</span>
+<span>                  <span class="va">y_xmap_x_mean</span>,<span class="va">y_xmap_x_sig</span>,</span>
+<span>                  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/everything.html" class="external-link">everything</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_tail</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fig_cvd_no2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_no2"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                   xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.35</span><span class="op">)</span>,</span>
-<span>                   ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.35</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                   legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap NO2, P = 0"</span>,</span>
-<span>                                    <span class="st">"NO2 xmap CVD, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_cvd_no2_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_no2"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                     ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.35</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.35</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                     legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap NO2 | RSP &amp; SO2 &amp; O3, P = 0"</span>,</span>
-<span>                                      <span class="st">"NO2 xmap CVD | RSP &amp; SO2 &amp; O3, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">g1</span> <span class="op">=</span> <span class="va">tempdf</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>,<span class="va">y_xmap_x_mean</span>,<span class="va">y_xmap_x_sig</span><span class="op">)</span><span class="op">|&gt;</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cause"</span>,<span class="st">"effect"</span>,<span class="st">"cs"</span>,<span class="st">"sig"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">g2</span> <span class="op">=</span> <span class="va">tempdf</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">y</span>,<span class="va">x</span>,<span class="va">x_xmap_y_mean</span>,<span class="va">x_xmap_y_sig</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/set_names.html" class="external-link">set_names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cause"</span>,<span class="st">"effect"</span>,<span class="st">"cs"</span>,<span class="st">"sig"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fig_cvd_so2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_so2"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                   xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.25</span><span class="op">)</span>,</span>
-<span>                   ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.25</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                   legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap SO2, P = 0"</span>,</span>
-<span>                                    <span class="st">"SO2 xmap CVD, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_cvd_so2_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_so2"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                     ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.25</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.25</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span>,</span>
-<span>                     legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap SO2 | RSP &amp; NO2 &amp; O3, P = 0"</span>,</span>
-<span>                                      <span class="st">"SO2 xmap CVD | RSP &amp; NO2 &amp; O3, P = 0.003"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">g1</span>,<span class="va">g2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">fig_cvd_o3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_o3"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                  xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.35</span><span class="op">)</span>,</span>
-<span>                  ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.35</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                  legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap O3, P = 0.495"</span>,</span>
-<span>                                   <span class="st">"O3 xmap CVD, P = 0.002"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_cvd_o3_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"cvd_o3"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                    ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.35</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.35</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                    legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CVD xmap O3 | RSP &amp; NO2 &amp; SO2, P = 0.402"</span>,</span>
-<span>                                     <span class="st">"O3 xmap CVD | RSP &amp; NO2 &amp; SO2, P = 0.028"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">plot_cs_matrix</span> <span class="op">=</span> \<span class="op">(</span><span class="va">.tbf</span>,<span class="va">legend_title</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="va">rho</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">.tbf</span> <span class="op">=</span> <span class="va">.tbf</span> <span class="op">|&gt;</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>sig_marker <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html" class="external-link">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">sig</span> <span class="op">&gt;</span> <span class="fl">0.05</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"paste(%.4f^'#')"</span>, <span class="va">cs</span><span class="op">)</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">'%.4f'</span>, <span class="va">cs</span><span class="op">)</span></span>
+<span>    <span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">fig_rsp_no2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"rsp_no2"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                   xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.9</span><span class="op">)</span>,</span>
-<span>                   ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.9</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                   legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RSP xmap NO2, P = 0"</span>,</span>
-<span>                                    <span class="st">"NO2 xmap RSP, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_rsp_no2_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"rsp_no2"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                     ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.9</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.2</span>,<span class="fl">0.9</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                     legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RSP xmap NO2 | CVD &amp; SO2 &amp; O3, P = 0"</span>,</span>
-<span>                                      <span class="st">"NO2 xmap RSP | CVD &amp; SO2 &amp; O3, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">fig</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">.tbf</span>,</span>
+<span>                        <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">effect</span>, y <span class="op">=</span> <span class="va">cause</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html" class="external-link">geom_tile</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">cs</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span>, intercept <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>                         color <span class="op">=</span> <span class="st">"black"</span>, linewidth <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_text.html" class="external-link">geom_text</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">sig_marker</span><span class="op">)</span>, parse <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                       color <span class="op">=</span> <span class="st">"black"</span>, family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Effect"</span>, y <span class="op">=</span> <span class="st">"Cause"</span>, fill <span class="op">=</span> <span class="va">legend_title</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_y_discrete</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_gradient.html" class="external-link">scale_fill_gradient</a></span><span class="op">(</span>low <span class="op">=</span> <span class="st">"#9bbbb8"</span>, high <span class="op">=</span> <span class="st">"#256c68"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/coord_fixed.html" class="external-link">coord_equal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span></span>
+<span>      axis.text.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">0</span>, family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span>,</span>
+<span>      axis.text.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span>,</span>
+<span>      axis.title.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">90</span>, family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span>,</span>
+<span>      axis.title.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, family <span class="op">=</span> <span class="st">"serif"</span>,</span>
+<span>                                           margin <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">5.5</span>, unit <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      legend.text <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span>,</span>
+<span>      legend.title <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"serif"</span><span class="op">)</span>,</span>
+<span>      legend.background <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NA</span>, color <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>,</span>
+<span>      <span class="co">#legend.direction = "horizontal",</span></span>
+<span>      <span class="co">#legend.position = "bottom",</span></span>
+<span>      legend.margin <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">margin</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span>, r <span class="op">=</span> <span class="fl">0</span>, b <span class="op">=</span> <span class="fl">0</span>, l <span class="op">=</span> <span class="fl">0</span>, unit <span class="op">=</span> <span class="st">"pt"</span><span class="op">)</span>,</span>
+<span>      legend.key.width <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/grid/unit.html" class="external-link">unit</a></span><span class="op">(</span><span class="fl">20</span>, <span class="st">"pt"</span><span class="op">)</span>,</span>
+<span>      panel.grid <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>      panel.border <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_rect</a></span><span class="op">(</span>color <span class="op">=</span> <span class="st">"black"</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">fig</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
 <span></span>
-<span><span class="va">fig_rsp_so2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"rsp_so2"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                   xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.55</span><span class="op">)</span>,</span>
-<span>                   ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.55</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                   legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RSP xmap SO2, P = 0"</span>,</span>
-<span>                                    <span class="st">"SO2 xmap RSP, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_rsp_so2_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"rsp_so2"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                     ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.55</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.55</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                     legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RSP xmap SO2 | CVD &amp; NO2 &amp; O3, P = 0"</span>,</span>
-<span>                                      <span class="st">"SO2 xmap RSP | CVD &amp; NO2 &amp; O3, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fig_rsp_o3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"rsp_o3"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                  xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span><span class="op">)</span>,</span>
-<span>                  ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                  legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RSP xmap O3, P = 0"</span>,</span>
-<span>                                   <span class="st">"O3 xmap RSP, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_rsp_o3_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"rsp_o3"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                    ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                    legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"RSP xmap O3 | CVD &amp; SO2 &amp; NO2, P = 0"</span>,</span>
-<span>                                     <span class="st">"O3 xmap RSP | CVD &amp; SO2 &amp; NO2, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fig_no2_so2</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"no2_so2"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                   xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>,<span class="fl">0.75</span><span class="op">)</span>,</span>
-<span>                   ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.15</span>,<span class="fl">0.75</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                   legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NO2 xmap SO2, P = 0"</span>,</span>
-<span>                                    <span class="st">"SO2 xmap NO2, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_no2_so2_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"no2_so2"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                     ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.15</span>,<span class="fl">0.75</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.15</span>,<span class="fl">0.75</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                     legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NO2 xmap SO2 | CVD &amp; RSP &amp; O3, P = 0"</span>,</span>
-<span>                                      <span class="st">"SO2 xmap NO2 | CVD &amp; RSP &amp; O3, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fig_no2_o3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"no2_o3"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                  xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span><span class="op">)</span>,</span>
-<span>                  ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                  legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NO2 xmap O3, P = 0"</span>,</span>
-<span>                                   <span class="st">"O3 xmap NO2, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_no2_o3_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"no2_o3"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                    ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0.05</span>,<span class="fl">0.65</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                    legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"NO2 xmap O3 | CVD &amp; RSP &amp; SO2, P = 0"</span>,</span>
-<span>                                     <span class="st">"O3 xmap NO2 | CVD &amp; RSP &amp; SO2, P = 0"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fig_so2_o3</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"so2_o3"</span><span class="op">]</span><span class="op">]</span>, partial <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>                  xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>, ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.45</span><span class="op">)</span>,</span>
-<span>                  ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.45</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                  legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SO2 xmap O3, P = 0"</span>,</span>
-<span>                                   <span class="st">"O3 xmap SO2, P = 0.094"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">fig_so2_o3_p</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res</span><span class="op">[[</span><span class="st">"so2_o3"</span><span class="op">]</span><span class="op">]</span>, xlimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1030</span><span class="op">)</span>,</span>
-<span>                    ylimits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.45</span><span class="op">)</span>, ybreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.05</span>,<span class="fl">0.45</span>,by <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span>,</span>
-<span>                    legend_texts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SO2 xmap O3 | CVD &amp; RSP &amp; NO2, P = 0"</span>,</span>
-<span>                                     <span class="st">"O3 xmap SO2 | CVD &amp; RSP &amp; NO2, P = 0.131"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">fig_pcm</span> <span class="op">=</span> <span class="fu">cowplot</span><span class="fu">::</span><span class="fu"><a href="https://wilkelab.org/cowplot/reference/plot_grid.html" class="external-link">plot_grid</a></span><span class="op">(</span><span class="va">fig_cvd_rsp</span>, <span class="va">fig_cvd_rsp_p</span>, <span class="va">fig_cvd_no2</span>, <span class="va">fig_cvd_no2_p</span>,</span>
-<span>                             <span class="va">fig_cvd_so2</span>, <span class="va">fig_cvd_so2_p</span>, <span class="va">fig_cvd_o3</span>, <span class="va">fig_cvd_o3_p</span>,</span>
-<span>                             <span class="va">fig_rsp_no2</span>, <span class="va">fig_rsp_no2_p</span>, <span class="va">fig_rsp_so2</span>, <span class="va">fig_rsp_so2_p</span>,</span>
-<span>                             <span class="va">fig_rsp_o3</span>, <span class="va">fig_rsp_o3_p</span>, <span class="va">fig_no2_so2</span>, <span class="va">fig_no2_so2_p</span>,</span>
-<span>                             <span class="va">fig_no2_o3</span>, <span class="va">fig_no2_o3_p</span>, <span class="va">fig_so2_o3</span>, <span class="va">fig_so2_o3_p</span>,</span>
-<span>                             ncol <span class="op">=</span> <span class="fl">4</span>, label_fontfamily <span class="op">=</span> <span class="st">'serif'</span>,</span>
-<span>                             labels <span class="op">=</span> <span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span>,</span>
-<span>                             label_x <span class="op">=</span> <span class="op">-</span><span class="fl">0.005</span>, label_y <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="va">fig_pcm</span></span></code></pre></div>
+<span><span class="va">pcm_df</span> <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">res</span>,\<span class="op">(</span><span class="va">.list</span><span class="op">)</span> <span class="fu">.process_xmap_result</span><span class="op">(</span><span class="va">.list</span>,type <span class="op">=</span> <span class="st">"pxmap"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">fig_pcs</span> <span class="op">=</span> <span class="fu">plot_cs_matrix</span><span class="op">(</span><span class="va">pcm_df</span><span class="op">)</span></span>
+<span><span class="va">fig_pcs</span></span></code></pre></div>
 <div class="float">
 <img src="../reference/figures/edm/fig_pcm-1.png" alt="Figure 3. Partial cross mapping results between different air pollutants and cardiovascular diseases."><div class="figcaption">
 <strong>Figure 3</strong>. Partial cross mapping
 results between different air pollutants and cardiovascular
 diseases.</div>
 </div>
+<p><br></p>
 <p>From Figure 3, we can infer the following causal links:</p>
 <div class="figure">
 <img src="../reference/figures/edm/cvds_hk.png" alt="**Figure 4**. Causal interactions between air pollutants and cardiovascular diseases in Hong Kong." width="600px"><p class="caption">
@@ -476,6 +432,7 @@ diseases.</div>
 and cardiovascular diseases in Hong Kong.
 </p>
 </div>
+<p><br></p>
 </div>
 <div class="section level3">
 <h3 id="us-county-carbon-emissions-and-temperature-dynamics">US County Carbon Emissions and Temperature Dynamics<a class="anchor" aria-label="anchor" href="#us-county-carbon-emissions-and-temperature-dynamics"></a>
@@ -513,7 +470,7 @@ embedding dimension by applying the FNN method.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">10</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">carbon_list</span><span class="op">[[</span><span class="fl">100</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">carbon</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
-<span><span class="co">## 0.29729730 0.02702703 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
+<span><span class="co">## 0.35714286 0.03571429 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##        E:8        E:9 </span></span>
 <span><span class="co">## 0.00000000 0.00000000</span></span></code></pre></div>
 <p>When E equals 3, the FNN ratio begins to drop to zero; therefore, we
@@ -522,24 +479,24 @@ dimension for the CMC analysis.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="va">carbon_list</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">3</span>,k <span class="op">=</span> <span class="fl">20</span>,dist.metric <span class="op">=</span> <span class="st">"L2"</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>    <span class="va">g</span> <span class="op">=</span> <span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/cmc.html">cmc</a></span><span class="op">(</span><span class="va">.x</span>,<span class="st">"tem"</span>,<span class="st">"carbon"</span>,E <span class="op">=</span> <span class="fl">3</span>,k <span class="op">=</span> <span class="fl">18</span>,dist.metric <span class="op">=</span> <span class="st">"L2"</span>,progressbar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span>    <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">xmap</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="co">##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper</span></span>
-<span><span class="co">## 1        20       0.17625 1.441152e-06     0.04458194      0.3079181</span></span>
-<span><span class="co">## 2        20       0.15625 5.526258e-08     0.03225277      0.2802472</span></span>
-<span><span class="co">## 3        20       0.15625 5.809091e-08     0.03204912      0.2804509</span></span>
-<span><span class="co">## 4        20       0.20125 3.147621e-05     0.06058040      0.3419196</span></span>
-<span><span class="co">## 5        20       0.20875 7.165149e-05     0.06498830      0.3525117</span></span>
-<span><span class="co">## 6        20       0.13125 2.408340e-10     0.01712311      0.2453769</span></span>
+<span><span class="co">## 1        18     0.2669753 0.0083829567     0.09372879      0.4402218</span></span>
+<span><span class="co">## 2        18     0.2314815 0.0012106678     0.06886439      0.3940986</span></span>
+<span><span class="co">## 3        18     0.2021605 0.0001563996     0.04775587      0.3565651</span></span>
+<span><span class="co">## 4        18     0.2947531 0.0276001573     0.11214275      0.4773634</span></span>
+<span><span class="co">## 5        18     0.2824074 0.0180642479     0.10202679      0.4627880</span></span>
+<span><span class="co">## 6        18     0.2098765 0.0002847089     0.05317822      0.3665749</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper</span></span>
-<span><span class="co">## 1       0.06375 4.154966e-26              0      0.1446512</span></span>
-<span><span class="co">## 2       0.06250 1.381916e-28              0      0.1398111</span></span>
-<span><span class="co">## 3       0.06250 4.667439e-26              0      0.1437169</span></span>
-<span><span class="co">## 4       0.06625 2.180138e-25              0      0.1478975</span></span>
-<span><span class="co">## 5       0.06875 2.677461e-23              0      0.1537491</span></span>
-<span><span class="co">## 6       0.05875 1.135327e-30              0      0.1338684</span></span>
+<span><span class="co">## 1    0.09104938 1.175387e-14              0      0.1948920</span></span>
+<span><span class="co">## 2    0.08796296 1.186317e-16              0      0.1854438</span></span>
+<span><span class="co">## 3    0.08024691 1.217722e-17              0      0.1764553</span></span>
+<span><span class="co">## 4    0.08487654 5.431816e-17              0      0.1820035</span></span>
+<span><span class="co">## 5    0.09413580 1.725075e-14              0      0.1978540</span></span>
+<span><span class="co">## 6    0.08024691 1.217722e-17              0      0.1764553</span></span>
 <span></span>
 <span><span class="va">res_carbon</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">neighbors</span>,</span>
@@ -551,12 +508,12 @@ dimension for the CMC analysis.</p>
 <span><span class="co">## # A tibble: 6 × 3</span></span>
 <span><span class="co">##   neighbors variable    value</span></span>
 <span><span class="co">##       &lt;dbl&gt; &lt;chr&gt;       &lt;dbl&gt;</span></span>
-<span><span class="co">## 1        20 carbon_tem 0.176 </span></span>
-<span><span class="co">## 2        20 tem_carbon 0.0638</span></span>
-<span><span class="co">## 3        20 carbon_tem 0.156 </span></span>
-<span><span class="co">## 4        20 tem_carbon 0.0625</span></span>
-<span><span class="co">## 5        20 carbon_tem 0.156 </span></span>
-<span><span class="co">## 6        20 tem_carbon 0.0625</span></span></code></pre></div>
+<span><span class="co">## 1        18 carbon_tem 0.267 </span></span>
+<span><span class="co">## 2        18 tem_carbon 0.0910</span></span>
+<span><span class="co">## 3        18 carbon_tem 0.231 </span></span>
+<span><span class="co">## 4        18 tem_carbon 0.0880</span></span>
+<span><span class="co">## 5        18 carbon_tem 0.202 </span></span>
+<span><span class="co">## 6        18 tem_carbon 0.0802</span></span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res_carbon</span><span class="op">$</span><span class="va">variable</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">res_carbon</span><span class="op">$</span><span class="va">variable</span>,</span>
 <span>                             levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"carbon_tem"</span>, <span class="st">"tem_carbon"</span><span class="op">)</span>,</span>
@@ -564,13 +521,17 @@ dimension for the CMC analysis.</p>
 <span><span class="va">fig_case2</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">res_carbon</span>,</span>
 <span>                            <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">variable</span>, y <span class="op">=</span> <span class="va">value</span>, fill <span class="op">=</span> <span class="va">variable</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html" class="external-link">geom_boxplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0.2</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, color <span class="op">=</span> <span class="st">"red"</span>, linewidth <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_discrete.html" class="external-link">scale_x_discrete</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Causal Strength"</span>,</span>
 <span>                              expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,</span>
-<span>                              limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.3</span><span class="op">)</span>,</span>
-<span>                              breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.3</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span>
+<span>                              limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.45</span><span class="op">)</span>,</span>
+<span>                              breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.45</span>,by <span class="op">=</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span>                 axis.text.x <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
+<span>                 axis.text.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span><span class="op">)</span>,</span>
+<span>                 axis.title.y <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12.5</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">fig_case2</span></span></code></pre></div>
 <div class="float">
 <img src="../reference/figures/edm/fig_case2-1.png" alt="Figure 5. Causal strength scores between annual mean temperature and total annual CO₂ emissions across US counties, with embedding dimension E set to 6 and number of neighbors set to 20."><div class="figcaption">
@@ -579,6 +540,7 @@ scores between annual mean temperature and total annual CO₂ emissions
 across US counties, with embedding dimension E set to 6 and number of
 neighbors set to 20.</div>
 </div>
+<p><br></p>
 </div>
 <div class="section level3">
 <h3 id="covid-19-spread-across-japanese-prefectures">COVID-19 Spread Across Japanese Prefectures<a class="anchor" aria-label="anchor" href="#covid-19-spread-across-japanese-prefectures"></a>
@@ -622,9 +584,9 @@ of the epidemic spread</p>
 <p>Using Tokyo’s COVID-19 infection data to test the optimal embedding
 dimension.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">covid</span><span class="op">$</span><span class="va">Tokyo</span><span class="op">)</span><span class="op">/</span><span class="fl">10</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/fnn.html">fnn</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">2</span><span class="op">:</span><span class="fl">30</span>,eps <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">covid</span><span class="op">$</span><span class="va">Tokyo</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 </span></span>
-<span><span class="co">## 0.79452055 0.16842105 0.01246106 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
+<span><span class="co">## 0.79452055 0.16901408 0.01346801 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##        E:8        E:9       E:10       E:11       E:12       E:13       E:14 </span></span>
 <span><span class="co">## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##       E:15       E:16       E:17       E:18       E:19       E:20       E:21 </span></span>
@@ -639,7 +601,7 @@ k yielding the highest self-prediction accuracy is selected for the CCM
 procedure.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">4</span><span class="op">:</span><span class="fl">50</span>,k <span class="op">=</span> <span class="fl">5</span><span class="op">:</span><span class="fl">60</span><span class="op">)</span></span>
-<span><span class="co">## The suggested E and k for variable Tokyo is 4 and 7</span></span></code></pre></div>
+<span><span class="co">## The suggested E,k,tau for variable Tokyo is 4, 7 and 1</span></span></code></pre></div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"Tokyo"</span>,<span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">covid</span><span class="op">)</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.l</span><span class="op">)</span> <span class="op">{</span></span>
@@ -649,19 +611,19 @@ procedure.</p>
 <span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span>
 <span><span class="co">##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper</span></span>
-<span><span class="co">## 1      331    0.70879268  0.000000000     0.65090130      0.7584883</span></span>
-<span><span class="co">## 2      331    0.15540844  0.004475224     0.04874688      0.2585655</span></span>
-<span><span class="co">## 3      331    0.61181618  0.000000000     0.53983767      0.6749128</span></span>
-<span><span class="co">## 4      331    0.51213248  0.000000000     0.42822713      0.5872831</span></span>
-<span><span class="co">## 5      331    0.02065942  0.707198233    -0.08700953      0.1278513</span></span>
-<span><span class="co">## 6      331    0.65485497  0.000000000     0.58882105      0.7122050</span></span>
+<span><span class="co">## 1      331    0.70821438  0.000000000     0.65004195      0.7581344</span></span>
+<span><span class="co">## 2      331    0.15425205  0.004914181     0.04723714      0.2577662</span></span>
+<span><span class="co">## 3      331    0.61161540  0.000000000     0.53937745      0.6749169</span></span>
+<span><span class="co">## 4      331    0.51076947  0.000000000     0.42644990      0.5862882</span></span>
+<span><span class="co">## 5      331    0.02001635  0.716736148    -0.08797387      0.1275415</span></span>
+<span><span class="co">## 6      331    0.65457757  0.000000000     0.58828904      0.7121276</span></span>
 <span><span class="co">##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y</span></span>
-<span><span class="co">## 1     0.7236820 0.000000e+00      0.6681758      0.7711770 Tokyo Hokkaido</span></span>
-<span><span class="co">## 2     0.4371497 0.000000e+00      0.3459266      0.5201856 Tokyo   Aomori</span></span>
-<span><span class="co">## 3     0.7574997 0.000000e+00      0.7076344      0.7998568 Tokyo    Iwate</span></span>
-<span><span class="co">## 4     0.7214586 0.000000e+00      0.6655925      0.7692846 Tokyo   Miyagi</span></span>
-<span><span class="co">## 5     0.2884528 8.400987e-08      0.1867672      0.3840232 Tokyo    Akita</span></span>
-<span><span class="co">## 6     0.5021635 0.000000e+00      0.4172045      0.5784216 Tokyo Yamagata</span></span>
+<span><span class="co">## 1     0.7218176  0.00000e+00      0.6658266      0.7697240 Tokyo Hokkaido</span></span>
+<span><span class="co">## 2     0.4350222  0.00000e+00      0.3433221      0.5185069 Tokyo   Aomori</span></span>
+<span><span class="co">## 3     0.7570992  0.00000e+00      0.7070011      0.7996368 Tokyo    Iwate</span></span>
+<span><span class="co">## 4     0.7197052  0.00000e+00      0.6633723      0.7679264 Tokyo   Miyagi</span></span>
+<span><span class="co">## 5     0.2860446  1.18696e-07      0.1839154      0.3820638 Tokyo    Akita</span></span>
+<span><span class="co">## 6     0.5004552  0.00000e+00      0.4150462      0.5771203 Tokyo Yamagata</span></span>
 <span></span>
 <span><span class="va">df1</span> <span class="op">=</span> <span class="va">res</span> <span class="op">|&gt;</span></span>
 <span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>,<span class="va">y_xmap_x_mean</span>,<span class="va">y_xmap_x_sig</span><span class="op">)</span><span class="op">|&gt;</span></span>
@@ -674,16 +636,16 @@ procedure.</p>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">cs</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">res_covid</span>,<span class="fl">10</span><span class="op">)</span></span>
 <span><span class="co">##    cause   effect        cs sig</span></span>
-<span><span class="co">## 1  Tokyo    Osaka 0.9340924   0</span></span>
-<span><span class="co">## 2  Tokyo Kanagawa 0.9299503   0</span></span>
-<span><span class="co">## 3  Tokyo  Saitama 0.9170512   0</span></span>
-<span><span class="co">## 4  Tokyo    Chiba 0.9148243   0</span></span>
-<span><span class="co">## 5  Tokyo    Hyogo 0.9074071   0</span></span>
-<span><span class="co">## 6  Tokyo    Aichi 0.9053216   0</span></span>
-<span><span class="co">## 7  Tokyo  Ibaraki 0.8765329   0</span></span>
-<span><span class="co">## 8  Tokyo     Nara 0.8746084   0</span></span>
-<span><span class="co">## 9  Tokyo Shizuoka 0.8659047   0</span></span>
-<span><span class="co">## 10 Tokyo    Kyoto 0.8604876   0</span></span></code></pre></div>
+<span><span class="co">## 1  Tokyo    Osaka 0.9336918   0</span></span>
+<span><span class="co">## 2  Tokyo Kanagawa 0.9295234   0</span></span>
+<span><span class="co">## 3  Tokyo  Saitama 0.9165442   0</span></span>
+<span><span class="co">## 4  Tokyo    Chiba 0.9143007   0</span></span>
+<span><span class="co">## 5  Tokyo    Hyogo 0.9068498   0</span></span>
+<span><span class="co">## 6  Tokyo    Aichi 0.9047484   0</span></span>
+<span><span class="co">## 7  Tokyo  Ibaraki 0.8757819   0</span></span>
+<span><span class="co">## 8  Tokyo     Nara 0.8738945   0</span></span>
+<span><span class="co">## 9  Tokyo Shizuoka 0.8651136   0</span></span>
+<span><span class="co">## 10 Tokyo    Kyoto 0.8596055   0</span></span></code></pre></div>
 <p>Using <code>0.90</code> as the threshold (rounded to two decimal
 places), we map the causal responses in the spread of COVID-19 from
 Tokyo for those with a causal strength greater than
@@ -699,7 +661,7 @@ Tokyo for those with a causal strength greater than
 <span><span class="co">## 3 Tokyo  Saitama 0.92   0</span></span>
 <span><span class="co">## 4 Tokyo    Chiba 0.91   0</span></span>
 <span><span class="co">## 5 Tokyo    Hyogo 0.91   0</span></span>
-<span><span class="co">## 6 Tokyo    Aichi 0.91   0</span></span>
+<span><span class="co">## 6 Tokyo    Aichi 0.90   0</span></span>
 <span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"rnaturalearth"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"rnaturalearth"</span><span class="op">)</span></span>
@@ -717,7 +679,7 @@ Tokyo for those with a causal strength greater than
 <span>  <span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu">geocode</span><span class="op">(</span>state <span class="op">=</span> <span class="va">name</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,</span>
 <span>                        long <span class="op">=</span> <span class="st">"lon"</span>, lat <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span>
 <span><span class="co">## Passing 7 addresses to the ArcGIS single address geocoder</span></span>
-<span><span class="co">## Query completed in: 5.4 seconds</span></span>
+<span><span class="co">## Query completed in: 5.2 seconds</span></span>
 <span></span>
 <span><span class="va">fig_case3</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">jp</span>, fill <span class="op">=</span> <span class="st">"#ffe7b7"</span>, color <span class="op">=</span> <span class="st">"grey"</span>, linewidth <span class="op">=</span> <span class="fl">0.45</span><span class="op">)</span> <span class="op">+</span></span>
@@ -749,6 +711,7 @@ Tokyo for those with a causal strength greater than
 affected by Tokyo, Osaka, Kanagawa, Saitama, Chiba, Hyogo, and Aichi,
 are located on the map.</div>
 </div>
+<p><br></p>
 </div>
 </div>
 <div class="section level2">

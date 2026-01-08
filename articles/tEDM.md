@@ -100,7 +100,7 @@ Install the stable version:
 install.packages("tEDM", dep = TRUE)
 ```
 
-or dev version:
+or developed version:
 
 ``` r
 install.packages("tEDM",
@@ -161,63 +161,65 @@ Hong Kong from March 1995 to November
 **Figure 1**. Time series of air pollutants and confirmed CVD cases in
 Hong Kong from March 1995 to November 1997.
 
+  
+
 Determining optimal embedding dimension:
 
 ``` r
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 
-## 0.8275862 0.4882729 0.3026188 0.2880698 0.2133851 0.2065955 0.1920466 0.1871969 
+## 0.8275862 0.4927374 0.3051882 0.2899288 0.2146490 0.2075280 0.1943032 0.1851475 
 ##       E:9      E:10      E:11      E:12      E:13      E:14      E:15      E:16 
-## 0.1842871 0.1862270 0.1794374 0.1823472 0.1765276 0.1687682 0.1619787 0.1619787 
+## 0.1861648 0.1902340 0.1831129 0.1851475 0.1790437 0.1719227 0.1678535 0.1678535 
 ##      E:17      E:18      E:19      E:20      E:21      E:22      E:23      E:24 
-## 0.1503395 0.1483996 0.1629486 0.1513094 0.1542192 0.1658584 0.1610087 0.1610087 
+## 0.1546287 0.1536114 0.1678535 0.1566633 0.1586979 0.1709054 0.1637843 0.1658189 
 ##      E:25      E:26      E:27      E:28      E:29      E:30      E:31      E:32 
-## 0.1619787 0.1833172 0.1610087 0.1697381 0.1668283 0.1755577 0.1668283 0.1755577 
+## 0.1668362 0.1881994 0.1658189 0.1749746 0.1729400 0.1810783 0.1709054 0.1800610 
 ##      E:33      E:34      E:35      E:36      E:37      E:38      E:39      E:40 
-## 0.1648885 0.1668283 0.1668283 0.1580989 0.1464597 0.1571290 0.1590689 0.1639185 
+## 0.1698881 0.1719227 0.1719227 0.1627670 0.1515768 0.1637843 0.1668362 0.1709054 
 ##      E:41      E:42      E:43      E:44      E:45      E:46      E:47      E:48 
-## 0.1580989 0.1580989 0.1590689 0.1610087 0.1542192 0.1590689 0.1707081 0.1736178 
+## 0.1658189 0.1648016 0.1668362 0.1688708 0.1617497 0.1668362 0.1790437 0.1820956 
 ##      E:49 
-## 0.1677983
+## 0.1759919
 ```
 
-Starting at \\E = 11\\, the FNN ratio stabilizes near 0.18; thus,
-embedding dimension E and neighbor number k are chosen from 11 onward
-for subsequent self-prediction parameter selection.
+Starting at \\E = 7\\, the FNN ratio stabilizes near 0.19; thus,
+embedding dimension E and neighbor number k are chosen from 7 onward for
+subsequent self-prediction parameter selection.
 
 ``` r
-tEDM::simplex(cvd,"cvd","cvd",E = 11:25,k = 12:26)
-## The suggested E and k for variable cvd is 11 and 12
-tEDM::simplex(cvd,"rsp","rsp",E = 11:25,k = 12:26)
-## The suggested E and k for variable rsp is 11 and 12
-tEDM::simplex(cvd,"no2","no2",E = 11:25,k = 12:26)
-## The suggested E and k for variable no2 is 11 and 12
-tEDM::simplex(cvd,"so2","so2",E = 11:25,k = 12:26)
-## The suggested E and k for variable so2 is 11 and 16
-tEDM::simplex(cvd,"o3","o3",E = 11:25,k = 12:26)
-## The suggested E and k for variable o3 is 11 and 13
+tEDM::simplex(cvd,"cvd","cvd",E = 7:10,k = 8:12)
+## The suggested E,k,tau for variable cvd is 7, 8 and 1
+tEDM::simplex(cvd,"rsp","rsp",E = 7:10,k = 8:12)
+## The suggested E,k,tau for variable rsp is 7, 8 and 1
+tEDM::simplex(cvd,"no2","no2",E = 7:10,k = 8:12)
+## The suggested E,k,tau for variable no2 is 7, 8 and 1
+tEDM::simplex(cvd,"so2","so2",E = 7:10,k = 8:12)
+## The suggested E,k,tau for variable so2 is 7, 11 and 1
+tEDM::simplex(cvd,"o3","o3",E = 7:10,k = 8:12)
+## The suggested E,k,tau for variable o3 is 7, 8 and 1
 
-s1 = tEDM::simplex(cvd,"cvd","cvd",E = 11,k = 12:26)
-s2 = tEDM::simplex(cvd,"rsp","rsp",E = 11,k = 12:26)
-s3 = tEDM::simplex(cvd,"no2","no2",E = 11,k = 12:26)
-s4 = tEDM::simplex(cvd,"so2","so2",E = 11,k = 12:26)
-s5 = tEDM::simplex(cvd,"o3","o3",E = 11,k = 12:26)
+s1 = tEDM::simplex(cvd,"cvd","cvd",E = 7,k = 8:12)
+s2 = tEDM::simplex(cvd,"rsp","rsp",E = 7,k = 8:12)
+s3 = tEDM::simplex(cvd,"no2","no2",E = 7,k = 8:12)
+s4 = tEDM::simplex(cvd,"so2","so2",E = 7,k = 8:12)
+s5 = tEDM::simplex(cvd,"o3","o3",E = 7,k = 8:12)
 
 list(s1,s2,s3,s4,s5)
 ## [[1]]
-## The suggested E and k for variable cvd is 11 and 12 
+## The suggested E,k,tau for variable cvd is 7, 8 and 1 
 ## 
 ## [[2]]
-## The suggested E and k for variable rsp is 11 and 12 
+## The suggested E,k,tau for variable rsp is 7, 9 and 1 
 ## 
 ## [[3]]
-## The suggested E and k for variable no2 is 11 and 12 
+## The suggested E,k,tau for variable no2 is 7, 8 and 1 
 ## 
 ## [[4]]
-## The suggested E and k for variable so2 is 11 and 16 
+## The suggested E,k,tau for variable so2 is 7, 11 and 1 
 ## 
 ## [[5]]
-## The suggested E and k for variable o3 is 11 and 13
+## The suggested E,k,tau for variable o3 is 7, 8 and 1
 
 simplex_df = purrr::map2_dfr(list(s1,s2,s3,s4,s5),
                              c("cvd","rsp","no2","so2","o3"),
@@ -232,9 +234,11 @@ neighbors.](../reference/figures/edm/fig_simplex_cvd-1.png)
 **Figure 2**. Variation of prediction skill with the number of nearest
 neighbors.
 
+  
+
 To investigate the causal influences of air pollutants on the incidence
 of cardiovascular diseases, we performed PCM analysis using an embedding
-dimension of 11 and 12 nearest neighbors per variable pair.
+dimension of 7 and 8 nearest neighbors per variable pair.
 
 ``` r
 vars = c("cvd", "rsp", "no2", "so2", "o3")
@@ -250,8 +254,7 @@ for (pair in var_pairs) {
                          cause = var2,
                          effect = var1,
                          conds = conds,
-                         libsizes = seq(12, 1012, 100),
-                         E = 11, k = 12,
+                         E = 7, k = 8,
                          progress = FALSE)
 }
 ```
@@ -259,115 +262,70 @@ for (pair in var_pairs) {
 The PCM results are shown in the figure below:
 
 ``` r
-fig_cvd_rsp = plot(res[["cvd_rsp"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(-0.01,0.2),
-                   ybreaks = seq(0,0.2,by = 0.05),
-                   legend_texts = c("CVD xmap RSP, P = 0",
-                                    "RSP xmap CVD, P = 0.001"))
-fig_cvd_rsp_p = plot(res[["cvd_rsp"]], xlimits = c(0,1030),
-                     ylimits = c(-0.01,0.2), ybreaks = seq(0,0.2,by = 0.05),
-                     legend_texts = c("CVD xmap RSP | NO2 & SO2 & O3, P = 0",
-                                      "RSP xmap CVD | NO2 & SO2 & O3, P = 0.0179"))
+.process_xmap_result = \(g,type = c("xmap","pxmap")){
+  type = match.arg(type)
+  tempdf = g[[type]]
+  tempdf$x = g$varname[1]
+  tempdf$y = g$varname[2]
+  tempdf = tempdf |>
+    dplyr::select(1, x, y,
+                  x_xmap_y_mean,x_xmap_y_sig,
+                  y_xmap_x_mean,y_xmap_x_sig,
+                  dplyr::everything()) |>
+    dplyr::slice_tail(n = 1)
 
-fig_cvd_no2 = plot(res[["cvd_no2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0,0.35),
-                   ybreaks = seq(0,0.35,by = 0.05),
-                   legend_texts = c("CVD xmap NO2, P = 0",
-                                    "NO2 xmap CVD, P = 0"))
-fig_cvd_no2_p = plot(res[["cvd_no2"]], xlimits = c(0,1030),
-                     ylimits = c(0,0.35), ybreaks = seq(0,0.35,by = 0.05),
-                     legend_texts = c("CVD xmap NO2 | RSP & SO2 & O3, P = 0",
-                                      "NO2 xmap CVD | RSP & SO2 & O3, P = 0"))
+  g1 = tempdf |>
+    dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
+    purrr::set_names(c("cause","effect","cs","sig"))
+  g2 = tempdf |>
+    dplyr::select(y,x,x_xmap_y_mean,x_xmap_y_sig) |>
+    purrr::set_names(c("cause","effect","cs","sig"))
 
-fig_cvd_so2 = plot(res[["cvd_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0,0.25),
-                   ybreaks = seq(0,0.25,by = 0.05),
-                   legend_texts = c("CVD xmap SO2, P = 0",
-                                    "SO2 xmap CVD, P = 0"))
-fig_cvd_so2_p = plot(res[["cvd_so2"]], xlimits = c(0,1030),
-                     ylimits = c(0,0.25), ybreaks = seq(0,0.25,by = 0.05),
-                     legend_texts = c("CVD xmap SO2 | RSP & NO2 & O3, P = 0",
-                                      "SO2 xmap CVD | RSP & NO2 & O3, P = 0.003"))
+  return(rbind(g1,g2))
+}
 
-fig_cvd_o3 = plot(res[["cvd_o3"]], partial = FALSE,
-                  xlimits = c(0,1030), ylimits = c(-0.05,0.35),
-                  ybreaks = seq(-0.05,0.35,by = 0.1),
-                  legend_texts = c("CVD xmap O3, P = 0.495",
-                                   "O3 xmap CVD, P = 0.002"))
-fig_cvd_o3_p = plot(res[["cvd_o3"]], xlimits = c(0,1030),
-                    ylimits = c(-0.05,0.35), ybreaks = seq(-0.05,0.35,by = 0.1),
-                    legend_texts = c("CVD xmap O3 | RSP & NO2 & SO2, P = 0.402",
-                                     "O3 xmap CVD | RSP & NO2 & SO2, P = 0.028"))
+plot_cs_matrix = \(.tbf,legend_title = expression(rho)){
+  .tbf = .tbf |>
+    dplyr::mutate(sig_marker = dplyr::case_when(
+      sig > 0.05 ~ sprintf("paste(%.4f^'#')", cs),
+      TRUE ~ sprintf('%.4f', cs)
+    ))
 
-fig_rsp_no2 = plot(res[["rsp_no2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.2,0.9),
-                   ybreaks = seq(0.2,0.9,by = 0.1),
-                   legend_texts = c("RSP xmap NO2, P = 0",
-                                    "NO2 xmap RSP, P = 0"))
-fig_rsp_no2_p = plot(res[["rsp_no2"]], xlimits = c(0,1030),
-                     ylimits = c(0.2,0.9), ybreaks = seq(0.2,0.9,by = 0.1),
-                     legend_texts = c("RSP xmap NO2 | CVD & SO2 & O3, P = 0",
-                                      "NO2 xmap RSP | CVD & SO2 & O3, P = 0"))
+  fig = ggplot2::ggplot(data = .tbf,
+                        ggplot2::aes(x = effect, y = cause)) +
+    ggplot2::geom_tile(color = "black", ggplot2::aes(fill = cs)) +
+    ggplot2::geom_abline(slope = 1, intercept = 0,
+                         color = "black", linewidth = 0.25) +
+    ggplot2::geom_text(ggplot2::aes(label = sig_marker), parse = TRUE,
+                       color = "black", family = "serif") +
+    ggplot2::labs(x = "Effect", y = "Cause", fill = legend_title) +
+    ggplot2::scale_x_discrete(expand = c(0, 0)) +
+    ggplot2::scale_y_discrete(expand = c(0, 0)) +
+    ggplot2::scale_fill_gradient(low = "#9bbbb8", high = "#256c68") +
+    ggplot2::coord_equal() +
+    ggplot2::theme_void() +
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 0, family = "serif"),
+      axis.text.y = ggplot2::element_text(color = "black", family = "serif"),
+      axis.title.y = ggplot2::element_text(angle = 90, family = "serif"),
+      axis.title.x = ggplot2::element_text(color = "black", family = "serif",
+                                           margin = ggplot2::margin(t = 5.5, unit = "pt")),
+      legend.text = ggplot2::element_text(family = "serif"),
+      legend.title = ggplot2::element_text(family = "serif"),
+      legend.background = ggplot2::element_rect(fill = NA, color = NA),
+      #legend.direction = "horizontal",
+      #legend.position = "bottom",
+      legend.margin = ggplot2::margin(t = 1, r = 0, b = 0, l = 0, unit = "pt"),
+      legend.key.width = ggplot2::unit(20, "pt"),
+      panel.grid = ggplot2::element_blank(),
+      panel.border = ggplot2::element_rect(color = "black", fill = NA)
+    )
+  return(fig)
+}
 
-fig_rsp_so2 = plot(res[["rsp_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.05,0.55),
-                   ybreaks = seq(0.05,0.55,by = 0.1),
-                   legend_texts = c("RSP xmap SO2, P = 0",
-                                    "SO2 xmap RSP, P = 0"))
-fig_rsp_so2_p = plot(res[["rsp_so2"]], xlimits = c(0,1030),
-                     ylimits = c(0.05,0.55), ybreaks = seq(0.05,0.55,by = 0.1),
-                     legend_texts = c("RSP xmap SO2 | CVD & NO2 & O3, P = 0",
-                                      "SO2 xmap RSP | CVD & NO2 & O3, P = 0"))
-
-fig_rsp_o3 = plot(res[["rsp_o3"]], partial = FALSE,
-                  xlimits = c(0,1030), ylimits = c(0.05,0.65),
-                  ybreaks = seq(0.05,0.65,by = 0.1),
-                  legend_texts = c("RSP xmap O3, P = 0",
-                                   "O3 xmap RSP, P = 0"))
-fig_rsp_o3_p = plot(res[["rsp_o3"]], xlimits = c(0,1030),
-                    ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
-                    legend_texts = c("RSP xmap O3 | CVD & SO2 & NO2, P = 0",
-                                     "O3 xmap RSP | CVD & SO2 & NO2, P = 0"))
-
-fig_no2_so2 = plot(res[["no2_so2"]], partial = FALSE,
-                   xlimits = c(0,1030), ylimits = c(0.15,0.75),
-                   ybreaks = seq(0.15,0.75,by = 0.1),
-                   legend_texts = c("NO2 xmap SO2, P = 0",
-                                    "SO2 xmap NO2, P = 0"))
-fig_no2_so2_p = plot(res[["no2_so2"]], xlimits = c(0,1030),
-                     ylimits = c(0.15,0.75), ybreaks = seq(0.15,0.75,by = 0.1),
-                     legend_texts = c("NO2 xmap SO2 | CVD & RSP & O3, P = 0",
-                                      "SO2 xmap NO2 | CVD & RSP & O3, P = 0"))
-
-fig_no2_o3 = plot(res[["no2_o3"]], partial = FALSE,
-                  xlimits = c(0,1030), ylimits = c(0.05,0.65),
-                  ybreaks = seq(0.05,0.65,by = 0.1),
-                  legend_texts = c("NO2 xmap O3, P = 0",
-                                   "O3 xmap NO2, P = 0"))
-fig_no2_o3_p = plot(res[["no2_o3"]], xlimits = c(0,1030),
-                    ylimits = c(0.05,0.65), ybreaks = seq(0.05,0.65,by = 0.1),
-                    legend_texts = c("NO2 xmap O3 | CVD & RSP & SO2, P = 0",
-                                     "O3 xmap NO2 | CVD & RSP & SO2, P = 0"))
-
-fig_so2_o3 = plot(res[["so2_o3"]], partial = FALSE,
-                  xlimits = c(0,1030), ylimits = c(-0.05,0.45),
-                  ybreaks = seq(-0.05,0.45,by = 0.1),
-                  legend_texts = c("SO2 xmap O3, P = 0",
-                                   "O3 xmap SO2, P = 0.094"))
-fig_so2_o3_p = plot(res[["so2_o3"]], xlimits = c(0,1030),
-                    ylimits = c(-0.05,0.45), ybreaks = seq(-0.05,0.45,by = 0.1),
-                    legend_texts = c("SO2 xmap O3 | CVD & RSP & NO2, P = 0",
-                                     "O3 xmap SO2 | CVD & RSP & NO2, P = 0.131"))
-
-fig_pcm = cowplot::plot_grid(fig_cvd_rsp, fig_cvd_rsp_p, fig_cvd_no2, fig_cvd_no2_p,
-                             fig_cvd_so2, fig_cvd_so2_p, fig_cvd_o3, fig_cvd_o3_p,
-                             fig_rsp_no2, fig_rsp_no2_p, fig_rsp_so2, fig_rsp_so2_p,
-                             fig_rsp_o3, fig_rsp_o3_p, fig_no2_so2, fig_no2_so2_p,
-                             fig_no2_o3, fig_no2_o3_p, fig_so2_o3, fig_so2_o3_p,
-                             ncol = 4, label_fontfamily = 'serif',
-                             labels = letters[1:20],
-                             label_x = -0.005, label_y = 1)
-fig_pcm
+pcm_df = purrr::map_dfr(res,\(.list) .process_xmap_result(.list,type = "pxmap"))
+fig_pcs = plot_cs_matrix(pcm_df)
+fig_pcs
 ```
 
 ![Figure 3. Partial cross mapping results between different air
@@ -377,6 +335,8 @@ diseases.](../reference/figures/edm/fig_pcm-1.png)
 **Figure 3**. Partial cross mapping results between different air
 pollutants and cardiovascular diseases.
 
+  
+
 From Figure 3, we can infer the following causal links:
 
 ![\*\*Figure 4\*\*. Causal interactions between air pollutants and
@@ -385,6 +345,8 @@ Kong.](../reference/figures/edm/cvds_hk.png)
 
 **Figure 4**. Causal interactions between air pollutants and
 cardiovascular diseases in Hong Kong.
+
+  
 
 ### US County Carbon Emissions and Temperature Dynamics
 
@@ -425,7 +387,7 @@ embedding dimension by applying the FNN method.
 ``` r
 tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]]$carbon))
 ##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 
-## 0.29729730 0.02702703 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
+## 0.35714286 0.03571429 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
 ##        E:8        E:9 
 ## 0.00000000 0.00000000
 ```
@@ -436,24 +398,24 @@ select \\E = 3\\ as the embedding dimension for the CMC analysis.
 ``` r
 res = carbon_list |>
   purrr::map_dfr(\(.x) {
-    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 20,dist.metric = "L2",progressbar = FALSE)
+    g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 18,dist.metric = "L2",progressbar = FALSE)
     return(g$xmap)
   })
 head(res)
 ##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
-## 1        20       0.17625 1.441152e-06     0.04458194      0.3079181
-## 2        20       0.15625 5.526258e-08     0.03225277      0.2802472
-## 3        20       0.15625 5.809091e-08     0.03204912      0.2804509
-## 4        20       0.20125 3.147621e-05     0.06058040      0.3419196
-## 5        20       0.20875 7.165149e-05     0.06498830      0.3525117
-## 6        20       0.13125 2.408340e-10     0.01712311      0.2453769
+## 1        18     0.2669753 0.0083829567     0.09372879      0.4402218
+## 2        18     0.2314815 0.0012106678     0.06886439      0.3940986
+## 3        18     0.2021605 0.0001563996     0.04775587      0.3565651
+## 4        18     0.2947531 0.0276001573     0.11214275      0.4773634
+## 5        18     0.2824074 0.0180642479     0.10202679      0.4627880
+## 6        18     0.2098765 0.0002847089     0.05317822      0.3665749
 ##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper
-## 1       0.06375 4.154966e-26              0      0.1446512
-## 2       0.06250 1.381916e-28              0      0.1398111
-## 3       0.06250 4.667439e-26              0      0.1437169
-## 4       0.06625 2.180138e-25              0      0.1478975
-## 5       0.06875 2.677461e-23              0      0.1537491
-## 6       0.05875 1.135327e-30              0      0.1338684
+## 1    0.09104938 1.175387e-14              0      0.1948920
+## 2    0.08796296 1.186317e-16              0      0.1854438
+## 3    0.08024691 1.217722e-17              0      0.1764553
+## 4    0.08487654 5.431816e-17              0      0.1820035
+## 5    0.09413580 1.725075e-14              0      0.1978540
+## 6    0.08024691 1.217722e-17              0      0.1764553
 
 res_carbon = res |>
   dplyr::select(neighbors,
@@ -465,12 +427,12 @@ head(res_carbon)
 ## # A tibble: 6 × 3
 ##   neighbors variable    value
 ##       <dbl> <chr>       <dbl>
-## 1        20 carbon_tem 0.176 
-## 2        20 tem_carbon 0.0638
-## 3        20 carbon_tem 0.156 
-## 4        20 tem_carbon 0.0625
-## 5        20 carbon_tem 0.156 
-## 6        20 tem_carbon 0.0625
+## 1        18 carbon_tem 0.267 
+## 2        18 tem_carbon 0.0910
+## 3        18 carbon_tem 0.231 
+## 4        18 tem_carbon 0.0880
+## 5        18 carbon_tem 0.202 
+## 6        18 tem_carbon 0.0802
 ```
 
 ``` r
@@ -480,13 +442,17 @@ res_carbon$variable = factor(res_carbon$variable,
 fig_case2 = ggplot2::ggplot(res_carbon,
                             ggplot2::aes(x = variable, y = value, fill = variable)) +
   ggplot2::geom_boxplot() +
+  ggplot2::geom_hline(yintercept = 0.2, linetype = "dashed", color = "red", linewidth = 0.8) +
   ggplot2::theme_bw() +
   ggplot2::scale_x_discrete(name = "") +
   ggplot2::scale_y_continuous(name = "Causal Strength",
                               expand = c(0,0),
-                              limits = c(0,0.3),
-                              breaks = seq(0,0.3,by = 0.05)) +
-  ggplot2::theme(legend.position = "none")
+                              limits = c(0,0.45),
+                              breaks = seq(0,0.45,by = 0.05)) +
+  ggplot2::theme(legend.position = "none",
+                 axis.text.x = ggplot2::element_text(size = 12),
+                 axis.text.y = ggplot2::element_text(size = 12),
+                 axis.title.y = ggplot2::element_text(size = 12.5))
 fig_case2
 ```
 
@@ -498,6 +464,8 @@ E set to 6 and number of neighbors set to
 **Figure 5**. Causal strength scores between annual mean temperature and
 total annual CO₂ emissions across US counties, with embedding dimension
 E set to 6 and number of neighbors set to 20.
+
+  
 
 ### COVID-19 Spread Across Japanese Prefectures
 
@@ -547,9 +515,9 @@ Using Tokyo’s COVID-19 infection data to test the optimal embedding
 dimension.
 
 ``` r
-tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo)/10)
+tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 
-## 0.79452055 0.16842105 0.01246106 0.00000000 0.00000000 0.00000000 0.00000000 
+## 0.79452055 0.16901408 0.01346801 0.00000000 0.00000000 0.00000000 0.00000000 
 ##        E:8        E:9       E:10       E:11       E:12       E:13       E:14 
 ## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
 ##       E:15       E:16       E:17       E:18       E:19       E:20       E:21 
@@ -566,7 +534,7 @@ the highest self-prediction accuracy is selected for the CCM procedure.
 
 ``` r
 tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60)
-## The suggested E and k for variable Tokyo is 4 and 7
+## The suggested E,k,tau for variable Tokyo is 4, 7 and 1
 ```
 
 ``` r
@@ -578,19 +546,19 @@ res = names(covid)[-match("Tokyo",names(covid))] |>
   })
 head(res)
 ##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
-## 1      331    0.70879268  0.000000000     0.65090130      0.7584883
-## 2      331    0.15540844  0.004475224     0.04874688      0.2585655
-## 3      331    0.61181618  0.000000000     0.53983767      0.6749128
-## 4      331    0.51213248  0.000000000     0.42822713      0.5872831
-## 5      331    0.02065942  0.707198233    -0.08700953      0.1278513
-## 6      331    0.65485497  0.000000000     0.58882105      0.7122050
+## 1      331    0.70821438  0.000000000     0.65004195      0.7581344
+## 2      331    0.15425205  0.004914181     0.04723714      0.2577662
+## 3      331    0.61161540  0.000000000     0.53937745      0.6749169
+## 4      331    0.51076947  0.000000000     0.42644990      0.5862882
+## 5      331    0.02001635  0.716736148    -0.08797387      0.1275415
+## 6      331    0.65457757  0.000000000     0.58828904      0.7121276
 ##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y
-## 1     0.7236820 0.000000e+00      0.6681758      0.7711770 Tokyo Hokkaido
-## 2     0.4371497 0.000000e+00      0.3459266      0.5201856 Tokyo   Aomori
-## 3     0.7574997 0.000000e+00      0.7076344      0.7998568 Tokyo    Iwate
-## 4     0.7214586 0.000000e+00      0.6655925      0.7692846 Tokyo   Miyagi
-## 5     0.2884528 8.400987e-08      0.1867672      0.3840232 Tokyo    Akita
-## 6     0.5021635 0.000000e+00      0.4172045      0.5784216 Tokyo Yamagata
+## 1     0.7218176  0.00000e+00      0.6658266      0.7697240 Tokyo Hokkaido
+## 2     0.4350222  0.00000e+00      0.3433221      0.5185069 Tokyo   Aomori
+## 3     0.7570992  0.00000e+00      0.7070011      0.7996368 Tokyo    Iwate
+## 4     0.7197052  0.00000e+00      0.6633723      0.7679264 Tokyo   Miyagi
+## 5     0.2860446  1.18696e-07      0.1839154      0.3820638 Tokyo    Akita
+## 6     0.5004552  0.00000e+00      0.4150462      0.5771203 Tokyo Yamagata
 
 df1 = res |>
     dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
@@ -603,16 +571,16 @@ res_covid = dplyr::bind_rows(df1,df2)|>
   dplyr::arrange(dplyr::desc(cs))
 head(res_covid,10)
 ##    cause   effect        cs sig
-## 1  Tokyo    Osaka 0.9340924   0
-## 2  Tokyo Kanagawa 0.9299503   0
-## 3  Tokyo  Saitama 0.9170512   0
-## 4  Tokyo    Chiba 0.9148243   0
-## 5  Tokyo    Hyogo 0.9074071   0
-## 6  Tokyo    Aichi 0.9053216   0
-## 7  Tokyo  Ibaraki 0.8765329   0
-## 8  Tokyo     Nara 0.8746084   0
-## 9  Tokyo Shizuoka 0.8659047   0
-## 10 Tokyo    Kyoto 0.8604876   0
+## 1  Tokyo    Osaka 0.9336918   0
+## 2  Tokyo Kanagawa 0.9295234   0
+## 3  Tokyo  Saitama 0.9165442   0
+## 4  Tokyo    Chiba 0.9143007   0
+## 5  Tokyo    Hyogo 0.9068498   0
+## 6  Tokyo    Aichi 0.9047484   0
+## 7  Tokyo  Ibaraki 0.8757819   0
+## 8  Tokyo     Nara 0.8738945   0
+## 9  Tokyo Shizuoka 0.8651136   0
+## 10 Tokyo    Kyoto 0.8596055   0
 ```
 
 Using `0.90` as the threshold (rounded to two decimal places), we map
@@ -630,7 +598,7 @@ res_covid
 ## 3 Tokyo  Saitama 0.92   0
 ## 4 Tokyo    Chiba 0.91   0
 ## 5 Tokyo    Hyogo 0.91   0
-## 6 Tokyo    Aichi 0.91   0
+## 6 Tokyo    Aichi 0.90   0
 
 if (!requireNamespace("rnaturalearth")) {
   install.packages("rnaturalearth")
@@ -648,7 +616,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 5.4 seconds
+## Query completed in: 5.2 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +
@@ -682,6 +650,8 @@ map.](../reference/figures/edm/fig_case3-1.png)
 
 **Figure 6**. The prefectures most affected by Tokyo, Osaka, Kanagawa,
 Saitama, Chiba, Hyogo, and Aichi, are located on the map.
+
+  
 
 ## Reference
 

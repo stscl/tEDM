@@ -10,14 +10,14 @@
 Source:
 [`inst/CITATION`](https://github.com/stscl/tEDM/blob/main/inst/CITATION)
 
-Lv W (2025). *tEDM: Temporal Empirical Dynamic Modeling*.
+Lv W (2026). *tEDM: Temporal Empirical Dynamic Modeling*.
 [doi:10.32614/CRAN.package.tEDM](https://doi.org/10.32614/CRAN.package.tEDM),
 R package version 1.2.
 
     @Manual{,
       title = {{tEDM: Temporal Empirical Dynamic Modeling}},
       author = {Wenbo Lv},
-      year = {2025},
+      year = {2026},
       note = {R package version 1.2},
       doi = {10.32614/CRAN.package.tEDM},
     }

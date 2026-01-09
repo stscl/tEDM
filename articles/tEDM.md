@@ -508,8 +508,8 @@ The data are first differenced:
 ``` r
 covid = covid |>
   dplyr::mutate(dplyr::across(dplyr::everything(),
-                              \(.x) c(NA,diff(.x)))) |> 
-  dplyr::filter(dplyr::if_all(dplyr::everything(), 
+                              \(.x) c(NA,diff(.x)))) |>
+  dplyr::filter(dplyr::if_all(dplyr::everything(),
                 \(.x) !is.na(.x)))
 ```
 
@@ -519,48 +519,49 @@ dimension.
 ``` r
 tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 
-## 0.79452055 0.16901408 0.01346801 0.00000000 0.00000000 0.00000000 0.00000000 
+## 0.79452055 0.20070423 0.09459459 0.06666667 0.05629139 0.03947368 0.04605263 
 ##        E:8        E:9       E:10       E:11       E:12       E:13       E:14 
-## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
+## 0.05263158 0.05263158 0.02960526 0.02960526 0.03947368 0.02302632 0.02631579 
 ##       E:15       E:16       E:17       E:18       E:19       E:20       E:21 
-## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
+## 0.02302632 0.02960526 0.03618421 0.04605263 0.05263158 0.05263158 0.05592105 
 ##       E:22       E:23       E:24       E:25       E:26       E:27       E:28 
-## 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
+## 0.03947368 0.03289474 0.02960526 0.02960526 0.02631579 0.03289474 0.04276316 
 ##       E:29 
-## 0.00000000
+## 0.04605263
 ```
 
-Since the FNN ratio begins to approach zero when E equals 4, embedding
-dimensions from 4 onward are evaluated, and the pair of E and k yielding
-the highest self-prediction accuracy is selected for the CCM procedure.
+Since the FNN ratio begins to approach `0.0296` when E equals 10,
+embedding dimensions from 10 onward are evaluated, and the pair of E and
+k yielding the highest self-prediction accuracy is selected for the CCM
+procedure.
 
 ``` r
-tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60)
-## The suggested E,k,tau for variable Tokyo is 4, 7 and 1
+tEDM::simplex(covid,"Tokyo","Tokyo",E = 10:20,k = 11:25)
+## The suggested E,k,tau for variable Tokyo is 10, 12 and 1
 ```
 
 ``` r
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 7,progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 10,k = 12,progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })
 head(res)
 ##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
-## 1      331    0.70821438  0.000000000     0.65004195      0.7581344
-## 2      331    0.15425205  0.004914181     0.04723714      0.2577662
-## 3      331    0.61161540  0.000000000     0.53937745      0.6749169
-## 4      331    0.51076947  0.000000000     0.42644990      0.5862882
-## 5      331    0.02001635  0.716736148    -0.08797387      0.1275415
-## 6      331    0.65457757  0.000000000     0.58828904      0.7121276
+## 1      324     0.7084551 0.0000000000     0.64964305      0.7588380
+## 2      324     0.2046948 0.0002075707     0.09791848      0.3068120
+## 3      324     0.5757997 0.0000000000     0.49808921      0.6443348
+## 4      324     0.5691621 0.0000000000     0.49062873      0.6385236
+## 5      324     0.1639373 0.0030812353     0.05597701      0.2681084
+## 6      324     0.7136233 0.0000000000     0.65564363      0.7632368
 ##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y
-## 1     0.7218176  0.00000e+00      0.6658266      0.7697240 Tokyo Hokkaido
-## 2     0.4350222  0.00000e+00      0.3433221      0.5185069 Tokyo   Aomori
-## 3     0.7570992  0.00000e+00      0.7070011      0.7996368 Tokyo    Iwate
-## 4     0.7197052  0.00000e+00      0.6633723      0.7679264 Tokyo   Miyagi
-## 5     0.2860446  1.18696e-07      0.1839154      0.3820638 Tokyo    Akita
-## 6     0.5004552  0.00000e+00      0.4150462      0.5771203 Tokyo Yamagata
+## 1     0.7689897            0      0.7203905      0.8100744 Tokyo Hokkaido
+## 2     0.4997165            0      0.4132578      0.5772461 Tokyo   Aomori
+## 3     0.7884318            0      0.7433293      0.8263980 Tokyo    Iwate
+## 4     0.7971954            0      0.7537038      0.8337352 Tokyo   Miyagi
+## 5     0.4385033            0      0.3460785      0.5224988 Tokyo    Akita
+## 6     0.5300848            0      0.4469389      0.6041504 Tokyo Yamagata
 
 df1 = res |>
     dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
@@ -573,16 +574,16 @@ res_covid = dplyr::bind_rows(df1,df2)|>
   dplyr::arrange(dplyr::desc(cs))
 head(res_covid,10)
 ##    cause   effect        cs sig
-## 1  Tokyo    Osaka 0.9336918   0
-## 2  Tokyo Kanagawa 0.9295234   0
-## 3  Tokyo  Saitama 0.9165442   0
-## 4  Tokyo    Chiba 0.9143007   0
-## 5  Tokyo    Hyogo 0.9068498   0
-## 6  Tokyo    Aichi 0.9047484   0
-## 7  Tokyo  Ibaraki 0.8757819   0
-## 8  Tokyo     Nara 0.8738945   0
-## 9  Tokyo Shizuoka 0.8651136   0
-## 10 Tokyo    Kyoto 0.8596055   0
+## 1  Tokyo Kanagawa 0.9358728   0
+## 2  Tokyo    Osaka 0.9350703   0
+## 3  Tokyo    Chiba 0.9289090   0
+## 4  Tokyo  Saitama 0.9265648   0
+## 5  Tokyo     Nara 0.9200096   0
+## 6  Tokyo    Aichi 0.9156088   0
+## 7  Tokyo    Hyogo 0.9043978   0
+## 8  Tokyo Shizuoka 0.8949104   0
+## 9  Tokyo  Ibaraki 0.8940835   0
+## 10 Tokyo     Gifu 0.8773113   0
 ```
 
 Using `0.90` as the threshold (rounded to two decimal places), we map
@@ -595,12 +596,13 @@ res_covid = res_covid |>
   dplyr::filter(cs >= 0.90)
 res_covid
 ##   cause   effect   cs sig
-## 1 Tokyo    Osaka 0.93   0
-## 2 Tokyo Kanagawa 0.93   0
-## 3 Tokyo  Saitama 0.92   0
-## 4 Tokyo    Chiba 0.91   0
-## 5 Tokyo    Hyogo 0.91   0
-## 6 Tokyo    Aichi 0.90   0
+## 1 Tokyo Kanagawa 0.94   0
+## 2 Tokyo    Osaka 0.94   0
+## 3 Tokyo    Chiba 0.93   0
+## 4 Tokyo  Saitama 0.93   0
+## 5 Tokyo     Nara 0.92   0
+## 6 Tokyo    Aichi 0.92   0
+## 7 Tokyo    Hyogo 0.90   0
 
 if (!requireNamespace("rnaturalearth")) {
   install.packages("rnaturalearth")
@@ -613,12 +615,12 @@ if (!requireNamespace("tidygeocoder")) {
 }
 ## Loading required namespace: tidygeocoder
 jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
-  dplyr::mutate(type = factor(c("source",rep("target",6)),
+  dplyr::mutate(type = factor(c("source",rep("target",7)),
                               levels = c("source","target"))) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
-## Passing 7 addresses to the ArcGIS single address geocoder
-## Query completed in: 5.2 seconds
+## Passing 8 addresses to the ArcGIS single address geocoder
+## Query completed in: 5.3 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +
@@ -641,17 +643,18 @@ fig_case3 = ggplot2::ggplot() +
                     ylim = range(jpp$lat) + c(-0.75,0.75)) +
   ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw() +
-  ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
+  ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA),
+                 plot.margin = ggplot2::margin(0, 0, 0, 0, unit = "cm"))
 
 fig_case3
 ```
 
-![Figure 6. The prefectures most affected by Tokyo, Osaka, Kanagawa,
-Saitama, Chiba, Hyogo, and Aichi, are located on the
+![Figure 6. The prefectures most affected by Tokyo, Kanagawa, Osaka,
+Chiba, Saitama, Nara, Aichi, and Hyogo, are located on the
 map.](../reference/figures/edm/fig_case3-1.png)
 
-**Figure 6**. The prefectures most affected by Tokyo, Osaka, Kanagawa,
-Saitama, Chiba, Hyogo, and Aichi, are located on the map.
+**Figure 6**. The prefectures most affected by Tokyo, Kanagawa, Osaka,
+Chiba, Saitama, Nara, Aichi, and Hyogo, are located on the map.
 
   
 

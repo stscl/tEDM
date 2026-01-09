@@ -360,16 +360,16 @@ Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
 tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ```
 
-Since the FNN ratio begins to approach zero when E equals 4, embedding dimensions from 4 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
+Since the FNN ratio begins to approach `0.0296` when E equals 10, embedding dimensions from 10 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
 
 ```{r covid_simplex}
-tEDM::simplex(covid,"Tokyo","Tokyo",E = 4:50,k = 5:60)
+tEDM::simplex(covid,"Tokyo","Tokyo",E = 10:20,k = 11:25)
 ```
 
 ```{r covid_ccm}
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 7,progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 10,k = 12,progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })
@@ -389,7 +389,7 @@ head(res_covid,10)
 
 Using `0.90` as the threshold (rounded to two decimal places), we map the causal responses in the spread of COVID-19 from Tokyo for those with a causal strength greater than `0.90`.
 
-```{r fig_case3,fig.width=5.5,fig.height=3.15,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 6**. The prefectures most affected by Tokyo, Osaka, Kanagawa, Saitama, Chiba, Hyogo, and Aichi, are located on the map.")}
+```{r fig_case3,fig.width=5.65,fig.height=3.25,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 6**. The prefectures most affected by Tokyo, Kanagawa, Osaka, Chiba, Saitama, Nara, Aichi, and Hyogo, are located on the map.")}
 res_covid = res_covid |>
   dplyr::mutate(cs = round(res_covid$cs,2)) |>
   dplyr::filter(cs >= 0.90)
@@ -404,7 +404,7 @@ if (!requireNamespace("tidygeocoder")) {
   install.packages("tidygeocoder")
 }
 jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
-  dplyr::mutate(type = factor(c("source",rep("target",6)),
+  dplyr::mutate(type = factor(c("source",rep("target",7)),
                               levels = c("source","target"))) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
@@ -430,7 +430,8 @@ fig_case3 = ggplot2::ggplot() +
                     ylim = range(jpp$lat) + c(-0.75,0.75)) +
   ggplot2::labs(x = "", y = "") +
   ggplot2::theme_bw() +
-  ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA))
+  ggplot2::theme(panel.background = ggplot2::element_rect(fill = "#9cd1fd", color = NA),
+                 plot.margin = ggplot2::margin(0, 0, 0, 0, unit = "cm"))
 
 fig_case3
 ```

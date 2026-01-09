@@ -369,7 +369,7 @@ tEDM::simplex(covid,"Tokyo","Tokyo",E = 10:20,k = 11:25)
 ```{r covid_ccm}
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
-    g = tEDM::ccm(covid,"Tokyo",.l,E = 4,k = 7,progressbar = FALSE)
+    g = tEDM::ccm(covid,"Tokyo",.l,E = 10,k = 12,progressbar = FALSE)
     res = dplyr::mutate(g$xmap,x = "Tokyo",y = .l)
     return(res)
   })

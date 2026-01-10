@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <utility>
 #include <tuple>
+#include <stdexcept>
+#include <string>
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "Embed.h"
@@ -201,6 +203,14 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
   std::sort(taus.begin(), taus.end());
   taus.erase(std::unique(taus.begin(), taus.end()), taus.end());
 
+  int max_E = *std::max_element(Es.begin(), Es.end());
+  int max_tau = *std::max_element(taus.begin(), taus.end());
+  size_t max_lag = static_cast<size_t>((max_tau == 0) ? (max_E - 1) : ((max_E - 1) * max_tau));
+
+  if (max_lag >= target[0].size()) {
+    throw std::runtime_error("Observed time series length is insufficient for time-delay embedding. Please reduce E and/or tau.");
+  }
+
   // Generate unique (E, b, tau) combinations
   std::vector<std::tuple<int, int, int>> unique_EbTau;
   for (int e : Es)
@@ -231,7 +241,8 @@ std::vector<std::vector<double>> MultiSimplex4TS(const std::vector<std::vector<d
     std::vector<int> com_pred;
 
     int ts_len = source[0].size();
-    size_t max_lag = static_cast<size_t>((taui == 0) ? (Ei - 1) : ((Ei - 1) * taui));
+    // Using unified masking, so comment out the line of code below:
+    // size_t max_lag = static_cast<size_t>((taui == 0) ? (Ei - 1) : ((Ei - 1) * taui));
     for (size_t i = 0; i < lib.size(); ++i) {
       for (size_t j = 0; j < source[0].size(); ++j) {
         if (j > max_lag){

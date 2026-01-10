@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <utility>
 #include <tuple>
+#include <stdexcept>
+#include <string>
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "Embed.h"

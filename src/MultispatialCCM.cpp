@@ -40,12 +40,12 @@
 std::vector<double> SimplexPredictionBoot(
     const std::vector<std::vector<double>>& source,
     const std::vector<std::vector<double>>& target,
-    int E,
-    int tau,
-    int lib,
-    int num_neighbors,
-    int boot,
-    size_t threads,
+    int E = 3,
+    int tau = 1,
+    int lib = 5,
+    int num_neighbors = 4,
+    int boot = 1,
+    size_t threads = 8,
     unsigned int seed = 42,
     int parallel_level = 0,
     int dist_metric = 2,
@@ -80,9 +80,9 @@ std::vector<double> SimplexPredictionBoot(
       int T = target[plot].size();
       for (int i = 0; i < static_cast<int>(emb.size()); ++i) {
         int ti = i + tau * (E - 1);
-        if (ti + 1 < T) {
-          library_vectors.push_back(emb[i]);
-          library_targets.push_back(target[plot][ti + 1]);
+        if (ti < T) {  // only require that Y(t) exists
+          library_vectors.push_back(emb[ti]);
+          library_targets.push_back(target[plot][ti]);  // ← predict Y(t), not Y(t+1)
         }
       }
     }

@@ -54,15 +54,15 @@ std::vector<double> SimplexPredictionBoot(
   int n_plot = source.size();
   std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());
 
-  // Prebuild RNG pool with seed sequence
-  std::vector<std::mt19937> rng_pool(boot);
+  // Prebuild 64-bit RNG pool with seed sequence
+  std::vector<std::mt19937_64> rng_pool(boot);
   for (int i = 0; i < boot; ++i) {
-    std::seed_seq seq{static_cast<uint32_t>(seed), static_cast<uint32_t>(i)};
-    rng_pool[i] = std::mt19937(seq);
+    std::seed_seq seq{static_cast<uint64_t>(seed), static_cast<uint64_t>(i)};
+    rng_pool[i] = std::mt19937_64(seq);
   }
 
   auto run_boot_once = [&](int b) {
-    std::mt19937& rng = rng_pool[b];
+    std::mt19937_64& rng = rng_pool[b];
     std::uniform_int_distribution<> plot_sampler(0, n_plot - 1);
 
     // 1. Bootstrap plots

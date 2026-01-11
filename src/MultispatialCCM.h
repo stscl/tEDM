@@ -19,11 +19,12 @@
  * Parameters:
  *   source         - A vector of vectors representing explanatory variables (plots × time).
  *   target         - A vector of vectors representing response variables (plots × time).
+ *   libsize        - Number of plots to sample in each bootstrap replicate.
+ *   lib_indices    - Vector of indices indicating which plots to include when searching for neighbors.
  *   E              - Embedding dimension.
  *   tau            - Time delay.
- *   lib            - Number of plots to sample in each bootstrap replicate.
  *   num_neighbors  - Number of nearest neighbors to use in simplex projection.
- *   threads        - Number of nearest neighbors to use in bootstrap replicates.
+ *   threads        - Number of paralleled threads to use in bootstrap replicates.
  *   seed           - Random seed for reproducibility.
  *   boot           - Number of bootstrap replicates.
  *   parallel_level - If 0, run in parallel using RcppThread. Otherwise, run sequentially.
@@ -41,9 +42,10 @@
 std::vector<double> SimplexPredictionBoot(
     const std::vector<std::vector<double>>& source,
     const std::vector<std::vector<double>>& target,
+    int libsize,
+    const std::vector<int>& lib_indices,
     int E = 3,
     int tau = 1,
-    int lib = 5,
     int num_neighbors = 4,
     int boot = 1,
     size_t threads = 8,

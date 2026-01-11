@@ -18,11 +18,12 @@
  * Parameters:
  *   source         - A vector of vectors representing explanatory variables (plots × time).
  *   target         - A vector of vectors representing response variables (plots × time).
+ *   libsize        - Number of plots to sample in each bootstrap replicate.
+ *   lib_indices    - Vector of indices indicating which plots to include when searching for neighbors.
  *   E              - Embedding dimension.
  *   tau            - Time delay.
- *   lib            - Number of plots to sample in each bootstrap replicate.
  *   num_neighbors  - Number of nearest neighbors to use in simplex projection.
- *   threads        - Number of nearest neighbors to use in bootstrap replicates.
+ *   threads        - Number of paralleled threads to use in bootstrap replicates.
  *   seed           - Random seed for reproducibility.
  *   boot           - Number of bootstrap replicates.
  *   parallel_level - If 0, run in parallel using RcppThread. Otherwise, run sequentially.
@@ -40,9 +41,10 @@
 std::vector<double> SimplexPredictionBoot(
     const std::vector<std::vector<double>>& source,
     const std::vector<std::vector<double>>& target,
+    int libsize,
+    const std::vector<int>& lib_indices,
     int E = 3,
     int tau = 1,
-    int lib = 5,
     int num_neighbors = 4,
     int boot = 1,
     size_t threads = 8,
@@ -51,7 +53,7 @@ std::vector<double> SimplexPredictionBoot(
     int dist_metric = 2,
     bool dist_average = true
 ) {
-  int n_plot = source.size();
+  int n_plot = lib_indices.size();
   std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());
 
   // Prebuild 64-bit RNG pool with seed sequence
@@ -66,9 +68,9 @@ std::vector<double> SimplexPredictionBoot(
     std::uniform_int_distribution<> plot_sampler(0, n_plot - 1);
 
     // 1. Bootstrap plots
-    std::vector<int> lib_plots(lib);
-    for (int i = 0; i < lib; ++i) {
-      lib_plots[i] = plot_sampler(rng);
+    std::vector<int> lib_plots(libsize);
+    for (int i = 0; i < libsize; ++i) {
+      lib_plots[i] = lib_indices[plot_sampler(rng)];
     }
 
     // 2. Embedding
@@ -134,7 +136,7 @@ std::vector<double> SimplexPredictionBoot(
     ci_upper = clean_rho[std::clamp(int(std::ceil(0.975 * n)) - 1, 0, n - 1)];
   }
 
-  return {static_cast<double>(lib), mean_rho, pval, ci_lower, ci_upper};
+  return {static_cast<double>(libsize), mean_rho, pval, ci_lower, ci_upper};
 }
 
 /*

@@ -13,7 +13,7 @@ pcm(
   conds,
   libsizes = NULL,
   E = 3,
-  tau = 0,
+  tau = 1,
   k = E + 1,
   theta = 1,
   algorithm = "simplex",

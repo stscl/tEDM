@@ -4,6 +4,10 @@
 
 #### enhancements
 
+- Support specifying library units via `lib` parameter in
+  `multispatialccm` generic
+  ([\#161](https://github.com/stscl/tEDM/issues/161)).
+
 - Permit `simplex` and `ic` generics to accept varying E, k, and tau
   inputs ([\#148](https://github.com/stscl/tEDM/issues/148)).
 
@@ -14,6 +18,10 @@
   results ([\#135](https://github.com/stscl/tEDM/issues/135)).
 
 #### breaking changes
+
+- Use consistent masking for library and prediction indices in cross
+  mapping parameter selection
+  ([\#157](https://github.com/stscl/tEDM/issues/157)).
 
 - Correct library and prediction indices handling in cross mapping
   ([\#145](https://github.com/stscl/tEDM/issues/145)).

@@ -1,4 +1,4 @@
-.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, boot = 99, seed = 42, dist.metric = "L1",
+.multispatialccm_ts_method = \(data, cause, effect, libsizes, E = 3, tau = 0, k = E+1, lib = NULL, boot = 99, seed = 42, dist.metric = "L1",
                                dist.average = TRUE,threads = length(libsizes),parallel.level = "low",bidirectional = TRUE,progressbar = TRUE){
   varname = .check_character(cause,effect)
   E = .check_inputelementnum(E,2)
@@ -8,11 +8,13 @@
   cause = as.matrix(data[[cause]])
   effect = as.matrix(data[[effect]])
 
+  if (is.null(lib)) lib = seq_len(length(data))
+
   x_xmap_y = NULL
   if (bidirectional){
-    x_xmap_y = RcppMultispatialCCM(cause,effect,libsizes,E[1],tau[1],k[1],boot,seed,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
+    x_xmap_y = RcppMultispatialCCM(cause,effect,libsizes,lib,E[1],tau[1],k[1],boot,seed,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
   }
-  y_xmap_x = RcppMultispatialCCM(effect,cause,libsizes,E[2],tau[2],k[2],boot,seed,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
+  y_xmap_x = RcppMultispatialCCM(effect,cause,libsizes,lib,E[2],tau[2],k[2],boot,seed,threads,pl,.check_distmetric(dist.metric),dist.average,progressbar)
 
   return(.bind_xmapdf(varname,x_xmap_y,y_xmap_x,bidirectional))
 }
@@ -26,6 +28,7 @@
 #' @param E (optional) embedding dimensions.
 #' @param tau (optional) step of time lags.
 #' @param k (optional) number of nearest neighbors used in prediction.
+#' @param lib (optional) libraries indices.
 #' @param boot (optional) number of bootstraps to perform.
 #' @param seed (optional) random seed.
 #' @param dist.metric (optional) distance metric (`L1`: Manhattan, `L2`: Euclidean).

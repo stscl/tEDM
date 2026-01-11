@@ -2,6 +2,8 @@
 
 ### enhancements
 
+* Support specifying library units via `lib` parameter in `multispatialccm` generic (#161).
+
 * Permit `simplex` and `ic` generics to accept varying E, k, and tau inputs (#148).
 
 * Enforce strict floating-point comparisons across cpp sources (#143).

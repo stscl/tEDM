@@ -53,8 +53,6 @@ std::vector<double> SimplexPredictionBoot(
     int dist_metric = 2,
     bool dist_average = true
 ) {
-  int n_plot = lib_indices.size();
-
   if (boot == 1){
     std::vector<double> res(5, std::numeric_limits<double>::quiet_NaN());
     res[0] = static_cast<double>(libsize);
@@ -92,6 +90,7 @@ std::vector<double> SimplexPredictionBoot(
 
     res[1] = PearsonCor(library_targets, pred, true);
   } else {
+    int n_plot = lib_indices.size();
     std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());
 
     // Prebuild 64-bit RNG pool with seed sequence
@@ -240,7 +239,7 @@ std::vector<std::vector<double>> MultispatialCCM(
   threads_sizet = std::min(static_cast<size_t>(std::thread::hardware_concurrency()), threads_sizet);
 
   // Transform to ensure no size exceeds max library size
-  int max_lib_size = x.size();
+  int max_lib_size = lib.size();
 
   std::vector<int> unique_lib_sizes(lib_sizes.begin(), lib_sizes.end());
   std::transform(unique_lib_sizes.begin(), unique_lib_sizes.end(), unique_lib_sizes.begin(),

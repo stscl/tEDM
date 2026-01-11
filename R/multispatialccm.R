@@ -8,7 +8,7 @@
   cause = as.matrix(data[[cause]])
   effect = as.matrix(data[[effect]])
 
-  if (is.null(lib)) lib = seq_len(length(data))
+  if (is.null(lib)) lib = seq_along(data)
 
   x_xmap_y = NULL
   if (bidirectional){

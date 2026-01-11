@@ -53,7 +53,7 @@ std::vector<double> SimplexPredictionBoot(
     int dist_metric = 2,
     bool dist_average = true
 ) {
-  if (boot == 1){
+  if (boot == 1) {
     std::vector<double> res(5, std::numeric_limits<double>::quiet_NaN());
     res[0] = static_cast<double>(libsize);
 
@@ -89,6 +89,8 @@ std::vector<double> SimplexPredictionBoot(
                                             dist_metric, dist_average);
 
     res[1] = PearsonCor(library_targets, pred, true);
+
+    return res;
   } else {
     int n_plot = lib_indices.size();
     std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());

@@ -11,7 +11,12 @@
 #include "CppStats.h"
 #include "CppDistances.h"
 #include "DataStruct.h"
-#include <RcppThread.h>
+
+// Note: <RcppThread.h> is intentionally excluded from this header to avoid
+//       unnecessary Rcpp dependencies and potential header inclusion order
+//       issues (e.g., R.h being included before Rcpp headers). It should only
+//       be included in the corresponding .cpp implementation file.
+// #include <RcppThread.h>
 
 /**
  * Computes intersection-based mapping ratio sequences between two neighbor graphs

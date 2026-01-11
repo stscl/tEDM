@@ -8,8 +8,6 @@
 #include "CppDistances.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /*
  * Compute the False Nearest Neighbors (FNN) ratio for time series data.
  *

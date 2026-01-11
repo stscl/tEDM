@@ -11,8 +11,6 @@
 #include "SMap.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /*
  * Perform convergent cross mapping on a single lib and pred.
  *

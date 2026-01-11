@@ -12,8 +12,6 @@
 #include "IntersectionalCardinality.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /**
  * @brief Computes the Cross Mapping Cardinality (CMC) causal strength score.
  *

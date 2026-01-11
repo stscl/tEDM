@@ -8,8 +8,6 @@
 #include "NumericUtils.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /**
  * @brief Compute L1 or L2 distance between two numeric vectors with NaN handling.
  *

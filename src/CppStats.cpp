@@ -8,7 +8,6 @@
 #include "DeLongPlacements.h"
 // #include <Rcpp.h>
 #include <RcppArmadillo.h>
-// [[Rcpp::depends(RcppArmadillo)]]
 
 // Function to check if a value is NA
 bool isNA(double value) {

@@ -175,6 +175,7 @@ std::vector<double> SimplexPredictionBoot(
     }
 
     return {static_cast<double>(libsize), mean_rho, pval, ci_lower, ci_upper};
+  }
 }
 
 /*
@@ -216,11 +217,12 @@ std::vector<std::vector<double>> MultispatialCCM(
     const std::vector<std::vector<double>>& x,
     const std::vector<std::vector<double>>& y,
     const std::vector<int>& lib_sizes,
-    int E,
-    int tau,
-    int b,
-    int boot,
-    int threads,
+    const std::vector<int>& lib,
+    int E = 3,
+    int tau = 1,
+    int b = 4,
+    int boot = 1,
+    int threads = 8,
     unsigned int seed = 42,
     int parallel_level = 0,
     int dist_metric = 2,
@@ -262,9 +264,10 @@ std::vector<std::vector<double>> MultispatialCCM(
         local_results[i] = SimplexPredictionBoot(
           x,
           y,
+          unique_lib_sizes[i],
+          lib,
           E,
           tau,
-          unique_lib_sizes[i],
           b,
           boot,
           threads_sizet,
@@ -279,9 +282,10 @@ std::vector<std::vector<double>> MultispatialCCM(
         local_results[i] = SimplexPredictionBoot(
           x,
           y,
+          unique_lib_sizes[i],
+          lib,
           E,
           tau,
-          unique_lib_sizes[i],
           b,
           boot,
           threads_sizet,
@@ -300,9 +304,10 @@ std::vector<std::vector<double>> MultispatialCCM(
         local_results[i] = SimplexPredictionBoot(
           x,
           y,
+          lib_size,
+          lib,
           E,
           tau,
-          lib_size,
           b,
           boot,
           threads_sizet,
@@ -318,9 +323,10 @@ std::vector<std::vector<double>> MultispatialCCM(
         local_results[i] = SimplexPredictionBoot(
           x,
           y,
+          lib_size,
+          lib,
           E,
           tau,
-          lib_size,
           b,
           boot,
           threads_sizet,

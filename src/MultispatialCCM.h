@@ -71,6 +71,7 @@ std::vector<double> SimplexPredictionBoot(
  *   x              - A vector of vectors representing explanatory variables (plots × time).
  *   y              - A vector of vectors representing response variables (plots × time).
  *   lib_sizes      - A list of library sizes to evaluate (number of plots to sample).
+ *   lib            - A vector of representing the indices of sample plots to be the library.
  *   E              - Embedding dimension for state space reconstruction.
  *   tau            - Time delay between lags in the embedding.
  *   b              - Number of nearest neighbors used in simplex projection (defaults to E + 1).
@@ -94,11 +95,12 @@ std::vector<std::vector<double>> MultispatialCCM(
     const std::vector<std::vector<double>>& x,
     const std::vector<std::vector<double>>& y,
     const std::vector<int>& lib_sizes,
-    int E,
-    int tau,
-    int b,
-    int boot,
-    int threads,
+    const std::vector<int>& lib,
+    int E = 3,
+    int tau = 1,
+    int b = 4,
+    int boot = 1,
+    int threads = 8,
     unsigned int seed = 42,
     int parallel_level = 0,
     int dist_metric = 2,

@@ -194,6 +194,7 @@ std::vector<double> SimplexPredictionBoot(
  *   x              - A vector of vectors representing explanatory variables (plots × time).
  *   y              - A vector of vectors representing response variables (plots × time).
  *   lib_sizes      - A list of library sizes to evaluate (number of plots to sample).
+ *   lib            - A vector of representing the indices of sample plots to be the library.
  *   E              - Embedding dimension for state space reconstruction.
  *   tau            - Time delay between lags in the embedding.
  *   b              - Number of nearest neighbors used in simplex projection (defaults to E + 1).

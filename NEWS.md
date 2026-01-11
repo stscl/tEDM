@@ -10,6 +10,8 @@
 
 ### breaking changes
 
+* Use consistent masking for library and prediction indices in cross mapping parameter selection (#157).
+
 * Correct library and prediction indices handling in cross mapping (#145).
 
 # tEDM 1.1

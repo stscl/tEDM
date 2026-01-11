@@ -13,6 +13,7 @@
   E = 3,
   tau = 0,
   k = E + 1,
+  lib = NULL,
   boot = 99,
   seed = 42,
   dist.metric = "L1",
@@ -37,6 +38,8 @@
 \item{tau}{(optional) step of time lags.}
 
 \item{k}{(optional) number of nearest neighbors used in prediction.}
+
+\item{lib}{(optional) libraries indices.}
 
 \item{boot}{(optional) number of bootstraps to perform.}
 

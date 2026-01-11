@@ -7,7 +7,12 @@
 #include <cmath>
 #include "CppStats.h"
 #include "SimplexProjection.h"
-#include <RcppThread.h>
+
+// Note: <RcppThread.h> is intentionally excluded from this header to avoid
+//       unnecessary Rcpp dependencies and potential header inclusion order
+//       issues (e.g., R.h being included before Rcpp headers). It should only
+//       be included in the corresponding .cpp implementation file.
+// #include <RcppThread.h>
 
 /**
  * Computes the multi-view embedding by evaluating multiple feature embeddings using simplex projection,
@@ -20,7 +25,7 @@
  *   - pred_indices: A vector of indices indicating the prediction set.
  *   - num_neighbors: Number of neighbors used for simplex projection.
  *   - top_num: Number of top-performing reconstructions to select.
- *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean). 
+ *   - dist_metric: Distance metric selector (1: Manhattan, 2: Euclidean).
  *   - dist_average: Whether to average distance by the number of valid vector components.
  *   - threads: Number of threads used from the global pool.
  *

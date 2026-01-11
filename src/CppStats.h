@@ -9,8 +9,12 @@
 #include <numeric> // for std::accumulate
 #include <limits>  // for std::numeric_limits
 #include "DeLongPlacements.h"
-// #include <Rcpp.h>
-#include <RcppArmadillo.h>
+
+// Note: <RcppArmadillo.h> is intentionally excluded from this header to avoid
+//       unnecessary Rcpp dependencies and potential header inclusion order
+//       issues (e.g., R.h being included before Rcpp headers). It should only
+//       be included in the corresponding .cpp implementation file.
+// #include <RcppArmadillo.h>
 
 bool isNA(double value);
 

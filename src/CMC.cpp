@@ -4,6 +4,7 @@
 #include <numeric>
 #include <limits>
 #include <utility>
+#include <map>
 #include <unordered_set>
 #include "CppStats.h"
 #include "CppDistances.h"

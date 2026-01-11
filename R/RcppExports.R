@@ -57,8 +57,8 @@ RcppCMC <- function(x, y, libsizes, lib, pred, E, tau, b = 4L, r = 0L, dist_metr
     .Call(`_tEDM_RcppCMC`, x, y, libsizes, lib, pred, E, tau, b, r, dist_metric, threads, parallel_level, progressbar)
 }
 
-RcppMultispatialCCM <- function(x, y, libsizes, E = 3L, tau = 0L, b = 4L, boot = 299L, seed = 42L, threads = 8L, parallel_level = 0L, dist_metric = 2L, dist_average = TRUE, progressbar = FALSE) {
-    .Call(`_tEDM_RcppMultispatialCCM`, x, y, libsizes, E, tau, b, boot, seed, threads, parallel_level, dist_metric, dist_average, progressbar)
+RcppMultispatialCCM <- function(x, y, libsizes, lib, E = 3L, tau = 0L, b = 4L, boot = 299L, seed = 42L, threads = 8L, parallel_level = 0L, dist_metric = 2L, dist_average = TRUE, progressbar = FALSE) {
+    .Call(`_tEDM_RcppMultispatialCCM`, x, y, libsizes, lib, E, tau, b, boot, seed, threads, parallel_level, dist_metric, dist_average, progressbar)
 }
 
 RcppFactorial <- function(n) {

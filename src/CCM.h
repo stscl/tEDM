@@ -12,7 +12,12 @@
 #include "Embed.h"
 #include "SimplexProjection.h"
 #include "SMap.h"
-#include <RcppThread.h>
+
+// Note: <RcppThread.h> is intentionally excluded from this header to avoid
+//       unnecessary Rcpp dependencies and potential header inclusion order
+//       issues (e.g., R.h being included before Rcpp headers). It should only
+//       be included in the corresponding .cpp implementation file.
+// #include <RcppThread.h>
 
 /*
  * Perform convergent cross mapping on a single lib and pred.

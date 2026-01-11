@@ -1,11 +1,11 @@
 #include <vector>
 #include <limits>
 #include <cmath>
+#include <thread>
 #include "NumericUtils.h"
-#include <RcppThread.h>
+// 'Rcpp.h' should not be included and correct to include only 'RcppArmadillo.h'.
+// #include <Rcpp.h>
 #include <RcppArmadillo.h>
-
-// [[Rcpp::depends(RcppThread)]]
 // [[Rcpp::depends(RcppArmadillo)]]
 
 // [[Rcpp::export(rng = false)]]

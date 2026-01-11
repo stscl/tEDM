@@ -11,8 +11,9 @@
   effect,
   libsizes,
   E = 3,
-  tau = 0,
+  tau = 1,
   k = E + 1,
+  lib = NULL,
   boot = 99,
   seed = 42,
   dist.metric = "L1",
@@ -37,6 +38,8 @@
 \item{tau}{(optional) step of time lags.}
 
 \item{k}{(optional) number of nearest neighbors used in prediction.}
+
+\item{lib}{(optional) libraries indices.}
 
 \item{boot}{(optional) number of bootstraps to perform.}
 
@@ -67,14 +70,14 @@ multispatial convergent cross mapping
 }
 \examples{
 set.seed(42)
-obs = runif(15,0,0.1)
-sim = vector("list",15)
+obs = runif(10,0,0.1)
+sim = vector("list",5)
 for (i in seq_along(obs)){
   sim[[i]] = logistic_map(x = obs[i],y = obs[i],step = 15,beta_xy = 0.5,beta_yx = 0)
 }
 lst = list(x = do.call(cbind, lapply(sim, function(df) df$x)),
            y = do.call(cbind, lapply(sim, function(df) df$y)))
-multispatialccm(lst,"x","y",libsizes = 5:15,E = 2,k = 3,threads = 1)
+multispatialccm(lst,"x","y",libsizes = 1:5,E = 2,k = 3,threads = 1)
 
 }
 \references{

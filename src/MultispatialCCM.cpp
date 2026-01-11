@@ -54,24 +54,13 @@ std::vector<double> SimplexPredictionBoot(
     bool dist_average = true
 ) {
   int n_plot = lib_indices.size();
-  std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());
 
-  // Prebuild 64-bit RNG pool with seed sequence
-  std::vector<std::mt19937_64> rng_pool(boot);
-  for (int i = 0; i < boot; ++i) {
-    std::seed_seq seq{static_cast<uint64_t>(seed), static_cast<uint64_t>(i)};
-    rng_pool[i] = std::mt19937_64(seq);
-  }
+  if (boot == 1){
+    std::vector<double> res(5, std::numeric_limits<double>::quiet_NaN());
+    res[0] = static_cast<double>(libsize);
 
-  auto run_boot_once = [&](int b) {
-    std::mt19937_64& rng = rng_pool[b];
-    std::uniform_int_distribution<> plot_sampler(0, n_plot - 1);
-
-    // 1. Bootstrap plots
-    std::vector<int> lib_plots(libsize);
-    for (int i = 0; i < libsize; ++i) {
-      lib_plots[i] = lib_indices[plot_sampler(rng)];
-    }
+    // 1. Construct plots
+    std::vector<int> lib_plots(lib_indices.begin(), lib_indices.begin() + libsize);
 
     // 2. Embedding
     std::vector<std::vector<double>> library_vectors;
@@ -91,7 +80,7 @@ std::vector<double> SimplexPredictionBoot(
 
     int N = library_vectors.size();
     if (N < num_neighbors) {
-      return;
+      return res;
     }
 
     std::vector<int> all_indices(N);
@@ -101,42 +90,91 @@ std::vector<double> SimplexPredictionBoot(
                                             all_indices, all_indices, num_neighbors,
                                             dist_metric, dist_average);
 
-    rho_list[b] = PearsonCor(library_targets, pred, true);
-  };
-
-  // Parallel or sequential execution
-  if (parallel_level == 0) {
-    RcppThread::parallelFor(0, boot, run_boot_once, threads);
+    res[1] = PearsonCor(library_targets, pred, true);
   } else {
-    for (int b = 0; b < boot; ++b) run_boot_once(b);
-  }
+    std::vector<double> rho_list(boot, std::numeric_limits<double>::quiet_NaN());
 
-  // 3. Summary statistics
-  double mean_rho = CppMean(rho_list, true);
-
-  int n_non_na = 0, count_le_0 = 0;
-  std::vector<double> clean_rho;
-  for (double r : rho_list) {
-    if (!std::isnan(r)) {
-      ++n_non_na;
-      clean_rho.push_back(r);
-      if (r <= 0) ++count_le_0;
+    // Prebuild 64-bit RNG pool with seed sequence
+    std::vector<std::mt19937_64> rng_pool(boot);
+    for (int i = 0; i < boot; ++i) {
+      std::seed_seq seq{static_cast<uint64_t>(seed), static_cast<uint64_t>(i)};
+      rng_pool[i] = std::mt19937_64(seq);
     }
-  }
 
-  double pval = (n_non_na > 0) ? (1.0 + count_le_0) / (1.0 + n_non_na)
-    : std::numeric_limits<double>::quiet_NaN();
+    auto run_boot_once = [&](int b) {
+      std::mt19937_64& rng = rng_pool[b];
+      std::uniform_int_distribution<> plot_sampler(0, n_plot - 1);
 
-  std::sort(clean_rho.begin(), clean_rho.end());
-  double ci_lower = std::numeric_limits<double>::quiet_NaN();
-  double ci_upper = std::numeric_limits<double>::quiet_NaN();
-  int n = clean_rho.size();
-  if (n >= 1) {
-    ci_lower = clean_rho[std::clamp(int(std::floor(0.025 * n)), 0, n - 1)];
-    ci_upper = clean_rho[std::clamp(int(std::ceil(0.975 * n)) - 1, 0, n - 1)];
-  }
+      // 1. Bootstrap plots
+      std::vector<int> lib_plots(libsize);
+      for (int i = 0; i < libsize; ++i) {
+        lib_plots[i] = lib_indices[plot_sampler(rng)];
+      }
 
-  return {static_cast<double>(libsize), mean_rho, pval, ci_lower, ci_upper};
+      // 2. Embedding
+      std::vector<std::vector<double>> library_vectors;
+      std::vector<double> library_targets;
+
+      for (int plot : lib_plots) {
+        auto emb = Embed(source[plot], E, tau);
+        int T = target[plot].size();
+        for (int i = 0; i < static_cast<int>(emb.size()); ++i) {
+          int ti = i + tau * (E - 1);
+          if (ti < T) {  // only require that Y(t) exists
+            library_vectors.push_back(emb[ti]);
+            library_targets.push_back(target[plot][ti]);  // ← predict Y(t), not Y(t+1)
+          }
+        }
+      }
+
+      int N = library_vectors.size();
+      if (N < num_neighbors) {
+        return;
+      }
+
+      std::vector<int> all_indices(N);
+      std::iota(all_indices.begin(), all_indices.end(), 0);
+
+      auto pred = SimplexProjectionPrediction(library_vectors, library_targets,
+                                              all_indices, all_indices, num_neighbors,
+                                              dist_metric, dist_average);
+
+      rho_list[b] = PearsonCor(library_targets, pred, true);
+    };
+
+    // Parallel or sequential execution
+    if (parallel_level == 0) {
+      RcppThread::parallelFor(0, boot, run_boot_once, threads);
+    } else {
+      for (int b = 0; b < boot; ++b) run_boot_once(b);
+    }
+
+    // 3. Summary statistics
+    double mean_rho = CppMean(rho_list, true);
+
+    int n_non_na = 0, count_le_0 = 0;
+    std::vector<double> clean_rho;
+    for (double r : rho_list) {
+      if (!std::isnan(r)) {
+        ++n_non_na;
+        clean_rho.push_back(r);
+        if (r <= 0) ++count_le_0;
+      }
+    }
+
+    double pval = (n_non_na > 0) ? (1.0 + count_le_0) / (1.0 + n_non_na)
+      : std::numeric_limits<double>::quiet_NaN();
+
+    std::sort(clean_rho.begin(), clean_rho.end());
+    double ci_lower = std::numeric_limits<double>::quiet_NaN();
+    double ci_upper = std::numeric_limits<double>::quiet_NaN();
+    int n = clean_rho.size();
+    if (n >= 1) {
+      ci_lower = clean_rho[std::clamp(int(std::floor(0.025 * n)), 0, n - 1)];
+      ci_upper = clean_rho[std::clamp(int(std::ceil(0.975 * n)) - 1, 0, n - 1)];
+    }
+
+    return {static_cast<double>(libsize), mean_rho, pval, ci_lower, ci_upper};
 }
 
 /*

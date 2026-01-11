@@ -1138,6 +1138,7 @@ Rcpp::List RcppCMC(
 Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
                                         const Rcpp::NumericMatrix& y,
                                         const Rcpp::IntegerVector& libsizes,
+                                        const Rcpp::IntegerVector& lib,
                                         int E = 3,
                                         int tau = 0,
                                         int b = 4,
@@ -1163,11 +1164,22 @@ Rcpp::NumericMatrix RcppMultispatialCCM(const Rcpp::NumericMatrix& x,
   // Convert Rcpp::IntegerVector to std::vector<int>
   std::vector<int> libsizes_std = Rcpp::as<std::vector<int>>(libsizes);
 
+  int validSampleNum = x.ncol();
+  // Convert and check that lib indices are within bounds & convert R based 1 index to C++ based 0 index
+  std::vector<int> lib_std;
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] < 1 || lib[i] > validSampleNum) {
+      Rcpp::stop("lib contains out-of-bounds index at position %d (value: %d)", i + 1, lib[i]);
+    }
+    lib_std.push_back(lib[i] - 1);
+  }
+
   // Perform multispatial convergent cross mapping
   std::vector<std::vector<double>> result = MultispatialCCM(
     x_std,
     y_std,
     libsizes_std,
+    lib_std,
     E,
     tau,
     b,

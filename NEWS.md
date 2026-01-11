@@ -2,6 +2,8 @@
 
 ### enhancements
 
+* Support specifying library units via `lib` parameter in `multispatialccm` generic (#161).
+
 * Permit `simplex` and `ic` generics to accept varying E, k, and tau inputs (#148).
 
 * Enforce strict floating-point comparisons across cpp sources (#143).
@@ -9,6 +11,8 @@
 * Unify font specification in S3 plotting method for cross-mapping results (#135).
 
 ### breaking changes
+
+* Use consistent masking for library and prediction indices in cross mapping parameter selection (#157).
 
 * Correct library and prediction indices handling in cross mapping (#145).
 

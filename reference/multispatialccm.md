@@ -12,8 +12,9 @@ multispatialccm(
   effect,
   libsizes,
   E = 3,
-  tau = 0,
+  tau = 1,
   k = E + 1,
+  lib = NULL,
   boot = 99,
   seed = 42,
   dist.metric = "L1",
@@ -54,6 +55,10 @@ multispatialccm(
 - k:
 
   (optional) number of nearest neighbors used in prediction.
+
+- lib:
+
+  (optional) libraries indices.
 
 - boot:
 
@@ -113,26 +118,20 @@ relationships from short time series. Ecology 96, 1174–1181.
 
 ``` r
 set.seed(42)
-obs = runif(15,0,0.1)
-sim = vector("list",15)
+obs = runif(10,0,0.1)
+sim = vector("list",5)
 for (i in seq_along(obs)){
   sim[[i]] = logistic_map(x = obs[i],y = obs[i],step = 15,beta_xy = 0.5,beta_yx = 0)
 }
 lst = list(x = do.call(cbind, lapply(sim, function(df) df$x)),
            y = do.call(cbind, lapply(sim, function(df) df$y)))
-multispatialccm(lst,"x","y",libsizes = 5:15,E = 2,k = 3,threads = 1)
+multispatialccm(lst,"x","y",libsizes = 1:5,E = 2,k = 3,threads = 1)
 #> Computing: [========================================] 100% (done)                         
 #> Computing: [========================================] 100% (done)                         
-#>    libsizes      x->y      y->x
-#> 1         5 0.8901179 0.6440381
-#> 2         6 0.9005297 0.6659417
-#> 3         7 0.9168378 0.7096084
-#> 4         8 0.9230782 0.7140468
-#> 5         9 0.9328759 0.7365669
-#> 6        10 0.9391729 0.7520314
-#> 7        11 0.9466592 0.7754660
-#> 8        12 0.9527699 0.7902759
-#> 9        13 0.9578329 0.8029083
-#> 10       14 0.9614340 0.8142970
-#> 11       15 0.9641957 0.8279256
+#>   libsizes      x->y      y->x
+#> 1        1 0.3131501 0.3161107
+#> 2        2 0.6804184 0.3629746
+#> 3        3 0.7935703 0.4772453
+#> 4        4 0.8390027 0.5316734
+#> 5        5 0.8691234 0.5819187
 ```

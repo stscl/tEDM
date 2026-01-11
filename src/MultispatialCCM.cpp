@@ -9,8 +9,6 @@
 #include "SimplexProjection.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /*
  * Perform bootstrapped simplex prediction from spatially replicated short time series.
  * Supports parallel execution using RcppThread if parallel_level == 0.

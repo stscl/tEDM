@@ -10,8 +10,6 @@
 #include "DataStruct.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /**
  * Computes intersection-based mapping ratio sequences between two neighbor graphs
  * for use in Cross Mapping Cardinality (CMC) or similar causal inference frameworks.

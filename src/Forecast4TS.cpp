@@ -13,8 +13,6 @@
 #include "IntersectionalCardinality.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /*
  * Evaluates prediction performance of different combinations of embedding dimensions, number of nearest neighbors
  * and tau values for lattice data using simplex projection forecasting.

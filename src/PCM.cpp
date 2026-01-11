@@ -12,8 +12,6 @@
 #include "DataStruct.h"
 #include <RcppThread.h>
 
-// [[Rcpp::depends(RcppThread)]]
-
 /**
  * @brief Computes the partial correlation between the target variable and its simplex projection,
  *        incorporating control variables using a time-delay embedding approach.

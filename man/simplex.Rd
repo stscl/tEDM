@@ -4,7 +4,7 @@
 \alias{simplex}
 \alias{simplex,data.frame-method}
 \alias{simplex,list-method}
-\title{simplex forecast}
+\title{optimal parameter search for simplex projection}
 \usage{
 \S4method{simplex}{data.frame}(
   data,
@@ -66,7 +66,7 @@ A list
 }
 }
 \description{
-simplex forecast
+optimal parameter search for simplex projection
 }
 \examples{
 sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)

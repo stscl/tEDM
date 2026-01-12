@@ -13,11 +13,11 @@
 
 - [`simplex(`*`<data.frame>`*`)`](https://stscl.github.io/tEDM/reference/simplex.md)
   [`simplex(`*`<list>`*`)`](https://stscl.github.io/tEDM/reference/simplex.md)
-  : simplex forecast
+  : optimal parameter search for simplex projection
 - [`smap(`*`<data.frame>`*`)`](https://stscl.github.io/tEDM/reference/smap.md)
-  : smap forecast
+  : optimal parameter search for s-mapping
 - [`ic(`*`<data.frame>`*`)`](https://stscl.github.io/tEDM/reference/ic.md)
-  : intersection cardinality
+  : optimal parameter search for intersectional cardinality
 - [`ccm(`*`<data.frame>`*`)`](https://stscl.github.io/tEDM/reference/ccm.md)
   : convergent cross mapping
 - [`pcm(`*`<data.frame>`*`)`](https://stscl.github.io/tEDM/reference/pcm.md)

@@ -1,6 +1,6 @@
-# simplex forecast
+# optimal parameter search for simplex projection
 
-simplex forecast
+optimal parameter search for simplex projection
 
 ## Usage
 

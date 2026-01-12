@@ -71,8 +71,8 @@
       <h1>Temporal Empirical Dynamic Modeling</h1>
             
             <h4 data-toc-skip class="date"><div class="line-block">Last
-update: 2026-01-10<br>
-Last run: 2026-01-10</div></h4>
+update: 2026-01-12<br>
+Last run: 2026-01-12</div></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/stscl/tEDM/blob/main/vignettes/tEDM.Rmd" class="external-link"><code>vignettes/tEDM.Rmd</code></a></small>
       <div class="d-none name"><code>tEDM.Rmd</code></div>
@@ -284,9 +284,9 @@ November 1997.</div>
 <span><span class="co">##      E:49 </span></span>
 <span><span class="co">## 0.1759919</span></span></code></pre></div>
 <p>Starting at <span class="math inline">\(E = 7\)</span>, the FNN ratio
-stabilizes near 0.19; thus, embedding dimension E and neighbor number k
-are chosen from 7 onward for subsequent self-prediction parameter
-selection.</p>
+stabilizes near <span class="math inline">\(0.19\)</span>; thus,
+embedding dimension E and neighbor number k are chosen from <span class="math inline">\(7\)</span> onward for subsequent self-prediction
+parameter selection.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">cvd</span>,<span class="st">"cvd"</span>,<span class="st">"cvd"</span>,E <span class="op">=</span> <span class="fl">7</span><span class="op">:</span><span class="fl">10</span>,k <span class="op">=</span> <span class="fl">8</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="co">## The suggested E,k,tau for variable cvd is 7, 8 and 1</span></span>
@@ -334,7 +334,9 @@ prediction skill with the number of nearest neighbors.</div>
 <p><br></p>
 <p>To investigate the causal influences of air pollutants on the
 incidence of cardiovascular diseases, we performed PCM analysis using an
-embedding dimension of 7 and 8 nearest neighbors per variable pair.</p>
+embedding dimension of <span class="math inline">\(7\)</span> and number
+of nearest neighbors of <span class="math inline">\(8\)</span> per
+variable pair.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cvd"</span>, <span class="st">"rsp"</span>, <span class="st">"no2"</span>, <span class="st">"so2"</span>, <span class="st">"o3"</span><span class="op">)</span></span>
 <span><span class="va">res</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -473,9 +475,9 @@ embedding dimension by applying the FNN method.</p>
 <span><span class="co">## 0.35714286 0.03571429 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 </span></span>
 <span><span class="co">##        E:8        E:9 </span></span>
 <span><span class="co">## 0.00000000 0.00000000</span></span></code></pre></div>
-<p>When E equals 3, the FNN ratio begins to drop to zero; therefore, we
-select <span class="math inline">\(E = 3\)</span> as the embedding
-dimension for the CMC analysis.</p>
+<p>When E equals <span class="math inline">\(3\)</span>, the FNN ratio
+begins to drop to zero; therefore, we select <span class="math inline">\(E = 3\)</span> as the embedding dimension for the
+CMC analysis.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">=</span> <span class="va">carbon_list</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span>\<span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">{</span></span>
@@ -597,10 +599,9 @@ dimension.</p>
 <span><span class="co">## 0.03947368 0.03289474 0.02960526 0.02960526 0.02631579 0.03289474 0.04276316 </span></span>
 <span><span class="co">##       E:29 </span></span>
 <span><span class="co">## 0.04605263</span></span></code></pre></div>
-<p>Since the FNN ratio begins to approach <code>0.0296</code> when E
-equals 10, embedding dimensions from 10 onward are evaluated, and the
-pair of E and k yielding the highest self-prediction accuracy is
-selected for the CCM procedure.</p>
+<p>Since the FNN ratio begins to approach <span class="math inline">\(0.0296\)</span> when E equals <span class="math inline">\(10\)</span>, embedding dimensions from <span class="math inline">\(10\)</span> onward are evaluated, and the pair of
+E and k yielding the highest self-prediction accuracy is selected for
+the CCM procedure.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">tEDM</span><span class="fu">::</span><span class="fu"><a href="../reference/simplex.html">simplex</a></span><span class="op">(</span><span class="va">covid</span>,<span class="st">"Tokyo"</span>,<span class="st">"Tokyo"</span>,E <span class="op">=</span> <span class="fl">10</span><span class="op">:</span><span class="fl">20</span>,k <span class="op">=</span> <span class="fl">11</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span></span>
 <span><span class="co">## The suggested E,k,tau for variable Tokyo is 10, 12 and 1</span></span></code></pre></div>
@@ -682,7 +683,7 @@ Tokyo for those with a causal strength greater than
 <span>  <span class="fu">tidygeocoder</span><span class="fu">::</span><span class="fu">geocode</span><span class="op">(</span>state <span class="op">=</span> <span class="va">name</span>, method <span class="op">=</span> <span class="st">"arcgis"</span>,</span>
 <span>                        long <span class="op">=</span> <span class="st">"lon"</span>, lat <span class="op">=</span> <span class="st">"lat"</span><span class="op">)</span></span>
 <span><span class="co">## Passing 8 addresses to the ArcGIS single address geocoder</span></span>
-<span><span class="co">## Query completed in: 5.3 seconds</span></span>
+<span><span class="co">## Query completed in: 6.6 seconds</span></span>
 <span></span>
 <span><span class="va">fig_case3</span> <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">jp</span>, fill <span class="op">=</span> <span class="st">"#ffe7b7"</span>, color <span class="op">=</span> <span class="st">"grey"</span>, linewidth <span class="op">=</span> <span class="fl">0.45</span><span class="op">)</span> <span class="op">+</span></span>

@@ -183,9 +183,9 @@ tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ## 0.1759919
 ```
 
-Starting at \\E = 7\\, the FNN ratio stabilizes near 0.19; thus,
-embedding dimension E and neighbor number k are chosen from 7 onward for
-subsequent self-prediction parameter selection.
+Starting at \\E = 7\\, the FNN ratio stabilizes near \\0.19\\; thus,
+embedding dimension E and neighbor number k are chosen from \\7\\ onward
+for subsequent self-prediction parameter selection.
 
 ``` r
 tEDM::simplex(cvd,"cvd","cvd",E = 7:10,k = 8:12)
@@ -238,7 +238,8 @@ neighbors.
 
 To investigate the causal influences of air pollutants on the incidence
 of cardiovascular diseases, we performed PCM analysis using an embedding
-dimension of 7 and 8 nearest neighbors per variable pair.
+dimension of \\7\\ and number of nearest neighbors of \\8\\ per variable
+pair.
 
 ``` r
 vars = c("cvd", "rsp", "no2", "so2", "o3")
@@ -392,7 +393,7 @@ tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]
 ## 0.00000000 0.00000000
 ```
 
-When E equals 3, the FNN ratio begins to drop to zero; therefore, we
+When E equals \\3\\, the FNN ratio begins to drop to zero; therefore, we
 select \\E = 3\\ as the embedding dimension for the CMC analysis.
 
 ``` r
@@ -530,10 +531,10 @@ tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ## 0.04605263
 ```
 
-Since the FNN ratio begins to approach `0.0296` when E equals 10,
-embedding dimensions from 10 onward are evaluated, and the pair of E and
-k yielding the highest self-prediction accuracy is selected for the CCM
-procedure.
+Since the FNN ratio begins to approach \\0.0296\\ when E equals \\10\\,
+embedding dimensions from \\10\\ onward are evaluated, and the pair of E
+and k yielding the highest self-prediction accuracy is selected for the
+CCM procedure.
 
 ``` r
 tEDM::simplex(covid,"Tokyo","Tokyo",E = 10:20,k = 11:25)
@@ -620,7 +621,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 8 addresses to the ArcGIS single address geocoder
-## Query completed in: 5.3 seconds
+## Query completed in: 6.6 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

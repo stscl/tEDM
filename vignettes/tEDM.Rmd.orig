@@ -1,7 +1,7 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2026-01-10
+  | Last update: 2026-01-12
   | Last run: `r Sys.Date()`
 output: rmarkdown::html_vignette
 vignette: >
@@ -145,7 +145,7 @@ Determining optimal embedding dimension:
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ```
 
-Starting at $E = 7$, the FNN ratio stabilizes near 0.19; thus, embedding dimension E and neighbor number k are chosen from 7 onward for subsequent self-prediction parameter selection.
+Starting at $E = 7$, the FNN ratio stabilizes near $0.19$; thus, embedding dimension E and neighbor number k are chosen from $7$ onward for subsequent self-prediction parameter selection.
 
 ```{r fig_simplex_cvd,fig.width=4.5,fig.height=3.15,fig.dpi=100,fig.cap=knitr::asis_output("**Figure 2**. Variation of prediction skill with the number of nearest neighbors.")}
 tEDM::simplex(cvd,"cvd","cvd",E = 7:10,k = 8:12)
@@ -171,7 +171,7 @@ ggplot2::ggplot(data = simplex_df) +
 
 <br>
 
-To investigate the causal influences of air pollutants on the incidence of cardiovascular diseases, we performed PCM analysis using an embedding dimension of 7 and 8 nearest neighbors per variable pair.
+To investigate the causal influences of air pollutants on the incidence of cardiovascular diseases, we performed PCM analysis using an embedding dimension of $7$ and number of nearest neighbors of $8$ per variable pair.
 
 ```{r pcm_cvd}
 vars = c("cvd", "rsp", "no2", "so2", "o3")
@@ -291,7 +291,7 @@ Using the 100th county as an example, we determine the appropriate embedding dim
 tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]]$carbon))
 ```
 
-When E equals 3, the FNN ratio begins to drop to zero; therefore, we select $E = 3$ as the embedding dimension for the CMC analysis.
+When E equals $3$, the FNN ratio begins to drop to zero; therefore, we select $E = 3$ as the embedding dimension for the CMC analysis.
 
 ```{r carbon_cmc}
 res = carbon_list |>
@@ -360,7 +360,7 @@ Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
 tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ```
 
-Since the FNN ratio begins to approach `0.0296` when E equals 10, embedding dimensions from 10 onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
+Since the FNN ratio begins to approach $0.0296$ when E equals $10$, embedding dimensions from $10$ onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
 
 ```{r covid_simplex}
 tEDM::simplex(covid,"Tokyo","Tokyo",E = 10:20,k = 11:25)

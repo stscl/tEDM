@@ -11,7 +11,7 @@
   return(.bind_xmapself(res,target,"smap"))
 }
 
-#' smap forecast
+#' optimal parameter search for s-mapping
 #'
 #' @inheritParams simplex
 #' @param theta (optional) weighting parameter for distances.

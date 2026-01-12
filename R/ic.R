@@ -12,7 +12,7 @@
   return(.bind_xmapself(res,target,"ic"))
 }
 
-#' intersection cardinality
+#' optimal parameter search for intersectional cardinality
 #'
 #' @inheritParams simplex
 #' @param parallel.level (optional) level of parallelism, `low` or `high`.

@@ -3,7 +3,7 @@
 \name{smap}
 \alias{smap}
 \alias{smap,data.frame-method}
-\title{smap forecast}
+\title{optimal parameter search for s-mapping}
 \usage{
 \S4method{smap}{data.frame}(
   data,
@@ -55,7 +55,7 @@ A list
 }
 }
 \description{
-smap forecast
+optimal parameter search for s-mapping
 }
 \examples{
 sim = logistic_map(x = 0.4,y = 0.4,step = 45,beta_xy = 0.5,beta_yx = 0)

@@ -1,7 +1,7 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2026-01-12
+  | Last update: 2026-01-15
   | Last run: `r Sys.Date()`
 output: rmarkdown::html_vignette
 vignette: >

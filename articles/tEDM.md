@@ -621,7 +621,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 8 addresses to the ArcGIS single address geocoder
-## Query completed in: 6.6 seconds
+## Query completed in: 6.7 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +

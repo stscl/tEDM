@@ -2,6 +2,8 @@
 
 ## tEDM 1.2
 
+CRAN release: 2026-01-15
+
 #### enhancements
 
 - Support specifying library units via `lib` parameter in

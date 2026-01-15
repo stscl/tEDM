@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/stscl/tEDM/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/stscl/tEDM/blob/v1.2/inst/CITATION)
 
 Lv W (2026). *tEDM: Temporal Empirical Dynamic Modeling*.
 [doi:10.32614/CRAN.package.tEDM](https://doi.org/10.32614/CRAN.package.tEDM),

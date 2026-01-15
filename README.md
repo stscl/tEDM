@@ -17,6 +17,7 @@ Checks](https://badges.cranchecks.info/worst/tEDM.svg)](https://cran.r-project.o
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-20b2aa.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-universe](https://stscl.r-universe.dev/badges/tEDM?color=cyan)](https://stscl.r-universe.dev/tEDM)
+[![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.18252239.svg)](https://doi.org/10.5281/zenodo.18252239)
 
 <!-- badges: end -->
 

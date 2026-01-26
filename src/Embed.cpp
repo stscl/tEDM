@@ -94,7 +94,7 @@ std::vector<std::vector<double>> Embed(
 
   // Check which columns contain at least one non-NaN value
   std::vector<size_t> keep;
-  keep.reserve(E);
+  keep.reserve(static_cast<size_t>(E));
   for (size_t j = 0; j < static_cast<size_t>(E); ++j) {
     for (size_t i = 0; i < N; ++i) {
       if (!std::isnan(emb[i][j])) {

@@ -44,7 +44,14 @@ std::vector<std::vector<double>> Embed(
     int style = 0
 ) {
   const size_t N = vec.size();
-  
+
+  // Pre-check: E should be lagrer than 1
+  if (E <= 0) {
+    throw std::invalid_argument(
+        "Embedding dimension should be greater than 0."
+    );
+  }
+
   // Compute the maximum required lag before embedding
   int max_lag;
   if (tau == 0) {
@@ -65,7 +72,7 @@ std::vector<std::vector<double>> Embed(
   const double NaN = std::numeric_limits<double>::quiet_NaN();
 
   // Preallocate embedding matrix: N rows, E columns
-  std::vector<std::vector<double>> mat(N, std::vector<double>(E, NaN));
+  std::vector<std::vector<double>> emb(N, std::vector<double>(E, NaN));
 
   for (size_t t = 0; t < N; ++t) {
     for (int j = 0; j < E; ++j) {
@@ -73,54 +80,44 @@ std::vector<std::vector<double>> Embed(
       if (tau == 0) {
         lag = j; // Original behavior: 0, 1, ..., E-1
       } else if (style == 0) {
-        lag = j * tau;         // 0, tau, 2*tau, ..., (E-1)*tau  
+        lag = j * tau;         // 0, tau, 2*tau, ..., (E-1)*tau
       } else { // style == 1;
         lag = (j + 1) * tau;   // tau, 2*tau, ..., E*tau
       }
       int idx = static_cast<int>(t) - lag;
       if (idx >= 0 && idx < static_cast<int>(N)) {
-        mat[t][j] = vec[idx];
+        emb[t][j] = vec[idx];
         // else leave NaN
       }
     }
   }
 
   // Check which columns contain at least one non-NaN value
-  std::vector<bool> keep(E, false);
-  for (int j = 0; j < E; ++j) {
+  std::vector<size_t> keep;
+  keep.reserve(E);
+  for (size_t j = 0; j < static_cast<size_t>(E); ++j) {
     for (size_t i = 0; i < N; ++i) {
-      if (!std::isnan(mat[i][j])) {
-        keep[j] = true;
+      if (!std::isnan(emb[i][j])) {
+        keep.push_back(j);
         break;
       }
     }
   }
 
-  // If no columns remain, throw exception
-  bool any_column = false;
-  for (bool b : keep) {
-    if (b) {
-      any_column = true;
-      break;
-    }
-  }
-  if (!any_column) {
+  if (keep.empty()) {
     throw std::invalid_argument(
-        "Embedding dimension E and lag tau are too large for input length, "
-        "no valid embeddings can be generated."
+        "No valid embeddings can be generated."
     );
   }
+  if (keep.size() == E) return emb;
 
   // Create cleaned matrix with only columns having valid data
-  std::vector<std::vector<double>> cleaned;
+  std::vector<std::vector<double>> cleaned(N);
   for (size_t i = 0; i < N; ++i) {
-    std::vector<double> row;
-    for (int j = 0; j < E; ++j) {
-      if (keep[j]) {
-        row.push_back(mat[i][j]);
-      }
+    cleaned[i].reserve(keep.size());
+    for (size_t j : keep) {
+      cleaned[i].push_back(emb[i][j]);
     }
-    cleaned.push_back(row);
   }
 
   return cleaned;

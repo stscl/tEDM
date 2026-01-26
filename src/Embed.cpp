@@ -109,7 +109,7 @@ std::vector<std::vector<double>> Embed(
         "No valid embeddings can be generated."
     );
   }
-  if (keep.size() == E) return emb;
+  if (keep.size() == static_cast<size_t>(E)) return emb;
 
   // Create cleaned matrix with only columns having valid data
   std::vector<std::vector<double>> cleaned(N);

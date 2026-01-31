@@ -320,7 +320,7 @@ std::vector<size_t> CppKNNIndice(
     const std::vector<std::vector<double>>& embedding_space,  // Embedding space containing vectors
     size_t target_idx,                                        // Target index for which to find neighbors
     size_t k,                                                 // Number of nearest neighbors to find
-    const std::vector<int>& lib,                              // Indices from which to select neighbors
+    const std::vector<size_t>& lib,                           // Indices from which to select neighbors
     bool include_self = false)                                // Whether to include the point itself as a valid neighbor.
 {
   std::vector<std::pair<double, size_t>> distances;
@@ -362,7 +362,7 @@ std::vector<size_t> CppDistKNNIndice(
     const std::vector<std::vector<double>>& dist_mat,  // Precomputed n * n distance matrix
     size_t target_idx,                                 // Target index for which to find neighbors
     size_t k,                                          // Number of nearest neighbors to find
-    const std::vector<int>& lib,                       // Indices from which to select neighbors
+    const std::vector<size_t>& lib,                    // Indices from which to select neighbors
     bool include_self = false)                         // Whether to include the point itself as a valid neighbor.
 {
   std::vector<std::pair<double, size_t>> distances;

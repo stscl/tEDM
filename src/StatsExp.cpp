@@ -555,9 +555,12 @@ Rcpp::List RcppDistSortedIndice(const Rcpp::NumericMatrix& dist_mat,
     }
   }
 
-  std::vector<size_t> lib_std(lib.size());
+  std::vector<size_t> lib_std;
+  lib_std.reserve(lib.size());
   for (int i = 0; i < lib.size(); ++i) {
-    lib_std[i] = static_cast<size_t>(i);
+    if (lib[i] >= 1 && lib[i] <= n) {
+      lib_std.push_back(lib[i] - 1);
+    }
   }
 
   // Call the existing C++ function to compute sorted neighbor indices
@@ -599,9 +602,12 @@ Rcpp::List RcppMatKNNeighbors(const Rcpp::NumericMatrix& embeddings,
     }
   }
 
-  std::vector<size_t> lib_std(lib.size());
+  std::vector<size_t> lib_std;
+  lib_std.reserve(lib.size());
   for (int i = 0; i < lib.size(); ++i) {
-    lib_std[i] = static_cast<size_t>(i);
+    if (lib[i] >= 1 && lib[i] <= n) {
+      lib_std.push_back(lib[i] - 1);
+    }
   }
 
   // Call the existing C++ function to compute sorted neighbor indices

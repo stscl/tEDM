@@ -466,11 +466,13 @@ Rcpp::IntegerVector RcppKNNIndice(const Rcpp::NumericMatrix& embedding_space,
     Rcpp::stop("k must be greater than 0.");
   }
 
-  // Convert lib(1-based R index) to lib_std (0-based C++ index)
-  std::vector<int> lib_std;
-  size_t n_libsize = lib.size();
-  for (size_t i = 0; i < n_libsize; ++i) {
-    lib_std.push_back(lib[i] - 1); // Convert to 0-based index
+  // Convert lib (1-based R index) to lib_std (0-based C++ index)
+  std::vector<size_t> lib_std;
+  lib_std.reserve(lib.size());
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] >= 1 && lib[i] <= static_cast<int>(n_rows)) {
+      lib_std.push_back(lib[i] - 1);
+    }
   }
 
   // Call the C++ function
@@ -516,11 +518,13 @@ Rcpp::IntegerVector RcppDistKNNIndice(const Rcpp::NumericMatrix& dist_mat,
     Rcpp::stop("k must be greater than 0.");
   }
 
-  // Convert lib(1-based R index) to lib_std (0-based C++ index)
-  std::vector<int> lib_std;
-  size_t n_libsize = lib.size();
-  for (size_t i = 0; i < n_libsize; ++i) {
-    lib_std.push_back(lib[i] - 1); // Convert to 0-based index
+  // Convert lib (1-based R index) to lib_std (0-based C++ index)
+  std::vector<size_t> lib_std;
+  lib_std.reserve(lib.size());
+  for (int i = 0; i < lib.size(); ++i) {
+    if (lib[i] >= 1 && lib[i] <= static_cast<int>(n_rows)) {
+      lib_std.push_back(lib[i] - 1);
+    }
   }
 
   // Call the C++ function

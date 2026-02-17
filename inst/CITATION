@@ -3,7 +3,7 @@ citHeader("To cite package tEDM in publications, please use:")
 bibentry(
   bibtype  = "Manual",
   title    = "{tEDM: Temporal Empirical Dynamic Modeling}",
-  author   = "Wenbo Lv",
+  author   = "Wenbo Lyu",
   year     = "2026",
   note     = "R package version 1.3",
   doi      = "10.32614/CRAN.package.tEDM"

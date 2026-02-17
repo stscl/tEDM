@@ -16,7 +16,7 @@
  *
  * Intended for scientific computation where double precision stability matters.
  *
- * Author: Wenbo Lv
+ * Author: Wenbo Lyu
  * Created: 2025-11-11
  * License: GPL-3
  */

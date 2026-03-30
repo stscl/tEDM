@@ -10,14 +10,17 @@
 Source:
 [`inst/CITATION`](https://github.com/stscl/tEDM/blob/main/inst/CITATION)
 
-Lyu W (2026). *tEDM: Temporal Empirical Dynamic Modeling*.
-[doi:10.32614/CRAN.package.tEDM](https://doi.org/10.32614/CRAN.package.tEDM),
-R package version 1.3.
+Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W.,
+2026. Causal discovery in urban data with temporal empirical dynamic
+modeling: The R package tEDM. Computers, Environment and Urban Systems,
+127, 102435. https://doi.org/10.1016/j.compenvurbsys.2026.102435.
 
-    @Manual{,
-      title = {{tEDM: Temporal Empirical Dynamic Modeling}},
-      author = {Wenbo Lyu},
+    @Article{,
+      title = {Causal discovery in urban data with temporal empirical dynamic modeling: The {R} package {tEDM}},
+      author = {{Wenbo Lyu} and {Yangyang Lei} and {Wen Yi} and {Yongze Song} and {Xiao Li} and {Shaoqing Dai} and {Yiming Qin} and {Wufan Zhao}},
+      journal = {Computers, Environment and Urban Systems},
       year = {2026},
-      note = {R package version 1.3},
-      doi = {10.32614/CRAN.package.tEDM},
+      volume = {127},
+      pages = {102435},
+      doi = {10.1016/j.compenvurbsys.2026.102435},
     }

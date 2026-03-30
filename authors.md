@@ -17,7 +17,7 @@ modeling: The R package tEDM. Computers, Environment and Urban Systems,
 
     @Article{,
       title = {Causal discovery in urban data with temporal empirical dynamic modeling: The {R} package {tEDM}},
-      author = {{Wenbo Lyu} and {Yangyang Lei} and {Wen Yi} and {Yongze Song} and {Xiao Li} and {Shaoqing Dai} and {Yiming Qin} and {Wufan Zhao}},
+      author = {Wenbo Lyu and Yangyang Lei and Wen Yi and Yongze Song and Xiao Li and Shaoqing Dai and Yiming Qin and Wufan Zhao},
       journal = {Computers, Environment and Urban Systems},
       year = {2026},
       volume = {127},

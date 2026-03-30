@@ -4,6 +4,10 @@
 
 * Correct maintainer surname spelling from `Lv` to `Lyu` for pinyin compliance (#175).
 
+### enhancements
+
+* Update README and CITATION to reference published tEDM paper (#177).
+
 # tEDM 1.2
 
 ### enhancements

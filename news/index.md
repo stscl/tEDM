@@ -2,6 +2,8 @@
 
 ## tEDM 1.3
 
+CRAN release: 2026-03-30
+
 #### new
 
 - Correct maintainer surname spelling from `Lv` to `Lyu` for pinyin

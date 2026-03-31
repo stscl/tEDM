@@ -1,5 +1,7 @@
 # Changelog
 
+## tEDM 2.0
+
 ## tEDM 1.3
 
 CRAN release: 2026-03-30

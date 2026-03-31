@@ -8,7 +8,7 @@
 ## Citation
 
 Source:
-[`inst/CITATION`](https://github.com/stscl/tEDM/blob/main/inst/CITATION)
+[`inst/CITATION`](https://github.com/stscl/tEDM/blob/v1.3/inst/CITATION)
 
 Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W.,
 2026. Causal discovery in urban data with temporal empirical dynamic

@@ -64,7 +64,8 @@ devtools::install_github("stscl/tEDM",
 
 ## CITATION
 
-Please cite **tEDM** as:
+Please cite
+**[tEDM](https://doi.org/10.1016/j.compenvurbsys.2026.102435)** as:
 
     Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W., 2026. Causal discovery in urban data with temporal empirical dynamic modeling: The R package tEDM. Computers, Environment and Urban Systems 127, 102435. https://doi.org/10.1016/j.compenvurbsys.2026.102435
 

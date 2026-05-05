@@ -5,6 +5,7 @@ Due to the time-consuming computations involved in the vignette of the
 package submission.
 
 ``` r
+
 .prebuild_vignettes = \(name){
   out = paste0("vignettes/",name,".Rmd")
   inp = paste0(out,".orig")

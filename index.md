@@ -37,6 +37,7 @@ The package implements four fundamental EDM-based methods:
 - Install from [CRAN](https://CRAN.R-project.org/package=tEDM) with:
 
 ``` r
+
 install.packages("tEDM", dep = TRUE)
 ```
 
@@ -44,6 +45,7 @@ install.packages("tEDM", dep = TRUE)
   [R-universe](https://stscl.r-universe.dev/tEDM) with:
 
 ``` r
+
 install.packages("tEDM",
                  repos = c("https://stscl.r-universe.dev",
                            "https://cloud.r-project.org"),
@@ -54,6 +56,7 @@ install.packages("tEDM",
   with:
 
 ``` r
+
 if (!requireNamespace("devtools")) {
     install.packages("devtools")
 }

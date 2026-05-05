@@ -64,12 +64,12 @@ emissions across time.
 
 **Columns**:
 
-| Column   | Description                                                              |
-|----------|--------------------------------------------------------------------------|
-| `year`   | Observation year (1981–2017).                                            |
-| `fips`   | County FIPS code (5-digit Federal Information Processing Standard code). |
-| `tem`    | Mean annual temperature (in Kelvin).                                     |
-| `carbon` | Total carbon emissions per year (in kilograms of CO₂).                   |
+| Column | Description |
+|----|----|
+| `year` | Observation year (1981–2017). |
+| `fips` | County FIPS code (5-digit Federal Information Processing Standard code). |
+| `tem` | Mean annual temperature (in Kelvin). |
+| `carbon` | Total carbon emissions per year (in kilograms of CO₂). |
 
 **Source**: Data adapted from [FsATE
 article](https://doi.org/10.1016/j.cities.2025.105980).
@@ -97,12 +97,14 @@ article](https://doi.org/10.1016/j.fmre.2023.01.007).
 Install the stable version:
 
 ``` r
+
 install.packages("tEDM", dep = TRUE)
 ```
 
 or developed version:
 
 ``` r
+
 install.packages("tEDM",
                  repos = c("https://stscl.r-universe.dev",
                            "https://cloud.r-project.org"),
@@ -115,6 +117,7 @@ Employing PCM to investigate the causal relationships between various
 air pollutants and cardiovascular diseases:
 
 ``` r
+
 library(tEDM)
 
 cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
@@ -138,6 +141,7 @@ head(cvd)
 ```
 
 ``` r
+
 cvd_long = cvd |>
   tibble::rowid_to_column("id") |>
   tidyr::pivot_longer(cols = -id,
@@ -166,6 +170,7 @@ Hong Kong from March 1995 to November 1997.
 Determining optimal embedding dimension:
 
 ``` r
+
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
 ##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8       E:9 
 ## 0.8275862 0.4927374 0.3051882 0.2899288 0.2146490 0.2075280 0.1943032 0.1851475 0.1861648 
@@ -186,6 +191,7 @@ embedding dimension E and neighbor number k are chosen from \\7\\ onward
 for subsequent self-prediction parameter selection.
 
 ``` r
+
 tEDM::simplex(cvd,"cvd","cvd",E = 7:10,k = 8:12)
 ## The suggested E,k,tau for variable cvd is 7, 8 and 1
 tEDM::simplex(cvd,"rsp","rsp",E = 7:10,k = 8:12)
@@ -240,6 +246,7 @@ dimension of \\7\\ and number of nearest neighbors of \\8\\ per variable
 pair.
 
 ``` r
+
 vars = c("cvd", "rsp", "no2", "so2", "o3")
 res = list()
 var_pairs = combn(vars, 2, simplify = FALSE)
@@ -261,6 +268,7 @@ for (pair in var_pairs) {
 The PCM results are shown in the figure below:
 
 ``` r
+
 .process_xmap_result = \(g,type = c("xmap","pxmap")){
   type = match.arg(type)
   tempdf = g[[type]]
@@ -354,6 +362,7 @@ temperature and total annual CO₂ emissions, we implement the CMC method
 across counties.
 
 ``` r
+
 library(tEDM)
 
 carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
@@ -384,6 +393,7 @@ Using the 100th county as an example, we determine the appropriate
 embedding dimension by applying the FNN method.
 
 ``` r
+
 tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]]$carbon))
 ##        E:1        E:2        E:3        E:4        E:5        E:6        E:7        E:8 
 ## 0.35714286 0.03571429 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
@@ -395,6 +405,7 @@ When E equals \\3\\, the FNN ratio begins to drop to zero; therefore, we
 select \\E = 3\\ as the embedding dimension for the CMC analysis.
 
 ``` r
+
 res = carbon_list |>
   purrr::map_dfr(\(.x) {
     g = tEDM::cmc(.x,"tem","carbon",E = 3,k = 18,dist.metric = "L2",progressbar = FALSE)
@@ -435,6 +446,7 @@ head(res_carbon)
 ```
 
 ``` r
+
 res_carbon$variable = factor(res_carbon$variable,
                              levels = c("carbon_tem", "tem_carbon"),
                              labels = c("carbon → tem", "tem → carbon"))
@@ -473,6 +485,7 @@ by applying CCM to identify the underlying causal dynamics of the
 epidemic spread
 
 ``` r
+
 library(tEDM)
 
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
@@ -505,6 +518,7 @@ head(covid)
 The data are first differenced:
 
 ``` r
+
 covid = covid |>
   dplyr::mutate(dplyr::across(dplyr::everything(),
                               \(.x) c(NA,diff(.x)))) |>
@@ -516,6 +530,7 @@ Using Tokyo’s COVID-19 infection data to test the optimal embedding
 dimension.
 
 ``` r
+
 tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
 ##        E:1        E:2        E:3        E:4        E:5        E:6        E:7        E:8 
 ## 0.79452055 0.20070423 0.09459459 0.06666667 0.05629139 0.03947368 0.04605263 0.05263158 
@@ -533,11 +548,13 @@ and k yielding the highest self-prediction accuracy is selected for the
 CCM procedure.
 
 ``` r
+
 tEDM::simplex(covid,"Tokyo","Tokyo",E = 10:20,k = 11:25)
 ## The suggested E,k,tau for variable Tokyo is 10, 12 and 1
 ```
 
 ``` r
+
 res = names(covid)[-match("Tokyo",names(covid))] |>
   purrr::map_dfr(\(.l) {
     g = tEDM::ccm(covid,"Tokyo",.l,E = 10,k = 12,progressbar = FALSE)
@@ -588,6 +605,7 @@ the causal responses in the spread of COVID-19 from Tokyo for those with
 a causal strength greater than `0.90`.
 
 ``` r
+
 res_covid = res_covid |>
   dplyr::mutate(cs = round(res_covid$cs,2)) |>
   dplyr::filter(cs >= 0.90)

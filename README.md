@@ -62,6 +62,31 @@ devtools::install_github("stscl/tEDM",
                          dep = TRUE)
 ```
 
+## CITATION
+
+Please cite **tEDM** as:
+
+```
+Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W., 2026. Causal discovery in urban data with temporal empirical dynamic modeling: The R package tEDM. Computers, Environment and Urban Systems 127, 102435. https://doi.org/10.1016/j.compenvurbsys.2026.102435
+```
+
+A BibTeX entry for LaTeX users is:
+
+``` bib
+@article{lyu2025gdverse, 
+    title={{gdverse}: An {R} Package for Spatial Stratified Heterogeneity Family}, 
+    volume={29}, 
+    ISSN={1467-9671},
+    DOI={10.1111/tgis.70032},
+    number={2}, 
+    journal={Transactions in GIS}, 
+    publisher={Wiley}, 
+    author={Lv, Wenbo and Lei, Yangyang and Liu, Fangmei and Yan, Jianwu and Song, Yongze and Zhao, Wufan},
+    year={2025}, 
+    month={mar}
+}
+```
+
 ## Reference
 
 Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W., 2026. Causal discovery in urban data with temporal empirical dynamic modeling: The R package tEDM. Computers, Environment and Urban Systems 127, 102435. [https://doi.org/10.1016/j.compenvurbsys.2026.102435][5].

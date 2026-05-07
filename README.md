@@ -57,7 +57,7 @@ if (!requireNamespace("devtools")) {
     install.packages("devtools")
 }
 devtools::install_github("stscl/tEDM",
-                         #build_vignettes = TRUE,
+                         build_vignettes = TRUE,
                          dep = TRUE)
 ```
 

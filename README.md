@@ -71,9 +71,12 @@ Tao, P., Wang, Q., Shi, J., Hao, X., Liu, X., Min, B., Zhang, Y., Li, C., Cui, H
 
 Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara, G., 2015. Spatial convergent cross mapping to detect causal relationships from short time series. Ecology 96, 1174–1181. [https://doi.org/10.1890/14-1479.1][4].
 
+Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W., 2026. Causal discovery in urban data with temporal empirical dynamic modeling: The R package tEDM. Computers, Environment and Urban Systems 127, 102435. [https://doi.org/10.1016/j.compenvurbsys.2026.102435][5].
+
 &nbsp; 
 
 [1]: https://doi.org/10.1126/science.1227079
 [2]: https://doi.org/10.1038/s41467-020-16238-0
 [3]: https://doi.org/10.1016/j.fmre.2023.01.007
 [4]: https://doi.org/10.1890/14-1479.1
+[5]: https://doi.org/10.1016/j.compenvurbsys.2026.102435

@@ -11,6 +11,7 @@
 [![R-CMD-check](https://github.com/stscl/tEDM/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/stscl/tEDM/actions/workflows/R-CMD-check.yaml)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-20b2aa.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R-universe](https://stscl.r-universe.dev/badges/tEDM?color=cyan)](https://stscl.r-universe.dev/tEDM)
+[![CEUS](https://img.shields.io/badge/CEUS-10.1016%2Fj.compenvurbsys.2026.102435-63847e?logo=doi&style=flat)](https://doi.org/10.1016/j.compenvurbsys.2026.102435)
 [![Zenodo](https://zenodo.org/badge/DOI/10.5281/zenodo.18252239.svg)](https://doi.org/10.5281/zenodo.18252239)
 
 <!-- badges: end -->

@@ -1,8 +1,8 @@
 ---
 title: "Temporal Empirical Dynamic Modeling"
 date: |
-  | Last update: 2026-01-15
-  | Last run: 2026-01-15
+  | Last update: 2026-03-30
+  | Last run: 2026-03-30
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{tEDM}
@@ -113,7 +113,7 @@ library(tEDM)
 
 cvd = readr::read_csv(system.file("case/cvd.csv",package = "tEDM"))
 ## Rows: 1032 Columns: 5
-## ── Column specification ─────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (5): cvd, rsp, no2, so2, o3
 ## 
@@ -158,20 +158,18 @@ Determining optimal embedding dimension:
 
 ``` r
 tEDM::fnn(cvd,"cvd",E = 2:50,eps = stats::sd(cvd$cvd))
-##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8 
-## 0.8275862 0.4927374 0.3051882 0.2899288 0.2146490 0.2075280 0.1943032 0.1851475 
-##       E:9      E:10      E:11      E:12      E:13      E:14      E:15      E:16 
-## 0.1861648 0.1902340 0.1831129 0.1851475 0.1790437 0.1719227 0.1678535 0.1678535 
-##      E:17      E:18      E:19      E:20      E:21      E:22      E:23      E:24 
-## 0.1546287 0.1536114 0.1678535 0.1566633 0.1586979 0.1709054 0.1637843 0.1658189 
-##      E:25      E:26      E:27      E:28      E:29      E:30      E:31      E:32 
-## 0.1668362 0.1881994 0.1658189 0.1749746 0.1729400 0.1810783 0.1709054 0.1800610 
-##      E:33      E:34      E:35      E:36      E:37      E:38      E:39      E:40 
-## 0.1698881 0.1719227 0.1719227 0.1627670 0.1515768 0.1637843 0.1668362 0.1709054 
-##      E:41      E:42      E:43      E:44      E:45      E:46      E:47      E:48 
-## 0.1658189 0.1648016 0.1668362 0.1688708 0.1617497 0.1668362 0.1790437 0.1820956 
-##      E:49 
-## 0.1759919
+##       E:1       E:2       E:3       E:4       E:5       E:6       E:7       E:8       E:9 
+## 0.8275862 0.4927374 0.3051882 0.2899288 0.2146490 0.2075280 0.1943032 0.1851475 0.1861648 
+##      E:10      E:11      E:12      E:13      E:14      E:15      E:16      E:17      E:18 
+## 0.1902340 0.1831129 0.1851475 0.1790437 0.1719227 0.1678535 0.1678535 0.1546287 0.1536114 
+##      E:19      E:20      E:21      E:22      E:23      E:24      E:25      E:26      E:27 
+## 0.1678535 0.1566633 0.1586979 0.1709054 0.1637843 0.1658189 0.1668362 0.1881994 0.1658189 
+##      E:28      E:29      E:30      E:31      E:32      E:33      E:34      E:35      E:36 
+## 0.1749746 0.1729400 0.1810783 0.1709054 0.1800610 0.1698881 0.1719227 0.1719227 0.1627670 
+##      E:37      E:38      E:39      E:40      E:41      E:42      E:43      E:44      E:45 
+## 0.1515768 0.1637843 0.1668362 0.1709054 0.1658189 0.1648016 0.1668362 0.1688708 0.1617497 
+##      E:46      E:47      E:48      E:49 
+## 0.1668362 0.1790437 0.1820956 0.1759919
 ```
 
 Starting at $E = 7$, the FNN ratio stabilizes near $0.19$; thus, embedding dimension E and neighbor number k are chosen from $7$ onward for subsequent self-prediction parameter selection.
@@ -337,7 +335,7 @@ library(tEDM)
 
 carbon = readr::read_csv(system.file("case/carbon.csv.gz",package = "tEDM"))
 ## Rows: 113627 Columns: 4
-## ── Column specification ─────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────
 ## Delimiter: ","
 ## dbl (4): year, fips, tem, carbon
 ## 
@@ -364,10 +362,10 @@ Using the 100th county as an example, we determine the appropriate embedding dim
 
 ``` r
 tEDM::fnn(carbon_list[[100]],"carbon",E = 2:10,eps = stats::sd(carbon_list[[100]]$carbon))
-##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 
-## 0.35714286 0.03571429 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
-##        E:8        E:9 
-## 0.00000000 0.00000000
+##        E:1        E:2        E:3        E:4        E:5        E:6        E:7        E:8 
+## 0.35714286 0.03571429 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 0.00000000 
+##        E:9 
+## 0.00000000
 ```
 
 When E equals $3$, the FNN ratio begins to drop to zero; therefore, we select $E = 3$ as the embedding dimension for the CMC analysis.
@@ -380,20 +378,20 @@ res = carbon_list |>
     return(g$xmap)
   })
 head(res)
-##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
-## 1        18     0.2669753 0.0083829567     0.09372879      0.4402218
-## 2        18     0.2314815 0.0012106678     0.06886439      0.3940986
-## 3        18     0.2021605 0.0001563996     0.04775587      0.3565651
-## 4        18     0.2947531 0.0276001573     0.11214275      0.4773634
-## 5        18     0.2824074 0.0180642479     0.10202679      0.4627880
-## 6        18     0.2098765 0.0002847089     0.05317822      0.3665749
-##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper
-## 1    0.09104938 1.175387e-14              0      0.1948920
-## 2    0.08796296 1.186317e-16              0      0.1854438
-## 3    0.08024691 1.217722e-17              0      0.1764553
-## 4    0.08487654 5.431816e-17              0      0.1820035
-## 5    0.09413580 1.725075e-14              0      0.1978540
-## 6    0.08024691 1.217722e-17              0      0.1764553
+##   neighbors x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper y_xmap_x_mean
+## 1        18     0.2669753 0.0083829567     0.09372879      0.4402218    0.09104938
+## 2        18     0.2314815 0.0012106678     0.06886439      0.3940986    0.08796296
+## 3        18     0.2021605 0.0001563996     0.04775587      0.3565651    0.08024691
+## 4        18     0.2947531 0.0276001573     0.11214275      0.4773634    0.08487654
+## 5        18     0.2824074 0.0180642479     0.10202679      0.4627880    0.09413580
+## 6        18     0.2098765 0.0002847089     0.05317822      0.3665749    0.08024691
+##   y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper
+## 1 1.175387e-14              0      0.1948920
+## 2 1.186317e-16              0      0.1854438
+## 3 1.217722e-17              0      0.1764553
+## 4 5.431816e-17              0      0.1820035
+## 5 1.725075e-14              0      0.1978540
+## 6 1.217722e-17              0      0.1764553
 
 res_carbon = res |>
   dplyr::select(neighbors,
@@ -449,29 +447,29 @@ library(tEDM)
 
 covid = readr::read_csv(system.file("case/covid.csv",package = "tEDM"))
 ## Rows: 334 Columns: 47
-## ── Column specification ─────────────────────────────────────────────────────────
+## ── Column specification ──────────────────────────────────────────────────────────────────────
 ## Delimiter: ","
-## dbl (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ibarak...
+## dbl (47): Hokkaido, Aomori, Iwate, Miyagi, Akita, Yamagata, Fukushima, Ibaraki, Tochigi, G...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 head(covid)
 ## # A tibble: 6 × 47
-##   Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukushima Ibaraki Tochigi Gunma
-##      <dbl>  <dbl> <dbl>  <dbl> <dbl>    <dbl>     <dbl>   <dbl>   <dbl> <dbl>
-## 1        0      0     0      0     0        0         0       0       0     0
-## 2        0      0     0      0     0        0         0       0       0     0
-## 3        0      0     0      0     0        0         0       0       0     0
-## 4        0      0     0      0     0        0         0       0       0     0
-## 5        0      0     0      0     0        0         0       0       0     0
-## 6        0      0     0      0     0        0         0       0       0     0
-## # ℹ 37 more variables: Saitama <dbl>, Chiba <dbl>, Tokyo <dbl>, Kanagawa <dbl>,
-## #   Niigata <dbl>, Toyama <dbl>, Ishikawa <dbl>, Fukui <dbl>, Yamanashi <dbl>,
-## #   Nagano <dbl>, Gifu <dbl>, Shizuoka <dbl>, Aichi <dbl>, Mie <dbl>,
-## #   Shiga <dbl>, Kyoto <dbl>, Osaka <dbl>, Hyogo <dbl>, Nara <dbl>,
-## #   Wakayama <dbl>, Tottori <dbl>, Shimane <dbl>, Okayama <dbl>,
-## #   Hiroshima <dbl>, Yamaguchi <dbl>, Tokushima <dbl>, Kagawa <dbl>,
-## #   Ehime <dbl>, Kochi <dbl>, Fukuoka <dbl>, Saga <dbl>, Nagasaki <dbl>, …
+##   Hokkaido Aomori Iwate Miyagi Akita Yamagata Fukushima Ibaraki Tochigi Gunma Saitama Chiba
+##      <dbl>  <dbl> <dbl>  <dbl> <dbl>    <dbl>     <dbl>   <dbl>   <dbl> <dbl>   <dbl> <dbl>
+## 1        0      0     0      0     0        0         0       0       0     0       0     0
+## 2        0      0     0      0     0        0         0       0       0     0       0     0
+## 3        0      0     0      0     0        0         0       0       0     0       0     0
+## 4        0      0     0      0     0        0         0       0       0     0       0     0
+## 5        0      0     0      0     0        0         0       0       0     0       0     0
+## 6        0      0     0      0     0        0         0       0       0     0       0     0
+## # ℹ 35 more variables: Tokyo <dbl>, Kanagawa <dbl>, Niigata <dbl>, Toyama <dbl>,
+## #   Ishikawa <dbl>, Fukui <dbl>, Yamanashi <dbl>, Nagano <dbl>, Gifu <dbl>, Shizuoka <dbl>,
+## #   Aichi <dbl>, Mie <dbl>, Shiga <dbl>, Kyoto <dbl>, Osaka <dbl>, Hyogo <dbl>, Nara <dbl>,
+## #   Wakayama <dbl>, Tottori <dbl>, Shimane <dbl>, Okayama <dbl>, Hiroshima <dbl>,
+## #   Yamaguchi <dbl>, Tokushima <dbl>, Kagawa <dbl>, Ehime <dbl>, Kochi <dbl>, Fukuoka <dbl>,
+## #   Saga <dbl>, Nagasaki <dbl>, Kumamoto <dbl>, Oita <dbl>, Miyazaki <dbl>, Kagoshima <dbl>,
+## #   Okinawa <dbl>
 ```
 
 The data are first differenced:
@@ -490,16 +488,14 @@ Using Tokyo's COVID-19 infection data to test the optimal embedding dimension.
 
 ``` r
 tEDM::fnn(covid,"Tokyo",E = 2:30,eps = stats::sd(covid$Tokyo))
-##        E:1        E:2        E:3        E:4        E:5        E:6        E:7 
-## 0.79452055 0.20070423 0.09459459 0.06666667 0.05629139 0.03947368 0.04605263 
-##        E:8        E:9       E:10       E:11       E:12       E:13       E:14 
-## 0.05263158 0.05263158 0.02960526 0.02960526 0.03947368 0.02302632 0.02631579 
-##       E:15       E:16       E:17       E:18       E:19       E:20       E:21 
-## 0.02302632 0.02960526 0.03618421 0.04605263 0.05263158 0.05263158 0.05592105 
-##       E:22       E:23       E:24       E:25       E:26       E:27       E:28 
-## 0.03947368 0.03289474 0.02960526 0.02960526 0.02631579 0.03289474 0.04276316 
-##       E:29 
-## 0.04605263
+##        E:1        E:2        E:3        E:4        E:5        E:6        E:7        E:8 
+## 0.79452055 0.20070423 0.09459459 0.06666667 0.05629139 0.03947368 0.04605263 0.05263158 
+##        E:9       E:10       E:11       E:12       E:13       E:14       E:15       E:16 
+## 0.05263158 0.02960526 0.02960526 0.03947368 0.02302632 0.02631579 0.02302632 0.02960526 
+##       E:17       E:18       E:19       E:20       E:21       E:22       E:23       E:24 
+## 0.03618421 0.04605263 0.05263158 0.05263158 0.05592105 0.03947368 0.03289474 0.02960526 
+##       E:25       E:26       E:27       E:28       E:29 
+## 0.02960526 0.02631579 0.03289474 0.04276316 0.04605263
 ```
 
 Since the FNN ratio begins to approach $0.0296$ when E equals $10$, embedding dimensions from $10$ onward are evaluated, and the pair of E and k yielding the highest self-prediction accuracy is selected for the CCM procedure.
@@ -519,20 +515,20 @@ res = names(covid)[-match("Tokyo",names(covid))] |>
     return(res)
   })
 head(res)
-##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper
-## 1      324     0.7084551 0.0000000000     0.64964305      0.7588380
-## 2      324     0.2046948 0.0002075707     0.09791848      0.3068120
-## 3      324     0.5757997 0.0000000000     0.49808921      0.6443348
-## 4      324     0.5691621 0.0000000000     0.49062873      0.6385236
-## 5      324     0.1639373 0.0030812353     0.05597701      0.2681084
-## 6      324     0.7136233 0.0000000000     0.65564363      0.7632368
-##   y_xmap_x_mean y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y
-## 1     0.7689897            0      0.7203905      0.8100744 Tokyo Hokkaido
-## 2     0.4997165            0      0.4132578      0.5772461 Tokyo   Aomori
-## 3     0.7884318            0      0.7433293      0.8263980 Tokyo    Iwate
-## 4     0.7971954            0      0.7537038      0.8337352 Tokyo   Miyagi
-## 5     0.4385033            0      0.3460785      0.5224988 Tokyo    Akita
-## 6     0.5300848            0      0.4469389      0.6041504 Tokyo Yamagata
+##   libsizes x_xmap_y_mean x_xmap_y_sig x_xmap_y_lower x_xmap_y_upper y_xmap_x_mean
+## 1      324     0.7084551 0.0000000000     0.64964305      0.7588380     0.7689897
+## 2      324     0.2046948 0.0002075707     0.09791848      0.3068120     0.4997165
+## 3      324     0.5757997 0.0000000000     0.49808921      0.6443348     0.7884318
+## 4      324     0.5691621 0.0000000000     0.49062873      0.6385236     0.7971954
+## 5      324     0.1639373 0.0030812353     0.05597701      0.2681084     0.4385033
+## 6      324     0.7136233 0.0000000000     0.65564363      0.7632368     0.5300848
+##   y_xmap_x_sig y_xmap_x_lower y_xmap_x_upper     x        y
+## 1            0      0.7203905      0.8100744 Tokyo Hokkaido
+## 2            0      0.4132578      0.5772461 Tokyo   Aomori
+## 3            0      0.7433293      0.8263980 Tokyo    Iwate
+## 4            0      0.7537038      0.8337352 Tokyo   Miyagi
+## 5            0      0.3460785      0.5224988 Tokyo    Akita
+## 6            0      0.4469389      0.6041504 Tokyo Yamagata
 
 df1 = res |>
     dplyr::select(x,y,y_xmap_x_mean,y_xmap_x_sig)|>
@@ -590,7 +586,7 @@ jpp = tibble::tibble(name = c("Tokyo",res_covid$effect)) |>
   tidygeocoder::geocode(state = name, method = "arcgis",
                         long = "lon", lat = "lat")
 ## Passing 8 addresses to the ArcGIS single address geocoder
-## Query completed in: 6.7 seconds
+## Query completed in: 7.9 seconds
 
 fig_case3 = ggplot2::ggplot() +
   ggplot2::geom_sf(data = jp, fill = "#ffe7b7", color = "grey", linewidth = 0.45) +
@@ -635,6 +631,8 @@ Clark, A.T., Ye, H., Isbell, F., Deyle, E.R., Cowles, J., Tilman, G.D., Sugihara
 
 Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discovery from city data, where urban scaling meets information theory. Cities 162, 105980. [https://doi.org/10.1016/j.cities.2025.105980][5].
 
+Lyu, W., Lei, Y., Yi, W., Song, Y., Li, X., Dai, S., Qin, Y., Zhao, W., 2026. Causal discovery in urban data with temporal empirical dynamic modeling: The R package tEDM. Computers, Environment and Urban Systems 127, 102435. [https://doi.org/10.1016/j.compenvurbsys.2026.102435][6].
+
 &nbsp;
 
 [1]: https://doi.org/10.1126/science.1227079
@@ -642,3 +640,4 @@ Gan, T., Succar, R., Macrì, S., Marín, M.R., Porfiri, M., 2025. Causal discove
 [3]: https://doi.org/10.1016/j.fmre.2023.01.007
 [4]: https://doi.org/10.1890/14-1479.1
 [5]: https://doi.org/10.1016/j.cities.2025.105980
+[6]: https://doi.org/10.1016/j.compenvurbsys.2026.102435

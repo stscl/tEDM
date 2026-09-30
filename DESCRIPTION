@@ -37,4 +37,4 @@ Suggests:
     infoxtr
 VignetteBuilder: knitr
 Config/roxygen2/markdown: TRUE
-Config/roxygen2/version: 8.0.0
+Config/roxygen2/version: 8.1.0
